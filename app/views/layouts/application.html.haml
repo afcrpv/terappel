@@ -1,0 +1,22 @@
+!!! 5
+%html
+%head
+  %title= yield(:title) || "Untitled"
+  = stylesheet_link_tag    "application"
+  = javascript_include_tag "application"
+  = csrf_meta_tags 
+
+  = yield(:head)
+
+%body{:class => params[:controller]}
+  #page_container
+    %header#page_header
+      %nav#user_nav
+        - if current_user
+          = "#{t('sessions.greet')} #{current_user.username}"
+          = link_to t('sessions.logout'), logout_path
+    %section#page
+      - flash.each do |name, msg|
+        = content_tag :section, msg, :id => "flash_#{name}"
+      = yield
+    %footer#page_footer

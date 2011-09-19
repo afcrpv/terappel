@@ -29,17 +29,21 @@ gem 'jquery-rails'
 
 group :test, :development do
   gem "rspec-rails", "~> 2.6"
-  gem 'spork', '~> 0.9.0.rc'
 end
 
 group :development do
+  gem 'haml-rails'
   gem 'guard'
   gem 'rb-inotify'
   gem 'libnotify'
 end
 
 group :test do
+  gem 'factory_girl_rails'
+  gem 'spork', '~> 0.9.0.rc'
   gem 'cucumber-rails'
+  gem 'launchy'    # So you can do Then show me the page
+  gem 'pickle', :git => "https://github.com/ianwhite/pickle.git"
   gem 'database_cleaner'
   gem 'guard-spork'
   gem 'guard-rspec'
@@ -47,3 +51,4 @@ group :test do
 end
 
 gem 'sorcery'
+gem 'haml'

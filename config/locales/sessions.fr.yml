@@ -1,0 +1,14 @@
+#encoding: utf-8
+fr:
+  sessions:
+    new:
+      username: "Identifiant"
+      password: "Mot de passe"
+      login: "Connexion"
+      remember_me: "Se souvenir de moi"
+    logged_in: "Vous êtes connecté."
+    greet: "Bonjour,"
+    logout: "Se déconnecter"
+    logged_out: "Vous êtes déconnecté."
+    unauthenticated: "Vous devez vous connecter pour voir cette page."
+    invalid_credentials: "Identifiant ou mot de passe invalide."

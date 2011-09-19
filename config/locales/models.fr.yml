@@ -1,0 +1,8 @@
+fr:
+  activerecord:
+    models:
+      user: utilisateur
+    attributes:
+      user:
+        username: "Identifiant"
+        password: "Mot de passe"
