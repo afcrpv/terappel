@@ -4,8 +4,11 @@ fr:
     new:
       username: "Identifiant"
       password: "Mot de passe"
+      email: "email"
       login: "Connexion"
       remember_me: "Se souvenir de moi"
+      forgot_password: "Mot de passe oublié?"
+      reset_password: "Reinitialiser mdp"
     logged_in: "Vous êtes connecté."
     greet: "Bonjour,"
     logout: "Se déconnecter"
