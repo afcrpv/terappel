@@ -34,8 +34,18 @@ end
 group :development do
   gem 'haml-rails'
   gem 'guard'
-  gem 'rb-inotify'
-  gem 'libnotify'
+  case RUBY_PLATFORM
+  when /linux/
+    gem 'rb-inotify'
+    gem 'libnotify'
+  when /darwin/
+    gem 'rb-fsevent', :git => 'https://github.com/ttilley/rb-fsevent.git', :branch => 'pre-compiled-gem-one-off'
+    gem 'growl'
+  else
+    gem 'rb-fchange'
+    gem 'rb-notifu'
+    gem 'win32console'
+  end
 end
 
 group :test do
