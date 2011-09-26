@@ -6,3 +6,4 @@ tmp/
 *.swp
 vendor/ruby
 vendor/cache
+*~
