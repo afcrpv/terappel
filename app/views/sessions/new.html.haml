@@ -10,7 +10,7 @@
   .field
     = check_box_tag :remember_me, 1, params[:remember_me]
     = label_tag t('.remember_me')
-  %p
-    = link_to t('.forgot_password'), new_password_reset_path
   .actions
     = submit_tag t('.login')
+
+= render 'forgot_password_form'
