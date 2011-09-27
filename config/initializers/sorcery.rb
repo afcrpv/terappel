@@ -130,7 +130,7 @@ Rails.application.config.sorcery.configure do |config|
                                                                                                 # request expires. nil
                                                                                                 # for never expires.
                                                                                                 
-    # user.reset_password_time_between_emails = 5 * 60                                          # hammering protection,
+    user.reset_password_time_between_emails = 5 * 60 unless Rails.env.development?                                          # hammering protection,
                                                                                                 # how long to wait
                                                                                                 # before allowing
                                                                                                 # another email to be
