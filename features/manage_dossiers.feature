@@ -1,0 +1,29 @@
+Feature: Manage dossiers
+  In order to do studies on teratogen agents
+  As a terappel user
+  I want to be able to manage dossiers
+
+  Background:
+    Given a user exists with username: "username"
+    When I login with "username"
+
+  Scenario: User creates a valid dossier
+    When I go to the new dossier page
+    And I fill in the "activerecord.attributes.dossier.name" field with "Martin"
+    And I fill in the "activerecord.attributes.dossier.date_appel" field with "31/01/2001"
+    And I press the create dossier button
+    Then 1 dossiers should exist
+    And I should see "Dossier créé(e) avec succès."
+    And I should see "Dossier #1"
+    And I should see "Martin"
+    And I should see "31/01/2001"
+
+  Scenario: User tries to save an invalid dossier
+    When I go to the new dossier page
+    And I press the create dossier button
+    Then 0 dossiers should exist
+    And I should be on the new dossier page
+
+  Scenario: User updates an existing dossier
+
+  Scenario: User destroys an existing dossier

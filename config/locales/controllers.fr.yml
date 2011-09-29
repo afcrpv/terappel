@@ -1,0 +1,9 @@
+fr:
+  dossiers:
+    new: "Nouveau Dossier"
+    show: "Dossier #%{id}"
+    create: "Nouveau Dossier"
+  flash:
+    create: "%{resource} créé(e) avec succès."
+    update: "%{resource} mis(e) à jour avec succès."
+    destroy: "%{resource} détruit(e) avec succès."

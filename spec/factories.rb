@@ -5,4 +5,8 @@ FactoryGirl.define do
     password "password"
     password_confirmation { |user| user.password}
   end
+  factory :dossier do
+    nom "Martin"
+    date_appel Time.now.to_date
+  end
 end

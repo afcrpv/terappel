@@ -1,0 +1,12 @@
+- title
+- dossier = @dossier
+
+= form_for dossier do |f|
+  .field
+    = f.label :name
+    = f.text_field :name
+  .field
+    = f.label :date_appel
+    = f.text_field :date_appel
+  .actions
+    = f.submit

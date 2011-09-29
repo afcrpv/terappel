@@ -5,7 +5,7 @@
   = stylesheet_link_tag    "application"
   = javascript_include_tag "application"
   %meta{"http-equiv"=>"Content-Type", :content =>"text/html; charset=utf-8"}/
-  = csrf_meta_tags 
+  = csrf_meta_tags
 
   = yield(:head)
 
@@ -19,5 +19,9 @@
     %section#page
       - flash.each do |name, msg|
         = content_tag :section, msg, :id => "flash_#{name}"
+
+      %h1#page_title= yield(:title) if show_title?
+
       = yield
+
     %footer#page_footer
