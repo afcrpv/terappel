@@ -1,5 +1,10 @@
 require 'spec_helper'
 
 describe Dossier do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it {should_not be_valid}
+
+  it "should be valid with name and date_appel" do
+    dossier = Factory(:dossier)
+    dossier.should be_valid
+  end
 end
