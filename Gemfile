@@ -39,7 +39,8 @@ group :development do
     gem 'rb-inotify'
     gem 'libnotify'
   when /darwin/
-    gem 'rb-fsevent', :git => 'https://github.com/ttilley/rb-fsevent.git', :branch => 'pre-compiled-gem-one-off'
+    gem 'rb-fsevent', :git => 'https://github.com/ttilley/rb-fsevent.git',
+      :branch => 'pre-compiled-gem-one-off'
     gem 'growl'
   else
     gem 'rb-fchange'
@@ -63,3 +64,4 @@ end
 
 gem 'sorcery'
 gem 'haml'
+gem 'simple_form'
