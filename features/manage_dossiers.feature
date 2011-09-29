@@ -22,7 +22,6 @@ Feature: Manage dossiers
     When I go to the new dossier page
     And I press the create dossier button
     Then 0 dossiers should exist
-    And I should be on the new dossier page
 
   Scenario: User updates an existing dossier
 
