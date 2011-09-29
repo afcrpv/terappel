@@ -1,9 +1,15 @@
 fr:
   dossiers:
-    new: "Nouveau Dossier"
     show: "Dossier #%{id}"
+    new: "Nouveau Dossier"
     create: "Nouveau Dossier"
+    edit: "Modification Dossier #%{id}"
   flash:
     create: "%{resource} créé(e) avec succès."
     update: "%{resource} mis(e) à jour avec succès."
     destroy: "%{resource} détruit(e) avec succès."
+  actions:
+    edit: "Modifier"
+    destroy: "Détruire"
+    confirm: "Etes-vous sûr?"
+

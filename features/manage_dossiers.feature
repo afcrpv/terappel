@@ -24,5 +24,16 @@ Feature: Manage dossiers
     Then 0 dossiers should exist
 
   Scenario: User updates an existing dossier
+    Given a dossier exists
+    When I go to the dossier page
+    And I follow "Modifier"
+    And I fill in the "activerecord.attributes.dossier.name" field with "Dupont"
+    And I press the update dossier button
+    Then I should see "Dossier mis(e) à jour avec succès."
 
   Scenario: User destroys an existing dossier
+    Given a dossier exists
+    When I go to the dossier page
+    And I follow "Détruire"
+    Then 0 dossiers should exist
+    And I should see "Dossier détruit(e) avec succès."
