@@ -1,4 +1,5 @@
 = simple_form_for(dossier) do |f|
+  = f.association :centre if current_user.admin?
   = f.input :name
   = f.input :date_appel, :as => :string
   = f.button :submit

@@ -32,6 +32,7 @@ group :test, :development do
 end
 
 group :development do
+  gem 'pry'
   gem 'haml-rails'
   gem 'guard'
   case RUBY_PLATFORM
@@ -65,3 +66,5 @@ end
 gem 'sorcery'
 gem 'haml'
 gem 'simple_form'
+gem 'cancan'
+gem 'friendly_id', "~> 4.0.0.beta8"

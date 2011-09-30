@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   skip_before_filter :require_login, :only => [:new, :create]
+  skip_authorization_check
 
   def new
   end

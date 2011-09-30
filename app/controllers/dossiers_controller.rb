@@ -1,18 +1,21 @@
 class DossiersController < ApplicationController
+  load_and_authorize_resource :centre
+  load_and_authorize_resource :dossier, :through => :centre
 
   def index
   end
-  
+
   def show
-    @dossier = Dossier.find(params[:id])
   end
 
   def new
-    @dossier = Dossier.new
+    @centre = current_user.centre
+    @dossier = @centre.dossiers.build
   end
 
   def create
-    @dossier = Dossier.new(params[:dossier])
+    @centre = current_user.centre
+    @dossier = @centre.dossiers.build(params[:dossier])
     if @dossier.save
       redirect_with_flash(@dossier)
     else
@@ -21,11 +24,9 @@ class DossiersController < ApplicationController
   end
 
   def edit
-    @dossier = Dossier.find(params[:id])
   end
 
   def update
-    @dossier = Dossier.find(params[:id])
     if @dossier.update_attributes(params[:dossier])
       redirect_with_flash(@dossier)
     else
@@ -34,7 +35,6 @@ class DossiersController < ApplicationController
   end
 
   def destroy
-    @dossier = Dossier.find(params[:id])
     if @dossier.destroy
       redirect_to dossiers_path, :notice => t("flash.destroy", :resource => "Dossier")
     end

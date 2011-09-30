@@ -11,7 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110928135711) do
+ActiveRecord::Schema.define(:version => 20110930141429) do
+
+  create_table "centres", :force => true do |t|
+    t.string   "name"
+    t.string   "code"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "slug"
+  end
+
+  add_index "centres", ["slug"], :name => "index_centres_on_slug", :unique => true
 
   create_table "dossiers", :force => true do |t|
     t.date     "date_appel"
@@ -19,6 +29,7 @@ ActiveRecord::Schema.define(:version => 20110928135711) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "centre_id"
   end
 
   create_table "users", :force => true do |t|
@@ -36,6 +47,8 @@ ActiveRecord::Schema.define(:version => 20110928135711) do
     t.datetime "last_login_at"
     t.datetime "last_logout_at"
     t.datetime "last_activity_at"
+    t.string   "role"
+    t.integer  "centre_id"
   end
 
   add_index "users", ["last_logout_at", "last_activity_at"], :name => "index_users_on_last_logout_at_and_last_activity_at"

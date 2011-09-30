@@ -1,10 +1,11 @@
 Feature: Manage dossiers
   In order to do studies on teratogen agents
-  As a terappel user
+  As a terappel centre admin
   I want to be able to manage dossiers
 
   Background:
-    Given a user exists with username: "username"
+    Given a centre exists
+    And a user exists with username: "username", centre: the centre, role: "centre_admin"
     When I login with "username"
 
   Scenario: User creates a valid dossier
@@ -24,7 +25,7 @@ Feature: Manage dossiers
     Then 0 dossiers should exist
 
   Scenario: User updates an existing dossier
-    Given a dossier exists
+    Given a dossier exists with centre: the centre, user: the user
     When I go to the dossier page
     And I follow "Modifier"
     And I fill in the "activerecord.attributes.dossier.name" field with "Dupont"
@@ -32,7 +33,7 @@ Feature: Manage dossiers
     Then I should see "Dossier mis(e) à jour avec succès."
 
   Scenario: User destroys an existing dossier
-    Given a dossier exists
+    Given a dossier exists with centre: the centre, user: the user
     When I go to the dossier page
     And I follow "Détruire"
     Then 0 dossiers should exist

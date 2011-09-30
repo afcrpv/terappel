@@ -1,10 +1,14 @@
 Terappel::Application.routes.draw do
-  resources :dossiers
-
   get "/login" => "sessions#new", :as => "login"
   get "/logout" => "sessions#destroy", :as => "logout"
   resources :sessions
   resources :password_resets
+
+  resources :centres, :path => ''
+  resources :centres, :path => '', :only => [] do
+    resources :dossiers, :path => '', :except => :index
+  end
+
 
   root :to => "home#index"
   # The priority is based upon order of creation:
