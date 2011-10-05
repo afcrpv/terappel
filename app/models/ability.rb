@@ -10,6 +10,7 @@ class Ability
     when "admin"
       can :manage, :all
     when "centre_admin"
+      can :read, :all
       can :manage, [User, Dossier], :centre_id => user.centre_id
       can :update, Dossier, :centre => {:id => user.centre_id}
     else

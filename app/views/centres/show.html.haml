@@ -1,0 +1,8 @@
+- title(nil, true, :name => @centre.name)
+
+%h3 Nombre de dossiers:
+
+- if @dossiers.any?
+  %ul
+    - @dossiers.each do |dossier|
+      %li= link_to dossier.code, [@centre, dossier]

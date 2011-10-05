@@ -4,11 +4,11 @@ Terappel::Application.routes.draw do
   resources :sessions
   resources :password_resets
 
-  resources :centres, :path => ''
-  resources :centres, :path => '', :only => [] do
-    resources :dossiers, :path => '', :except => :index
+  get '/centres' => "centres#index", :as => "centres"
+  resources :centres, :path => '', :except => :index do
+    resources :dossiers, :path => 'dossiers', :only => [:index, :create]
+    resources :dossiers, :path => '', :except =>  [:index, :create]
   end
-
 
   root :to => "home#index"
   # The priority is based upon order of creation:

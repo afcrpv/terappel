@@ -1,2 +1,8 @@
-%h1 Centres#index
-%p Find me in app/views/centres/index.html.haml
+- title
+
+- if @centres.any?
+  %ul
+    - @centres.each do |centre|
+      %li= link_to centre.name, centre
+- else
+  Pas de Centres dans la base

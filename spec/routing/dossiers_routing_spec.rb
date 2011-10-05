@@ -1,6 +1,16 @@
 require 'spec_helper'
 
 describe "routes for Dossiers" do
+  it "/:centre_id/ to Dossiers#index" do
+    path = centre_dossiers_path 'foocentre'
+    path.should == "/foocentre/dossiers"
+    { :get => path }.should route_to(
+      :controller => 'dossiers',
+      :action => 'index',
+      :centre_id => 'foocentre'
+    )
+  end
+
   it "/:centre_id/new to Dossiers#new" do
     path = new_centre_dossier_path 'foocentre'
     path.should == '/foocentre/new'

@@ -2,8 +2,8 @@
 
 %nav.instance_actions
   %ul
-    %li= link_to t('actions.edit'), edit_dossier_path(@dossier)
-    %li= link_to t('actions.destroy'), @dossier, :confirm => t('actions.confirm'), :method => :delete
+    %li= link_to t('actions.edit'), edit_centre_dossier_path(@centre, @dossier)
+    %li= link_to t('actions.destroy'), [@centre, @dossier ], :confirm => t('actions.confirm'), :method => :delete
 
 %p= @dossier.name
 %p= l @dossier.date_appel

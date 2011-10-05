@@ -1,4 +1,5 @@
 class DossiersController < ApplicationController
+  before_filter :find_centre
   load_and_authorize_resource :centre
   load_and_authorize_resource :dossier, :through => :centre
 
@@ -9,15 +10,12 @@ class DossiersController < ApplicationController
   end
 
   def new
-    @centre = current_user.centre
-    @dossier = @centre.dossiers.build
   end
 
   def create
-    @centre = current_user.centre
     @dossier = @centre.dossiers.build(params[:dossier])
     if @dossier.save
-      redirect_with_flash(@dossier)
+      redirect_with_flash([@centre, @dossier])
     else
       render :new
     end
@@ -28,7 +26,7 @@ class DossiersController < ApplicationController
 
   def update
     if @dossier.update_attributes(params[:dossier])
-      redirect_with_flash(@dossier)
+      redirect_with_flash([@centre, @dossier])
     else
       render :edit
     end
@@ -36,7 +34,13 @@ class DossiersController < ApplicationController
 
   def destroy
     if @dossier.destroy
-      redirect_to dossiers_path, :notice => t("flash.destroy", :resource => "Dossier")
+      redirect_with_flash([@centre, @dossier], centre_dossiers_path(@centre))
     end
+  end
+
+  private
+
+  def find_centre
+    @centre = current_user.centre
   end
 end

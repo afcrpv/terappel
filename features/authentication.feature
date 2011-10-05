@@ -4,8 +4,11 @@ Feature: testing user authentication
   Should authenticate themselves to the application
   To avoid wasting time
 
+  Background:
+    Given a centre exists
+
   Scenario Outline: user tries to authenticate
-    Given a user exists with username: "myuser", password: "mypass", email: "myuser@example.com"
+    Given a user exists with username: "myuser", password: "mypass", email: "myuser@example.com", centre: the centre, role: "centre_admin"
     When I visit the user authentication page
     And I enter the username "<username>"
     And I enter the password "<password>"

@@ -12,10 +12,13 @@
 %body{:class => params[:controller]}
   #page_container
     %header#page_header
-      %nav#user_nav
-        - if current_user
+      - if current_user
+        %nav#user_nav
           = "#{t('sessions.greet')} #{current_user.username}"
           = link_to t('sessions.logout'), logout_path
+        %nav#main_nav
+          = link_to t('dossiers.new'), new_centre_dossier_path(current_user.centre)
+
     %section#page
       - flash.each do |name, msg|
         = content_tag :section, msg, :id => "flash_#{name}"
