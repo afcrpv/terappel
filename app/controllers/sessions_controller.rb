@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  skip_before_filter :require_login, :only => [:new, :create]
+  skip_before_filter :require_login
   skip_authorization_check
 
   def new
@@ -18,6 +18,6 @@ class SessionsController < ApplicationController
 
   def destroy
     logout
-    redirect_to root_url
+    redirect_to root_url, :notice => t('sessions.logged_out')
   end
 end
