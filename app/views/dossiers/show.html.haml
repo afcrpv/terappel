@@ -1,9 +1,6 @@
-- title(nil, true, :id => @dossier.id.to_s)
+- title(nil, true, :id => @dossier.code)
 
-%nav.instance_actions
-  %ul
-    %li= link_to t('actions.edit'), edit_centre_dossier_path(@centre, @dossier)
-    %li= link_to t('actions.destroy'), [@centre, @dossier ], :confirm => t('actions.confirm'), :method => :delete
+- actions([@centre, @dossier])
 
 %p= @dossier.name
-%p= l @dossier.date_appel
+%p= @dossier.date_appel

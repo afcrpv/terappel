@@ -68,3 +68,4 @@ gem 'haml'
 gem 'simple_form'
 gem 'cancan'
 gem 'friendly_id', "~> 4.0.0.beta8"
+gem 'draper'
