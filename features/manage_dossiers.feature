@@ -4,7 +4,7 @@ Feature: Manage dossiers
   I want to be able to manage dossiers
 
   Background:
-    Given a centre exists
+    Given a centre exists with code: "ly"
     And a user exists with username: "username", centre: the centre, role: "centre_admin"
     When I login with "username"
 
@@ -15,7 +15,7 @@ Feature: Manage dossiers
     And I press the create dossier button
     Then 1 dossiers should exist
     And I should see "Dossier créé(e) avec succès."
-    And I should see "Dossier #1"
+    And I should see "Dossier #LY-2001-1"
     And I should see "Martin"
     And I should see "31/01/2001"
 

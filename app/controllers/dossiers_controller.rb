@@ -1,6 +1,6 @@
 class DossiersController < ApplicationController
   before_filter :find_centre
-  before_filter :find_dossier
+  before_filter :find_dossier, :only => :show
   load_and_authorize_resource :centre
   load_and_authorize_resource :dossier, :through => :centre
 
