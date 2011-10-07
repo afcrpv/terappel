@@ -1,1 +1,0 @@
-include Sorcery::TestHelpers::Rails

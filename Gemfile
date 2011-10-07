@@ -63,9 +63,7 @@ group :test do
   gem 'guard-cucumber'
 end
 
-gem 'sorcery'
 gem 'haml'
-gem 'simple_form'
 gem 'formtastic'
 gem 'cancan'
 gem 'friendly_id', "~> 4.0.0.beta8"
