@@ -1,5 +1,6 @@
-= simple_form_for [centre, dossier] do |f|
-  = f.input :centre_id, :as => :hidden
-  = f.input :name
-  = f.input :date_appel, :as => :string
-  = f.button :submit
+= semantic_form_for [centre, dossier] do |f|
+  = f.inputs do
+    = f.input :centre_id, :as => :hidden
+    = f.input :name
+    = f.input :date_appel, :as => :string
+  = f.buttons :commit
