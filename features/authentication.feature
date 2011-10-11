@@ -6,20 +6,10 @@ Feature: testing user authentication
 
   Background:
     Given a centre exists
+    And a user has an account
 
-  Scenario Outline: user tries to authenticate
-    Given a user exists with username: "myuser", password: "mypass", email: "myuser@example.com", centre: the centre, role: "centre_admin"
-    When I visit the user authentication page
-    And I enter the username "<username>"
-    And I enter the password "<password>"
-    And I press the authenticate button
-    Then I should <expectation> a "sessions.logged_in" message
-    Examples:
-      | username  | password  | expectation |
-      | myuser    | mypass    | see         |
-      | tizio     | pass      | not see     |
+  Scenario: user authenticates successfully
+    When the user logs in
+    Then they should see a success message
 
-  Scenario: log out
-    When I login with "username"
-    And I logout
-    Then I should see a "sessions.new.login" message
+  Scenario: user is denied access

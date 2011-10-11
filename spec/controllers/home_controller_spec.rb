@@ -2,10 +2,7 @@ require 'spec_helper'
 
 describe HomeController do
 
-  before do
-    @user = Factory(:user)
-    login_user
-  end
+  login_user
 
   describe "GET 'index'" do
     it "should be successful" do

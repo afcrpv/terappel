@@ -1,6 +1,6 @@
-class DossiersController < ApplicationController
+class DossiersController < AuthorizedController
   before_filter :find_centre
-  before_filter :find_dossier, :only => :show
+  before_filter :decorated_dossier, :only => :show
   load_and_authorize_resource :centre
   load_and_authorize_resource :dossier, :through => :centre
 
@@ -41,7 +41,7 @@ class DossiersController < ApplicationController
     @centre = current_user.centre
   end
 
-  def find_dossier
+  def decorated_dossier
     @dossier = DossierDecorator.find(params[:id])
   end
 end

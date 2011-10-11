@@ -1,3 +1,9 @@
+Given /^a user has an account$/ do
+  steps %Q{
+    Given a user exists with username: "username", password: "password", email: "myuser@example.com", centre: the centre, role: "centre_admin"
+  }
+end
+
 When /^I logout$/ do
   steps %Q{
     Given I am not authenticated
@@ -19,24 +25,33 @@ When(/enter the (.*) "(.*)"$/) do |field, value|
 end
 
 When(/press the authenticate button$/) do
-  Then "I press \"Connexion\""
+  steps %Q{
+    Then I press "#{I18n.t('devise.shared.sign_in')}"
+  }
 end
 
 When(/I login with "(.*)"/) do |username|
   steps %Q{
     When I visit the authentication page
-    When I fill in "username" with "#{username}"
-    When I fill in "password" with "password"
+    When I fill in "user_username" with "#{username}"
+    When I fill in "user_password" with "password"
     When I press the authenticate button
   }
 end
 
-When /^I (?:am logged in|login|log in) as an? #{capture_model}$/ do |role|
-  Given "a #{role} exists"
-  user = create_model(role)
+When /^the user logs in$/ do
+    #Given a user exists with username: "myuser", password: "mypass", email: "myuser@example.com", centre: the centre, role: "centre_admin"
   steps %Q{
-    And I am not authenticated
-    When I login with "#{user.username}"
-    Then I should see a "sessions.logged_in" message
+    When I login with "username"
   }
+end
+
+When /should see a success message$/ do
+  steps %Q{
+    Then I should see a "devise.sessions.signed_in" message
+  }
+end
+
+Then /^they should not see a success message$/ do
+  pending # express the regexp above with the code you wish you had
 end

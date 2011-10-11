@@ -1,8 +1,8 @@
 Terappel::Application.routes.draw do
-  get "/login" => "sessions#new", :as => "login"
-  get "/logout" => "sessions#destroy", :as => "logout"
-  resources :sessions
-  resources :password_resets
+  devise_for :users do
+    get "/login" => "devise/sessions#new"
+    get "/logout" => "devise/sessions#destroy"
+  end
 
   get '/centres' => "centres#index", :as => "centres"
   resources :centres, :path => '', :except => :index do
