@@ -17,6 +17,8 @@ class User < ActiveRecord::Base
   belongs_to :centre
   has_many :dossiers
 
+  delegate :name, :to => :centre, :prefix => true, :allow_nil => true
+
   def admin?
     role == "admin"
   end

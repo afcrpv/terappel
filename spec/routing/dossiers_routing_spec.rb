@@ -11,25 +11,21 @@ describe "routes for Dossiers" do
     )
   end
 
-  it "/:centre_id/:dossier_id to Dossiers#show" do
-    path = centre_dossier_path 'foocentre', 'code_dossier'
-    path.should == '/foocentre/code_dossier'
-    { :get => path }.should route_to(
+  it "/:centre_id/:code to Dossiers#show" do
+    { :get => "/foocentre/LY-2011-01" }.should route_to(
       :controller => 'dossiers',
       :action => 'show',
       :centre_id => 'foocentre',
-      :id => 'code_dossier'
+      :id => "LY-2011-01"
     )
   end
 
-  it "/:centre_id/:dossier_id/edit to Dossiers#edit" do
-    path = edit_centre_dossier_path 'foocentre', 'code_dossier'
-    path.should == '/foocentre/code_dossier/edit'
-    { :get => path }.should route_to(
+  it "/:centre_id/:code/edit to Dossiers#edit" do
+    { :get => "/foocentre/LY-2011-01/edit" }.should route_to(
       :controller => 'dossiers',
       :action => 'edit',
       :centre_id => 'foocentre',
-      :id => 'code_dossier'
+      :id => "LY-2011-01"
     )
   end
 end

@@ -1,37 +1,30 @@
-When /^I follow the forgot password link$/ do
-  steps %Q{
-    When I follow "#{I18n.t('devise.shared.forgot_password')}"
-  }
+When /^they ask for a new password$/ do
+  request_password(@user, @user.email)
+  page.should have_content I18n.t("devise.passwords.send_instructions")
 end
 
-When /^I fill in the email field with "([^"]*)"$/ do |email|
-  fill_in 'user_email', :with => email
+Then /^they should receive an email$/ do
+  emails.last.to.should include(@user.email)
 end
 
-When /^I press the reset password button$/ do
-  click_button I18n.t('devise.passwords.send_reset_password_instructions')
+When /^an unknown user asks for a new password$/ do
+  request_password(User.new, "wrong@domain.com")
 end
 
-When /^I follow the change password link in the email$/ do
-  steps %Q{
-    When I click the first link in the email
-  }
+Then /^they should not receive an email$/ do
+  emails.last.should be_nil
 end
 
-When /^I fill in the password field with "([^"]*)"$/ do |password|
-  steps %Q{
-    When I fill in "#{I18n.t('devise.passwords.new_password')}" with "#{password}"
-  }
+When /^they follow the change password link in the email$/ do
+  click_first_link_in_email(emails.last)
 end
 
-When /^I fill in the password confirmation field with "([^"]*)"$/ do |confirmation|
-  steps %Q{
-    When I fill in "#{I18n.t('devise.passwords.confirm_new_password')}" with "#{confirmation}"
-  }
+When /^they enter a new password$/ do
+  fill_in "#{I18n.t('devise.passwords.new_password')}", :with => "newpass"
+  fill_in "#{I18n.t('devise.passwords.confirm_new_password')}", :with => "newpass"
+  click_button "#{I18n.t('devise.passwords.change_my_password')}"
 end
 
-When /^I press the change password button$/ do
-  steps %Q{
-    When I press "#{I18n.t('devise.passwords.change_my_password')}"
-  }
+Then /^their password should be updated$/ do
+  page.should have_content I18n.t("devise.passwords.updated")
 end

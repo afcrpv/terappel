@@ -1,17 +1,16 @@
 class Dossier < ActiveRecord::Base
+  attr_accessible :name, :date_appel, :code, :centre_id
+
+  extend FriendlyId
+  friendly_id :code
+
   validates_presence_of :name, :date_appel
   belongs_to :centre
   belongs_to :user
 
   delegate :name, :code, :to => :centre, :prefix => true
 
-  def code
-    [centre_code.upcase,
-    "-",
-    year,
-    "-",
-    year_index].join("")
-  end
+  after_create :assign_code
 
   def year
     date_appel.beginning_of_year.year.to_s
@@ -24,5 +23,19 @@ class Dossier < ActiveRecord::Base
   def dossiers_years
     dossiers = centre.dossiers
     dossiers.group_by { |dossier| dossier.year }
+  end
+
+  private
+
+  def assign_code
+    self.update_attribute(:code, create_code)
+  end
+
+  def create_code
+    [centre_code.upcase,
+    "-",
+    year,
+    "-",
+    year_index].join("")
   end
 end

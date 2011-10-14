@@ -5,11 +5,12 @@ Feature: testing user authentication
   To avoid wasting time
 
   Background:
-    Given a centre exists
-    And a user has an account
+    Given a user belonging to an existing centre
 
   Scenario: user authenticates successfully
-    When the user logs in
+    When the user logs in with correct credentials
     Then they should see a success message
 
   Scenario: user is denied access
+    When the user logs in with wrong credentials
+    Then they should be denied access

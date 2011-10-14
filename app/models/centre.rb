@@ -1,4 +1,6 @@
 class Centre < ActiveRecord::Base
+  attr_accessible :name, :code
+
   has_many :users
   has_many :dossiers
 

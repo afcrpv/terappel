@@ -4,37 +4,19 @@ Feature: Manage dossiers
   I want to be able to manage dossiers
 
   Background:
-    Given a centre exists with code: "ly"
-    And a user exists with username: "username", centre: the centre, role: "centre_admin"
-    When I login with "username"
+    Given a logged in user
 
-  Scenario: User creates a valid dossier
-    When I follow "Nouveau Dossier"
-    And I fill in the "activerecord.attributes.dossier.name" field with "Martin"
-    And I fill in the "activerecord.attributes.dossier.date_appel" field with "31/01/2001"
-    And I press the create dossier button
-    Then 1 dossiers should exist
-    And I should see "Dossier créé(e) avec succès."
-    And I should see "Dossier #LY-2001-1"
-    And I should see "Martin"
-    And I should see "31/01/2001"
-
-  Scenario: User tries to save an invalid dossier
-    When I follow "Nouveau Dossier"
-    And I press the create dossier button
-    Then 0 dossiers should exist
+  Scenario: successful creation
+    When I add a new dossier
+    Then I should see the page for my newly created dossier
 
   Scenario: User updates an existing dossier
-    Given a dossier exists with centre: the centre, user: the user
-    When I go to the centre's dossier page
-    And I follow "Modifier"
-    And I fill in the "activerecord.attributes.dossier.name" field with "Dupont"
-    And I press the update dossier button
-    Then I should see "Dossier mis(e) à jour avec succès."
+    Given an existing dossier
+    When I update the dossier with new data
+    Then I should see the updated dossier
 
+  @javascript
   Scenario: User destroys an existing dossier
-    Given a dossier exists with centre: the centre, user: the user
-    When I go to the centre's dossier page
-    And I follow "Détruire"
-    Then 0 dossiers should exist
-    And I should see "Dossier détruit(e) avec succès."
+    Given an existing dossier
+    When I press the destroy button
+    Then the dossier should be destroyed
