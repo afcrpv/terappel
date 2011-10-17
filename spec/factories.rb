@@ -4,6 +4,7 @@ FactoryGirl.define do
     email { |user| "#{user.username}@example.com".downcase}
     password "password"
     password_confirmation { |user| user.password}
+    centre
 
     factory :admin do
       sequence(:username) { |n| "admin#{n}"}
@@ -20,5 +21,7 @@ FactoryGirl.define do
   factory :dossier do
     sequence(:name) { |n| "name#{n}"}
     date_appel Time.now.to_date
+    centre
+    user
   end
 end

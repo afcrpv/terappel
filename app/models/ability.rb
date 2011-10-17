@@ -6,17 +6,25 @@ class Ability
     guest.role = ""
     user ||= guest
 
-    case user.role
-    when "admin"
-      can :manage, :all
-    when "centre_admin"
-      can :read, :all
-      can :manage, [User, Dossier], :centre_id => user.centre_id
-      can :update, Dossier, :centre => {:id => user.centre_id}
-    else
-      can :read, Dossier
+    if user.role? :centre_user
+      can :read, user
+      can :update, user
+      cannot :destroy, user
+
       can :create, Dossier
+      can :read, Dossier
       can :update, Dossier, :user_id => user.id
+      cannot :destroy, Dossier
+    end
+    if user.role? :centre_admin
+      can :manage, User, :centre_id => user.centre_id
+      cannot :destroy, user
+
+      can :manage, Dossier, :centre_id => user.centre_id
+    end
+    if user.role? :admin
+      can :manage, :all
+      cannot :destroy, user
     end
 
    # The first argument to `can` is the action you are giving the user permission to do.

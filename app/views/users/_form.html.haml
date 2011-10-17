@@ -1,0 +1,6 @@
+= semantic_form_for [centre, user] do |f|
+  = f.inputs do
+    = render 'fields', :f => f, :user => user
+    = f.input :password, :as => :password
+    = f.input :password_confirmation, :as => :password
+  = f.buttons :commit

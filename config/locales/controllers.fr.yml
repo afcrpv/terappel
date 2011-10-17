@@ -6,6 +6,8 @@ fr:
     edit: "Modification Dossier #%{id}"
   centres:
     show: "CRPV de %{name}"
+  users:
+    show: "Profile de l'utilisateur : %{id}"
   flash:
     create: "%{resource} créé(e) avec succès."
     update: "%{resource} mis(e) à jour avec succès."

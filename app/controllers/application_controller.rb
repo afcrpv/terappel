@@ -1,15 +1,16 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  def redirect_with_flash(resource, path=nil)
+  def redirect_with_flash(resource, path=nil, message=nil)
     path = resource unless path
     resource = resource[1] if resource.class == Array
-    redirect_to path, :notice => flash_message(resource)
+    message = flash_message(resource) unless message
+    redirect_to path, :notice => message
   end
 
   private
 
   def flash_message(instance)
-    @flash_message = t("flash.#{self.action_name}", :resource => instance.class.name)
+    @flash_message = t("flash.#{self.action_name}", :resource => t('activerecord.models.' + instance.class.name.downcase).classify)
   end
 end

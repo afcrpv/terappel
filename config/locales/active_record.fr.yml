@@ -2,14 +2,17 @@ fr:
   activerecord:
     models:
       user: Utilisateur
+      member: Utilisateur
       dossier: Dossier
     attributes:
       user:
         username: "Nom d'utilisateur"
+        current_password: "Mot de passe actuel"
         password: "Mot de passe"
         password_confirmation: "Confirmer"
         remember_me: "Se souvenir de moi"
         email: "Courriel"
+        role: "Rôle"
       dossier:
         date_appel: "Date Appel"
         name: "Nom patiente"

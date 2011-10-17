@@ -1,0 +1,14 @@
+- the_title = @user.id == current_user.id ? "Votre profile" : nil
+- title(the_title, true, :id => @user.to_param)
+
+- actions([@centre, @user])
+
+%section#profile
+  %dl
+    %dt= t('activerecord.attributes.user.username')
+    %dd= @user.username
+    %dt= t('activerecord.attributes.user.email')
+    %dd= @user.email
+    - if can?(:create, User)
+      %dt= t('activerecord.attributes.user.role')
+      %dd= @user.role

@@ -1,25 +1,14 @@
 require 'spec_helper'
 
 describe User do
-  before do
-    User.destroy_all
-  end
-
-  after do
-    User.destroy_all
-  end
-
   let(:existing_user) {Factory(:user)}
-  subject {User.new}
+  subject {Factory.build(:user)}
 
-  it {should_not be_valid}
+  it {should be_valid}
 
-  it "should be valid with username, email and password" do
-    subject.username = "value for username"
-    subject.email = "test@test.com"
-    subject.password = "secret"
-    subject.password_confirmation = "secret"
-    subject.should be_valid
+  it "should require username" do
+    subject.username = ""
+    subject.should_not be_valid
   end
 
   it "should require a unique username" do
@@ -27,9 +16,45 @@ describe User do
     subject.should_not be_valid
   end
 
+  it "should require a confirmation of password" do
+    subject.password_confirmation = ""
+    subject.should_not be_valid
+  end
+
+  it "should require email" do
+    subject.email = ""
+    subject.should_not be_valid
+  end
+
   it "should require a unique email" do
     subject.email = existing_user.email
     subject.should_not be_valid
+  end
+
+  it "should inherit lower roles" do
+    subject.role = "admin"
+    admin = subject
+    admin.role?(:centre_admin).should be_true
+    admin.role?(:centre_user).should be_true
+    subject.role = "centre_user"
+    centre_user = subject
+    centre_user.role?(:centre_admin).should_not be_true
+    centre_user.role?(:admin).should_not be_true
+  end
+
+  describe "#centre_name" do
+    it "should return name of associated centre" do
+      centre = Factory(:centre, :name => "lyon")
+      subject.centre_id = centre.id
+      subject.centre_name.should == "lyon"
+    end
+  end
+
+  describe "#admin?" do
+    it "should be true if role is 'admin'" do
+      subject.role = "admin"
+      subject.admin?.should be_true
+    end
   end
 
   context "when using admin role" do

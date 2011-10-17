@@ -11,13 +11,20 @@ class Dossier < ActiveRecord::Base
   delegate :name, :code, :to => :centre, :prefix => true
 
   after_create :assign_code
+  before_update do
+    self.code = create_code
+  end
 
   def year
     date_appel.beginning_of_year.year.to_s
   end
 
   def year_index
-    dossiers_years[year].index(self) + 1
+    if dossiers_years[year].nil?
+      1
+    else
+      dossiers_years[year].index(self) + 1
+    end
   end
 
   def dossiers_years
@@ -36,6 +43,6 @@ class Dossier < ActiveRecord::Base
     "-",
     year,
     "-",
-    year_index].join("")
+    year_index].join
   end
 end

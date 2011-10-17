@@ -2,25 +2,58 @@ require 'spec_helper'
 require "cancan/matchers"
 
 describe Ability do
+  let(:centre) {Factory(:centre)}
+  let(:other_centre) {Factory(:centre)}
+  let(:user) {Factory(:user, :centre => centre)}
+  let(:user_from_other_center) {Factory(:user, :centre => other_centre)}
+  let(:user_from_same_center) {Factory(:user, :centre => centre)}
+  let(:dossier) {Factory(:dossier, :centre => centre, :user => user)}
+  let(:dossier_from_same_center) {Factory(:dossier, :centre => centre, :user => user_from_same_center)}
+  let(:dossier_from_other_center) {Factory(:dossier, :centre => other_centre)}
+
+  context "for a centre user" do
+    before do
+      user.role = "centre_user"
+    end
+
+    subject { Ability.new(user) }
+
+    it { should be_able_to :read, user }
+    it { should be_able_to :update, user }
+    it { should_not be_able_to :destroy, user }
+
+    it { should be_able_to :create, Dossier }
+    it { should be_able_to :read, dossier }
+    it { should be_able_to :update, dossier }
+    it { should_not be_able_to :destroy, Dossier }
+  end
+
+  context "for a centre admin" do
+    before do
+      user.role = "centre_admin"
+    end
+
+    subject { Ability.new(user) }
+
+    it {should be_able_to :create, User}
+    it {should be_able_to :read, user_from_same_center}
+    it {should be_able_to :update, user_from_same_center}
+    it {should be_able_to :destroy, user_from_same_center}
+    it {should_not be_able_to :destroy, user}
+    it {should_not be_able_to :manage, user_from_other_center}
+
+    it {should be_able_to :update, dossier_from_same_center}
+    it {should be_able_to :destroy, dossier_from_same_center}
+    it {should_not be_able_to :update, dossier_from_other_center}
+    it {should_not be_able_to :destroy, dossier_from_other_center}
+  end
+
   context "for an admin:" do
-    admin = Factory.build(:admin)
-    subject { Ability.new(admin) }
-    it { should be_able_to(:manage, :all) }
-  end
-  context "for a centre_admin" do
-    centre = Centre.new
-    user = centre.users.build
-    user.role = "centre_admin"
+    let(:user) {Factory(:admin, :centre => centre)}
+
     subject { Ability.new(user) }
-    it { should be_able_to(:update, centre.dossiers.build) }
-  end
-  context "for a simple auth user" do
-    centre = Centre.new
-    user = centre.users.build
-    dossier = user.dossiers.build
-    subject { Ability.new(user) }
-    it { should be_able_to(:read, Dossier)}
-    it { should be_able_to(:create, Dossier)}
-    it { should be_able_to(:update, dossier)}
+
+    it {should be_able_to :manage, :all}
+    it {should_not be_able_to :destroy, user}
   end
 end

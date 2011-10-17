@@ -6,3 +6,12 @@ fr:
     :update: "Modifier ce(tte) %{model}"
     :submit: "Enregistrer ce(tte) %{model}"
     :required: 'required'
+    labels:
+      user:
+        edit:
+          password: "Nouveau mot de passe"
+    hints:
+      user:
+        edit:
+          password: "Laisser vide si vous voulez pas le changer"
+          current_password: "Rentrer votre mot de passe actuel pour confirmer les modifications"

@@ -7,6 +7,7 @@ Terappel::Application.routes.draw do
   get '/centres' => "centres#index", :as => "centres"
 
   resources :centres, :path => '', :except => :index do
+    resources :members, :controller => "users", :as => "users"
     resources :dossiers, :path => 'dossiers', :only => [:create]
     resources :dossiers, :path => '', :except =>  [:index, :create]
   end

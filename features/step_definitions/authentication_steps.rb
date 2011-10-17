@@ -4,7 +4,6 @@ Given /^a user belonging to an existing centre$/ do
     :username => "username",
     :password => "password",
     :email => "myuser@example.com")
-    @user.update_attribute(:role,"centre_admin")
 end
 
 When /^the user logs in with correct credentials$/ do
@@ -15,11 +14,12 @@ When /^the user logs in with wrong credentials$/ do
   login("wronguser", "wrongpassword")
 end
 
-Given /^a logged in user$/ do
+Given /^a centre admin is logged in$/ do
   steps %Q{
     Given a user belonging to an existing centre
     When the user logs in with correct credentials
   }
+  @user.update_attribute(:role,"centre_admin")
 end
 
 When /should see a success message$/ do

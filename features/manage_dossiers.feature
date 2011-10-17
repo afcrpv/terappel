@@ -4,19 +4,19 @@ Feature: Manage dossiers
   I want to be able to manage dossiers
 
   Background:
-    Given a logged in user
+    Given a centre admin is logged in
 
   Scenario: successful creation
     When I add a new dossier
     Then I should see the page for my newly created dossier
 
-  Scenario: User updates an existing dossier
+  Scenario: updating an existing dossier
     Given an existing dossier
     When I update the dossier with new data
     Then I should see the updated dossier
 
   @javascript
-  Scenario: User destroys an existing dossier
+  Scenario: destroying an existing dossier
     Given an existing dossier
     When I press the destroy button
     Then the dossier should be destroyed
