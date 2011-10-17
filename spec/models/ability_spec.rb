@@ -18,10 +18,13 @@ describe Ability do
 
     subject { Ability.new(user) }
 
+    it { should be_able_to :read, centre}
     it { should be_able_to :read, user }
     it { should be_able_to :update, user }
     it { should_not be_able_to :destroy, user }
 
+    it { should be_able_to :read, DossierDecorator }
+    it { should be_able_to :read, UserDecorator }
     it { should be_able_to :create, Dossier }
     it { should be_able_to :read, dossier }
     it { should be_able_to :update, dossier }
@@ -35,6 +38,7 @@ describe Ability do
 
     subject { Ability.new(user) }
 
+    it {should be_able_to :update, centre}
     it {should be_able_to :create, User}
     it {should be_able_to :read, user_from_same_center}
     it {should be_able_to :update, user_from_same_center}

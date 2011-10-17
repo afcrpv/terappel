@@ -1,10 +1,10 @@
 class Dossier < ActiveRecord::Base
-  attr_accessible :name, :date_appel, :code, :centre_id
+  attr_accessible :name, :date_appel, :centre_id, :user_id
 
   extend FriendlyId
   friendly_id :code
 
-  validates_presence_of :name, :date_appel
+  validates_presence_of :name, :date_appel, :centre_id, :user_id
   belongs_to :centre
   belongs_to :user
 

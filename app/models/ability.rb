@@ -7,6 +7,10 @@ class Ability
     user ||= guest
 
     if user.role? :centre_user
+      can :read, Centre, :id => user.centre_id
+
+      can :read, UserDecorator
+      can :read, DossierDecorator
       can :read, user
       can :update, user
       cannot :destroy, user
@@ -17,6 +21,7 @@ class Ability
       cannot :destroy, Dossier
     end
     if user.role? :centre_admin
+      can :update, Centre, :id => user.centre_id
       can :manage, User, :centre_id => user.centre_id
       cannot :destroy, user
 

@@ -56,15 +56,4 @@ describe User do
       subject.admin?.should be_true
     end
   end
-
-  context "when using admin role" do
-    it "should allow centre_id to be mass assigned" do
-      subject = User.new({:centre_id => 1}, :as => :admin)
-      subject.attributes.should include("centre_id" => 1)
-    end
-    it "should allow role to be mass assigned" do
-      subject = User.new({:role => "role"}, :as => :admin)
-      subject.attributes.should include("role" => "role")
-    end
-  end
 end

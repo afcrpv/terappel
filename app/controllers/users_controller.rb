@@ -1,6 +1,7 @@
 class UsersController < AuthorizedController
   before_filter :find_centre
   before_filter :decorated_user, :only => :show
+  before_filter :find_accessible_user, :only => [:create, :update]
   load_and_authorize_resource :centre
   load_and_authorize_resource :user, :through => :centre
 
@@ -16,7 +17,6 @@ class UsersController < AuthorizedController
   end
 
   def create
-    @user.role = params[:user][:role]
     if @user.save
       redirect_with_flash([@centre, @user])
     else
@@ -57,5 +57,20 @@ class UsersController < AuthorizedController
 
   def find_centre
     @centre = current_user.centre
+  end
+
+  def find_accessible_user
+    if params[:user].blank?
+      #for the create action we need to assign attributes after the call to accessible
+      @user = @centre.dossiers.build
+      check_accessible_atributes
+      @user.attributes = params[:user]
+    else #for the update action we just need to call accessible
+      check_accessible_atributes
+    end
+  end
+
+  def check_accessible_atributes
+    @user.accessible = :all if current_user.admin?
   end
 end

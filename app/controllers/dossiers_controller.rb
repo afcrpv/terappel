@@ -8,9 +8,11 @@ class DossiersController < AuthorizedController
   end
 
   def new
+    @dossier = @centre.dossiers.build(:user_id => current_user.id)
   end
 
   def create
+    @dossier.user_id = params[:dossier][:user_id]
     if @dossier.save
       redirect_with_flash([@centre, @dossier])
     else

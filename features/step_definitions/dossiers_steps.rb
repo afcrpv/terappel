@@ -3,8 +3,11 @@ When /^I add a new dossier$/ do
   visit new_centre_dossier_path(@centre)
   fill_in I18n.t("activerecord.attributes.dossier.name"), :with => "Martin"
   fill_in I18n.t("activerecord.attributes.dossier.date_appel"), :with => "31/01/2001"
-  click_button I18n.t('helpers.submit.create', :model => Dossier)
-  Dossier.count.should == 1
+  expect do
+    click_button I18n.t('helpers.submit.create', :model => Dossier)
+  end.to change{Dossier.count}.by(1)
+  Dossier.last.user_id.should == @user.id
+  Dossier.last.centre_id.should == @centre.id
 end
 
 Then /^I should see the page for my newly created dossier$/ do
@@ -15,9 +18,11 @@ Then /^I should see the page for my newly created dossier$/ do
 end
 
 Given /^an existing dossier$/ do
-  @dossier = @centre.dossiers.create(
+  @dossier = @centre.dossiers.build(
         :name => "dupont",
         :date_appel => "31/1/2011")
+  @dossier.user_id = @user.id
+  @dossier.save!
   visit centre_dossier_path(@centre, @dossier)
 end
 
