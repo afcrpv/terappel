@@ -1,18 +1,16 @@
 Terappel::Application.routes.draw do
+
   devise_for :users do
     get "/login" => "devise/sessions#new"
     get "/logout" => "devise/sessions#destroy"
   end
 
-  get '/centres' => "centres#index", :as => "centres"
+  mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
 
-  resources :centres, :path => '', :except => :index do
-    resources :members, :controller => "users", :as => "users"
-    resources :dossiers, :path => 'dossiers', :only => [:create]
-    resources :dossiers, :path => '', :except =>  [:index, :create]
-  end
+  resources :dossiers
 
   root :to => "home#index"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

@@ -2,23 +2,21 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    guest = User.new
-    guest.role = ""
-    user ||= guest
-
     if user.role? :centre_user
-      can :read, Centre, :id => user.centre_id
+      can :dashboard
+      can :access, :rails_admin
+      can :read, Centre
 
-      can :read, UserDecorator
-      can :read, DossierDecorator
       can :read, user
       can :update, user
       cannot :destroy, user
 
       can :create, Dossier
+      can :read, DossierDecorator
       can :read, Dossier
       can :update, Dossier, :user_id => user.id
       cannot :destroy, Dossier
+      can :destroy, Dossier, :user_id => user.id
     end
     if user.role? :centre_admin
       can :update, Centre, :id => user.centre_id

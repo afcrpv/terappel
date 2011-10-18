@@ -1,9 +1,0 @@
-- title(nil, true, :name => @centre.name)
-
-- if @dossiers.any?
-  %h3 Liste de dossiers
-  %ul
-    - @dossiers.each do |dossier|
-      %li= link_to dossier.code, [@centre, dossier]
-- else
-  %h3 Aucun dossier

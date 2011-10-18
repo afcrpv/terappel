@@ -18,17 +18,18 @@ describe Ability do
 
     subject { Ability.new(user) }
 
+    it { should be_able_to :access, :rails_admin}
     it { should be_able_to :read, centre}
     it { should be_able_to :read, user }
     it { should be_able_to :update, user }
     it { should_not be_able_to :destroy, user }
 
-    it { should be_able_to :read, DossierDecorator }
-    it { should be_able_to :read, UserDecorator }
     it { should be_able_to :create, Dossier }
-    it { should be_able_to :read, dossier }
+    it { should be_able_to :read, Dossier }
     it { should be_able_to :update, dossier }
-    it { should_not be_able_to :destroy, Dossier }
+    it { should be_able_to :destroy, dossier }
+    it { should_not be_able_to :destroy, dossier_from_same_center }
+    it { should_not be_able_to :destroy, dossier_from_other_center }
   end
 
   context "for a centre admin" do

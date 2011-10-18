@@ -1,6 +1,6 @@
 # encoding: utf-8
 When /^I add a new dossier$/ do
-  visit new_centre_dossier_path(@centre)
+  visit new_dossier_path
   fill_in I18n.t("activerecord.attributes.dossier.name"), :with => "Martin"
   fill_in I18n.t("activerecord.attributes.dossier.date_appel"), :with => "31/01/2001"
   expect do
@@ -23,7 +23,7 @@ Given /^an existing dossier$/ do
         :date_appel => "31/1/2011")
   @dossier.user_id = @user.id
   @dossier.save!
-  visit centre_dossier_path(@centre, @dossier)
+  visit dossier_path(@dossier)
 end
 
 When /^I update the dossier with new data$/ do

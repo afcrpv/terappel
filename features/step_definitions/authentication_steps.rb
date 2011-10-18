@@ -19,7 +19,8 @@ Given /^a centre admin is logged in$/ do
     Given a user belonging to an existing centre
     When the user logs in with correct credentials
   }
-  @user.update_attribute(:role,"centre_admin")
+  @user.role ="centre_admin"
+  @user.save!
 end
 
 When /should see a success message$/ do

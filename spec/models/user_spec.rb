@@ -49,11 +49,4 @@ describe User do
       subject.centre_name.should == "lyon"
     end
   end
-
-  describe "#admin?" do
-    it "should be true if role is 'admin'" do
-      subject.role = "admin"
-      subject.admin?.should be_true
-    end
-  end
 end
