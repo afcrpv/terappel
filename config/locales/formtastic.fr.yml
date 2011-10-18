@@ -2,10 +2,12 @@ fr:
   formtastic:
     :yes: 'Oui'
     :no: 'Non'
-    :create: "Créer un(e) %{model}"
-    :update: "Modifier ce(tte) %{model}"
-    :submit: "Enregistrer ce(tte) %{model}"
     :required: 'required'
+    actions:
+      create: "Créer un(e) %{model}"
+      update: "Modifier ce(tte) %{model}"
+      submit: "Enregistrer ce(tte) %{model}"
+      update_profile: "Mettre à jour"
     labels:
       user:
         edit:

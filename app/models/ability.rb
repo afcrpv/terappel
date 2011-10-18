@@ -8,6 +8,7 @@ class Ability
       can :read, Centre
 
       can :read, user
+      can :read, UserDecorator
       can :update, user
       cannot :destroy, user
 

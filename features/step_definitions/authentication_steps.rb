@@ -34,3 +34,67 @@ Then /^they should be denied access$/ do
     Then I should see a "devise.failure.invalid" message
   }
 end
+
+When /^the user goes to his profile page$/ do
+  steps %Q{
+    When the user logs in with correct credentials
+  }
+  visit user_path(@user)
+end
+
+Then /^they should see their personal informations$/ do
+  page.should have_content @user.username
+  page.should have_content @user.email
+  page.should have_content @user.centre_name
+  page.should have_content @user.role
+end
+
+When /^the user edits his profile informations$/ do
+  steps %Q{
+    When the user logs in with correct credentials
+  }
+  visit edit_user_path(@user)
+  fill_in I18n.t("activerecord.attributes.user.username"), :with => "utilisateur"
+  fill_in I18n.t("activerecord.attributes.user.email"), :with => "utilisateur@test.com"
+  click_button I18n.t('formtastic.actions.update_profile')
+end
+
+Then /^they should see their updated profile$/ do
+  page.should have_content "utilisateur"
+  page.should have_content "utilisateur@test.com"
+end
+
+When /^the user changes his password without filling the current password$/ do
+  steps %Q{
+    When the user logs in with correct credentials
+  }
+  visit edit_user_path(@user)
+  fill_in I18n.t("activerecord.attributes.user.password"), :with => "newpassword"
+  fill_in I18n.t("activerecord.attributes.user.password_confirmation"), :with => "newpassword"
+end
+
+Then /^their password shouldn't change$/ do
+  expect do
+    click_button I18n.t('formtastic.actions.update_profile')
+  end.to_not change{@user.password}
+end
+
+When /^the user changes his password$/ do
+  steps %Q{
+    When the user logs in with correct credentials
+  }
+  visit edit_user_path(@user)
+  fill_in I18n.t("activerecord.attributes.user.current_password"),
+    :with => "password"
+  fill_in I18n.t("formtastic.labels.user.edit.password"),
+    :with => "newpassword"
+  fill_in I18n.t("activerecord.attributes.user.password_confirmation"),
+    :with => "newpassword"
+  click_button I18n.t('formtastic.actions.update_profile')
+end
+
+Then /^they should be able to reconnect with the changed password$/ do
+  page.should have_content I18n.t('devise.failure.unauthenticated')
+  login(@user.username, "newpassword")
+  page.should have_content I18n.t('devise.sessions.signed_in')
+end

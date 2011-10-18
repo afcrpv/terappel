@@ -1,4 +1,5 @@
-= semantic_form_for [centre, user] do |f|
+= semantic_form_for user do |f|
+  = f.semantic_errors :base
   = f.inputs do
     = render 'fields', :f => f, :user => user
     = f.input :password, :as => :password

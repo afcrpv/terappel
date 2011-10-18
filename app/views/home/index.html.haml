@@ -1,2 +1,5 @@
-- title t('dashboard.title')
-%p Find me in app/views/home/index.html.haml
+- title
+
+%ul
+  %li= link_to t('admin.dashboard.pagename'), rails_admin_path if can? :access, :rails_admin
+  %li= link_to t('dossiers.new'), new_dossier_path if can? :create, Dossier

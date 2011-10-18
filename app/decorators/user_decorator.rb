@@ -5,6 +5,10 @@ class UserDecorator < ApplicationDecorator
     h.mail_to(model.email)
   end
 
+  def centre_name
+    model.centre_name.humanize
+  end
+
   # Accessing Helpers
   #   You can access any helper via a proxy
   #

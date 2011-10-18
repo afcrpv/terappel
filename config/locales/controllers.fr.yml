@@ -1,13 +1,11 @@
 fr:
+  home:
+    index: "Page d'accueil de Terappel"
   dossiers:
     show: "Dossier #%{id}"
     new: "Nouveau Dossier"
     create: "Nouveau Dossier"
     edit: "Modification Dossier #%{id}"
-  centres:
-    show: "CRPV de %{name}"
-  users:
-    show: "Profile de l'utilisateur : %{id}"
   flash:
     create: "%{resource} créé(e) avec succès."
     update: "%{resource} mis(e) à jour avec succès."
@@ -16,4 +14,3 @@ fr:
     edit: "Modifier"
     destroy: "Détruire"
     confirm: "Etes-vous sûr?"
-

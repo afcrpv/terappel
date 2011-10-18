@@ -1,7 +1,11 @@
 = semantic_form_for dossier do |f|
+  = f.semantic_errors
   = f.inputs do
     = f.input :user_id, :as => :hidden
     = f.input :centre_id, :as => :hidden
     = f.input :name
     = f.input :date_appel, :as => :string
   = f.buttons :commit
+
+= content_for :footer do
+  = debug "\nCentre : " + dossier.try(:centre_name) + "\nUser : " + dossier.username

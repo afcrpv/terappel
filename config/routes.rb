@@ -8,6 +8,7 @@ Terappel::Application.routes.draw do
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
 
   resources :dossiers
+  resources :users
 
   root :to => "home#index"
 

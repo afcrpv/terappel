@@ -1,10 +1,12 @@
 - the_title = @user == current_user ? "Modifier vos identifiants" : nil
 - title(the_title, true, :id => @user.to_param)
 
-= semantic_form_for [@centre, @user] do |f|
+= semantic_form_for @user do |f|
   = f.inputs do
     = render 'fields', :f => f, :user => @user
     = f.input :current_password,:as => :password
     = f.input :password, :as => :password
     = f.input :password_confirmation, :as => :password
-  = f.buttons :commit
+  - button_label = @user == current_user ? :update_profile : ""
+  = f.buttons do
+    = f.commit_button button_label

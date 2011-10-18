@@ -3,6 +3,8 @@
 %head
   %title= yield(:title) || "Untitled"
   = stylesheet_link_tag    "application"
+  = stylesheet_link_tag "rails_admin/rails_admin.css"
+  = javascript_include_tag "rails_admin/rails_admin.js"
   <!--[if IE 6]><%= stylesheet_link_tag 'ie6' %><![endif]-->
   <!--[if IE 7]><%= stylesheet_link_tag 'ie7' %><![endif]-->
   = javascript_include_tag "application"
@@ -13,11 +15,12 @@
 
 %body{:class => params[:controller]}
   #page_container
-    %header#page_header
-      - if current_user
-        %nav#user_nav
-          = "#{t('sessions.greet')} #{current_user.username} (#{current_user.role}, #{current_user.centre_name})"
-          = link_to t('sessions.logout'), logout_path
+    .topbar-wrapper{:style => "z-index: 5;"}
+      .topbar{:'data-dropdown' => 'dropdown'}
+        .topbar-inner
+          .container-fluid
+            %h3= link_to "Terappel", root_path
+            %ul.nav.secondary-nav= render 'layouts/user_nav'
 
     %section#page
       - flash.each do |name, msg|
@@ -28,5 +31,7 @@
       = yield
 
     %footer#page_footer
-      %pre
-        = debug params if Rails.env.development? || Rails.env.test?
+      - if Rails.env.development?
+        %details
+          = debug params
+          = yield(:footer)

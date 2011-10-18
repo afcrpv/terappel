@@ -1,7 +1,6 @@
-- if Rails.env.development?
-  %p
-    = "Centre : #{user.centre_name}"
-    = "Role : #{user.try(:role)}"
 = f.input :role, :as => :hidden
 = f.input :username
 = f.input :email
+
+= content_for :footer do
+  = debug "\nCentre : " + user.centre_name + "\nRole : #{user.try(:role)}"

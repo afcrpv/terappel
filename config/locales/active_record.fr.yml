@@ -13,6 +13,7 @@ fr:
         remember_me: "Se souvenir de moi"
         email: "Courriel"
         role: "Rôle"
+        centre_name: "Centre"
       dossier:
         date_appel: "Date Appel"
         name: "Nom patiente"

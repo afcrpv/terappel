@@ -9,6 +9,7 @@ class Dossier < ActiveRecord::Base
   belongs_to :user
 
   delegate :name, :code, :to => :centre, :prefix => true
+  delegate :username, :to => :user, :allow_nil => true
 
   after_create :assign_code
   before_update do
