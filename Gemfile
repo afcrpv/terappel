@@ -40,6 +40,12 @@ group :development do
   gem 'growl'
   gem 'hpricot'
   gem 'ruby_parser'
+  gem "guard-bundler", ">= 0.1.3"
+  gem "guard-rails", ">= 0.0.3"
+  gem "guard-livereload", ">= 0.3.0"
+  gem 'guard-spork'
+  gem 'guard-rspec'
+  gem 'guard-cucumber'
 end
 
 group :test do
@@ -47,20 +53,19 @@ group :test do
   gem 'spork', '~> 0.9.0.rc'
   gem 'capybara'
   gem 'cucumber-rails'
+  gem 'pickle'
   gem 'launchy'    # So you can do Then show me the page
-  gem 'pickle', :git => "https://github.com/ianwhite/pickle.git"
   gem 'database_cleaner'
-  gem 'guard-spork'
-  gem 'guard-rspec'
-  gem 'guard-cucumber'
+  gem 'simplecov', :require => false
+  gem 'mocha'
 end
 
+gem "devise"
+gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
 gem 'haml'
-gem 'formtastic'
 gem 'cancan'
 gem 'friendly_id', "~> 4.0.0.beta8"
-gem 'draper'
-gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
-gem "devise"
-gem "ransack"
+gem 'formtastic'
 gem 'rails3-jquery-autocomplete'
+gem 'draper'
+gem "ransack"
