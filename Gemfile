@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.1'
+gem 'rails', '3.1.3'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
@@ -35,19 +35,9 @@ group :development do
   gem 'pry'
   gem 'haml-rails'
   gem 'guard'
-  case RUBY_PLATFORM
-  when /linux/
-    gem 'rb-inotify'
-    gem 'libnotify'
-  when /darwin/
-    gem 'rb-fsevent', :git => 'https://github.com/ttilley/rb-fsevent.git',
-      :branch => 'pre-compiled-gem-one-off'
-    gem 'growl'
-  else
-    gem 'rb-fchange'
-    gem 'rb-notifu'
-    gem 'win32console'
-  end
+  gem 'rb-fsevent', :git => 'https://github.com/ttilley/rb-fsevent.git',
+    :branch => 'pre-compiled-gem-one-off'
+  gem 'growl'
   gem 'hpricot'
   gem 'ruby_parser'
 end
