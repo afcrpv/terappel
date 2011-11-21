@@ -1,37 +1,58 @@
 !!! 5
-%html
-%head
-  %title= yield(:title) || "Untitled"
-  = stylesheet_link_tag    "application"
-  = stylesheet_link_tag "rails_admin/rails_admin.css"
-  = javascript_include_tag "rails_admin/rails_admin.js"
-  <!--[if IE 6]><%= stylesheet_link_tag 'ie6' %><![endif]-->
-  <!--[if IE 7]><%= stylesheet_link_tag 'ie7' %><![endif]-->
-  = javascript_include_tag "application"
-  %meta{"http-equiv"=>"Content-Type", :content =>"text/html; charset=utf-8"}/
-  = csrf_meta_tags
+/[if lt IE 7 ] <html class="ie ie6" lang="en">
+/[if IE 7 ] <html class="ie ie7" lang="en">
+/[if IE 8 ] <html class="ie ie8" lang="en">
+/[if (gte IE 9)|!(IE)] <!--><html lang="en"> <!--
 
+%head
+
+  / Basic Page Needs
+
+  %meta{:charset => "utf-8"}/
+  %title= yield(:title) || "Untitled"
+  /[if lt IE 9] <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+
+  / Mobile Specific Metas
+  %meta{:content => "width=device-width, initial-scale=1, maximum-scale=1", :name => "viewport"}/
+
+  / CSS
+  = stylesheet_link_tag    "application"
+  /[if IE 6]
+    = stylesheet_link_tag 'ie6'
+  /[if IE 7]
+    = stylesheet_link_tag 'ie7'
+
+  = javascript_include_tag "application"
+  = csrf_meta_tags
+  / Favicons
+
+  %link{:href => "images/favicon.ico", :rel => "shortcut icon"}/
+  %link{:href => "images/apple-touch-icon.png", :rel => "apple-touch-icon"}/
+  %link{:href => "images/apple-touch-icon-72x72.png", :rel => "apple-touch-icon", :sizes => "72x72"}/
+  %link{:href => "images/apple-touch-icon-114x114.png", :rel => "apple-touch-icon", :sizes => "114x114"}/
   = yield(:head)
 
 %body{:class => params[:controller]}
-  #page_container
-    .topbar-wrapper{:style => "z-index: 5;"}
-      .topbar{:'data-dropdown' => 'dropdown'}
-        .topbar-inner
-          .container-fluid
-            %h3= link_to "Terappel", root_path
-            %ul.nav.secondary-nav= render 'layouts/user_nav'
+  / Primary Page Layout
 
-    %section#page
-      - flash.each do |name, msg|
-        = content_tag :section, msg, :id => "flash_#{name}"
+  .container
+    %header.sixteen.columns#page_header
+      .ten.columns.alpha
+        %h2= link_to "Terappel", root_path
+      %nav.six.columns.omega.clearfix
+        %ul= render 'layouts/user_nav'
 
-      %h1#page_title= yield(:title) if show_title?
+    .sixteen.columns
+      #flash
+        - flash.each do |name, msg|
+          = content_tag :section, msg, :id => "flash_#{name}"
+      %h3#page_title= yield(:title) if show_title?
 
       = yield
 
-    %footer#page_footer
-      - if Rails.env.development?
-        %details
-          = debug params
-          = yield(:footer)
+    .sixteen.columns
+      %footer#page_footer
+        - if Rails.env.development?
+          %details
+            = debug params
+            = yield(:footer)

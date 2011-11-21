@@ -2,12 +2,47 @@
  * This is a manifest file that'll automatically include all the stylesheets available in this directory
  * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
  * the top of the compiled file, but it's generally better to create a new file per style scope.
+ *= require skeleton_files
  *= require formtastic
  *= require_self
  *= require jquery_ui
  *= require_tree .
 */
 
-#page {
-  margin-top: 60px;
+/* Header */
+#page_header {
+  position: relative;
+  background: #222;
+  color: #fff;
+}
+
+#page_header a, #page_header h2 {
+  color: inherit;
+}
+
+#page_header a {
+  text-decoration: none;
+}
+
+#page_header h2 {
+  margin: 10px 0;
+  position: relative;
+  left: 20px;
+}
+
+#page_header nav {
+  line-height: 40px;
+  margin: 10px 0;
+  position: relative;
+}
+
+#page_header ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+#page_header ul li {
+  display: inline;
+  padding-left: 10px;
 }
