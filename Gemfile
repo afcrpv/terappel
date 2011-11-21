@@ -72,3 +72,5 @@ gem 'friendly_id', "~> 4.0.0.beta8"
 gem 'draper'
 gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
 gem "devise"
+gem "ransack"
+gem 'rails3-jquery-autocomplete'
