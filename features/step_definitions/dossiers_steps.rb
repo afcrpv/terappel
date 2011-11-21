@@ -39,3 +39,31 @@ Then /^I should see the updated dossier$/ do
   page.should have_content "Dupont"
   page.should have_content "01/01/2001"
 end
+
+Given /^(\d+) dossiers exist$/ do |count|
+  (1..count.to_i).each do |i|
+    dossier = @centre.dossiers.build(
+      :name => "name#{i}",
+      :date_appel => "31/1/2011"
+    )
+    dossier.user_id = @user.id
+    dossier.save!
+  end
+end
+
+When /^I fill in the search field with "([^"]*)"$/ do |search|
+  fill_in "dossier_code", :with => search
+end
+
+Then /^the search field should contain "([^"]*)"$/ do |value|
+  find_field("dossier_code").value.should include(value)
+end
+
+When /^I submit$/ do
+  click_button "OK"
+end
+
+Then /^I should see the page for the dossier with code "([^"]*)"$/ do |code|
+  visit dossier_path(code)
+  page.should have_content code
+end

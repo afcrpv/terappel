@@ -3,3 +3,9 @@
 %ul
   %li= link_to t('admin.dashboard.pagename'), rails_admin_path if can? :access, :rails_admin
   %li= link_to t('dossiers.new'), new_dossier_path if can? :create, Dossier
+
+= form_tag @dossier, :method => :get do
+  = label_tag "Rechercher un dossier"
+  = autocomplete_field_tag "dossier_code", '', home_autocomplete_dossier_code_path
+  = hidden_field_tag params[:dossier_code]
+  = submit_tag "OK", :name => nil

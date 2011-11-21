@@ -6,9 +6,10 @@
 
 require 'rubygems'
 require 'spork'
- 
+
 Spork.prefork do
   require 'cucumber/rails'
+  require 'cucumber/autocomplete'
 
 
   # Capybara defaults to XPath selectors rather than Webrat's default of CSS3. In

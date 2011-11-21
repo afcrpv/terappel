@@ -1,1 +1,18 @@
 - title
+
+= search_form_for @search, :html => {:class => "formtastic"} do |f|
+  %fieldset.inputs
+    %ol
+      %li.string
+        = f.label :name_cont
+        = f.text_field :name_cont
+  %fieldset.buttons
+    %ol
+      %li.commit.button
+        = f.submit
+
+- if params[:q]
+  %h2= t('.first_10_results')
+  %table.pretty
+    - @dossiers.each do |dossier|
+      %li= link_to dossier.code, dossier if can? :read, dossier

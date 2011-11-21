@@ -3,6 +3,11 @@ class DossiersController < AuthorizedController
   before_filter :decorated_dossier, :only => :show
   load_and_authorize_resource :dossier
 
+  def index
+    @search = Dossier.search(params[:q])
+    @dossiers = @search.result
+  end
+
   def show
   end
 
@@ -33,7 +38,7 @@ class DossiersController < AuthorizedController
 
   def destroy
     if @dossier.destroy
-      redirect_with_flash(@dossier)
+      redirect_with_flash(@dossier, dossiers_path)
     end
   end
 

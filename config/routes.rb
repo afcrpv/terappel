@@ -7,8 +7,10 @@ Terappel::Application.routes.draw do
 
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
 
+  get "home/autocomplete_dossier_code"
+
   resources :dossiers
-  resources :users
+  resources :users, :only => [:show, :edit, :update]
 
   root :to => "home#index"
 
