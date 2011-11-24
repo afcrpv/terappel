@@ -35,13 +35,14 @@
 %body{:class => params[:controller]}
   / Primary Page Layout
 
-  .container
-    %header.sixteen.columns#page_header
-      .ten.columns.alpha
-        %h2= link_to "Terappel", root_path
-      %nav.six.columns.omega.clearfix
-        %ul= render 'layouts/user_nav'
+  .topbar-wrapper{:style => "z-index: 5;"}
+    .topbar{:'data-dropdown' => 'dropdown'}
+      .topbar-inner
+        .container-fluid
+          %h2= link_to "Terappel", root_path
+          %ul.nav.secondary-nav= render 'layouts/user_nav'
 
+  .container
     .sixteen.columns
       #flash
         - flash.each do |name, msg|

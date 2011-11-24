@@ -1,3 +1,14 @@
 // Place all the styles related to the home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.search input {
+  float: left;
+  line-height: 21px;
+  padding: 4px;
+
+  &[type="submit"] {
+    margin-top: 0;
+    padding: 4px 12px;
+  }
+}
