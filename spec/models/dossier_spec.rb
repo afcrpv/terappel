@@ -30,7 +30,6 @@ describe Dossier do
     subject.should_not be_valid
   end
 
-
   describe "#centre_name" do
     it "should return the name of the associated centre" do
       subject.centre_name.should == "lyon"
