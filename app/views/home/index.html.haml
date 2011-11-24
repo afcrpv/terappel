@@ -6,6 +6,6 @@
 = form_tag @dossier, :method => :get do
   %fieldset{class: "search"}
     = label_tag "Rechercher un dossier"
-    = autocomplete_field_tag "dossier_code", '', home_autocomplete_dossier_code_path
+    = autocomplete_field_tag "dossier_code", '', home_autocomplete_dossier_code_path, placeholder: "XX-AAAA-N"
     = hidden_field_tag params[:dossier_code]
     = submit_tag "OK", :name => nil
