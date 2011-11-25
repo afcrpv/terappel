@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111018091308) do
+ActiveRecord::Schema.define(:version => 20111125103016) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -49,9 +49,50 @@ ActiveRecord::Schema.define(:version => 20111018091308) do
     t.datetime "updated_at"
     t.integer  "centre_id"
     t.string   "code"
+    t.integer  "evolution_id"
+    t.integer  "correspondant_id"
+    t.integer  "categoriesp_id"
+    t.integer  "motif_id"
+    t.integer  "mod_accouch_id"
+    t.date     "date_dernieres_regles"
+    t.date     "date_reelle_accouchement"
+    t.date     "date_accouchement_prevu"
+    t.date     "date_debut_grossesse"
+    t.string   "prenom"
+    t.integer  "age"
+    t.string   "antecedents_perso"
+    t.string   "antecedents_fam"
+    t.string   "ass_med_proc"
+    t.string   "expo_terato"
+    t.string   "path_mat"
+    t.integer  "tabac"
+    t.integer  "alcool"
+    t.integer  "a_relancer"
+    t.integer  "fcs"
+    t.integer  "geu"
+    t.integer  "miu"
+    t.integer  "ivg"
+    t.integer  "nai"
+    t.integer  "age_grossesse"
+    t.integer  "terme"
+    t.integer  "relance_counter"
+    t.text     "comm_antecedents_perso"
+    t.text     "comm_antecedents_fam"
+    t.text     "commentaire"
+    t.text     "comm_expo"
+    t.text     "comm_evol"
+    t.text     "comm_bebe"
   end
 
+  add_index "dossiers", ["categoriesp_id"], :name => "index_dossiers_on_categoriesp_id"
   add_index "dossiers", ["code"], :name => "index_dossiers_on_code", :unique => true
+  add_index "dossiers", ["correspondant_id"], :name => "index_dossiers_on_correspondant_id"
+  add_index "dossiers", ["date_appel"], :name => "index_dossiers_on_date_appel"
+  add_index "dossiers", ["evolution_id"], :name => "index_dossiers_on_evolution_id"
+  add_index "dossiers", ["expo_terato"], :name => "index_dossiers_on_expo_terato"
+  add_index "dossiers", ["mod_accouch_id"], :name => "index_dossiers_on_mod_accouch_id"
+  add_index "dossiers", ["motif_id"], :name => "index_dossiers_on_motif_id"
+  add_index "dossiers", ["name"], :name => "index_dossiers_on_name"
 
   create_table "rails_admin_histories", :force => true do |t|
     t.text     "message"
