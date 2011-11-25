@@ -41,20 +41,4 @@ describe Dossier do
       subject.centre_code.should == "ly"
     end
   end
-
-  its(:year) {should == Time.now.to_date.year.to_s}
-
-  describe "after save" do
-    context "when creating a new dossier" do
-      it "should assign code" do
-        dossier.code.should == "LY-2011-1"
-      end
-    end
-    context "when updating an existing dossier" do
-      it "should reprocess code" do
-        dossier.update_attribute(:date_appel, "1/1/2001")
-        dossier.code.should == "LY-2001-1"
-      end
-    end
-  end
 end

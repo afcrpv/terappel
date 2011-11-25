@@ -17,3 +17,4 @@ fr:
       dossier:
         date_appel: "Date Appel"
         name: "Nom patiente"
+        code: "Numero Appel"

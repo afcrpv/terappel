@@ -1,6 +1,7 @@
 # encoding: utf-8
 When /^I add a new dossier$/ do
   visit new_dossier_path
+  fill_in I18n.t("activerecord.attributes.dossier.code"), :with => "LY1101001"
   fill_in I18n.t("activerecord.attributes.dossier.name"), :with => "Martin"
   fill_in I18n.t("activerecord.attributes.dossier.date_appel"), :with => "31/01/2001"
   expect do
@@ -12,7 +13,7 @@ end
 
 Then /^I should see the page for my newly created dossier$/ do
   page.should have_content "Dossier créé(e) avec succès."
-  page.should have_content "Dossier #LY-2001-1"
+  page.should have_content "Dossier #LY1101001"
   page.should have_content "Martin"
   page.should have_content "31/01/2001"
 end
@@ -35,7 +36,6 @@ end
 
 Then /^I should see the updated dossier$/ do
   page.should have_content "Dossier mis(e) à jour avec succès."
-  page.should have_content "Dossier #LY-2001-1"
   page.should have_content "Dupont"
   page.should have_content "01/01/2001"
 end
@@ -44,6 +44,7 @@ Given /^(\d+) dossiers exist$/ do |count|
   (1..count.to_i).each do |i|
     dossier = @centre.dossiers.build(
       :name => "name#{i}",
+      :code => "LY11#{i}",
       :date_appel => "31/1/2011"
     )
     dossier.user_id = @user.id

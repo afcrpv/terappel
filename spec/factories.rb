@@ -19,6 +19,7 @@ FactoryGirl.define do
   end
 
   factory :dossier do
+    sequence(:code) { |n| "dossier#{n}"}
     sequence(:name) { |n| "name#{n}"}
     date_appel Time.now.to_date
     centre
