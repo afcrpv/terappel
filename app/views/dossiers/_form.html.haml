@@ -1,12 +1,27 @@
 = semantic_form_for dossier do |f|
   = f.semantic_errors
-  = f.inputs do
-    = f.input :user_id, :as => :hidden
-    = f.input :centre_id, :as => :hidden
-    = f.input :code
-    = f.input :name
-    = f.input :date_appel, :as => :string
-  = f.buttons :commit
+  #tabs
+    %ul
+      %li= link_to "Informations générales", "#infos"
+      %li= link_to "Patiente", "#patiente"
+
+    #infos
+      = f.inputs do
+        = f.input :user_id, :as => :hidden
+        = f.input :centre_id, :as => :hidden
+        = f.input :code, :input_html => {:autofocus => true}
+        = f.input :date_appel, :as => :string, :input_html => {:placeholder => "jj/mm/aaaa", :value => date_appel}
+        = f.input :motif_id
+        = f.input :correspondant_name, label: "Correspondant", as: :autocomplete, url: autocomplete_correspondant_name_dossiers_path, input_html: {id_element: "#dossier_correspondant_id"}
+        = f.input :correspondant_id, as: :hidden
+
+    #patiente
+      = f.inputs do
+        = f.input :name
+
+  = f.buttons do
+    = f.commit_button :button_html => {:disable_with => "Attendre..."}
+    %li.cancel.button= link_to "Annuler", :back, class: "button"
 
 = content_for :footer do
   = debug "\nCentre : " + dossier.try(:centre_name) + "\nUser : " + dossier.username

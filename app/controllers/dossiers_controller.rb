@@ -1,7 +1,10 @@
 class DossiersController < AuthorizedController
+  autocomplete :correspondant, :name, :full => true
   before_filter :find_centre
   before_filter :decorated_dossier, :only => :show
   load_and_authorize_resource :dossier
+
+  helper_method :date_appel
 
   def index
     @search = Dossier.search(params[:q])
@@ -50,5 +53,9 @@ class DossiersController < AuthorizedController
 
   def decorated_dossier
     @dossier = DossierDecorator.find(params[:id])
+  end
+
+  def date_appel
+    @date_appel ||= params[:id] && @dossier.date_appel? ? l(@dossier.date_appel) : ""
   end
 end

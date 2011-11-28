@@ -9,7 +9,9 @@ Terappel::Application.routes.draw do
 
   get "home/autocomplete_dossier_code"
 
-  resources :dossiers
+  resources :dossiers do
+    get :autocomplete_correspondant_name, :on => :collection
+  end
   resources :users, :only => [:show, :edit, :update]
 
   root :to => "home#index"
