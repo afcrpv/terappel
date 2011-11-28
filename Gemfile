@@ -58,6 +58,7 @@ group :test do
   gem 'database_cleaner'
   gem 'simplecov', :require => false
   gem 'mocha'
+  gem "selenium-webdriver", "~> 2.13.0"
 end
 
 gem "devise"
