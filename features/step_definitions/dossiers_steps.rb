@@ -52,6 +52,18 @@ Given /^(\d+) dossiers exist$/ do |count|
   end
 end
 
+Given /^no dossiers exist with code "([^"]*)"$/ do |code|
+  Dossier.find_by_code(code).should be_nil
+end
+
+Then /^I should see the page for creating a new dossier$/ do
+  page.should have_content("Nouveau Dossier")
+end
+
+Then /^the code field should be pre\-filled with "([^"]*)"$/ do |code|
+  page.should have_field('Numero Appel', with: code)
+end
+
 When /^I fill in the search field with "([^"]*)"$/ do |search|
   fill_in "dossier_code", :with => search
 end

@@ -12,7 +12,7 @@ class DossiersController < AuthorizedController
   end
 
   def new
-    @dossier = Dossier.new(:centre_id => @centre.id, :user_id => current_user.id)
+    @dossier = Dossier.new(:centre_id => @centre.id, :user_id => current_user.id, :code => params[:code])
   end
 
   def create
