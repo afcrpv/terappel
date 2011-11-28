@@ -11,8 +11,8 @@
         = f.input :centre_id, :as => :hidden
         = f.input :code, :input_html => {:autofocus => true}
         = f.input :date_appel, :as => :string, :input_html => {:placeholder => "jj/mm/aaaa", :value => date_appel}
-        = f.input :motif_id
-        = f.input :correspondant_name, label: "Correspondant", as: :autocomplete, url: autocomplete_correspondant_name_dossiers_path, input_html: {id_element: "#dossier_correspondant_id"}
+        = f.input :motif
+        = f.input :correspondant_nom, label: "Correspondant", as: :autocomplete, url: autocomplete_correspondant_nom_dossiers_path, input_html: {id_element: "#dossier_correspondant_id"}
         = f.input :correspondant_id, as: :hidden
 
     #patiente

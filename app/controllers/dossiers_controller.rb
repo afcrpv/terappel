@@ -1,5 +1,5 @@
 class DossiersController < AuthorizedController
-  autocomplete :correspondant, :name, :full => true
+  autocomplete :correspondant, :nom, :full => true
   before_filter :find_centre
   before_filter :decorated_dossier, :only => :show
   load_and_authorize_resource :dossier

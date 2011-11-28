@@ -13,7 +13,7 @@ class Dossier < ActiveRecord::Base
   friendly_id :code
 
   # readers
-  attr_reader :correspondant_name
+  attr_reader :correspondant_nom
 
   # validations
   validates_presence_of :code, :name, :date_appel, :centre_id, :user_id
@@ -22,6 +22,8 @@ class Dossier < ActiveRecord::Base
   #associations
   belongs_to :centre
   belongs_to :user
+  belongs_to :motif
+  belongs_to :correspondant
 
   #delegations
   delegate :name, :code, :to => :centre, :prefix => true

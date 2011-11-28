@@ -21,3 +21,11 @@ Feature: Saisie dossier
     Then the search field should contain "LY111"
     When I submit
     Then I should see the page for the dossier with code "LY111"
+
+  @javascript
+  Scenario: correspondant name autocomplete
+    Given 2 correspondants exist
+    And I go to the new dossier page
+    When I fill in the correspondant field with "co"
+    And I choose "Correspondant1" in the autocomplete list
+    Then the correspondant field should contain "Correspondant1"

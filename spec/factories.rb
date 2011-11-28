@@ -25,4 +25,8 @@ FactoryGirl.define do
     centre
     user
   end
+
+  factory :correspondant do
+    sequence(:nom) {|n| "Correspondant#{n}"}
+  end
 end

@@ -1,11 +1,11 @@
 # encoding: utf-8
 When /^I add a new dossier$/ do
-  visit new_dossier_path
+  step "I go to the new dossier page"
   fill_in I18n.t("activerecord.attributes.dossier.code"), :with => "LY1101001"
   fill_in I18n.t("activerecord.attributes.dossier.name"), :with => "Martin"
   fill_in I18n.t("activerecord.attributes.dossier.date_appel"), :with => "31/01/2001"
   expect do
-    click_button I18n.t('helpers.submit.create', :model => Dossier)
+    click_button I18n.t('formtastic.actions.create', :model => Dossier)
   end.to change{Dossier.count}.by(1)
   Dossier.last.user_id.should == @user.id
   Dossier.last.centre_id.should == @centre.id
@@ -21,6 +21,7 @@ end
 Given /^an existing dossier$/ do
   @dossier = @centre.dossiers.build(
         :name => "dupont",
+        :code => "LY1111001",
         :date_appel => "31/1/2011")
   @dossier.user_id = @user.id
   @dossier.save!
@@ -31,7 +32,7 @@ When /^I update the dossier with new data$/ do
   click_link I18n.t('actions.edit')
   fill_in I18n.t("activerecord.attributes.dossier.name"), :with => "Dupont"
   fill_in I18n.t("activerecord.attributes.dossier.date_appel"), :with => "01/01/2001"
-  click_button I18n.t('helpers.submit.update', :model => Dossier)
+  click_button I18n.t('formtastic.actions.update', :model => Dossier)
 end
 
 Then /^I should see the updated dossier$/ do
@@ -70,6 +71,24 @@ end
 
 Then /^the search field should contain "([^"]*)"$/ do |value|
   find_field("dossier_code").value.should include(value)
+end
+
+When /^I fill in the correspondant field with "([^"]*)"$/ do |value|
+  fill_in "dossier_correspondant_nom", :with => value
+end
+
+Then /^the correspondant field should contain "([^"]*)"$/ do |value|
+  find_field("dossier_correspondant_nom").value.should include(value)
+end
+
+Given /^(\d+) correspondants exist$/ do |count|
+  count.to_i.times do
+    Factory(:correspondant)
+  end
+end
+
+Given /^I go to the new dossier page$/ do
+  visit new_dossier_path # express the regexp above with the code you wish you had
 end
 
 When /^I submit$/ do

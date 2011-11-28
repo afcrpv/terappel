@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111125103016) do
+ActiveRecord::Schema.define(:version => 20111128160120) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -40,6 +40,28 @@ ActiveRecord::Schema.define(:version => 20111125103016) do
   end
 
   add_index "centres", ["slug"], :name => "index_centres_on_slug", :unique => true
+
+  create_table "correspondants", :force => true do |t|
+    t.integer  "specialite_id"
+    t.integer  "qualite_id"
+    t.integer  "formule_id"
+    t.string   "nom"
+    t.text     "adresse"
+    t.string   "cp"
+    t.string   "ville"
+    t.string   "telephone"
+    t.string   "fax"
+    t.string   "poste"
+    t.string   "email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "correspondants", ["cp"], :name => "index_correspondants_on_cp"
+  add_index "correspondants", ["nom"], :name => "index_correspondants_on_nom"
+  add_index "correspondants", ["qualite_id"], :name => "index_correspondants_on_qualite_id"
+  add_index "correspondants", ["specialite_id"], :name => "index_correspondants_on_specialite_id"
+  add_index "correspondants", ["ville"], :name => "index_correspondants_on_ville"
 
   create_table "dossiers", :force => true do |t|
     t.date     "date_appel"
@@ -93,6 +115,12 @@ ActiveRecord::Schema.define(:version => 20111125103016) do
   add_index "dossiers", ["mod_accouch_id"], :name => "index_dossiers_on_mod_accouch_id"
   add_index "dossiers", ["motif_id"], :name => "index_dossiers_on_motif_id"
   add_index "dossiers", ["name"], :name => "index_dossiers_on_name"
+
+  create_table "motifs", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "rails_admin_histories", :force => true do |t|
     t.text     "message"
