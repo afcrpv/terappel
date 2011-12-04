@@ -1,3 +1,7 @@
+require 'simplecov'
+SimpleCov.start 'rails'
+SimpleCov.coverage_dir 'coverage/rspec'
+
 require 'spork'
 
 Spork.prefork do
