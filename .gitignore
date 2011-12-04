@@ -8,3 +8,5 @@ vendor/ruby
 vendor/cache
 *~
 vendor/ruby
+.simplecov
+coverage
