@@ -10,3 +10,4 @@ vendor/cache
 vendor/ruby
 .simplecov
 coverage
+.DS_Store
