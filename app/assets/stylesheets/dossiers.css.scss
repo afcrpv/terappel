@@ -1,3 +1,54 @@
 // Place all the styles related to the Dossiers controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.dossiers {
+  h3#page_title {
+     float: left;
+  }
+
+  table.pretty {
+    width: 100%;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+  }
+
+  th {
+    font-weight: bold;
+    background-color: #000;
+    color: #fff;
+    text-align: left;
+    a, a:visited {
+      color: #fff;
+      text-decoration: none;
+      &:hover {
+        color: inherit;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  th, td {
+    vertical-align: middle;
+    padding: 10px;
+    &:last-child {
+      text-align: center;
+      width: 56px;
+    }
+  }
+
+  td {
+    &:last-child {
+      margin: auto;
+    }
+  }
+  tr {
+    &:nth-of-type(even) {
+      background-color: #eee;
+    }
+    &:nth-of-type(odd) {
+      background-color: #fff;
+    }
+  }
+}

@@ -11,8 +11,18 @@
       %li.commit.button
         = f.submit
 
-- if params[:q]
-  %h2= t('.first_10_results')
+- if @dossiers.any?
+  %h3= t('.first_10_results')
   %table.pretty
-    - @dossiers.each do |dossier|
-      %li= link_to dossier.code, dossier if can? :read, dossier
+    %thead
+      %th= sort_link @search, :date_appel, {}
+      %th= sort_link @search, :name, {}
+      %th N° Appel
+      %th Actions
+    %tbody
+      - @dossiers.each do |dossier|
+        %tr
+          %td= l dossier.date_appel
+          %td= dossier.name
+          %td= link_to dossier.code, dossier if can? :read, dossier
+          %td= render 'shared/action_links', :object => dossier, :verbs => %w(show edit destroy)

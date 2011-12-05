@@ -1,7 +1,7 @@
 - the_title = @user.id == current_user.id ? "Votre profile" : nil
 - title(the_title, true, :id => @user.to_param)
 
-- actions(@user)
+= render "shared/action_links", :object => @user, :verbs => %w(edit)
 
 %section#profile
   %dl

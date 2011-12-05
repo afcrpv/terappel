@@ -29,7 +29,7 @@ Given /^an existing dossier$/ do
 end
 
 When /^I update the dossier with new data$/ do
-  click_link I18n.t('actions.edit')
+  visit edit_dossier_path(@dossier)
   fill_in I18n.t("activerecord.attributes.dossier.name"), :with => "Dupont"
   fill_in I18n.t("activerecord.attributes.dossier.date_appel"), :with => "01/01/2001"
   click_button I18n.t('formtastic.actions.update', :model => Dossier)
@@ -98,4 +98,15 @@ end
 Then /^I should see the page for the dossier with code "([^"]*)"$/ do |code|
   visit dossier_path(code)
   page.should have_content code
+end
+
+When /^I press the destroy button$/ do
+  click_on "Détruire"
+  dialog = page.driver.browser.switch_to.alert
+  dialog.text.should == "Etes-vous sûr ?"
+  dialog.accept
+end
+
+Then /^the ([^"]*) should be destroyed$/ do |resource|
+  page.should have_content "Dossier détruit(e) avec succès"
 end

@@ -10,7 +10,9 @@ fr:
     create: "%{resource} créé(e) avec succès."
     update: "%{resource} mis(e) à jour avec succès."
     destroy: "%{resource} détruit(e) avec succès."
-  actions:
-    edit: "Modifier"
-    destroy: "Détruire"
-    confirm: "Etes-vous sûr?"
+  shared:
+    action_links:
+      show: "Détails"
+      edit: "Modifier"
+      destroy: "Détruire"
+      confirm: "Etes-vous sûr ?"

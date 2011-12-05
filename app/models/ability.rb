@@ -2,29 +2,29 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+    alias_action :update, :destroy, :to => :modify
+
     if user.role? :centre_user
+      dossier_and_decorator = [Dossier, DossierDecorator]
       can :dashboard
       can :access, :rails_admin
       can :read, Centre
 
-      can :read, user
-      can :read, UserDecorator
-      can :update, user
-      cannot :destroy, user
+      can [:read, :update], [user, UserDecorator]
+      cannot :destroy, [user, UserDecorator]
 
       can :create, Dossier
-      can :read, DossierDecorator
-      can :read, Dossier
-      can :update, Dossier, :user_id => user.id
-      cannot :destroy, Dossier
-      can :destroy, Dossier, :user_id => user.id
+      can :read, dossier_and_decorator
+      can :update, dossier_and_decorator, :user_id => user.id
+      cannot :destroy, dossier_and_decorator
+      can :destroy, dossier_and_decorator, :user_id => user.id
     end
     if user.role? :centre_admin
       can :update, Centre, :id => user.centre_id
       can :manage, User, :centre_id => user.centre_id
       cannot :destroy, user
 
-      can :manage, Dossier, :centre_id => user.centre_id
+      can :manage, dossier_and_decorator, :centre_id => user.centre_id
     end
     if user.role? :admin
       can :manage, :all
