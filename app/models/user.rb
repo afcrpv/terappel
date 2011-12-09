@@ -16,11 +16,11 @@ class User < ActiveRecord::Base
     ROLES.index(base_role.to_s) <= ROLES.index(role)
   end
 
-  validates_confirmation_of :password
   validates_presence_of :email, :on => :create
   validates_presence_of :username
   validates_uniqueness_of :email
   validates_uniqueness_of :username
+  validates_confirmation_of :password
 
   belongs_to :centre
   has_many :dossiers
