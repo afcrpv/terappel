@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111209095631) do
+ActiveRecord::Schema.define(:version => 20111209102137) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -116,6 +116,24 @@ ActiveRecord::Schema.define(:version => 20111209095631) do
   add_index "dossiers", ["motif_id"], :name => "index_dossiers_on_motif_id"
   add_index "dossiers", ["name"], :name => "index_dossiers_on_name"
 
+  create_table "expo_natures", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "expo_termes", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "expo_types", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "expositions", :force => true do |t|
     t.integer  "produit_id"
     t.integer  "dossier_id"
@@ -133,6 +151,12 @@ ActiveRecord::Schema.define(:version => 20111209095631) do
     t.integer  "de2"
     t.integer  "a2"
     t.string   "medpres"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "indications", :force => true do |t|
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
