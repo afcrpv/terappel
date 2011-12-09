@@ -8,4 +8,5 @@
 //= require jquery_ujs
 //= require jquery_ui
 //= require autocomplete-rails
+//= require cocoon
 //= require_tree .

@@ -71,3 +71,4 @@ gem 'rails3-jquery-autocomplete'
 gem 'draper'
 gem "ransack"
 gem "thin"
+gem "cocoon"
