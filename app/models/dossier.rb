@@ -25,9 +25,10 @@ class Dossier < ActiveRecord::Base
   belongs_to :motif
   belongs_to :correspondant
 
+  has_many :expositions, :dependent => :destroy
+  accepts_nested_attributes_for :expositions, :reject_if => :all_blank, :allow_destroy => true
+
   #delegations
   delegate :name, :code, :to => :centre, :prefix => true
   delegate :username, :to => :user, :allow_nil => true
-
-  #custom methods
 end
