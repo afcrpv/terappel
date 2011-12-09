@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111128160120) do
+ActiveRecord::Schema.define(:version => 20111209095631) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -115,6 +115,27 @@ ActiveRecord::Schema.define(:version => 20111128160120) do
   add_index "dossiers", ["mod_accouch_id"], :name => "index_dossiers_on_mod_accouch_id"
   add_index "dossiers", ["motif_id"], :name => "index_dossiers_on_motif_id"
   add_index "dossiers", ["name"], :name => "index_dossiers_on_name"
+
+  create_table "expositions", :force => true do |t|
+    t.integer  "produit_id"
+    t.integer  "dossier_id"
+    t.string   "nappelsaisi"
+    t.integer  "expo_type_id"
+    t.integer  "indication_id"
+    t.integer  "expo_terme_id"
+    t.integer  "expo_nature_id"
+    t.integer  "numord"
+    t.integer  "duree"
+    t.integer  "duree2"
+    t.string   "dose"
+    t.integer  "de"
+    t.integer  "a"
+    t.integer  "de2"
+    t.integer  "a2"
+    t.string   "medpres"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "motifs", :force => true do |t|
     t.string   "name"
