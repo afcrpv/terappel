@@ -52,3 +52,11 @@
     }
   }
 }
+
+table#expositions_summary {
+  td, th {
+    &:last-child {
+      visibility: visible;
+    }
+  }
+}

@@ -108,5 +108,5 @@ When /^I press the destroy button$/ do
 end
 
 Then /^the ([^"]*) should be destroyed$/ do |resource|
-  page.should have_content "Dossier détruit(e) avec succès"
+  page.should have_content "#{resource.humanize} détruit(e) avec succès"
 end

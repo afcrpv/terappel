@@ -4,6 +4,7 @@
     %ul
       %li= link_to "Informations générales", "#infos"
       %li= link_to "Patiente", "#patiente"
+      %li= link_to "Exposition", "#expositions"
 
     #infos
       = f.inputs do
@@ -19,6 +20,28 @@
       = f.inputs do
         = f.input :name
 
+    #expositions
+      %table#expositions_summary
+        %thead
+          %tr
+            %th
+            %th Exposition
+            %th Terme
+            %th Indication
+            %th Posologie
+            %th De
+            %th à
+            %th Et de
+            %th à
+            %th expo_id
+        %tbody
+          %tr
+
+      = f.inputs do
+        = f.semantic_fields_for :expositions do |exposition|
+          = render 'exposition_fields', :f => exposition
+        .links
+          = link_to_add_association 'Ajouter Expo', f, :expositions
   = f.buttons do
     = f.commit_button :button_html => {:disable_with => "Attendre..."}
     %li.cancel.button= link_to "Annuler", :back, class: "button"

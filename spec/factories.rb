@@ -29,4 +29,16 @@ FactoryGirl.define do
   factory :correspondant do
     sequence(:nom) {|n| "Correspondant#{n}"}
   end
+
+  factory :produit do
+    sequence(:name) {|n| "Produit#{n}"}
+  end
+
+  factory :expo_terme do
+    sequence(:name) {|n| "Terme#{n}"}
+  end
+
+  factory :indication do
+    sequence(:name) {|n| "Indication#{n}"}
+  end
 end

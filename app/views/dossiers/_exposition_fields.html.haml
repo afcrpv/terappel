@@ -1,0 +1,17 @@
+.nested-fields
+  = f.inputs do
+    = f.input :expo_type
+    = f.input :produit, label: "Exposition"
+    = f.input :indication
+    = f.input :de
+    = f.input :a, label: "à"
+    = f.input :duree
+    = f.input :de2
+    = f.input :a2
+    = f.input :duree2
+    = f.input :expo_nature
+    = f.input :dose, label: "Posologie"
+    = f.input :expo_terme, label: "Terme d'exposition"
+    = f.input :medpres
+    = link_to "Valider", "#", :class => "validate_expo"
+    = link_to_remove_association "Supprimer", f
