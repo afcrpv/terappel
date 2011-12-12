@@ -54,9 +54,17 @@
 }
 
 table#expositions_summary {
+  width: 100%;
+  font-size: 12px;
+  margin-bottom: 1em;
+  border-bottom: 1px solid black;
   td, th {
+    text-align: center;
     &:first-child {
-      width: 32px;
+      width: 54px;
+    }
+    a {
+      margin: 5px;
     }
   }
 }
