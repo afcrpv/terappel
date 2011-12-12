@@ -10,6 +10,8 @@ icons/show.png: icons/show-f607848c749fb6d0d76f28e70432503e.png
 rails.png: rails-e4b51606cd77fda2615e7439907bfc92.png
 application.js: application-43f9876b52ee004ede17cb1b0dad109f.js
 application.css: application-cf8838b769bf2af749241952530f47ae.css
+ie6.css: ie6-f963ef6f60ee32b38f42db95d36ee38a.css
+ie7.css: ie7-d87a05e06d83b55f41822a24ed97d1e9.css
 images/ui-bg_diagonals-thick_8_333333_40x40.png: images/ui-bg_diagonals-thick_8_333333_40x40-b4b2bd293fb94f566f038c61b0921af0.png
 images/ui-bg_flat_30_cccccc_40x100.png: images/ui-bg_flat_30_cccccc_40x100-3c1d5742a3f93ba0c88a380b0b625541.png
 images/ui-bg_flat_50_5c5c5c_40x100.png: images/ui-bg_flat_50_5c5c5c_40x100-037ae0e3b2968b0cf1c56efc1b4ef60b.png
