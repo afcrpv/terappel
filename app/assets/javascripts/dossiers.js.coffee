@@ -29,31 +29,28 @@ jQuery ->
       $start_point.closest(".nested-fields").slideToggle()
 
 append_to_expo_summary = ($target, fields) ->
-    # check for row having last td equal to current expo id
-    if $target.find("td:last").text() isnt fields[8]
-      # create a new row
-      # append an empty tr to last tr element
-      $target.find("tr:last").after('<tr></tr>')
-      $new_target = $target.find("tr:last")
-      # create a cell with a modify action link
-      cell_for_modify_action($new_target, fields[8]).bind 'click', (event) ->
-        event.preventDefault() # prevent default event behavior
-        $(this).parents().find(".nested-fields").has("li[id*='#{fields[8]}']").slideToggle()
-      # attach the modify behavior
-      # create cells with fields
-      create_cells $target.find("tr:last"), field for field in fields
-    else
-      # find row with corresponding expo id
-      $expo_row = $target.find("tr").filter( -> $(this).find("td:last").text() is fields[8])
-      # replace cells but first (action cell)
-      # gather cells to replace
-      $cells_to_replace = $expo_row.children().filter("td:nth-child(n+1)")
-      # loop cells and replace with new content
-      $cells_to_replace.each (index) ->
-        $(this).replaceWith("<td>#{fields[index]}</td>")
+  expo_id = fields[8]
+
+  # check whether a row with id equal to collected expo id exists
+  $expo_row = if $target.find("tr#expo_#{expo_id}").length isnt 0 then $target.find("tr#expo_#{expo_id}") else $("<tr id='expo_#{expo_id}' />")
+
+  $expo_row.empty() # empty contents needed to update cells if existing row
+
+  # create a cell with a modify action link
+  cell_for_modify_action($expo_row, expo_id).bind 'click', (event) ->
+    event.preventDefault()
+    # clicking the link toggles the div.nested-fields containing the related expo form
+    $(this).parents().find(".nested-fields").has("li[id*='#{expo_id}']").slideToggle()
+
+  # create cells with collected fields
+  create_cells $expo_row, field for field in fields
+
+  $expo_row.appendTo($target)
 
 create_cells = ($node, text) ->
   $node.append("<td>#{text}</td>")
 
 cell_for_modify_action = ($node, expo_id) ->
-    $node.append("<td></td>").html("<a href='#' id='modify_expo_#{expo_id}'>M</a>")
+  # append a td containing a link with id equal modify_expo_#expo_id
+  $node.append("<td><a href='#' id='modify_expo_#{expo_id}'>M</a></td>")
+  return $node.find('a')
