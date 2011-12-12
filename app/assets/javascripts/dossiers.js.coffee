@@ -29,6 +29,17 @@ jQuery ->
 
 prefill_expo_table = ->
   #alert "Fired prefill_expo_table!"
+  start_points = $('.nested-fields ol')
+  console.log start_points
+
+  expo_ids = (collect_expo_id($(start_point)) for start_point in start_points)
+
+  values_set = []
+  values_set.push collect_values_to_copy($(start_point)) for start_point in start_points
+  append_to_expo_summary(values, expo_ids[i]) for values, i in values_set
+
+collect_expo_id = ($start_point) ->
+  expo_id = $start_point.find("select").filter(":first").attr("name").match(/[0-9]+/).join()
 
 collect_values_to_copy = ($start_point) ->
   values = [
