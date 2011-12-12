@@ -43,11 +43,8 @@ append_to_expo_summary = ($target, fields, expo_id) ->
     # append the new row to the tbody
     $expo_row.appendTo($target)
 
-  # create a cell with a modify action link
-  cell_for_modify_action($expo_row, expo_id).bind 'click', (event) ->
-    event.preventDefault()
-    # clicking the link toggles the div.nested-fields containing the related expo form
-    $(this).parents().find(".nested-fields").has("li[id*='#{expo_id}']").slideToggle()
+  # create a cell with the action links
+  cell_for_action_links($expo_row, expo_id)
 
   # create cells with collected fields
   create_cells $expo_row, field for field in fields
@@ -55,7 +52,25 @@ append_to_expo_summary = ($target, fields, expo_id) ->
 create_cells = ($node, text) ->
   $node.append("<td>#{text}</td>")
 
-cell_for_modify_action = ($node, expo_id) ->
-  # append a td containing a link with id equal modify_expo_#expo_id
-  $node.append("<td><a href='#' id='modify_expo_#{expo_id}'>M</a></td>")
-  return $node.find('a')
+cell_for_action_links = ($node, expo_id) ->
+  $cell = $("<td />")
+  $related_fieldset = $node.parents().find(".nested-fields").has("li[id*='#{expo_id}']")
+
+  $modify_link = $("<a href='#' id='modify_expo_#{expo_id}'>M</a>")
+  $modify_link.bind 'click', (event) ->
+    event.preventDefault()
+    # clicking the link toggles the div.nested-fields containing the related expo form
+    $related_fieldset.slideToggle()
+
+  $destroy_link = $("<a href='#' id='destroy_expo_#{expo_id}'>X</a>")
+  $destroy_link.bind 'click', (event) ->
+    event.preventDefault()
+    # clicking the link removes the parent tr from the DOM
+    $node.remove()
+    # and marks the corresponding expo for destroy assigning the _destroy input value to 1
+    $related_fieldset.find("input[type=hidden]").val("1")
+
+  $modify_link.appendTo($cell)
+  $destroy_link.appendTo($cell)
+
+  $cell.appendTo($node)

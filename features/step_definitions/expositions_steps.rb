@@ -59,3 +59,16 @@ end
 Then /^the first row should be updated$/ do
   find(:css, '#expositions_summary tbody tr:first-child').should have_content('50 mg/j')
 end
+
+When /^I destroy an existing exposition for a dossier$/ do
+  step %{I add a new exposition for a dossier}
+  click_on "X"
+end
+
+Then /^the corresponding row in the summary table should disappear$/ do
+  page.should_not have_css('#expositions_summary tbody tr')
+end
+
+Then /^the expo should be ready to be destroyed$/ do
+  find(:css, '.nested-fields input[type=hidden]').value.should == "1"
+end

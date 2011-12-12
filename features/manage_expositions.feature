@@ -19,9 +19,15 @@ Feature: Manage expositions
     When I update an existing exposition for a dossier
     Then the corresponding row in the summary table should be updated
 
-  @javascript @focus
+  @javascript
   Scenario: update an existing row after adding a new row
     When I add a new exposition for a dossier
     And I add another exposition
     And I update the first exposition
     Then the first row should be updated
+
+  @javascript
+  Scenario: destroy an expo using link in expo summary row
+    When I destroy an existing exposition for a dossier
+    Then the corresponding row in the summary table should disappear
+    And the expo should be ready to be destroyed
