@@ -32,9 +32,13 @@ append_to_expo_summary = ($target, fields) ->
   expo_id = fields[8]
 
   # check whether a row with id equal to collected expo id exists
-  $expo_row = if $target.find("tr#expo_#{expo_id}").length isnt 0 then $target.find("tr#expo_#{expo_id}") else $("<tr id='expo_#{expo_id}' />")
-
-  $expo_row.empty() # empty contents needed to update cells if existing row
+  if $target.find("tr#expo_#{expo_id}").length isnt 0
+    $expo_row = $target.find("tr#expo_#{expo_id}")
+    $expo_row.empty()
+  else
+    $expo_row = $("<tr id='expo_#{expo_id}' />")
+    # append the new row to the tbody
+    $expo_row.appendTo($target)
 
   # create a cell with a modify action link
   cell_for_modify_action($expo_row, expo_id).bind 'click', (event) ->
@@ -44,8 +48,6 @@ append_to_expo_summary = ($target, fields) ->
 
   # create cells with collected fields
   create_cells $expo_row, field for field in fields
-
-  $expo_row.appendTo($target)
 
 create_cells = ($node, text) ->
   $node.append("<td>#{text}</td>")
