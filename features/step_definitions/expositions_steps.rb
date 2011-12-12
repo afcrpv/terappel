@@ -72,3 +72,22 @@ end
 Then /^the expo should be ready to be destroyed$/ do
   find(:css, '.nested-fields input[type=hidden]').value.should == "1"
 end
+
+Given /^an existing dossier with expositions$/ do
+  step %{an existing dossier}
+  @dossier.expositions_attributes = [ 
+    {produit_id: Produit.first.id, expo_terme_id: ExpoTerme.first.id, indication_id: Indication.first.id, dose: "1 g/j"},
+    {produit_id: Produit.first.id, expo_terme_id: ExpoTerme.first.id, indication_id: Indication.first.id, dose: "2 g/j"},
+  ]
+  @dossier.save!
+end
+
+When /^I edit the dossier$/ do
+  visit edit_dossier_path(@dossier)
+end
+
+Then /^the expo summary table should be filled up with existing expos$/ do
+  click_on "Exposition"
+  find(:css, '#expositions_summary tbody tr:first-child').should have_content('1 g/j')
+  find(:css, '#expositions_summary tbody tr:nth-child(2)').should have_content('1 g/j')
+end
