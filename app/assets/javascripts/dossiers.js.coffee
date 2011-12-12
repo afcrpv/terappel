@@ -56,13 +56,13 @@ cell_for_action_links = ($node, expo_id) ->
   $cell = $("<td />")
   $related_fieldset = $node.parents().find(".nested-fields").has("li[id*='#{expo_id}']")
 
-  $modify_link = $("<a href='#' id='modify_expo_#{expo_id}'>M</a>")
+  $modify_link = $("<a href='#' id='modify_expo_#{expo_id}'><img alt='M' src='/assets/icons/edit.png'></a>")
   $modify_link.bind 'click', (event) ->
     event.preventDefault()
     # clicking the link toggles the div.nested-fields containing the related expo form
     $related_fieldset.slideToggle()
 
-  $destroy_link = $("<a href='#' id='destroy_expo_#{expo_id}'>X</a>")
+  $destroy_link = $("<a href='#' id='destroy_expo_#{expo_id}'><img alt='X' src='/assets/icons/destroy.png'></a>")
   $destroy_link.bind 'click', (event) ->
     event.preventDefault()
     # clicking the link removes the parent tr from the DOM
