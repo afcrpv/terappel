@@ -7,7 +7,8 @@ class Dossier < ActiveRecord::Base
     :name, :prenom, :age, :antecedents_perso, :antecedents_fam, :ass_med_proc, :expo_terato,
     :tabac, :alcool, :fcs, :geu, :miu, :ivg, :nai, :age_grossesse,
     :terme, :path_mat,
-    :comm_antecedents_perso, :comm_antecedents_fam, :comm_evol, :comm_expo, :commentaire
+    :comm_antecedents_perso, :comm_antecedents_fam, :comm_evol, :comm_expo, :commentaire,
+    :expositions_attributes
 
   extend FriendlyId
   friendly_id :code
