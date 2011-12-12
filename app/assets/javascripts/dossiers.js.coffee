@@ -24,6 +24,8 @@ jQuery ->
       $start_point.closest(".nested-fields").slideToggle()
 
   prefill_expo_table()
+  $("#tabs li a[href='#expositions']").bind 'click', ->
+    $('.nested-fields').hide()
 
 # functions
 

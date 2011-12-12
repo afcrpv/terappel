@@ -90,4 +90,5 @@ Then /^the expo summary table should be filled up with existing expos$/ do
   click_on "Exposition"
   find(:css, '#expositions_summary tbody tr:first-child').should have_content('1 g/j')
   find(:css, '#expositions_summary tbody tr:nth-child(2)').should have_content('2 g/j')
+  find(:css, ".nested-fields").visible?.should_not be_true
 end
