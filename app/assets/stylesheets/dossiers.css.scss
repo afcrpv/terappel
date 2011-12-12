@@ -55,8 +55,8 @@
 
 table#expositions_summary {
   td, th {
-    &:last-child {
-      visibility: visible;
+    &:first-child {
+      width: 13px;
     }
   }
 }

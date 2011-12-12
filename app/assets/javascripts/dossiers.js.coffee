@@ -10,7 +10,8 @@ jQuery ->
     event.preventDefault() # prevent default event behavior
     # start point is the closest parent ol node of the link, it contains the fields to copy
     $start_point = $this.closest("ol")
-    # collect produit, expo_terme, indication, dose, de, a, de2, a2 fields, also get the unique id of the expo
+
+    # collect produit, expo_terme, indication, dose, de, a, de2, a2 fields
     fields_to_copy = [
       $start_point.find("select[name*='produit'] option").filter(":selected").text()
       $start_point.find("select[name*='expo_terme'] option").filter(":selected").text()
@@ -20,16 +21,18 @@ jQuery ->
       $start_point.find("input[id$='_a']").val()
       $start_point.find("input[id$='_de2']").val()
       $start_point.find("input[id$='_a2']").val()
-      $start_point.find("select").filter(":first").attr("name").match(/[0-9]+/).join()
     ]
+
+    # also get the unique id of the expo
+    expo_id = $start_point.find("select").filter(":first").attr("name").match(/[0-9]+/).join()
+
     # don't do anything if fields to copy are all blank
-    if fields_to_copy[0..7].join("") isnt ""
-      append_to_expo_summary($("#expositions_summary tbody "), fields_to_copy)
+    if fields_to_copy.join("") isnt ""
+      append_to_expo_summary($("#expositions_summary tbody"), fields_to_copy, expo_id)
       # toggle visibility of closest parent div.nested-fields
       $start_point.closest(".nested-fields").slideToggle()
 
-append_to_expo_summary = ($target, fields) ->
-  expo_id = fields[8]
+append_to_expo_summary = ($target, fields, expo_id) ->
 
   # check whether a row with id equal to collected expo id exists
   if $target.find("tr#expo_#{expo_id}").length isnt 0

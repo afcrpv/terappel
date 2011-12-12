@@ -24,7 +24,7 @@
       %table#expositions_summary
         %thead
           %tr
-            %th
+            %th#action
             %th Exposition
             %th Terme
             %th Indication
@@ -33,9 +33,7 @@
             %th à
             %th Et de
             %th à
-            %th expo_id
         %tbody
-          %tr
 
       = f.inputs do
         = f.semantic_fields_for :expositions do |exposition|
