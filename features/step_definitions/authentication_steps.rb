@@ -56,7 +56,7 @@ When /^the user edits his profile informations$/ do
   visit edit_user_path(@user)
   fill_in I18n.t("activerecord.attributes.user.username"), :with => "utilisateur"
   fill_in I18n.t("activerecord.attributes.user.email"), :with => "utilisateur@test.com"
-  click_button I18n.t('formtastic.actions.update_profile')
+  click_on I18n.t('formtastic.actions.update_profile')
 end
 
 Then /^they should see their updated profile$/ do
@@ -75,7 +75,7 @@ end
 
 Then /^their password shouldn't change$/ do
   expect do
-    click_button I18n.t('formtastic.actions.update_profile')
+    click_on I18n.t('formtastic.actions.update_profile')
   end.to_not change{@user.password}
 end
 
@@ -90,7 +90,7 @@ When /^the user changes his password$/ do
     :with => "newpassword"
   fill_in I18n.t("activerecord.attributes.user.password_confirmation"),
     :with => "newpassword"
-  click_button I18n.t('formtastic.actions.update_profile')
+  click_on I18n.t('formtastic.actions.update_profile')
 end
 
 Then /^they should be able to reconnect with the changed password$/ do

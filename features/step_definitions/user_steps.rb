@@ -6,7 +6,7 @@ When /^I add a new centre user$/ do
   fill_in I18n.t("activerecord.attributes.user.password"), :with => "motdepasse"
   fill_in I18n.t("activerecord.attributes.user.password_confirmation"), :with => "motdepasse"
   expect do
-    click_button I18n.t('helpers.submit.create', :model => I18n.t("activerecord.models.user"))
+    click_on I18n.t('helpers.submit.create', :model => I18n.t("activerecord.models.user"))
   end.to change{User.count}.by(1)
   User.last.role.should == "centre_user"
 end
