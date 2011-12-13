@@ -10,16 +10,13 @@
       = f.inputs do
         .input= f.hidden_field :user_id
         .input= f.hidden_field :centre_id
-        = f.input :code, input_html: {autofocus: true}
+        = f.input :code
         = f.input :date_appel, as: :string,
-          input_html: {placeholder: "jj/mm/aaaa", value: date_appel, required: true}
+          input_html: {autofocus: true, placeholder: "jj/mm/aaaa", value: date_appel, required: true}
         = f.input :motif
         .string.clearfix.optional.stringish#dossier_correspondant_nom_input
           = f.label :correspondant_nom, "Correspondant"
           .input= f.autocomplete_field :correspondant_nom, autocomplete_correspondant_nom_dossiers_path, id_element:  "#dossier_correspondant_id"
-        -#= f.input :correspondant_nom, label: "Correspondant",
-          as: :autocomplete, url: autocomplete_correspondant_nom_dossiers_path,
-          input_html: {id_element: "#dossier_correspondant_id"}
         .input= f.hidden_field :correspondant_id
 
     #patiente
