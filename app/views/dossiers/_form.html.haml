@@ -45,10 +45,10 @@
         = f.semantic_fields_for :expositions do |exposition|
           = render 'exposition_fields', :f => exposition
         .links
-          = link_to_add_association 'Ajouter Expo', f, :expositions
+          = link_to_add_association 'Ajouter Expo', f, :expositions, class: "btn primary small"
   = f.buttons do
-    = f.commit_button :button_html => {:disable_with => "Attendre..."}
-    %li.cancel.button= link_to "Annuler", :back, class: "button"
+    = f.commit_button :button_html => {disable_with: "Attendre...", class: "success"}
+    = link_to "Annuler", :back, class: "btn danger"
 
 = content_for :footer do
   = debug "\nCentre : " + dossier.try(:centre_name) + "\nUser : " + dossier.username

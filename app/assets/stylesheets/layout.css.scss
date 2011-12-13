@@ -18,12 +18,13 @@ ul.right {
 
 /* Page Header */
 .page-header {
+  overflow: hidden;
   padding: 20px 20px 10px;
   margin: -20px -20px 20px;
 }
 
 nav.action_links {
-  float: left;
+  display: inline-block;
 }
 
 nav.action_links ul {
@@ -36,4 +37,8 @@ nav.action_links li {
   padding: 0;
   display: inline;
   font-weight: bold;
+}
+
+.clear {
+  clear: both;
 }

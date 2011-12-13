@@ -1,6 +1,8 @@
 - title(nil, true, :id => @dossier.code)
 
-= render "shared/action_links", :object => @dossier, :verbs => %w(edit destroy)
+- content_for :page_title do
+  %small Actions :
+  = render "shared/action_links", :object => @dossier, :verbs => %w(edit destroy)
 
 %p= @dossier.name
 %p= @dossier.date_appel
