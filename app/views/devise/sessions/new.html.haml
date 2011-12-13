@@ -1,18 +1,12 @@
 - title t("devise.shared.sign_in")
 
-= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
-  %div
-    = f.label :username
-    %br/
-    = f.text_field :username
-  %div
-    = f.label :password
-    %br/
-    = f.password_field :password
+= semantic_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
+  = f.inputs do
+    = f.input :username, input_html: {class: "span4"}
+    = f.input :password, input_html: {class: "span4"}
   - if devise_mapping.rememberable?
-    %div
-      = f.check_box :remember_me
-      = f.label :remember_me
-  %div= f.submit t("devise.shared.sign_in")
+    = f.input :remember_me, as: :boolean
+  = f.buttons do
+    = f.commit_button :connect,  button_html: {disable_with: "Attendre...", class: "success"}
 
 = render :partial => "devise/shared/links"

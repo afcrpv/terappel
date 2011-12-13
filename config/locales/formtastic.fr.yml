@@ -8,6 +8,7 @@ fr:
       update: "Sauvegarder"
       submit: "Enregistrer %{model}"
       update_profile: "Mettre à jour"
+      connect: "Connexion"
     labels:
       user:
         edit:
