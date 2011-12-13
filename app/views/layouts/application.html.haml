@@ -33,25 +33,26 @@
   = yield(:head)
 
 %body{:class => params[:controller]}
-  / Primary Page Layout
 
-  .topbar-wrapper{:style => "z-index: 5;"}
-    .topbar{:'data-dropdown' => 'dropdown'}
-      .topbar-inner
-        .container-fluid
-          %h2= link_to "Terappel", root_path
-          %ul.nav.secondary-nav= render 'layouts/user_nav'
+  .topbar
+    .fill
+      .container
+        = link_to "Terappel", root_path, class: "brand"
+        - if current_user
+          %ul.nav
+            %li= link_to t('admin.dashboard.pagename'), rails_admin_path if can? :access, :rails_admin
+          %ul.nav.right= render 'layouts/user_nav'
 
   .container
-    .sixteen.columns
-      #flash
-        - flash.each do |name, msg|
-          = content_tag :section, msg, :id => "flash_#{name}"
-      %h3#page_title= yield(:title) if show_title?
+    .content
+      .page-header
+        #flash
+          - flash.each do |name, msg|
+            = content_tag :section, msg, :id => "flash_#{name}"
+        %h1#page_title= yield(:title) if show_title?
 
       = yield
 
-    .sixteen.columns
       %footer#page_footer
         - if Rails.env.development?
           %details
