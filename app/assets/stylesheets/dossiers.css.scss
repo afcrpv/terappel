@@ -56,8 +56,8 @@
 table#expositions_summary {
   width: 100%;
   font-size: 12px;
-  margin-bottom: 1em;
   border-bottom: 1px solid black;
+  margin-bottom: 0;
   td, th {
     text-align: center;
     &:first-child {
@@ -66,5 +66,39 @@ table#expositions_summary {
     a {
       margin: 5px;
     }
+  }
+}
+
+.dossiers #tabs {
+  min-height: 400px
+}
+
+.formtastic {
+  input.btn {
+    padding: 5px 14px 6px;
+  }
+  .links, .expo_links {
+    margin-top: 5px;
+  }
+  .expo_links {
+    border: 0;
+    float: right;
+  }
+  .clearfix {
+    margin-bottom: 5px;
+  }
+  .inline-inputs {
+    margin-bottom: 5px;
+    label {
+      margin-right: 20px;
+    }
+  }
+  #expositions {
+    fieldset {
+      padding-top: 0.5em;
+    }
+  }
+  .ui-tabs .ui-tabs-panel {
+    padding: 5px;
   }
 }

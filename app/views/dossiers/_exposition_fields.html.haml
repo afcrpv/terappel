@@ -1,18 +1,26 @@
 .nested-fields
   = f.inputs do
     = f.input :expo_type, label: "Type"
-    = f.input :produit, label: "Exposition"
-    = f.input :indication
-    = f.input :de
-    = f.input :a, label: "à"
-    = f.input :duree
-    = f.input :de2
-    = f.input :a2
-    = f.input :duree2
-    = f.input :expo_nature
+    = f.input :produit, label: "Exposition", input_html: {class: "span10"}
+    = f.input :indication, input_html: {class: "span10"}
+    .inline-inputs
+      = f.label "SA expo : De"
+      = f.text_field :de, class: "span1"
+      à
+      = f.text_field :a, class: "span1"
+      Durée
+      = f.text_field :duree, class: "span1"
+    .inline-inputs
+      = f.label "Reprise ttt : De"
+      = f.text_field :de2, class: "span1"
+      à
+      = f.text_field :a2, class: "span1"
+      Durée
+      = f.text_field :duree2, class: "span1"
+    = f.input :expo_nature, label: "Nature"
     = f.input :dose, label: "Posologie"
     = f.input :expo_terme, label: "Terme d'exposition"
-    = f.input :medpres
+    = f.input :medpres, as: :radio, collection: ["Oui", "Non", "NSP"], label: "Prescription", hint: "à remplir en cas de demande d'aide à la prescription"
     .expo_links
       = link_to "Valider", "#", class: "btn success validate_expo small"
       = link_to_remove_association "Supprimer", f, class: "btn danger small"
