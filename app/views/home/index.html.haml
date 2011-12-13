@@ -1,11 +1,3 @@
 - title
 
-= form_tag @dossier, :method => :get do
-  %fieldset{class: "search"}
-    = label_tag "Rechercher ou saisir un dossier"
-    = autocomplete_field_tag "dossier_code", '', home_autocomplete_dossier_code_path,
-      required: true,
-      placeholder: "#{current_user.centre.code.upcase}AANNNNN",
-      pattern: "[A-Z]{2}[0-9]{7}"
-    = hidden_field_tag params[:dossier_code]
-    = submit_tag "OK", :name => nil
+= link_to "Liste de dossiers récents", dossiers_path, class: "btn primary large"
