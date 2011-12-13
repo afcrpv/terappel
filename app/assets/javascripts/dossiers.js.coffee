@@ -2,8 +2,8 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
-# jquery tabs
 jQuery ->
+  # bootstrap tabs
   $("#tabs").tabs()
   $(".validate_expo").live 'click', (event) ->
     $this = $(this)
@@ -30,9 +30,7 @@ jQuery ->
 # functions
 
 prefill_expo_table = ->
-  #alert "Fired prefill_expo_table!"
   start_points = $('.nested-fields')
-  console.log start_points
 
   expo_ids = (collect_expo_id($(start_point)) for start_point in start_points)
 
