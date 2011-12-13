@@ -1,18 +1,13 @@
-- title
+- title "Liste des dossiers"
 
-= search_form_for @search, :html => {:class => "formtastic"} do |f|
-  %fieldset.inputs
-    %ol
-      %li.string
-        = f.label :name_cont
-        = f.text_field :name_cont
-  %fieldset.buttons
-    %ol
-      %li.commit.button
-        = f.submit
+= search_form_for @search, :html => {:class => "search"} do |f|
+  %fieldset
+    %legend Filtres
+    = f.label :name_cont
+    .input= f.text_field :name_cont, class: "span2"
+    = f.submit class: "btn primary"
 
 - if @dossiers.any?
-  %h3= t('.first_10_results')
   %table.pretty
     %thead
       %th= sort_link @search, :date_appel, {}
