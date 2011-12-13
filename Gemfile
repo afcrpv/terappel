@@ -72,3 +72,6 @@ gem 'draper'
 gem "ransack"
 gem "thin"
 gem "cocoon"
+
+gem "bootstrap-sass", "~> 1.4.2"
+gem 'formtastic-bootstrap'

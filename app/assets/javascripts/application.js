@@ -6,6 +6,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require bootstrap
 //= require jquery_ui
 //= require autocomplete-rails
 //= require cocoon

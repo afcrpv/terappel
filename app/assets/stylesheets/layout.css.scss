@@ -1,0 +1,39 @@
+@import "bootstrap"; /* Use this to get all of Bootstrap's @mixins and $variables */
+
+body {
+  padding-top: 40px !important;
+  background-color: #eee !important;
+}
+
+/* Header */
+ul.right {
+  float: right !important;
+}
+
+.content {
+  padding: 20px !important;
+  background-color: whiteSmoke;
+}
+
+
+/* Page Header */
+.page-header {
+  padding: 20px 20px 10px;
+  margin: -20px -20px 20px;
+}
+
+nav.action_links {
+  float: left;
+}
+
+nav.action_links ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav.action_links li {
+  padding: 0;
+  display: inline;
+  font-weight: bold;
+}
