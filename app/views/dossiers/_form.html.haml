@@ -41,7 +41,7 @@
             %th.to à
         %tbody
 
-      = f.inputs do
+      = f.inputs id: "expositions_fields" do
         = f.semantic_fields_for :expositions do |exposition|
           = render 'exposition_fields', :f => exposition
         .links

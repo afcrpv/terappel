@@ -9,7 +9,7 @@ jQuery ->
     $this = $(this)
     event.preventDefault() # prevent default event behavior
     # start point is the closest parent ol node of the link, it contains the fields to copy
-    $start_point = $this.closest("ol")
+    $start_point = $this.closest(".nested-fields")
 
     # collect produit, expo_terme, indication, dose, de, a, de2, a2 fields
     values_to_copy = collect_values_to_copy($start_point)
@@ -21,7 +21,7 @@ jQuery ->
     if values_to_copy.join("") isnt ""
       append_to_expo_summary(values_to_copy, expo_id)
       # toggle visibility of closest parent div.nested-fields
-      $start_point.closest(".nested-fields").slideToggle()
+      $start_point.slideToggle()
 
   prefill_expo_table()
   $("#tabs li a[href='#expositions']").bind 'click', ->
@@ -31,7 +31,7 @@ jQuery ->
 
 prefill_expo_table = ->
   #alert "Fired prefill_expo_table!"
-  start_points = $('.nested-fields ol')
+  start_points = $('.nested-fields')
   console.log start_points
 
   expo_ids = (collect_expo_id($(start_point)) for start_point in start_points)
@@ -78,7 +78,7 @@ create_cells = ($node, text) ->
 
 cell_for_action_links = ($node, expo_id) ->
   $cell = $("<td />")
-  $related_fieldset = $node.parents().find(".nested-fields").has("li[id*='#{expo_id}']")
+  $related_fieldset = $node.parents().find(".nested-fields").has("div[id*='#{expo_id}']")
 
   $modify_link = $("<a href='#' id='modify_expo_#{expo_id}'><img alt='M' src='/assets/icons/edit.png'></a>")
   $modify_link.bind 'click', (event) ->
