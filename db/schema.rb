@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111209102451) do
+ActiveRecord::Schema.define(:version => 20111213143005) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(:version => 20111209102451) do
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "fullname"
   end
 
   add_index "correspondants", ["cp"], :name => "index_correspondants_on_cp"
