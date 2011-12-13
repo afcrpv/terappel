@@ -22,7 +22,7 @@ fr:
       password_updated: "Votre mot de passe a été réinitialisé."
     logged_in: "Connexion effectuée."
     greet: "Bonjour,"
-    logout: "Se déconnecter"
+    logout: "Déconnectez-vous"
     logged_out: "Vous êtes déconnecté."
     unauthenticated: "Vous devez vous connecter pour voir cette page."
     invalid_credentials: "Identifiant ou mot de passe invalide."
