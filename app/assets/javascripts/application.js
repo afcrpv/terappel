@@ -10,4 +10,5 @@
 //= require jquery_ui
 //= require autocomplete-rails
 //= require cocoon
+//= require common
 //= require_tree .
