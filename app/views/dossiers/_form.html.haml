@@ -1,5 +1,6 @@
 = semantic_form_for dossier do |f|
-  = f.semantic_errors
+  = f.semantic_errors :code, :date_appel, :name, class: "dossier_errors", "data-model_name" => f.object.class.model_name # add more mandatory fields
+
   #tabs
     %ul
       %li= link_to "Informations générales", "#infos"
@@ -16,7 +17,7 @@
         = f.input :motif
         .string.clearfix.optional.stringish#dossier_correspondant_nom_input
           = f.label :correspondant_nom, "Correspondant"
-          .input= f.autocomplete_field :correspondant_nom, autocomplete_correspondant_fullname_dossiers_path, id_element:  "#dossier_correspondant_id"
+          .input= f.autocomplete_field :correspondant_nom, autocomplete_correspondant_fullname_dossiers_path, id_element:  "#dossier_correspondant_id", class: "span10"
         .input= f.hidden_field :correspondant_id
 
     #patiente
