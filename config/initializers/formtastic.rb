@@ -56,6 +56,8 @@
 # Defaults to ["to_label", "display_name", "full_name", "name", "title", "username", "login", "value", "to_s"]
 # Formtastic::FormBuilder.collection_label_methods = [
 #   "to_label", "display_name", "full_name", "name", "title", "username", "login", "value", "to_s"]
+Formtastic::FormBuilder.collection_label_methods = [
+  "to_label", "display_name", "full_name", "name", "title", "username", "login", "nom", "libelle", "value", "to_s"]
 
 # Additionally, you can customize the order for specific types of inputs.
 # This is configured on a type basis and if a type is not found it will

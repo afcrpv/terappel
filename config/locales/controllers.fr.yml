@@ -6,6 +6,7 @@ fr:
     new: "Nouveau Dossier"
     create: "Nouveau Dossier"
     edit: "Modification Dossier #%{id}"
+    update: "Modification Dossier #%{id}"
   flash:
     create: "%{resource} créé(e) avec succès."
     update: "%{resource} mis(e) à jour avec succès."
