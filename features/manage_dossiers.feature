@@ -6,6 +6,7 @@ Feature: Manage dossiers
   Background:
     Given a centre admin is logged in
 
+  @focus
   Scenario: successful creation
     When I add a new dossier
     Then I should see the page for my newly created dossier

@@ -1,9 +1,12 @@
 # encoding: utf-8
+Given /^I go to the new dossier page with code "([^\"]*)"$/ do |code|
+  visit new_dossier_path(code: "#{code}") # express the regexp above with the code you wish you had
+end
+
 When /^I add a new dossier$/ do
-  step "I go to the new dossier page"
-  fill_in I18n.t("activerecord.attributes.dossier.code"), :with => "LY1101001"
-  fill_in I18n.t("activerecord.attributes.dossier.name"), :with => "Martin"
-  fill_in I18n.t("activerecord.attributes.dossier.date_appel"), :with => "31/01/2001"
+  step %{I go to the new dossier page with code "LY1101001"}
+  fill_in "Date Appel", :with => "31/01/2001"
+  fill_in "Nom patiente", :with => "Martin"
   expect do
     click_button I18n.t('formtastic.actions.create', :model => Dossier)
   end.to change{Dossier.count}.by(1)
@@ -87,12 +90,8 @@ Given /^(\d+) correspondants exist$/ do |count|
   end
 end
 
-Given /^I go to the new dossier page$/ do
-  visit new_dossier_path # express the regexp above with the code you wish you had
-end
-
 When /^I submit$/ do
-  click_button "OK"
+  click_on "OK"
 end
 
 Then /^I should see the page for the dossier with code "([^"]*)"$/ do |code|

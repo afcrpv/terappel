@@ -25,7 +25,7 @@ Feature: Saisie dossier
   @javascript
   Scenario: correspondant name autocomplete
     Given 2 correspondants exist
-    And I go to the new dossier page
+    And I go to the new dossier page with code "LY1101001"
     When I fill in the correspondant field with "co"
-    And I choose "Correspondant1" in the autocomplete list
-    Then the correspondant field should contain "Correspondant1"
+    And I choose "Correspondant1 - 69006 - Lyon" in the autocomplete list
+    Then the correspondant field should contain "Correspondant1 - 69006 - Lyon"
