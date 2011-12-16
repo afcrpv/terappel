@@ -8,29 +8,66 @@ jQuery ->
 
   # bootstrap tabs
   $("#tabs").tabs()
+
+
+  # assign validate expo to related button
   $(".validate_expo").live 'click', (event) ->
-    $this = $(this)
-    event.preventDefault() # prevent default event behavior
-    # start point is the closest parent ol node of the link, it contains the fields to copy
-    $start_point = $this.closest(".nested-fields")
+    $start_point = $(this).closest(".nested-fields")
+    # collect produit, expo_terme, indication, dose, de, a, de2, a2 fields values
+    expo_values = [
+      $start_point.find("select[name*='produit'] option").filter(":selected").text()
+      $start_point.find("select[name*='expo_terme'] option").filter(":selected").text()
+      $start_point.find("select[name*='indication'] option").filter(":selected").text()
+      $start_point.find("input[id$='_dose']").val()
+      $start_point.find("input[id$='_de']").val()
+      $start_point.find("input[id$='_a']").val()
+      $start_point.find("input[id$='_de2']").val()
+      $start_point.find("input[id$='_a2']").val()
+    ]
+    $target = $("#expositions_summary tbody")
+    validate_expo(event, this, $start_point, $target, expo_values)
 
-    # collect produit, expo_terme, indication, dose, de, a, de2, a2 fields
-    values_to_copy = collect_values_to_copy($start_point)
+  # assign validate bebe to related button
+  $(".validate_bebe").live 'click', (event) ->
+    $start_point = $(this).closest(".nested-fields")
+    # collect sexe, poids, taille, pc, apgar1, apgar5, malforma, patho fields values
+    bebe_values = [
+      $start_point.find("select[name*='sexe'] option").filter(":selected").text()
+      $start_point.find("input[id$='_poids']").val()
+      $start_point.find("input[id$='_taille']").val()
+      $start_point.find("input[id$='_pc']").val()
+      $start_point.find("input[id$='_apgar1']").val()
+      $start_point.find("input[id$='_apgar5']").val()
+      $start_point.find("select[name*='malforma'] option").filter(":selected").text()
+      $start_point.find("select[name*='patho'] option").filter(":selected").text()
+    ]
+    $target = $("#bebes_summary tbody")
+    validate_expo(event, this, $start_point, $target, bebe_values)
 
-    # also get the unique id of the expo
-    expo_id = $start_point.find("select").filter(":first").attr("name").match(/[0-9]+/).join()
-
-    # don't do anything if fields to copy are all blank
-    if values_to_copy.join("") isnt ""
-      append_to_expo_summary(values_to_copy, expo_id)
-      # toggle visibility of closest parent div.nested-fields
-      $start_point.slideToggle()
-
+  # prefill expo summary table
   prefill_expo_table()
   $("#tabs li a[href='#expositions']").bind 'click', ->
     $('.nested-fields').hide()
 
 # functions
+
+validate_expo = (event, button, $start_point, $target, values) ->
+  $this = $(button)
+  console.log(button)
+  event.preventDefault() # prevent default event behavior
+  # start point is the closest parent ol node of the link, it contains the fields to copy
+
+
+  # also get the unique id of the expo
+  expo_id = $start_point.find("select").filter(":first").attr("name").match(/[0-9]+/).join()
+  console.log(expo_id)
+  console.log(values)
+
+  # don't do anything if fields to copy are all blank
+  if values.join("") isnt ""
+    append_to_expo_summary(values, $target, expo_id)
+    # toggle visibility of closest parent div.nested-fields
+    $start_point.slideToggle()
 
 better_errors_list = ->
   $errors_container = $('ul.dossier_errors')
@@ -66,9 +103,11 @@ prefill_expo_table = ->
   start_points = $('.nested-fields')
 
   expo_ids = (collect_expo_id($(start_point)) for start_point in start_points)
+  console.log("Expo ids = #{expo_ids}")
 
   values_set = []
   values_set.push collect_values_to_copy($(start_point)) for start_point in start_points
+  console.log("Values collected = #{values_set}")
   append_to_expo_summary(values, expo_ids[i]) for values, i in values_set
 
 collect_expo_id = ($start_point) ->
@@ -87,16 +126,15 @@ collect_values_to_copy = ($start_point) ->
   ]
   return values
 
-append_to_expo_summary = (fields, expo_id) ->
-  $target = $("#expositions_summary tbody")
+append_to_expo_summary = (fields, target, expo_id) ->
   # check whether a row with id equal to collected expo id exists
-  if $target.find("tr#expo_#{expo_id}").length isnt 0
-    $expo_row = $target.find("tr#expo_#{expo_id}")
+  if target.find("tr#expo_#{expo_id}").length isnt 0
+    $expo_row = target.find("tr#expo_#{expo_id}")
     $expo_row.empty()
   else
     $expo_row = $("<tr id='expo_#{expo_id}' />")
     # append the new row to the tbody
-    $expo_row.appendTo($target)
+    $expo_row.appendTo(target)
 
   # create a cell with the action links
   cell_for_action_links($expo_row, expo_id)

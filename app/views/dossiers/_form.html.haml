@@ -6,6 +6,8 @@
       %li= link_to "Informations générales", "#infos"
       %li= link_to "Patiente", "#patiente"
       %li= link_to "Exposition", "#expositions"
+      %li= link_to "Evolution", "#evol"
+      %li= link_to "Nouveau-né", "#bebes"
 
     #infos
       = f.inputs do
@@ -25,7 +27,7 @@
         = f.input :name, input_html: {required: true}
 
     #expositions
-      %table#expositions_summary
+      %table.fields_summary#expositions_summary
         %thead
           %tr
             %th#action
@@ -44,6 +46,30 @@
           = render 'exposition_fields', :f => exposition
         .links
           = link_to_add_association 'Ajouter Expo', f, :expositions, class: "btn primary small"
+
+    #evol
+
+    #bebes
+      %table.fields_summary#expositions_summary
+        %thead
+          %tr
+            %th#action
+            %th Sexe
+            %th Apgar (1')
+            %th Apgar (5')
+            %th Poids
+            %th Taille
+            %th PC
+            %th Malformation
+            %th Pathologie
+        %tbody
+
+      = f.inputs do
+        = f.semantic_fields_for :bebes do |bebe|
+          = render 'bebe_fields', :f => bebe
+        .links
+          = link_to_add_association 'Ajouter Nouveau-né', f, :bebes, class: "btn primary small"
+
   = f.buttons do
     = f.commit_button :button_html => {disable_with: "Attendre...", class: "success"}
     = link_to "Annuler", :back, class: "btn danger"

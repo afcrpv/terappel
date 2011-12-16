@@ -56,7 +56,7 @@
   }
 }
 
-table#expositions_summary {
+table.fields_summary {
   width: 100%;
   font-size: 12px;
   border-bottom: 1px solid black;
@@ -83,7 +83,7 @@ table#expositions_summary {
   .links, .expo_links {
     margin-top: 5px;
   }
-  .expo_links {
+  .field_links {
     border: 0;
     float: right;
   }

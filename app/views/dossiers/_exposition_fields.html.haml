@@ -21,6 +21,6 @@
     = f.input :dose, label: "Posologie"
     = f.input :expo_terme, label: "Terme d'exposition"
     = f.input :medpres, as: :radio, collection: ["Oui", "Non", "NSP"], label: "Prescription", hint: "à remplir en cas de demande d'aide à la prescription"
-    .expo_links
+    .field_links
       = link_to "Valider", "#", class: "btn success validate_expo small"
       = link_to_remove_association "Supprimer", f, class: "btn danger small"
