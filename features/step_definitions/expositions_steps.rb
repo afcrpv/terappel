@@ -60,7 +60,7 @@ When /^I destroy an existing exposition for a dossier$/ do
 end
 
 Then /^the corresponding row in the summary table should disappear$/ do
-  find(:css, '#expositions_summary tbody tr').should_not have_content('ACICLOVIR')
+  page.should_not have_css('#expositions_summary tbody tr')
 end
 
 Then /^the expo should be ready to be destroyed$/ do

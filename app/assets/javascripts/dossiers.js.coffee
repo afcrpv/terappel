@@ -25,7 +25,7 @@ jQuery ->
       $start_point.find("input[id$='_a2']").val()
     ]
     $target = $("#expositions_summary tbody")
-    validate_expo(event, this, $start_point, $target, expo_values)
+    validate_field(event, this, $start_point, $target, expo_values)
 
   # assign validate bebe to related button
   $(".validate_bebe").live 'click', (event) ->
@@ -42,16 +42,16 @@ jQuery ->
       $start_point.find("select[name*='patho'] option").filter(":selected").text()
     ]
     $target = $("#bebes_summary tbody")
-    validate_expo(event, this, $start_point, $target, bebe_values)
+    validate_field(event, this, $start_point, $target, bebe_values)
 
-  # prefill expo summary table
-  prefill_expo_table()
-  $("#tabs li a[href='#expositions']").bind 'click', ->
-    $('.nested-fields').hide()
+  # prefill summary tables for expos and bebes
+
+  prefill_summary_table("expositions")
+  prefill_summary_table("bebes")
 
 # functions
 
-validate_expo = (event, button, $start_point, $target, values) ->
+validate_field = (event, button, $start_point, $target, values) ->
   $this = $(button)
   console.log(button)
   event.preventDefault() # prevent default event behavior
@@ -65,7 +65,7 @@ validate_expo = (event, button, $start_point, $target, values) ->
 
   # don't do anything if fields to copy are all blank
   if values.join("") isnt ""
-    append_to_expo_summary(values, $target, expo_id)
+    append_to_summary(values, $target, expo_id)
     # toggle visibility of closest parent div.nested-fields
     $start_point.slideToggle()
 
@@ -99,42 +99,64 @@ assign_select_tab = (element) ->
     $input.focus()
     return false
 
-prefill_expo_table = ->
-  start_points = $('.nested-fields')
+prefill_summary_table = (model) ->
+  $target = $("##{model} tbody")
+  # hide nested fields for expositions and bebes
+  $("#tabs li a[href='##{model}']").bind 'click', ->
+    $('.nested-fields').hide()
 
-  expo_ids = (collect_expo_id($(start_point)) for start_point in start_points)
-  console.log("Expo ids = #{expo_ids}")
+  start_points = $("##{model} .nested-fields")
+
+  expo_ids = (collect_field_id($(start_point)) for start_point in start_points)
+  console.log("#{model} ids = #{expo_ids}")
 
   values_set = []
-  values_set.push collect_values_to_copy($(start_point)) for start_point in start_points
-  console.log("Values collected = #{values_set}")
-  append_to_expo_summary(values, expo_ids[i]) for values, i in values_set
+  #values_set.push collect_values_to_copy($(start_point)) for start_point in start_points
+  for start_point in start_points
+    values_set.push collect_values_to_copy($(start_point), model)
 
-collect_expo_id = ($start_point) ->
+  console.log("Values collected = #{values_set}")
+  append_to_summary(values, $target, expo_ids[i]) for values, i in values_set
+
+collect_field_id = ($start_point) ->
   expo_id = $start_point.find("select").filter(":first").attr("name").match(/[0-9]+/).join()
 
-collect_values_to_copy = ($start_point) ->
-  values = [
-    $start_point.find("select[name*='produit'] option").filter(":selected").text()
-    $start_point.find("select[name*='expo_terme'] option").filter(":selected").text()
-    $start_point.find("select[name*='indication'] option").filter(":selected").text()
-    $start_point.find("input[id$='_dose']").val()
-    $start_point.find("input[id$='_de']").val()
-    $start_point.find("input[id$='_a']").val()
-    $start_point.find("input[id$='_de2']").val()
-    $start_point.find("input[id$='_a2']").val()
-  ]
+collect_values_to_copy = ($start_point, model) ->
+  # damn ugly... but i'm outta ideas for now, need a bit of oo to not do like this
+  if model == "expositions"
+    values = [
+      $start_point.find("select[name*='produit'] option").filter(":selected").text()
+      $start_point.find("select[name*='expo_terme'] option").filter(":selected").text()
+      $start_point.find("select[name*='indication'] option").filter(":selected").text()
+      $start_point.find("input[id$='_dose']").val()
+      $start_point.find("input[id$='_de']").val()
+      $start_point.find("input[id$='_a']").val()
+      $start_point.find("input[id$='_de2']").val()
+      $start_point.find("input[id$='_a2']").val()
+    ]
+  else
+    values = [
+      $start_point.find("select[name*='sexe'] option").filter(":selected").text()
+      $start_point.find("input[id$='_poids']").val()
+      $start_point.find("input[id$='_taille']").val()
+      $start_point.find("input[id$='_pc']").val()
+      $start_point.find("input[id$='_apgar1']").val()
+      $start_point.find("input[id$='_apgar5']").val()
+      $start_point.find("select[name*='malforma'] option").filter(":selected").text()
+      $start_point.find("select[name*='patho'] option").filter(":selected").text()
+    ]
   return values
 
-append_to_expo_summary = (fields, target, expo_id) ->
+append_to_summary = (fields, $target, expo_id) ->
+  console.log($target)
   # check whether a row with id equal to collected expo id exists
-  if target.find("tr#expo_#{expo_id}").length isnt 0
-    $expo_row = target.find("tr#expo_#{expo_id}")
+  if $target.find("tr#expo_#{expo_id}").length isnt 0
+    $expo_row = $target.find("tr#expo_#{expo_id}")
     $expo_row.empty()
   else
     $expo_row = $("<tr id='expo_#{expo_id}' />")
     # append the new row to the tbody
-    $expo_row.appendTo(target)
+    $expo_row.appendTo($target)
 
   # create a cell with the action links
   cell_for_action_links($expo_row, expo_id)
