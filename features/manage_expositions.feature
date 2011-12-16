@@ -32,7 +32,7 @@ Feature: Manage expositions
     Then the corresponding row in the summary table should disappear
     And the expo should be ready to be destroyed
 
-  @javascript @focus
+  @javascript
   Scenario: when modifying an existing dossier the expo summary table should be recreated
     Given an existing dossier with expositions
     When I edit the dossier
