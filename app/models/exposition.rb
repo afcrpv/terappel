@@ -6,4 +6,6 @@ class Exposition < ActiveRecord::Base
   belongs_to :indication
   belongs_to :expo_terme
   belongs_to :expo_nature
+
+  delegate :name, to: :produit, allow_nil: true, prefix: true
 end

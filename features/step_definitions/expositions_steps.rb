@@ -1,7 +1,7 @@
 #encoding: utf-8
 
 When /^I add a new exposition for a dossier$/ do
-  visit new_dossier_path
+  step %{I go to the new dossier page with code "LY1101001"}
   click_on "Exposition"
   click_on "Ajouter Expo"
   select "ACICLOVIR", :from => "Exposition"
@@ -12,7 +12,12 @@ When /^I add a new exposition for a dossier$/ do
 end
 
 Then /^the added exposition should belong to the dossier$/ do
-  pending # express the regexp above with the code you wish you had
+  click_on "Informations générales"
+  fill_in "Date Appel", :with => "31/01/2001"
+  click_on "Patiente"
+  fill_in "Nom patiente", :with => "Martin"
+  click_on "Créer Dossier"
+  Dossier.first.expositions.first.produit_name.should == "ACICLOVIR"
 end
 
 Then /^the added exposition should appear in the summary table$/ do
@@ -20,6 +25,7 @@ Then /^the added exposition should appear in the summary table$/ do
   find(:css, '#expositions_summary tbody').should have_content('T1')
   find(:css, '#expositions_summary tbody').should have_content('HERPES')
   find(:css, '#expositions_summary tbody').should have_content('2 g/j')
+  step %{the added exposition should belong to the dossier}
 end
 
 When /^I update an existing exposition for a dossier$/ do

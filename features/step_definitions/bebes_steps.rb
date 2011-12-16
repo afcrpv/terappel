@@ -24,5 +24,4 @@ Then /^the added bebe should appear in the summary table$/ do
   find(:css, '#bebes_summary tbody').should have_content('10')
   find(:css, '#bebes_summary tbody').should have_content('N')
   find(:css, '#bebes_summary tbody').should have_content('O')
-
 end
