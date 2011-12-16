@@ -37,7 +37,7 @@ better_errors_list = ->
   $errors_header = $("<p><strong>#{$errors_container.attr('data-model_name')} invalide</strong><br />Veuillez vérifier les champs suivant (clicker sur les lignes pour modifier les champs invalides) :</p>")
   $errors_wrap = $('<div class="alert-message block-message error fade in" data-alert="alert" />')
   $errors_container.wrap($errors_wrap)
-  $errors_header.prependTo($('.alert-message'))
+  $errors_header.prependTo($('.block-message'))
 
   # create a link for each li of ul.dossier_errors
   error_items = $errors_container.find('li')
