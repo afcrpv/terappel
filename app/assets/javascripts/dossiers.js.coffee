@@ -34,7 +34,7 @@ jQuery ->
 
 better_errors_list = ->
   $errors_container = $('ul.dossier_errors')
-  $errors_header = $("<p><strong>#{$errors_container.attr('data-model_name')} invalide</strong><br />Veuillez vérifier les champs suivant :</p>")
+  $errors_header = $("<p><strong>#{$errors_container.attr('data-model_name')} invalide</strong><br />Veuillez vérifier les champs suivant (clicker sur les lignes pour modifier les champs invalides) :</p>")
   $errors_wrap = $('<div class="alert-message block-message error fade in" data-alert="alert" />')
   $errors_container.wrap($errors_wrap)
   $errors_header.prependTo($('.alert-message'))
