@@ -83,3 +83,20 @@ Then /^the bebe summary table should be filled up with existing bebes/ do
   find(:css, '#bebes_summary tbody tr:nth-child(2)').should have_content('4000')
   find(:css, "#bebes .nested-fields").visible?.should_not be_true
 end
+
+When /^I add malformations for the bebe$/ do
+  click_on "M"
+  select "Oui", :from => "Malformation"
+  steps %Q{
+    When I fill in the malformations field with "mal"
+    And I choose "Malfo1" in the autocomplete list
+  }
+end
+
+When /^I fill in the malformations field with "([^"]*)"$/ do |value|
+  fill_in "Malformations", with: value
+end
+
+Then /^I should see the added malformations$/ do
+  pending # express the regexp above with the code you wish you had
+end

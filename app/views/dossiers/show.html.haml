@@ -6,3 +6,8 @@
 
 %p= @dossier.name
 %p= @dossier.date_appel
+%h4 Bebes
+- if @dossier.bebes.any?
+  %ul
+    - @dossier.bebes.each do |bebe|
+      %li Malformations : #{bebe.malformation_names}

@@ -8,8 +8,7 @@ class Dossier < ActiveRecord::Base
     :tabac, :alcool, :fcs, :geu, :miu, :ivg, :nai, :age_grossesse,
     :terme, :path_mat,
     :comm_antecedents_perso, :comm_antecedents_fam, :comm_evol, :comm_expo, :commentaire,
-    :expositions_attributes,
-    :bebes_attributes
+    :expositions_attributes, :bebes_attributes
 
   extend FriendlyId
   friendly_id :code

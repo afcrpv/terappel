@@ -3,12 +3,19 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 jQuery ->
-
   better_errors_list()
+
+  $("#tabs li a[href='#bebes']").bind 'click', ->
+    $attach = $('#bebes')
+    $attach.bind 'insertion-callback', ->
+      attach_jquery_tokeninput()
+
+    $(".modify_link").bind 'click', ->
+      attach_jquery_tokeninput() if $('.token-input-list-facebook').length == 0
+
 
   # bootstrap tabs
   $("#tabs").tabs()
-
 
   # assign validate expo to related button
   $(".validate_expo").live 'click', (event) ->
@@ -50,6 +57,15 @@ jQuery ->
   prefill_summary_table("bebes")
 
 # functions
+
+attach_jquery_tokeninput = ->
+  $("textarea[id*=malformation_tokens]").tokenInput("/malformations.json",
+    propertyToSearch: "libelle"
+    theme: "facebook"
+    noResultsText: "Aucun résultat"
+    searchingText: "Recherche en cours..."
+    preventDuplicates: true
+  )
 
 validate_field = (event, button, $start_point, $target, values) ->
   $this = $(button)
@@ -171,7 +187,7 @@ cell_for_action_links = ($node, expo_id) ->
   $cell = $("<td />")
   $related_fieldset = $node.parents().find(".nested-fields").has("div[id*='#{expo_id}']")
 
-  $modify_link = $("<a href='#' id='modify_expo_#{expo_id}'><img alt='M' src='/assets/icons/edit.png'></a>")
+  $modify_link = $("<a href='#' id='modify_expo_#{expo_id}' class='modify_link'><img alt='M' src='/assets/icons/edit.png'></a>")
   $modify_link.bind 'click', (event) ->
     event.preventDefault()
     # clicking the link toggles the div.nested-fields containing the related expo form
