@@ -5,6 +5,8 @@ Feature: Manage bebes
 
   Background:
     Given a centre admin is logged in
+    Given an existing malformation with libelle "Malfo1"
+    Given an existing malformation with libelle "Malfo2"
 
   @javascript
   Scenario: add row in bebes summary

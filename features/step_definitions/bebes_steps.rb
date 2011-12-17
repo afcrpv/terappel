@@ -87,16 +87,14 @@ end
 When /^I add malformations for the bebe$/ do
   click_on "M"
   select "Oui", :from => "Malformation"
-  steps %Q{
-    When I fill in the malformations field with "mal"
-    And I choose "Malfo1" in the autocomplete list
-  }
-end
-
-When /^I fill in the malformations field with "([^"]*)"$/ do |value|
-  fill_in "Malformations", with: value
+  malformation_token_input = "input[id$='_malformation_tokens']"
+  text = "mal"
+  find(:css, malformation_token_input).set(text)
+  page.execute_script %Q{ $("#{malformation_token_input}").focus().keydown() }
+  sleep 1
+  page.execute_script %Q{ $(".token-input-dropdown-facebook ul li:contains('mal')").trigger("mouseenter").trigger("click"); }
 end
 
 Then /^I should see the added malformations$/ do
-  pending # express the regexp above with the code you wish you had
+  page.should have_content("Malfo1")
 end
