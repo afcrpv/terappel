@@ -13,6 +13,13 @@ jQuery ->
     $(".modify_link").bind 'click', ->
       attach_jquery_tokeninput() if $('.token-input-list-facebook').length == 0
 
+  $malformation_select = $('select[id$=_malforma]')
+  # make malformation_tokens div visible when malformation field is == "oui"
+  show_malformation_tokens($malformation_select)
+  # ... or changes to oui
+  $malformation_select.change ->
+    $this = $(this)
+    show_malformation_tokens($this)
 
   # bootstrap tabs
   $("#tabs").tabs()
@@ -57,9 +64,15 @@ jQuery ->
   prefill_summary_table("bebes")
 
 # functions
+show_malformation_tokens = ($el) ->
+  $this = $el
+  malf = $this.find('option:selected').val()
+  console.log malf
+  $this.closest('.select').next('.malformation_tokens').show() if malf is "Oui"
 
 attach_jquery_tokeninput = ->
-  $("textarea[id*=malformation_tokens]").tokenInput("/malformations.json",
+  $malformation_tokens_inputs = $("textarea[id*=malformation_tokens]")
+  $malformation_tokens_inputs.tokenInput("/malformations.json",
     propertyToSearch: "libelle"
     theme: "facebook"
     noResultsText: "Aucun résultat"
