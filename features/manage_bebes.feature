@@ -37,7 +37,7 @@ Feature: Manage bebes
     When I edit the dossier
     Then the bebe summary table should be filled up with existing bebes
 
-  @javascript @focus
+  @javascript
   Scenario: adding malformations to bebes
     When I add a new bebe for a dossier
     And I add malformations for the bebe
