@@ -5,24 +5,20 @@
 jQuery ->
   better_errors_list()
 
-  $("#tabs li a[href='#bebes']").bind 'click', ->
-    $attach = $('#bebes')
-    $attach.bind 'insertion-callback', ->
-      attach_jquery_tokeninput()
-
-    $(".modify_link").bind 'click', ->
-      attach_jquery_tokeninput() if $('.token-input-list-facebook').length == 0
-
-  $malformation_select = $('select[id$=_malforma]')
-  # make malformation_tokens div visible when malformation field is == "oui"
-  show_malformation_tokens($malformation_select)
-  # ... or changes to oui
-  $malformation_select.change ->
-    $this = $(this)
-    show_malformation_tokens($this)
-
   # bootstrap tabs
   $("#tabs").tabs()
+
+  # when clicking on #bebes tab link
+  $("#tabs li a[href='#bebes']").bind 'click', ->
+    $attach = $('#bebes')
+    # attach the jquery tokeninput to the bebe nested fields insertion callback
+    $attach.bind 'insertion-callback', ->
+      attach_jquery_tokeninput() if $('.nested-fields').last().find('.token-input-list-facebook').length == 0
+      check_show_malformation_tokens()
+
+    $(".modify_link").bind 'click', ->
+      attach_jquery_tokeninput() if $('.nested-fields').last().find('.token-input-list-facebook').length == 0
+      check_show_malformation_tokens()
 
   # assign validate expo to related button
   $(".validate_expo").live 'click', (event) ->
@@ -64,11 +60,25 @@ jQuery ->
   prefill_summary_table("bebes")
 
 # functions
+
+check_show_malformation_tokens = ->
+  $malformation_select = $('select[id$=_malforma]')
+  # make malformation_tokens div visible when malformation field is == "oui"
+  show_malformation_tokens($malformation_select)
+  # ... or changes to oui
+  $malformation_select.change ->
+    $this = $(this)
+    show_malformation_tokens($this)
+
 show_malformation_tokens = ($el) ->
   $this = $el
   malf = $this.find('option:selected').val()
-  console.log malf
-  $this.closest('.select').next('.malformation_tokens').show() if malf is "Oui"
+  $malformation_tokens = $this.closest('.select').next('.malformation_tokens')
+  if malf is "Oui"
+    $malformation_tokens.show()
+  else
+    $malformation_tokens.hide()
+
 
 attach_jquery_tokeninput = ->
   $malformation_tokens_inputs = $("textarea[id*=malformation_tokens]")
@@ -82,15 +92,12 @@ attach_jquery_tokeninput = ->
 
 validate_field = (event, button, $start_point, $target, values) ->
   $this = $(button)
-  console.log(button)
   event.preventDefault() # prevent default event behavior
   # start point is the closest parent ol node of the link, it contains the fields to copy
 
 
   # also get the unique id of the expo
   expo_id = $start_point.find("select").filter(":first").attr("name").match(/[0-9]+/).join()
-  console.log(expo_id)
-  console.log(values)
 
   # don't do anything if fields to copy are all blank
   if values.join("") isnt ""
@@ -137,14 +144,12 @@ prefill_summary_table = (model) ->
   start_points = $("##{model} .nested-fields")
 
   expo_ids = (collect_field_id($(start_point)) for start_point in start_points)
-  console.log("#{model} ids = #{expo_ids}")
 
   values_set = []
   #values_set.push collect_values_to_copy($(start_point)) for start_point in start_points
   for start_point in start_points
     values_set.push collect_values_to_copy($(start_point), model)
 
-  console.log("Values collected = #{values_set}")
   append_to_summary(values, $target, expo_ids[i]) for values, i in values_set
 
 collect_field_id = ($start_point) ->
