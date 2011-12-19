@@ -35,7 +35,7 @@ jQuery ->
       $start_point.find("input[id$='_a2']").val()
     ]
     $target = $("#expositions_summary tbody")
-    validate_field(event, this, $start_point, $target, expo_values)
+    validate_field(event, this, $start_point, $target, expo_values, "exposition")
 
   # assign validate bebe to related button
   $(".validate_bebe").live 'click', (event) ->
@@ -52,7 +52,7 @@ jQuery ->
       $start_point.find("select[name*='patho'] option").filter(":selected").text()
     ]
     $target = $("#bebes_summary tbody")
-    validate_field(event, this, $start_point, $target, bebe_values)
+    validate_field(event, this, $start_point, $target, bebe_values, "bebe")
 
   # prefill summary tables for expos and bebes
 
@@ -90,18 +90,16 @@ attach_jquery_tokeninput = ->
     preventDuplicates: true
   )
 
-validate_field = (event, button, $start_point, $target, values) ->
+validate_field = (event, button, $start_point, $target, values, model) ->
   $this = $(button)
   event.preventDefault() # prevent default event behavior
-  # start point is the closest parent ol node of the link, it contains the fields to copy
 
-
-  # also get the unique id of the expo
-  expo_id = $start_point.find("select").filter(":first").attr("name").match(/[0-9]+/).join()
+  # also get the unique id of the model
+  model_id = $start_point.find("select").filter(":first").attr("name").match(/[0-9]+/).join()
 
   # don't do anything if fields to copy are all blank
   if values.join("") isnt ""
-    append_to_summary(values, $target, expo_id)
+    append_to_summary(values, $target, model_id, model)
     # toggle visibility of closest parent div.nested-fields
     $start_point.slideToggle()
 
@@ -143,17 +141,16 @@ prefill_summary_table = (model) ->
 
   start_points = $("##{model} .nested-fields")
 
-  expo_ids = (collect_field_id($(start_point)) for start_point in start_points)
+  model_ids = (collect_field_id($(start_point)) for start_point in start_points)
 
   values_set = []
-  #values_set.push collect_values_to_copy($(start_point)) for start_point in start_points
   for start_point in start_points
     values_set.push collect_values_to_copy($(start_point), model)
 
-  append_to_summary(values, $target, expo_ids[i]) for values, i in values_set
+  append_to_summary(values, $target, model_ids[i], model) for values, i in values_set
 
 collect_field_id = ($start_point) ->
-  expo_id = $start_point.find("select").filter(":first").attr("name").match(/[0-9]+/).join()
+  field_id = $start_point.find("select").filter(":first").attr("name").match(/[0-9]+/).join()
 
 collect_values_to_copy = ($start_point, model) ->
   # damn ugly... but i'm outta ideas for now, need a bit of oo to not do like this
@@ -181,42 +178,42 @@ collect_values_to_copy = ($start_point, model) ->
     ]
   return values
 
-append_to_summary = (fields, $target, expo_id) ->
+append_to_summary = (fields, $target, model_id, model) ->
   console.log($target)
-  # check whether a row with id equal to collected expo id exists
-  if $target.find("tr#expo_#{expo_id}").length isnt 0
-    $expo_row = $target.find("tr#expo_#{expo_id}")
-    $expo_row.empty()
+  # check whether a row with id equal to collected model id exists
+  if $target.find("tr##{model}_#{model_id}").length isnt 0
+    $model_row = $target.find("tr##{model}_#{model_id}")
+    $model_row.empty()
   else
-    $expo_row = $("<tr id='expo_#{expo_id}' />")
+    $model_row = $("<tr id='#{model}_#{model_id}' />")
     # append the new row to the tbody
-    $expo_row.appendTo($target)
+    $model_row.appendTo($target)
 
   # create a cell with the action links
-  cell_for_action_links($expo_row, expo_id)
+  cell_for_action_links($model_row, model_id, model)
 
   # create cells with collected fields
-  create_cells $expo_row, field for field in fields
+  create_cells $model_row, field for field in fields
 
 create_cells = ($node, text) ->
   $node.append("<td>#{text}</td>")
 
-cell_for_action_links = ($node, expo_id) ->
+cell_for_action_links = ($node, model_id, model) ->
   $cell = $("<td />")
-  $related_fieldset = $node.parents().find(".nested-fields").has("div[id*='#{expo_id}']")
+  $related_fieldset = $node.parents().find(".nested-fields").has("div[id*='#{model_id}']")
 
-  $modify_link = $("<a href='#' id='modify_expo_#{expo_id}' class='modify_link'><img alt='M' src='/assets/icons/edit.png'></a>")
+  $modify_link = $("<a href='#' id='modify_#{model}_#{model_id}' class='modify_link'><img alt='M' src='/assets/icons/edit.png'></a>")
   $modify_link.bind 'click', (event) ->
     event.preventDefault()
-    # clicking the link toggles the div.nested-fields containing the related expo form
+    # clicking the link toggles the div.nested-fields containing the related model form
     $related_fieldset.slideToggle()
 
-  $destroy_link = $("<a href='#' id='destroy_expo_#{expo_id}'><img alt='X' src='/assets/icons/destroy.png'></a>")
+  $destroy_link = $("<a href='#' id='destroy_#{model}_#{model_id}'><img alt='X' src='/assets/icons/destroy.png'></a>")
   $destroy_link.bind 'click', (event) ->
     event.preventDefault()
     # clicking the link removes the parent tr from the DOM
     $node.remove()
-    # and marks the corresponding expo for destroy assigning the _destroy input value to 1
+    # and marks the corresponding model for destroy assigning the _destroy input value to 1
     $related_fieldset.find("input[type=hidden]").val("1")
 
   $modify_link.appendTo($cell)
