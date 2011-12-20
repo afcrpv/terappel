@@ -15,7 +15,7 @@ jQuery ->
     $attach.bind 'insertion-callback', ->
       attach_jquery_tokeninput() if $('.nested-fields').find('.token-input-list-facebook').length == 0
       check_show_malformation_tokens()
-      #prepare_malf_and_path_columns $('table#bebes_summary'), "malformation"
+      prepare_malf_and_path_columns $('table#bebes_summary'), "malformation"
 
     $(".modify_link").bind 'click', ->
       attach_jquery_tokeninput() if $('.nested-fields').find('.token-input-list-facebook').length == 0
@@ -58,8 +58,7 @@ jQuery ->
   # prefill summary tables for expos and bebes
   prefill_summary_table("expositions")
   prefill_summary_table("bebes")
-  malf_or_path_col = $('table#bebes_summary').find('td:nth-last-child(2) a')
-  prepare_malf_and_path_columns(malf_or_path_col)
+  prepare_malf_and_path_columns $('table#bebes_summary'), "malformation"
 
 # functions
 
@@ -70,24 +69,23 @@ humanizePluralizeFormat = (string) ->
 
 prepare_malf_and_path_columns = (table, association) ->
   rows = table.find('tr[id]')
+  console.log rows
 
   # gather token input ul elements
-  association_lists = $("#bebes .nested-fields .#{association}_tokens ul")
+  association_containers = $("textarea.#{association}_tokens")
+  console.log association_containers
 
   association_lists_items = []
-  for association_list, i in association_lists
-    association_lists_items[i] = $(association_list).html()
-
-  new_lists = []
-  for list in association_lists_items
-    new_lists.push list.match(/<p>\w+<\/p>/g)
+  for association_container, i in association_containers
+    association_lists_items[i] = $(association_container).attr('data-pre')
+  console.log association_lists_items
 
   links = table.find('td:nth-last-child(2) a')
 
   for link, i in links
     $(link).attr('data-original-title', humanizePluralizeFormat(association))
     # assign collected association names to data-content link attribute
-    $(link).attr('data-content', new_lists[i].toString().replace(',', ''))
+    $(link).attr('data-content', association_lists_items[i])
     $(link).popover(placement: 'above', html: true)
     $(link).bind 'click', (e) ->
       e.preventDefault()
