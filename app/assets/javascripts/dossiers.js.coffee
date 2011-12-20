@@ -8,23 +8,18 @@ jQuery ->
   # bootstrap tabs
   $("#tabs").tabs()
 
-  $malformation_tokens_inputs = $("textarea[id*=malformation_tokens]")
-  attach_jquery_tokeninput($malformation_tokens_inputs, "malformation")
-
-  check_show_malformation_tokens()
-
   # when clicking on #bebes tab link
   $("#tabs li a[href='#bebes']").bind 'click', ->
     $attach = $('#bebes')
     # attach the jquery tokeninput to the bebe nested fields insertion callback
     $attach.bind 'insertion-callback', ->
-      attach_jquery_tokeninput($malformation_tokens_inputs.last(), "malformation")
-      console.log $malformation_tokens_inputs.last()
+      attach_jquery_tokeninput() if $('.nested-fields').last().find('.token-input-list-facebook').length == 0
       check_show_malformation_tokens()
       #prepare_malf_and_path_columns $('table#bebes_summary'), "malformation"
 
-    #$(".modify_link").bind 'click', ->
-      #check_show_malformation_tokens()
+    $(".modify_link").bind 'click', ->
+      attach_jquery_tokeninput() if $('.nested-fields').last().find('.token-input-list-facebook').length == 0
+      check_show_malformation_tokens()
 
   # assign validate expo to related button
   $(".validate_expo").live 'click', (event) ->
@@ -63,8 +58,8 @@ jQuery ->
   # prefill summary tables for expos and bebes
   prefill_summary_table("expositions")
   prefill_summary_table("bebes")
-
-  prepare_malf_and_path_columns $('table#bebes_summary'), "malformation"
+  malf_or_path_col = $('table#bebes_summary').find('td:nth-last-child(2) a')
+  prepare_malf_and_path_columns(malf_or_path_col)
 
 # functions
 
@@ -116,14 +111,15 @@ show_malformation_tokens = ($el) ->
     $malformation_tokens.hide()
 
 
-attach_jquery_tokeninput = ($target, association) ->
-  $target.tokenInput("/#{association}s.json",
+attach_jquery_tokeninput = ->
+  $malformation_tokens_inputs = $("textarea[id*=malformation_tokens]")
+  $malformation_tokens_inputs.tokenInput("/malformations.json",
     propertyToSearch: "libelle"
     theme: "facebook"
     noResultsText: "Aucun résultat"
     searchingText: "Recherche en cours..."
     preventDuplicates: true
-  ) if $target.prev('ul').length == 0
+  )
 
 validate_field = (event, button, $start_point, $target, values, model) ->
   $this = $(button)
@@ -170,7 +166,6 @@ assign_select_tab = (element) ->
 
 prefill_summary_table = (model) ->
   $target = $("##{model} tbody")
-
   # hide nested fields for expositions and bebes
   $("#tabs li a[href='##{model}']").bind 'click', ->
     $('.nested-fields').hide()
@@ -215,13 +210,14 @@ collect_values_to_copy = ($start_point, model) ->
   return values
 
 append_to_summary = (fields, $target, model_id, model) ->
+  console.log($target)
   # check whether a row with id equal to collected model id exists
   if $target.find("tr##{model}_#{model_id}").length isnt 0
     $model_row = $target.find("tr##{model}_#{model_id}")
     $model_row.empty()
   else
-    # create a new row and append it to the tbody
     $model_row = $("<tr id='#{model}_#{model_id}' />")
+    # append the new row to the tbody
     $model_row.appendTo($target)
 
   # create a cell with the action links
@@ -236,7 +232,7 @@ create_cells = ($node, text) ->
 
 cell_for_action_links = ($node, model_id, model) ->
   $cell = $("<td />")
-  $related_fieldset = $node.parents().find(".nested-fields").has("div[id*='#{model}_attributes_#{model_id}']")
+  $related_fieldset = $node.parents().find(".nested-fields").has("div[id*='#{model_id}']")
 
   $modify_link = $("<a href='#' id='modify_#{model}_#{model_id}' class='modify_link'><img alt='M' src='/assets/icons/edit.png'></a>")
   $modify_link.bind 'click', (event) ->
