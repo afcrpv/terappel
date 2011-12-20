@@ -66,24 +66,42 @@ jQuery ->
 
 # functions
 
+humanizePluralizeFormat = (string) ->
+  myToUpper = (match) ->
+    match.toUpperCase()
+  return string.replace(/^[a-z]{1}/, myToUpper) + "s"
+
 prepare_malf_and_path_columns = (table, association) ->
+  # placeholder for collected malformations names
   test_malfs = '<ul><li>mal1</li><li>mal2</li></ul>'
+
   rows = table.find('tr[id]')
 
   bebe_ids = []
   bebe_ids.push $(row).attr('id').match(/[0-9]+/) for row in rows
 
-  lis = $("#bebes .nested-fields .#{association}_tokens ul li")
+  # gather token input ul elements
+  association_lists = $("#bebes .nested-fields .#{association}_tokens ul")
+  console.log association_lists
 
-  association_names = []
-  association_names.push $(li).find('p').text() for li in lis
+  association_lists_items = []
+  for association_list, i in association_lists
+    association_lists_items[i] = $(association_list).html()#('li[class=token-input-token-facebook]').html()]
 
-  link = table.find('td:nth-last-child(2) a')
-  link.attr('data-content', test_malfs)# for link, i in links
-  link.attr('data-original-title', 'Malformations')
-  link.popover(placement: 'above', html: true)
-  link.bind 'click', (e) ->
-    e.preventDefault()
+  new_lists = []
+  for list in association_lists_items
+    new_lists.push list.match(/<p>\w+<\/p>/g)
+  console.log new_lists
+
+  links = table.find('td:nth-last-child(2) a')
+
+  for link, i in links
+    $(link).attr('data-original-title', humanizePluralizeFormat(association))
+    # assign collected association names to data-content link attribute
+    $(link).attr('data-content', new_lists[i].toString().replace(',', ''))
+    $(link).popover(placement: 'above', html: true)
+    $(link).bind 'click', (e) ->
+      e.preventDefault()
 
 check_show_malformation_tokens = ->
   $malformation_select = $('select[id$=_malforma]')
