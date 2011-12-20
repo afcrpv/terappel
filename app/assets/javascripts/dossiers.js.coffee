@@ -232,7 +232,7 @@ create_cells = ($node, text) ->
 
 cell_for_action_links = ($node, model_id, model) ->
   $cell = $("<td />")
-  $related_fieldset = $node.parents().find(".nested-fields").has("div[id*='#{model_id}']")
+  $related_fieldset = $node.parents().find(".nested-fields").has("div[id*='_#{model}_attributes_#{model_id}']")
 
   $modify_link = $("<a href='#' id='modify_#{model}_#{model_id}' class='modify_link'><img alt='M' src='/assets/icons/edit.png'></a>")
   $modify_link.bind 'click', (event) ->
