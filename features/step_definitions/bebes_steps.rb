@@ -39,6 +39,7 @@ end
 
 When /^I add another bebe/ do
   click_on "Ajouter Nouveau-né"
+  sleep 1
   select "Féminin", :from => "Sexe"
   click_on "Valider"
 end
