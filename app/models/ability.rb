@@ -13,9 +13,7 @@ class Ability
       can [:read, :update], [user, UserDecorator]
       cannot :destroy, [user, UserDecorator]
 
-      can :create, Dossier
-      can :read, dossier_and_decorator
-      can :update, dossier_and_decorator, :user_id => user.id
+      can :manage, dossier_and_decorator, :centre_id => user.centre_id
       cannot :destroy, dossier_and_decorator
       can :destroy, dossier_and_decorator, :user_id => user.id
 
@@ -23,11 +21,11 @@ class Ability
       can :manage, [Bebe, Exposition]
     end
     if user.role? :centre_admin
+      can :destroy, dossier_and_decorator, :centre_id => user.centre_id
       can :update, Centre, :id => user.centre_id
       can :manage, User, :centre_id => user.centre_id
       cannot :destroy, user
 
-      can :manage, dossier_and_decorator, :centre_id => user.centre_id
     end
     if user.role? :admin
       can :manage, :all

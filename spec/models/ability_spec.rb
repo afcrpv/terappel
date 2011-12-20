@@ -26,7 +26,7 @@ describe Ability do
 
     it { should be_able_to :create, Dossier }
     it { should be_able_to :read, Dossier }
-    it { should be_able_to :update, dossier }
+    it { should be_able_to :update, dossier_from_same_center }
     it { should be_able_to :destroy, dossier }
     it { should_not be_able_to :destroy, dossier_from_same_center }
     it { should_not be_able_to :destroy, dossier_from_other_center }
@@ -47,7 +47,6 @@ describe Ability do
     it {should_not be_able_to :destroy, user}
     it {should_not be_able_to :manage, user_from_other_center}
 
-    it {should be_able_to :update, dossier_from_same_center}
     it {should be_able_to :destroy, dossier_from_same_center}
     it {should_not be_able_to :update, dossier_from_other_center}
     it {should_not be_able_to :destroy, dossier_from_other_center}
