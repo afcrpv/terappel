@@ -9,7 +9,7 @@
     = f.input :malforma, label: "Malformation", as: :select, collection: ["Oui", "Non", "Ne sait pas"]
     .text.clearfix.optional.malformation_tokens
       = f.label :malformation_tokens, "Malformations"
-      .input= f.text_area :malformation_tokens, "data-pre" => f.object.malformations.map(&:attributes).to_json, class: "malformation_tokens"
+      .input= f.text_area :malformation_tokens, "data-pre" => f.object.malformations.map(&:libelle_and_id).to_json, class: "malformation_tokens"
     -#
       = f.input :malformation_tokens, as: :text, label: "Malformations", input_html: {"data-pre" => f.object.malformations.map(&:attributes).to_json, class: "malformation_tokens"}
     = f.input :patho, label: "Pathologie", as: :select, collection: ["Oui", "Non", "Ne sait pas"]
