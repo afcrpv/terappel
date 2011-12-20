@@ -184,7 +184,6 @@ collect_values_to_copy = ($start_point, model) ->
   return values
 
 append_to_summary = (fields, $target, model_id, model) ->
-  console.log($target)
   # check whether a row with id equal to collected model id exists
   if $target.find("tr##{model}_#{model_id}").length isnt 0
     $model_row = $target.find("tr##{model}_#{model_id}")
@@ -200,12 +199,35 @@ append_to_summary = (fields, $target, model_id, model) ->
   # create cells with collected fields
   create_cells $model_row, field for field in fields
 
+  $related_field = $model_row.parents().find(".nested-fields").has("div[id*='_#{model}_attributes_#{model_id}']")
+  prepare_association_columns($related_field, $model_row, "malformation")
+  #prepare_association_columns("pathologie")
+
 create_cells = ($node, text) ->
   if text is "Oui"
-    cell_content = "<a href='#' class='btn danger'>#{text}</a>"
+    cell_content = "<a href='#' class='btn danger' >#{text}</a>"
   else
     cell_content = text
+
   $node.append("<td>#{cell_content}</td>")
+
+prepare_association_columns = ($related_field, $model_row, association) ->
+  td_position = if association is "malformation" then 2 else 1
+  paraphs = $related_field.find('ul p')
+
+  # create a ul parent element
+  html = "<ul>"
+  # iterate the paraphs array and create html li from each text attr
+  html += "<li>#{$(p).text()}</li>" for p in paraphs
+  html += "</ul>"
+
+  link = $model_row.find("td:nth-last-child(#{td_position}) a")
+  $(link).attr('data-original-title', humanizePluralizeFormat(association))
+  # assign collected association names to data-content link attribute
+  $(link).attr('data-content', html)
+  $(link).popover(placement: 'above', html: true)
+  $(link).bind 'click', (e) ->
+    e.preventDefault()
 
 prepare_malf_and_path_columns = (table, association) ->
   rows = table.find('tr[id]')
