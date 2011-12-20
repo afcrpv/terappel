@@ -35,7 +35,7 @@ jQuery ->
       $start_point.find("input[id$='_a2']").val()
     ]
     $target = $("#expositions_summary tbody")
-    validate_field(event, this, $start_point, $target, expo_values, "exposition")
+    validate_field(event, this, $start_point, $target, expo_values, "expositions")
 
   # assign validate bebe to related button
   $(".validate_bebe").live 'click', (event) ->
@@ -52,14 +52,23 @@ jQuery ->
       $start_point.find("select[name*='patho'] option").filter(":selected").text()
     ]
     $target = $("#bebes_summary tbody")
-    validate_field(event, this, $start_point, $target, bebe_values, "bebe")
+    validate_field(event, this, $start_point, $target, bebe_values, "bebes")
 
   # prefill summary tables for expos and bebes
-
   prefill_summary_table("expositions")
   prefill_summary_table("bebes")
+  malf_or_path_col = $('table#bebes_summary').find('td:nth-last-child(2) a')
+  prepare_malf_and_path_columns(malf_or_path_col)
 
 # functions
+
+prepare_malf_and_path_columns = (malf_or_path_col) ->
+  test_malfs = '<ul><li>mal1</li><li>mal2</li></ul>'
+  malf_or_path_col.attr('data-content', test_malfs)
+  malf_or_path_col.attr('data-original-title', 'Malformations')
+  malf_or_path_col.popover(placement: 'above', html: true)
+  malf_or_path_col.bind 'click', (e) ->
+    e.preventDefault()
 
 check_show_malformation_tokens = ->
   $malformation_select = $('select[id$=_malforma]')
@@ -196,7 +205,8 @@ append_to_summary = (fields, $target, model_id, model) ->
   create_cells $model_row, field for field in fields
 
 create_cells = ($node, text) ->
-  $node.append("<td>#{text}</td>")
+  cell_content = if text is "Oui" then "<a href='#' class='btn danger'>#{text}</a>" else text
+  $node.append("<td>#{cell_content}</td>")
 
 cell_for_action_links = ($node, model_id, model) ->
   $cell = $("<td />")
