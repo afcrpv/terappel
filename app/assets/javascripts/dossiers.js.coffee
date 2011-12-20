@@ -13,12 +13,12 @@ jQuery ->
     $attach = $('#bebes')
     # attach the jquery tokeninput to the bebe nested fields insertion callback
     $attach.bind 'insertion-callback', ->
-      attach_jquery_tokeninput() if $('.nested-fields').last().find('.token-input-list-facebook').length == 0
+      attach_jquery_tokeninput() if $('.nested-fields').find('.token-input-list-facebook').length == 0
       check_show_malformation_tokens()
       #prepare_malf_and_path_columns $('table#bebes_summary'), "malformation"
 
     $(".modify_link").bind 'click', ->
-      attach_jquery_tokeninput() if $('.nested-fields').last().find('.token-input-list-facebook').length == 0
+      attach_jquery_tokeninput() if $('.nested-fields').find('.token-input-list-facebook').length == 0
       check_show_malformation_tokens()
 
   # assign validate expo to related button
