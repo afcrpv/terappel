@@ -19,7 +19,9 @@ jQuery ->
     # attach the jquery tokeninput to the bebe nested fields insertion callback
     $attach.bind 'insertion-callback', ->
       attach_jquery_tokeninput($malformation_tokens_inputs.last(), "malformation")
+      console.log $malformation_tokens_inputs.last()
       check_show_malformation_tokens()
+      #prepare_malf_and_path_columns $('table#bebes_summary'), "malformation"
 
     #$(".modify_link").bind 'click', ->
       #check_show_malformation_tokens()
@@ -72,26 +74,18 @@ humanizePluralizeFormat = (string) ->
   return string.replace(/^[a-z]{1}/, myToUpper) + "s"
 
 prepare_malf_and_path_columns = (table, association) ->
-  # placeholder for collected malformations names
-  test_malfs = '<ul><li>mal1</li><li>mal2</li></ul>'
-
   rows = table.find('tr[id]')
-
-  bebe_ids = []
-  bebe_ids.push $(row).attr('id').match(/[0-9]+/) for row in rows
 
   # gather token input ul elements
   association_lists = $("#bebes .nested-fields .#{association}_tokens ul")
-  console.log association_lists
 
   association_lists_items = []
   for association_list, i in association_lists
-    association_lists_items[i] = $(association_list).html()#('li[class=token-input-token-facebook]').html()]
+    association_lists_items[i] = $(association_list).html()
 
   new_lists = []
   for list in association_lists_items
     new_lists.push list.match(/<p>\w+<\/p>/g)
-  console.log new_lists
 
   links = table.find('td:nth-last-child(2) a')
 
