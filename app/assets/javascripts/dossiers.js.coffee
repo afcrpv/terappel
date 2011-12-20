@@ -15,7 +15,6 @@ jQuery ->
     $attach.bind 'insertion-callback', ->
       attach_jquery_tokeninput() if $('.nested-fields').find('.token-input-list-facebook').length == 0
       check_show_malformation_tokens()
-      prepare_malf_and_path_columns $('table#bebes_summary'), "malformation"
 
     $(".modify_link").bind 'click', ->
       attach_jquery_tokeninput() if $('.nested-fields').find('.token-input-list-facebook').length == 0
@@ -66,29 +65,6 @@ humanizePluralizeFormat = (string) ->
   myToUpper = (match) ->
     match.toUpperCase()
   return string.replace(/^[a-z]{1}/, myToUpper) + "s"
-
-prepare_malf_and_path_columns = (table, association) ->
-  rows = table.find('tr[id]')
-  console.log rows
-
-  # gather token input ul elements
-  association_containers = $("textarea.#{association}_tokens")
-  console.log association_containers
-
-  association_lists_items = []
-  for association_container, i in association_containers
-    association_lists_items[i] = $(association_container).attr('data-pre')
-  console.log association_lists_items
-
-  links = table.find('td:nth-last-child(2) a')
-
-  for link, i in links
-    $(link).attr('data-original-title', humanizePluralizeFormat(association))
-    # assign collected association names to data-content link attribute
-    $(link).attr('data-content', association_lists_items[i])
-    $(link).popover(placement: 'above', html: true)
-    $(link).bind 'click', (e) ->
-      e.preventDefault()
 
 check_show_malformation_tokens = ->
   $malformation_select = $('select[id$=_malforma]')
@@ -225,8 +201,44 @@ append_to_summary = (fields, $target, model_id, model) ->
   create_cells $model_row, field for field in fields
 
 create_cells = ($node, text) ->
-  cell_content = if text is "Oui" then "<a href='#' class='btn danger'>#{text}</a>" else text
+  if text is "Oui"
+    cell_content = "<a href='#' class='btn danger'>#{text}</a>"
+  else
+    cell_content = text
   $node.append("<td>#{cell_content}</td>")
+
+prepare_malf_and_path_columns = (table, association) ->
+  rows = table.find('tr[id]')
+
+  # gather token input ul elements
+  association_containers = $("textarea.#{association}_tokens")
+
+  association_lists_items = []
+  for association_container, i in association_containers
+    association_lists_items[i] = $(association_container).attr('data-pre')
+  console.log association_lists_items
+
+  formatted_list = []
+  for association_list_item, i in association_lists_items
+    # for each data-pre string create an array of association objects
+    objects = eval association_list_item
+    # create a ul parent element
+    html = "<ul>"
+    # iterate the objects array and create html li from objects libele property
+    html += "<li>#{object.libelle}</li>" for object in objects
+    html += "</ul>"
+    formatted_list[i] = html
+  console.log formatted_list
+
+  links = table.find('td:nth-last-child(2) a')
+
+  for link, i in links
+    $(link).attr('data-original-title', humanizePluralizeFormat(association))
+    # assign collected association names to data-content link attribute
+    $(link).attr('data-content', formatted_list[i])
+    $(link).popover(placement: 'above', html: true)
+    $(link).bind 'click', (e) ->
+      e.preventDefault()
 
 cell_for_action_links = ($node, model_id, model) ->
   $cell = $("<td />")
