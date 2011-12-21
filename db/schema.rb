@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111217100152) do
+ActiveRecord::Schema.define(:version => 20111221162711) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -189,7 +189,11 @@ ActiveRecord::Schema.define(:version => 20111217100152) do
     t.integer  "parent_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "codetermepere"
+    t.integer  "codeterme"
   end
+
+  add_index "malformations", ["ancestry"], :name => "index_malformations_on_ancestry"
 
   create_table "motifs", :force => true do |t|
     t.string   "name"
