@@ -88,6 +88,7 @@ end
 When /^I add malformations for the bebe$/ do
   click_on "Nouveau-né"
   click_on "M"
+  sleep 1
   select "Oui", :from => "Malformation"
   malformation_token_input = "//input[contains(@id, '_malformation_tokens')]"
   token_input("Malformations", :with => "Mal")
