@@ -86,22 +86,25 @@ Then /^the bebe summary table should be filled up with existing bebes/ do
 end
 
 When /^I add malformations for the bebe$/ do
+  click_on "Nouveau-né"
   click_on "M"
   select "Oui", :from => "Malformation"
   malformation_token_input = "//input[contains(@id, '_malformation_tokens')]"
-  #text = "mal"
-  #find(:css, malformation_token_input).set(text)
-  #page.execute_script %{ $("#{malformation_token_input}").focus().keydown() }
-  #sleep 1
-  #page.execute_script %{ $(".token-input-dropdown-facebook ul li:contains('Mal')").trigger("mouseenter").trigger("click"); }
   token_input("Malformations", :with => "Mal")
   click_on "Valider"
 end
 
-Then /^I should see the added malformations$/ do
+Then /^I should see (?:the|the added) malformations$/ do
+  click_on "Nouveau-né"
   malf_link = "a[data-original-title=Malformations]"
   page.should have_css(malf_link)
-  sleep 1
   page.execute_script %{$("#{malf_link}").popover('show')}
+  sleep 1
   find(:css, ".popover").should have_content("Malfo1")
+end
+
+Given /^the bebe has malformations$/ do
+  bebe = @dossier.bebes.first
+  bebe.malformation_ids = [1,2]
+  @dossier.save!
 end
