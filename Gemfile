@@ -77,3 +77,4 @@ gem "bootstrap-sass", "~> 1.4.2"
 gem 'formtastic-bootstrap'
 gem 'newrelic_rpm'
 gem 'ancestry'
+gem 'jstree-rails', :git => 'git://github.com/tristanm/jstree-rails.git'

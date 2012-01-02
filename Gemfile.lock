@@ -15,6 +15,13 @@ GIT
       remotipart (~> 1.0)
 
 GIT
+  remote: git://github.com/tristanm/jstree-rails.git
+  revision: 57866de305e571bfa328748c5733cf5c80866a52
+  specs:
+    jstree-rails (0.0.1)
+      rails (~> 3.1.0.rc5)
+
+GIT
   remote: https://github.com/ttilley/rb-fsevent.git
   revision: f36a8cd01b49a6ce2a26d9e1083b5f6e6722c470
   branch: pre-compiled-gem-one-off
@@ -311,6 +318,7 @@ DEPENDENCIES
   haml-rails
   hpricot
   jquery-rails
+  jstree-rails!
   launchy
   mocha
   newrelic_rpm
