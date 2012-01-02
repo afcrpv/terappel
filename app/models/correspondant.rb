@@ -2,6 +2,9 @@ class Correspondant < ActiveRecord::Base
   attr_accessible :specialite_id, :qualite_id, :formule_id, :nom, :adresse, :cp, :ville, :telephone, :fax, :poste, :email, :fullname
 
   has_many :dossiers
+  belongs_to :specialite
+  belongs_to :qualite
+  belongs_to :formule
 
   #callbacks
   after_create :assign_fullname

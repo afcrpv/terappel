@@ -25,6 +25,8 @@ class Dossier < ActiveRecord::Base
   belongs_to :user
   belongs_to :motif
   belongs_to :correspondant
+  belongs_to :evolution
+  belongs_to :categoriesp
 
   has_many :expositions, :dependent => :destroy
   accepts_nested_attributes_for :expositions, :reject_if => :all_blank, :allow_destroy => true
