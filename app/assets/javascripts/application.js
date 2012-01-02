@@ -11,4 +11,5 @@
 //= require autocomplete-rails
 //= require cocoon
 //= require common
+//= require jstree
 //= require_tree .
