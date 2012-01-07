@@ -11,14 +11,16 @@ jQuery ->
   # when clicking on #bebes tab link
   $("#tabs li a[href='#bebes']").bind 'click', ->
     $attach = $('#bebes')
-    # attach the jquery tokeninput to the bebe nested fields insertion callback
     $attach.bind 'insertion-callback', ->
+      # when the nested field is inserted check if the association trees buttons need to be shown
+      check_show_association_tokens("malforma")
+      # attach the jquery tokeninput to the bebe nested fields insertion callback
       attach_jquery_tokeninput() if $('.nested-fields').find('.token-input-list-facebook').length == 0
-      check_show_malformation_tokens()
 
+    # when the modify bebe is clicked check if the association trees buttons need to be shown
     $(".modify_link").bind 'click', ->
+      check_show_association_tokens("malforma")
       attach_jquery_tokeninput() if $('.nested-fields').find('.token-input-list-facebook').length == 0
-      check_show_malformation_tokens()
 
   # assign validate expo to related button
   $(".validate_expo").live 'click', (event) ->
@@ -66,24 +68,26 @@ humanizePluralizeFormat = (string) ->
     match.toUpperCase()
   return string.replace(/^[a-z]{1}/, myToUpper) + "s"
 
-check_show_malformation_tokens = ->
-  $malformation_select = $('select[id$=_malforma]')
-  # make malformation_tokens div visible when malformation field is == "oui"
-  show_malformation_tokens($malformation_select)
+check_show_association_tokens = (association) ->
+  $association_select = $("select[id$=_#{association}]")
+  console.log "#{association} select"
+  console.log $association_select
+  # make association tree button visible when association field is == "oui"
+  show_association_tokens($association_select, association)
   # ... or changes to oui
-  $malformation_select.change ->
-    $this = $(this)
-    show_malformation_tokens($this)
+  $association_select.change ->
+    show_association_tokens($(this), association)
 
-show_malformation_tokens = ($el) ->
+show_association_tokens = ($el, association) ->
   $this = $el
-  malf = $this.find('option:selected').val()
-  $malformation_tokens = $this.closest('.select').next('.malformation_tokens')
-  if malf is "Oui"
-    $malformation_tokens.show()
+  val = $this.find('option:selected').val()
+  console.log val
+  $association_tokens = $this.closest('.select').next(".#{association}_tokens")
+  console.log $association_button
+  if val is "Oui"
+    $association_tokens.show()
   else
-    $malformation_tokens.hide()
-
+    $association_tokens.hide()
 
 attach_jquery_tokeninput = ->
   $malformation_tokens_inputs = $("textarea[id*=malformation_tokens]")
@@ -200,8 +204,8 @@ append_to_summary = (fields, $target, model_id, model) ->
   create_cells $model_row, field for field in fields
 
   $related_field = $model_row.parents().find(".nested-fields").has("div[id*='_#{model}_attributes_#{model_id}']")
-  prepare_association_columns($related_field, $model_row, "malformation")
-  #prepare_association_columns("pathologie")
+  prepare_malf_and_path_columns $target, "malformation"
+  #prepare_malf_and_path_columns $target, "pathologie"
 
 create_cells = ($node, text) ->
   if text is "Oui"
@@ -211,24 +215,6 @@ create_cells = ($node, text) ->
 
   $node.append("<td>#{cell_content}</td>")
 
-prepare_association_columns = ($related_field, $model_row, association) ->
-  td_position = if association is "malformation" then 2 else 1
-  paraphs = $related_field.find('ul p')
-
-  # create a ul parent element
-  html = "<ul>"
-  # iterate the paraphs array and create html li from each text attr
-  html += "<li>#{$(p).text()}</li>" for p in paraphs
-  html += "</ul>"
-
-  link = $model_row.find("td:nth-last-child(#{td_position}) a")
-  $(link).attr('data-original-title', humanizePluralizeFormat(association))
-  # assign collected association names to data-content link attribute
-  $(link).attr('data-content', html)
-  $(link).popover(placement: 'above', html: true)
-  $(link).bind 'click', (e) ->
-    e.preventDefault()
-
 prepare_malf_and_path_columns = (table, association) ->
   rows = table.find('tr[id]')
 
@@ -237,7 +223,7 @@ prepare_malf_and_path_columns = (table, association) ->
 
   association_lists_items = []
   for association_container, i in association_containers
-    association_lists_items[i] = $(association_container).attr('data-pre')
+    association_lists_items[i] = $(association_container).attr("data-pre")
   console.log association_lists_items
 
   formatted_list = []
@@ -247,9 +233,10 @@ prepare_malf_and_path_columns = (table, association) ->
     # create a ul parent element
     html = "<ul>"
     # iterate the objects array and create html li from objects libele property
-    html += "<li>#{object.libelle}</li>" for object in objects
+    html += "<li>#{object.libelle}</li>" for object in objects if objects
     html += "</ul>"
     formatted_list[i] = html
+
   console.log formatted_list
 
   links = table.find('td:nth-last-child(2) a')
