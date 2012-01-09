@@ -38,6 +38,26 @@ Feature: Manage bebes
     Then the bebe summary table should be filled up with existing bebes
 
   @javascript
+  Scenario Outline: for new bebes show malformation tokens if related select option is "oui"
+    When I initialize a bebe for a dossier
+    And I choose <option> from the "Malformation" select
+    Then the malformation tokens should be <state>
+    Examples:
+      |option|state|
+      |"Oui" |visible|
+      |"Non" |hidden|
+
+  @javascript
+  Scenario Outline: for existing bebes show malformation tokens if related select option is "oui"
+    When I add a new bebe for a dossier
+    And I choose <option> from the "Malformation" select
+    Then the malformation tokens should be <state>
+    Examples:
+      |option|state|
+      |"Oui" |visible|
+      |"Non" |hidden|
+
+  @javascript
   Scenario: adding malformations to bebes for new dossiers
     When I add a new bebe for a dossier
     And I add malformations for the bebe

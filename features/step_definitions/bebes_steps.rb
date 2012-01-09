@@ -1,9 +1,7 @@
 #encoding: utf-8
 
 When /^I add a new bebe for a dossier$/ do
-  visit new_dossier_path
-  click_on "Nouveau-né"
-  click_on "Ajouter Nouveau-né"
+  step %{I initialize a bebe for a dossier}
   select "Masculin", :from => "Sexe"
   fill_in "Poids (g)", :with => "3500"
   fill_in "Taille (cm)", :with => "50"
@@ -13,6 +11,12 @@ When /^I add a new bebe for a dossier$/ do
   select "Non", :from => "Malformation"
   select "Oui", :from => "Pathologie"
   click_on "Valider"
+end
+
+When /^I initialize a bebe for a dossier$/ do
+  visit new_dossier_path
+  click_on "Nouveau-né"
+  click_on "Ajouter Nouveau-né"
 end
 
 Then /^the added bebe should appear in the summary table$/ do
@@ -124,4 +128,19 @@ end
 
 Then /^the added malformations should appear as tokens$/ do
   find(:css, "ul.token-input-list-facebook").should have_content("Malfo1")
+end
+
+When /^I choose "([^"]*)" from the "([^"]*)" select$/ do |option, select|
+  click_on "Nouveau-né"
+  click_on "M"
+  sleep 1
+  select option, from: select
+end
+
+Then /^the malformation tokens should be visible$/ do
+  page.find(:css, 'ul.token-input-list-facebook').visible?.should be_true
+end
+
+Then /^the malformation tokens should be hidden$/ do
+  page.find(:css, 'ul.token-input-list-facebook').visible?.should_not be_true
 end
