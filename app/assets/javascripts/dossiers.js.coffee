@@ -11,6 +11,21 @@ jQuery ->
   # prefill summary tables for expos and bebes
   prefill_summary_table("expositions")
 
+  malformation_jstree_data =
+    "json_data" :
+      "ajax" :
+        "url" : "/malformations/tree.json"
+        "data" : (node) ->
+          return { parent_id : if node.attr then node.attr("id") else 0}
+    plugins: ["themes", "json_data", "ui", "checkbox"]
+    themes:
+      theme: 'apple'
+    checkbox:
+      override_ui: true
+      two_state: true
+
+  $(".malformations_tree").attach_jstree(malformation_jstree_data)
+
   # when clicking on #bebes tab link
   $("#tabs li a[href='#bebes']").bind 'click', ->
     $malformation_tokens_inputs = $("textarea.malformation_tokens")
@@ -27,9 +42,9 @@ jQuery ->
       # attach the jquery tokeninput to the bebe nested fields insertion callback
       $attach.find("textarea").last().attach_jquery_tokeninput("/malformations.json")
 
-    # when the modify bebe is clicked check if the association trees buttons need to be shown
-    #$(".modify_link").bind 'click', ->
-      #check_show_association_tokens("malforma")
+      $(".malformations_tree").last().attach_jstree(malformation_jstree_data)
+      $malformation_tree_button = $("a.show_malformation_tree:visible")
+      $malformation_tree_button.complete_modal_for_association("malformation")
 
   # assign validate expo to related button
   $(".validate_expo").live 'click', (event) ->
@@ -218,19 +233,10 @@ create_cells = ($node, text) ->
   $node.append("<td>#{cell_content}</td>")
 
 prepare_malf_and_path_columns = ($related_field, $model_row, association) ->
-  console.log "prepare_malf_and_path_columns function launched!"
-  console.log "processing model_row:"
-  console.log $model_row
-
-  console.log "$related_field to use :"
-  console.log $related_field
-
   td_position = if association is "malforma" then 2 else 1
 
   #gather paraphs using $related_field
   paraphs = $related_field.find("ul p")
-  console.log "gathered paraphs :"
-  console.log paraphs
 
   # create a ul parent element
   html = "<ul>"
@@ -238,12 +244,7 @@ prepare_malf_and_path_columns = ($related_field, $model_row, association) ->
   html += "<li>#{$(p).text()}</li>" for p in paraphs
   html += "</ul>"
 
-  console.log "gathered list is :"
-  console.log html
-
   link = $model_row.find("td:nth-last-child(#{td_position}) a")
-  console.log "link to process :"
-  console.log $(link)
 
   $(link).attr('data-original-title', humanizePluralizeFormat(association))
   # assign collected association names to data-content link attribute
@@ -251,9 +252,6 @@ prepare_malf_and_path_columns = ($related_field, $model_row, association) ->
   $(link).popover(placement: 'above', html: true)
   $(link).bind 'click', (e) ->
     e.preventDefault()
-
-  console.log "link after processing :"
-  console.log $(link)
 
 cell_for_action_links = ($node, model_id, model) ->
   $cell = $("<td />")
@@ -264,6 +262,9 @@ cell_for_action_links = ($node, model_id, model) ->
     event.preventDefault()
     # clicking the link toggles the div.nested-fields containing the related model form
     $related_fieldset.slideToggle()
+
+    $malformation_tree_button = $("a.show_malformation_tree:visible")
+    $malformation_tree_button.complete_modal_for_association("malformation")
 
   $destroy_link = $("<a href='#' id='destroy_#{model}_#{model_id}'><img alt='X' src='/assets/icons/destroy.png'></a>")
   $destroy_link.bind 'click', (event) ->
@@ -277,3 +278,37 @@ cell_for_action_links = ($node, model_id, model) ->
   $destroy_link.appendTo($cell)
 
   $cell.appendTo($node)
+
+jQuery.fn.complete_modal_for_association = (association) ->
+  bebe_id = this.prevAll("input").attr("id").match(/[0-9]+/).join()
+  console.log "bebe_id is #{bebe_id}"
+  association_modal_id = "#{association}_bebe_#{bebe_id}_modal"
+  console.log "modal_id is #{association_modal_id}"
+  $modal = this.parent().next(".modal")
+  this.attr("data-controls-modal", association_modal_id)
+  $modal.attr("id", association_modal_id)
+
+jQuery.fn.attach_jstree = (settings) ->
+  this.bind "loaded.jstree", (event, data) ->
+    console.log "tree##{$(this).attr('class')} is loaded"
+  .jstree(settings)
+  .bind "check_node.jstree uncheck_node.jstree", (event, data) ->
+    # assign the following to check/uncheck node events
+    nodes = $(this).jstree("get_checked")
+    checked_nodes_objs = []
+    checked_nodes_objs.push {id: $(node).attr("id"), libelle: $(node).attr("libelle")} for node in nodes
+    names = []
+    names.push(obj.libelle) for obj in checked_nodes_objs
+    html = []
+    html.push "<ul>"
+    html.push "<li>#{name}</li>" for name in names
+    html.push "</ul>"
+    # create a list with malformations checked nodes
+    $(this).parent().next().find(".malformations_container").html(html.join(""))
+    $(this).parent().next().find("a").bind "click", (event) ->
+      # assign action to add checked malformations to be persisted in db
+      event.preventDefault()
+      $tokeninput = $(this).parents('body').find(".nested-fields:visible").find("textarea[id$=malformation_tokens]")
+      $modal = $(this).parents(".modal")
+      $modal.modal('hide')
+      $tokeninput.tokenInput("add", obj) for obj in checked_nodes_objs
