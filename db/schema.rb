@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111221162711) do
+ActiveRecord::Schema.define(:version => 20120109135721) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -33,8 +33,8 @@ ActiveRecord::Schema.define(:version => 20111221162711) do
 
   create_table "bebes", :force => true do |t|
     t.integer  "dossier_id"
-    t.string   "malforma"
-    t.string   "patho"
+    t.string   "malformation"
+    t.string   "pathologie"
     t.string   "sexe"
     t.integer  "poids"
     t.integer  "apgar1"

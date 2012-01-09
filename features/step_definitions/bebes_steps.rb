@@ -72,8 +72,8 @@ end
 Given /^an existing dossier with bebes/ do
   step %{an existing dossier}
   @dossier.bebes_attributes = [
-    {sexe: "Masculin", poids: "3500", malforma: "Oui"},
-    {sexe: "Féminin", poids: "4000", malforma: "Non"},
+    {sexe: "Masculin", poids: "3500", malformation: "Oui"},
+    {sexe: "Féminin", poids: "4000", malformation: "Non"},
   ]
   @dossier.save!
 end
@@ -97,7 +97,7 @@ end
 
 Then /^I should see (?:the|the added) malformations$/ do
   click_on "Nouveau-né"
-  malf_link = "a[data-original-title=Malformas]"
+  malf_link = "a[data-original-title=Malformations]"
   page.should have_css(malf_link)
   page.execute_script %{$("#{malf_link}").popover('show')}
   sleep 1

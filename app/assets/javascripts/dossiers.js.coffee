@@ -30,15 +30,15 @@ jQuery ->
   $("#tabs li a[href='#bebes']").bind 'click', ->
     $malformation_tokens_inputs = $("textarea.malformation_tokens")
     $malformation_tokens_inputs.attach_jquery_tokeninput("/malformations.json")
-    $association_select = $("select[id$=_malforma]")
-    $association_select.check_show_association_tokens("malforma")
+    $association_select = $("select[id$=_malformation]")
+    $association_select.check_show_association_tokens("malformation")
 
     prefill_summary_table("bebes")
 
     $attach = $('#bebes')
     $attach.bind 'insertion-callback', ->
       # when the nested field is inserted check if the association trees buttons need to be shown
-      $attach.find("select[id$=_malforma]").last().check_show_association_tokens("malforma")
+      $attach.find("select[id$=_malformation]").last().check_show_association_tokens("malformation")
       # attach the jquery tokeninput to the bebe nested fields insertion callback
       $attach.find("textarea").last().attach_jquery_tokeninput("/malformations.json")
 
@@ -89,6 +89,7 @@ humanizePluralizeFormat = (string) ->
 
 jQuery.fn.check_show_association_tokens = (association) ->
   tokens = this.closest(".select").next(".#{association}_tokens")
+  console.log this
   $tokens = $(tokens)
   $select = this
 
@@ -221,7 +222,7 @@ append_to_summary = (fields, $target, model_id, model) ->
   $related_field = $model_row.parents().find(".nested-fields").has("div[id*='_#{model}_attributes_#{model_id}']")
 
   if model == "bebes"
-    prepare_malf_and_path_columns $related_field, $model_row, "malforma"
+    prepare_malf_and_path_columns $related_field, $model_row, "malformation"
     #prepare_malf_and_path_columns $target, "pathologie"
 
 create_cells = ($node, text) ->
@@ -233,7 +234,7 @@ create_cells = ($node, text) ->
   $node.append("<td>#{cell_content}</td>")
 
 prepare_malf_and_path_columns = ($related_field, $model_row, association) ->
-  td_position = if association is "malforma" then 2 else 1
+  td_position = if association is "malformation" then 2 else 1
 
   #gather paraphs using $related_field
   paraphs = $related_field.find("ul p")
@@ -281,9 +282,7 @@ cell_for_action_links = ($node, model_id, model) ->
 
 jQuery.fn.complete_modal_for_association = (association) ->
   bebe_id = this.prevAll("input").attr("id").match(/[0-9]+/).join()
-  console.log "bebe_id is #{bebe_id}"
   association_modal_id = "#{association}_bebe_#{bebe_id}_modal"
-  console.log "modal_id is #{association_modal_id}"
   $modal = this.parent().next(".modal")
   this.attr("data-controls-modal", association_modal_id)
   $modal.attr("id", association_modal_id)
