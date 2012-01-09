@@ -97,7 +97,7 @@ end
 
 Then /^I should see (?:the|the added) malformations$/ do
   click_on "Nouveau-né"
-  malf_link = "a[data-original-title=Malformations]"
+  malf_link = "a[data-original-title=Malformas]"
   page.should have_css(malf_link)
   page.execute_script %{$("#{malf_link}").popover('show')}
   sleep 1
