@@ -66,7 +66,7 @@ jQuery ->
   # assign validate bebe to related button
   $(".validate_bebe").live 'click', (event) ->
     $start_point = $(this).closest(".nested-fields")
-    # collect sexe, poids, taille, pc, apgar1, apgar5, malforma, patho fields values
+    # collect sexe, poids, taille, pc, apgar1, apgar5, malformation, pathologie fields values
     bebe_values = [
       $start_point.find("select[name*='sexe'] option").filter(":selected").text()
       $start_point.find("input[id$='_poids']").val()
@@ -74,8 +74,8 @@ jQuery ->
       $start_point.find("input[id$='_pc']").val()
       $start_point.find("input[id$='_apgar1']").val()
       $start_point.find("input[id$='_apgar5']").val()
-      $start_point.find("select[name*='malforma'] option").filter(":selected").text()
-      $start_point.find("select[name*='patho'] option").filter(":selected").text()
+      $start_point.find("select[name*='malformation'] option").filter(":selected").text()
+      $start_point.find("select[name*='pathologie'] option").filter(":selected").text()
     ]
     $target = $("#bebes_summary tbody")
     validate_field(event, this, $start_point, $target, bebe_values, "bebes")
@@ -89,7 +89,6 @@ humanizePluralizeFormat = (string) ->
 
 jQuery.fn.check_show_association_tokens = (association) ->
   tokens = this.closest(".select").next(".#{association}_tokens")
-  console.log this
   $tokens = $(tokens)
   $select = this
 
@@ -198,8 +197,8 @@ collect_values_to_copy = ($start_point, model) ->
       $start_point.find("input[id$='_pc']").val()
       $start_point.find("input[id$='_apgar1']").val()
       $start_point.find("input[id$='_apgar5']").val()
-      $start_point.find("select[name*='malforma'] option").filter(":selected").text()
-      $start_point.find("select[name*='patho'] option").filter(":selected").text()
+      $start_point.find("select[name*='malformation'] option").filter(":selected").text()
+      $start_point.find("select[name*='pathologie'] option").filter(":selected").text()
     ]
   return values
 
