@@ -8,19 +8,28 @@ jQuery ->
   # bootstrap tabs
   $("#tabs").tabs()
 
+  # prefill summary tables for expos and bebes
+  prefill_summary_table("expositions")
+
   # when clicking on #bebes tab link
   $("#tabs li a[href='#bebes']").bind 'click', ->
+    $malformation_tokens_inputs = $("textarea.malformation_tokens")
+    $malformation_tokens_inputs.attach_jquery_tokeninput("/malformations.json")
+    $association_select = $("select[id$=_malforma]")
+    $association_select.check_show_association_tokens("malforma")
+
+    prefill_summary_table("bebes")
+
     $attach = $('#bebes')
     $attach.bind 'insertion-callback', ->
       # when the nested field is inserted check if the association trees buttons need to be shown
-      check_show_association_tokens("malforma")
+      $attach.find("select[id$=_malforma]").last().check_show_association_tokens("malforma")
       # attach the jquery tokeninput to the bebe nested fields insertion callback
-      attach_jquery_tokeninput() if $('.nested-fields').find('.token-input-list-facebook').length == 0
+      $attach.find("textarea").last().attach_jquery_tokeninput("/malformations.json")
 
     # when the modify bebe is clicked check if the association trees buttons need to be shown
-    $(".modify_link").bind 'click', ->
-      check_show_association_tokens("malforma")
-      attach_jquery_tokeninput() if $('.nested-fields').find('.token-input-list-facebook').length == 0
+    #$(".modify_link").bind 'click', ->
+      #check_show_association_tokens("malforma")
 
   # assign validate expo to related button
   $(".validate_expo").live 'click', (event) ->
@@ -56,11 +65,6 @@ jQuery ->
     $target = $("#bebes_summary tbody")
     validate_field(event, this, $start_point, $target, bebe_values, "bebes")
 
-  # prefill summary tables for expos and bebes
-  prefill_summary_table("expositions")
-  prefill_summary_table("bebes")
-  prepare_malf_and_path_columns $('table#bebes_summary'), "malformation"
-
 # functions
 
 humanizePluralizeFormat = (string) ->
@@ -68,36 +72,34 @@ humanizePluralizeFormat = (string) ->
     match.toUpperCase()
   return string.replace(/^[a-z]{1}/, myToUpper) + "s"
 
-check_show_association_tokens = (association) ->
-  $association_select = $("select[id$=_#{association}]")
-  console.log "#{association} select"
-  console.log $association_select
-  # make association tree button visible when association field is == "oui"
-  show_association_tokens($association_select, association)
+jQuery.fn.check_show_association_tokens = (association) ->
+  tokens = this.closest(".select").next(".#{association}_tokens")
+  $tokens = $(tokens)
+  $select = this
+
+  # make tokens visible when association field is == "Oui"
+  check_selected_option($select, $tokens)
+
   # ... or changes to oui
-  $association_select.change ->
-    show_association_tokens($(this), association)
+  this.change ->
+    check_selected_option($(this), $tokens)
 
-show_association_tokens = ($el, association) ->
-  $this = $el
-  val = $this.find('option:selected').val()
-  console.log val
-  $association_tokens = $this.closest('.select').next(".#{association}_tokens")
-  console.log $association_button
-  if val is "Oui"
-    $association_tokens.show()
-  else
-    $association_tokens.hide()
+check_selected_option = ($select_element, $tokens) ->
+  selected_option = $select_element.find('option:selected').val()
+  # check if selected option is not empty
+  if selected_option
+    check = if selected_option is "Oui" then true else false
+  if check then $tokens.show() else $tokens.hide()
 
-attach_jquery_tokeninput = ->
-  $malformation_tokens_inputs = $("textarea[id*=malformation_tokens]")
-  $malformation_tokens_inputs.tokenInput("/malformations.json",
-    propertyToSearch: "libelle"
-    theme: "facebook"
-    noResultsText: "Aucun résultat"
-    searchingText: "Recherche en cours..."
-    preventDuplicates: true
-  )
+jQuery.fn.attach_jquery_tokeninput = (url)->
+  unless this.prev('.token-input-list-facebook').length
+    this.tokenInput(url,
+      propertyToSearch: "libelle"
+      theme: "facebook"
+      noResultsText: "Aucun résultat"
+      searchingText: "Recherche en cours..."
+      preventDuplicates: true
+    )
 
 validate_field = (event, button, $start_point, $target, values, model) ->
   $this = $(button)
@@ -144,9 +146,7 @@ assign_select_tab = (element) ->
 
 prefill_summary_table = (model) ->
   $target = $("##{model} tbody")
-  # hide nested fields for expositions and bebes
-  $("#tabs li a[href='##{model}']").bind 'click', ->
-    $('.nested-fields').hide()
+  $('.nested-fields').hide()
 
   start_points = $("##{model} .nested-fields")
 
@@ -204,8 +204,10 @@ append_to_summary = (fields, $target, model_id, model) ->
   create_cells $model_row, field for field in fields
 
   $related_field = $model_row.parents().find(".nested-fields").has("div[id*='_#{model}_attributes_#{model_id}']")
-  prepare_malf_and_path_columns $target, "malformation"
-  #prepare_malf_and_path_columns $target, "pathologie"
+
+  if model == "bebes"
+    prepare_malf_and_path_columns $related_field, $model_row, "malforma"
+    #prepare_malf_and_path_columns $target, "pathologie"
 
 create_cells = ($node, text) ->
   if text is "Oui"
@@ -215,39 +217,43 @@ create_cells = ($node, text) ->
 
   $node.append("<td>#{cell_content}</td>")
 
-prepare_malf_and_path_columns = (table, association) ->
-  rows = table.find('tr[id]')
+prepare_malf_and_path_columns = ($related_field, $model_row, association) ->
+  console.log "prepare_malf_and_path_columns function launched!"
+  console.log "processing model_row:"
+  console.log $model_row
 
-  # gather token input ul elements
-  association_containers = $("textarea.#{association}_tokens")
+  console.log "$related_field to use :"
+  console.log $related_field
 
-  association_lists_items = []
-  for association_container, i in association_containers
-    association_lists_items[i] = $(association_container).attr("data-pre")
-  console.log association_lists_items
+  td_position = if association is "malforma" then 2 else 1
 
-  formatted_list = []
-  for association_list_item, i in association_lists_items
-    # for each data-pre string create an array of association objects
-    objects = eval association_list_item
-    # create a ul parent element
-    html = "<ul>"
-    # iterate the objects array and create html li from objects libele property
-    html += "<li>#{object.libelle}</li>" for object in objects if objects
-    html += "</ul>"
-    formatted_list[i] = html
+  #gather paraphs using $related_field
+  paraphs = $related_field.find("ul p")
+  console.log "gathered paraphs :"
+  console.log paraphs
 
-  console.log formatted_list
+  # create a ul parent element
+  html = "<ul>"
+  # iterate the paraphs array and create html li from each text property
+  html += "<li>#{$(p).text()}</li>" for p in paraphs
+  html += "</ul>"
 
-  links = table.find('td:nth-last-child(2) a')
+  console.log "gathered list is :"
+  console.log html
 
-  for link, i in links
-    $(link).attr('data-original-title', humanizePluralizeFormat(association))
-    # assign collected association names to data-content link attribute
-    $(link).attr('data-content', formatted_list[i])
-    $(link).popover(placement: 'above', html: true)
-    $(link).bind 'click', (e) ->
-      e.preventDefault()
+  link = $model_row.find("td:nth-last-child(#{td_position}) a")
+  console.log "link to process :"
+  console.log $(link)
+
+  $(link).attr('data-original-title', humanizePluralizeFormat(association))
+  # assign collected association names to data-content link attribute
+  $(link).attr('data-content', html)
+  $(link).popover(placement: 'above', html: true)
+  $(link).bind 'click', (e) ->
+    e.preventDefault()
+
+  console.log "link after processing :"
+  console.log $(link)
 
 cell_for_action_links = ($node, model_id, model) ->
   $cell = $("<td />")
