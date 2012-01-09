@@ -43,9 +43,15 @@ Feature: Manage bebes
     And I add malformations for the bebe
     Then I should see the added malformations
 
-  @javascript @focus
+  @javascript
   Scenario: adding malformations to bebes for existing dossiers
     Given an existing dossier with bebes
     And the bebe has malformations
     When I edit the dossier
     Then I should see the malformations
+
+  @javascript
+  Scenario: adding malformations using treeview
+    When I add a new bebe for a dossier
+    And I add malformations using the treeview
+    Then the added malformations should appear as tokens

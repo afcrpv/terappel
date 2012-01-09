@@ -109,3 +109,19 @@ Given /^the bebe has malformations$/ do
   bebe.malformation_ids = [1,2]
   @dossier.save!
 end
+
+When /^I add malformations using the treeview$/ do
+  click_on "Nouveau-né"
+  click_on "M"
+  sleep 1
+  select "Oui", :from => "Malformation"
+  click_on "Montrer/Modifier Malformations"
+  tree = ".malformations_tree"
+  page.execute_script %{$("#{tree}").jstree("check_node", "li#1")}
+  find(:css, ".malformations_container").should have_content("Malfo1")
+  click_on "Rajouter ces malformations"
+end
+
+Then /^the added malformations should appear as tokens$/ do
+  find(:css, "ul.token-input-list-facebook").should have_content("Malfo1")
+end
