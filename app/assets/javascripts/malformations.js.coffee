@@ -45,9 +45,7 @@ jQuery ->
 jQuery.fn.complete_modal_for_association = (association) ->
   if this.length
     bebe_id = this.prevAll("input").attr("id").match(/[0-9]+/).join()
-    console.log "bebe order in dossier :" + bebe_id
     association_modal_id = "#{association}_bebe_#{bebe_id}_modal"
     $modal = this.parent().next(".modal")
     this.attr("data-controls-modal", association_modal_id)
     $modal.attr("id", association_modal_id)
-    console.log "#{association} modal id :" + $modal.attr("id")
