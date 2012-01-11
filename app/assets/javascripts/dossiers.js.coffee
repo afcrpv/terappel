@@ -223,7 +223,9 @@ append_to_summary = (fields, $target, model_id, model) ->
   # create cells with collected fields
   create_cells $model_row, field for field in fields
 
-  $related_field = $model_row.parents().find(".nested-fields").has("div[id*='_#{model}_attributes_#{model_id}']")
+  $related_field = $model_row.parents().find(".nested-fields").has("input[id*='_#{model}_attributes_#{model_id}']")
+  console.log "related field for malformations gathering"
+  console.log $related_field
 
   if model == "bebes"
     prepare_malf_and_path_columns $related_field, $model_row, "malformation"
@@ -242,6 +244,8 @@ prepare_malf_and_path_columns = ($related_field, $model_row, association) ->
 
   #gather paraphs using $related_field
   paraphs = $related_field.find("ul p")
+  console.log "p elements containing malfos"
+  console.log paraphs
 
   # create a ul parent element
   html = "<ul>"
