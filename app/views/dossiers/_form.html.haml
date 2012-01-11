@@ -17,7 +17,7 @@
       = f.input :centre_id, as: :hidden
       = f.input :code
       = f.input :date_appel, as: :string, input_html: {autofocus: true, "data-value" => date_appel}
-      = f.input :motif
+      = f.association :motif
       = f.input :correspondant_nom, as: :autocomplete, label: "Correspondant",
         url: autocomplete_correspondant_fullname_dossiers_path,
         input_html: {id_element: "#dossier_correspondant_id", class: "span10"}
