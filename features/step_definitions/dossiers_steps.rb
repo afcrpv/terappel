@@ -8,7 +8,7 @@ When /^I add a new dossier$/ do
   fill_in "Date Appel", :with => "31/01/2001"
   fill_in "Nom patiente", :with => "Martin"
   expect do
-    click_button I18n.t('formtastic.actions.create', :model => Dossier)
+    click_button I18n.t('helpers.submit.create')
   end.to change{Dossier.count}.by(1)
   Dossier.last.user_id.should == @user.id
   Dossier.last.centre_id.should == @centre.id
@@ -35,7 +35,7 @@ When /^I update the dossier with new data$/ do
   visit edit_dossier_path(@dossier)
   fill_in I18n.t("activerecord.attributes.dossier.name"), :with => "Dupont"
   fill_in I18n.t("activerecord.attributes.dossier.date_appel"), :with => "01/01/2001"
-  click_button I18n.t('formtastic.actions.update', :model => Dossier)
+  click_button I18n.t('helpers.submit.update')
 end
 
 Then /^I should see the updated dossier$/ do

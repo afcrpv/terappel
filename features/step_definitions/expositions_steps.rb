@@ -16,7 +16,7 @@ Then /^the added exposition should belong to the dossier$/ do
   fill_in "Date Appel", :with => "31/01/2001"
   click_on "Patiente"
   fill_in "Nom patiente", :with => "Martin"
-  click_on "Créer Dossier"
+  click_on I18n.t("helpers.submit.create")
   Dossier.first.expositions.first.produit_name.should == "ACICLOVIR"
 end
 
