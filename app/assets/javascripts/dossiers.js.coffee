@@ -3,10 +3,13 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 jQuery ->
-  better_errors_list()
+  #better_errors_list()
 
   # bootstrap tabs
   $("#tabs").tabs()
+
+  dateappel = $("#dossier_date_appel").attr("data-value")
+  $("#dossier_date_appel").val(dateappel) if dateappel
 
   # prefill summary tables for expos and bebes
   prefill_summary_table("expositions")
@@ -165,7 +168,8 @@ prefill_summary_table = (model) ->
 
   start_points = $("##{model} .nested-fields")
 
-  model_ids = (collect_field_id($(start_point)) for start_point in start_points)
+  model_ids = []
+  model_ids.push(collect_field_id($(start_point))) for start_point in start_points
 
   values_set = []
   for start_point in start_points
@@ -174,7 +178,8 @@ prefill_summary_table = (model) ->
   append_to_summary(values, $target, model_ids[i], model) for values, i in values_set
 
 collect_field_id = ($start_point) ->
-  field_id = $start_point.find("select").filter(":first").attr("name").match(/[0-9]+/).join()
+  $field = $start_point.find("select").filter(":first")
+  field_id = $field.attr("name").match(/[0-9]+/).join()
 
 collect_values_to_copy = ($start_point, model) ->
   # damn ugly... but i'm outta ideas for now, need a bit of oo to not do like this
@@ -255,7 +260,7 @@ prepare_malf_and_path_columns = ($related_field, $model_row, association) ->
 
 cell_for_action_links = ($node, model_id, model) ->
   $cell = $("<td />")
-  $related_fieldset = $node.parents().find(".nested-fields").has("div[id*='_#{model}_attributes_#{model_id}']")
+  $related_fieldset = $node.parents().find(".nested-fields").has("input[id*='_#{model}_attributes_#{model_id}']")
 
   $modify_link = $("<a href='#' id='modify_#{model}_#{model_id}' class='modify_link'><img alt='M' src='/assets/icons/edit.png'></a>")
   $modify_link.bind 'click', (event) ->
@@ -280,7 +285,8 @@ cell_for_action_links = ($node, model_id, model) ->
   $cell.appendTo($node)
 
 jQuery.fn.complete_modal_for_association = (association) ->
-  bebe_id = this.prevAll("input").attr("id").match(/[0-9]+/).join()
+  field = this.prevAll("input")
+  bebe_id = field.attr("id").match(/[0-9]+/).join()
   association_modal_id = "#{association}_bebe_#{bebe_id}_modal"
   $modal = this.parent().next(".modal")
   this.attr("data-controls-modal", association_modal_id)
