@@ -42,8 +42,10 @@ jQuery ->
     $attach.bind 'insertion-callback', ->
       # when the nested field is inserted check if the association trees buttons need to be shown
       $attach.find("select[id$=_malformation]").last().check_show_association_tokens("malformation")
+      $attach.find("select[id$=_pathologie]").last().check_show_association_tokens("pathologie")
       # attach the jquery tokeninput to the bebe nested fields insertion callback
       $attach.find("textarea").last().attach_jquery_tokeninput("/malformations.json")
+      $attach.find("textarea").last().attach_jquery_tokeninput("/pathologies.json")
 
       $(".malformations_tree").last().attach_jstree(malformation_jstree_data)
       $malformation_tree_button = $("a.show_malformation_tree:visible")
@@ -229,7 +231,7 @@ append_to_summary = (fields, $target, model_id, model) ->
 
   if model == "bebes"
     prepare_malf_and_path_columns $related_field, $model_row, "malformation"
-    #prepare_malf_and_path_columns $target, "pathologie"
+    prepare_malf_and_path_columns $related_field, $model_row, "pathologie"
 
 create_cells = ($node, text) ->
   if text is "Oui"

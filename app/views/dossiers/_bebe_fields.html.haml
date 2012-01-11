@@ -10,6 +10,9 @@
     = f.label :malformation_tokens, "Malformations"
     = f.text_area :malformation_tokens, "data-pre" => f.object.malformations.map(&:libelle_and_id).to_json, class: "malformation_tokens"
   = f.input :pathologie, label: "Pathologie", as: :select, collection: ["Oui", "Non", "Ne sait pas"]
+  .inline-inputs.pathologie_tokens
+    = f.label :pathologie_tokens, "Pathologies"
+    = f.text_area :pathologie_tokens, "data-pre" => f.object.pathologies.map(&:libelle_and_id).to_json, class: "pathologie_tokens"
   .field_links
     = link_to "Valider", "#", class: "btn success validate_bebe small"
     = link_to_remove_association "Supprimer", f, class: "btn danger small"

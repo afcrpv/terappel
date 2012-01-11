@@ -7,6 +7,8 @@ Feature: Manage bebes
     Given a centre admin is logged in
     Given an existing malformation with libelle "Malfo1"
     Given an existing malformation with libelle "Malfo2"
+    Given an existing pathologie with libelle "Patho1"
+    Given an existing pathologie with libelle "Patho2"
 
   @javascript
   Scenario: add row in bebes summary
@@ -38,24 +40,28 @@ Feature: Manage bebes
     Then the bebe summary table should be filled up with existing bebes
 
   @javascript
-  Scenario Outline: for new bebes show malformation tokens if related select option is "oui"
+  Scenario Outline: for new bebes show malformation/pathologie tokens if related select option is "oui"
     When I initialize a bebe for a dossier
-    And I choose <option> from the "Malformation" select
-    Then the malformation tokens should be <state>
+    And I choose <option> from the <association> select
+    Then the <association> tokens should be <state>
     Examples:
-      |option|state|
-      |"Oui" |visible|
-      |"Non" |hidden|
+      |option|association|state|
+      |"Oui" |"Malformation"|visible|
+      |"Non" |"Malformation"|hidden|
+      |"Oui" |"Pathologie"|visible|
+      |"Non" |"Pathologie"|hidden|
 
   @javascript
   Scenario Outline: for existing bebes show malformation tokens if related select option is "oui"
     When I add a new bebe for a dossier
-    And I choose <option> from the "Malformation" select
-    Then the malformation tokens should be <state>
+    And I choose <option> from the <association> select
+    Then the <association> tokens should be <state>
     Examples:
-      |option|state|
-      |"Oui" |visible|
-      |"Non" |hidden|
+      |option|association|state|
+      |"Oui" |"Malformation"|visible|
+      |"Non" |"Malformation"|hidden|
+      |"Oui" |"Pathologie"|visible|
+      |"Non" |"Pathologie"|hidden|
 
   @javascript
   Scenario: adding malformations to bebes for new dossiers

@@ -137,10 +137,10 @@ When /^I choose "([^"]*)" from the "([^"]*)" select$/ do |option, select|
   select option, from: select
 end
 
-Then /^the malformation tokens should be visible$/ do
-  page.find(:css, 'ul.token-input-list-facebook').visible?.should be_true
+Then /^the "([^"]*)" tokens should be visible$/ do |association|
+  page.find(:css, ".#{association.downcase}_tokens").visible?.should be_true
 end
 
-Then /^the malformation tokens should be hidden$/ do
-  page.find(:css, 'ul.token-input-list-facebook').visible?.should_not be_true
+Then /^the "([^"]*)" tokens should be hidden$/ do |association|
+  page.find(:css, ".#{association.downcase}_tokens").visible?.should_not be_true
 end
