@@ -256,7 +256,7 @@ prepare_malf_and_path_columns = ($related_field, $model_row, association) ->
   $(link).attr('data-original-title', humanizePluralizeFormat(association))
   # assign collected association names to data-content link attribute
   $(link).attr('data-content', html)
-  $(link).popover(placement: 'above', html: true)
+  $(link).popover(placement: 'left', html: true)
   $(link).bind 'click', (e) ->
     e.preventDefault()
 
