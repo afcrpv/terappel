@@ -34,7 +34,7 @@
 
   th, td {
     vertical-align: middle;
-    padding: 10px;
+    padding: 0;
     &:last-child {
       text-align: center;
       width: 56px;
@@ -61,6 +61,9 @@ table.fields_summary {
   font-size: 12px;
   border-bottom: 1px solid black;
   margin-bottom: 0;
+  tr {
+    height: 40px;
+  }
   td, th {
     text-align: center;
     &:first-child {
@@ -76,7 +79,7 @@ table.fields_summary {
   min-height: 400px
 }
 
-.formtastic {
+.simple_form {
   input.btn {
     padding: 5px 14px 6px;
   }
