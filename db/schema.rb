@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120109135721) do
+ActiveRecord::Schema.define(:version => 20120111162059) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -48,6 +48,11 @@ ActiveRecord::Schema.define(:version => 20120109135721) do
   create_table "bebes_malformations", :id => false, :force => true do |t|
     t.integer "bebe_id"
     t.integer "malformation_id"
+  end
+
+  create_table "bebes_pathologies", :id => false, :force => true do |t|
+    t.integer "bebe_id"
+    t.integer "pathologie_id"
   end
 
   create_table "centres", :force => true do |t|
@@ -200,6 +205,20 @@ ActiveRecord::Schema.define(:version => 20120109135721) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "pathologies", :force => true do |t|
+    t.string   "libelle"
+    t.string   "libabr"
+    t.integer  "level"
+    t.string   "ancestry"
+    t.integer  "parent_id"
+    t.integer  "codetermepere"
+    t.integer  "codeterme"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "pathologies", ["ancestry"], :name => "index_pathologies_on_ancestry"
 
   create_table "produits", :force => true do |t|
     t.string   "name"

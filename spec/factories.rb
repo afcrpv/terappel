@@ -47,4 +47,8 @@ FactoryGirl.define do
   factory :malformation do
     sequence(:libelle) {|n| "Malformation{n}"}
   end
+
+  factory :pathologie do
+    sequence(:libelle) {|n| "Pathologie{n}"}
+  end
 end
