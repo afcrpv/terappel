@@ -1,5 +1,8 @@
-= semantic_form_for dossier do |f|
-  = f.semantic_errors :code, :date_appel, :name, class: "dossier_errors", "data-model_name" => f.object.class.model_name # add more mandatory fields
+= simple_form_for dossier, wrapper: :inline, class: "saisie" do |f|
+  - if f.error_notification
+    .alert-message.warning.fade.in{"data-alert" => "alert"}
+      %a.close{href: "#"}x
+      %p= f.error_notification
 
   #tabs
     %ul
@@ -10,21 +13,18 @@
       %li= link_to "Nouveau-né", "#bebes"
 
     #infos
-      = f.inputs do
-        .input= f.hidden_field :user_id
-        .input= f.hidden_field :centre_id
-        = f.input :code
-        = f.input :date_appel, as: :string,
-          input_html: {autofocus: true, placeholder: "jj/mm/aaaa", value: date_appel, required: true}
-        = f.input :motif
-        .string.clearfix.optional.stringish#dossier_correspondant_nom_input
-          = f.label :correspondant_nom, "Correspondant"
-          .input= f.autocomplete_field :correspondant_nom, autocomplete_correspondant_fullname_dossiers_path, id_element:  "#dossier_correspondant_id", class: "span10"
-        .input= f.hidden_field :correspondant_id
+      = f.input :user_id, as: :hidden
+      = f.input :centre_id, as: :hidden
+      = f.input :code
+      = f.input :date_appel, as: :string, input_html: {autofocus: true, "data-value" => date_appel}
+      = f.input :motif
+      = f.input :correspondant_nom, as: :autocomplete, label: "Correspondant",
+        url: autocomplete_correspondant_fullname_dossiers_path,
+        input_html: {id_element: "#dossier_correspondant_id", class: "span10"}
+      = f.input :correspondant_id, as: :hidden
 
     #patiente
-      = f.inputs do
-        = f.input :name, input_html: {required: true}
+      = f.input :name
 
     #expositions
       %table.fields_summary#expositions_summary
@@ -41,11 +41,9 @@
             %th.to à
         %tbody
 
-      = f.inputs id: "expositions_fields" do
-        = f.semantic_fields_for :expositions do |exposition|
-          = render 'exposition_fields', :f => exposition
-        .links
-          = link_to_add_association 'Ajouter Expo', f, :expositions, class: "btn primary small"
+      = f.simple_fields_for :expositions do |exposition|
+        = render 'exposition_fields', :f => exposition
+      .links= link_to_add_association 'Ajouter Expo', f, :expositions, class: "btn primary small"
 
     #evol
 
@@ -64,15 +62,13 @@
             %th Pathologie
         %tbody
 
-      = f.inputs do
-        = f.semantic_fields_for :bebes do |bebe|
-          = render 'bebe_fields', :f => bebe
-        .links
-          = link_to_add_association 'Ajouter Nouveau-né', f, :bebes, class: "btn primary small"
+      = f.simple_fields_for :bebes do |bebe|
+        = render 'bebe_fields', :f => bebe
+      .links= link_to_add_association 'Ajouter Nouveau-né', f, :bebes, class: "btn primary small"
 
-  = f.buttons do
-    = f.commit_button :button_html => {disable_with: "Attendre...", class: "success"}
-    = link_to "Annuler", :back, class: "btn danger"
+  .actions
+    = f.button :submit, disable_with: "Attendre...", class: "success"
+    = link_to "Annuler", dossiers_path, class: "btn"
 
 = content_for :footer do
   = debug "\nCentre : " + dossier.try(:centre_name) + "\nUser : " + dossier.username

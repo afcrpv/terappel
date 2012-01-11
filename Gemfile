@@ -73,8 +73,7 @@ gem "ransack"
 gem "thin"
 gem "cocoon"
 
-gem "bootstrap-sass", "~> 1.4.2"
-gem 'formtastic-bootstrap'
 gem 'newrelic_rpm'
 gem 'ancestry'
 gem 'jstree-rails', :git => 'git://github.com/tristanm/jstree-rails.git'
+gem 'simple_form', :git => 'git://github.com/plataformatec/simple_form.git'
