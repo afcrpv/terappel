@@ -91,7 +91,9 @@ humanizePluralizeFormat = (string) ->
   return string.replace(/^[a-z]{1}/, myToUpper) + "s"
 
 jQuery.fn.check_show_association_tokens = (association) ->
-  tokens = this.closest(".select").next(".#{association}_tokens")
+  console.log this
+  tokens = this.closest("div.select").next(".#{association}_tokens")
+  console.log tokens
   $tokens = $(tokens)
   $select = this
 
@@ -224,8 +226,6 @@ append_to_summary = (fields, $target, model_id, model) ->
   create_cells $model_row, field for field in fields
 
   $related_field = $model_row.parents().find(".nested-fields").has("input[id*='_#{model}_attributes_#{model_id}']")
-  console.log "related field for malformations gathering"
-  console.log $related_field
 
   if model == "bebes"
     prepare_malf_and_path_columns $related_field, $model_row, "malformation"
@@ -244,8 +244,6 @@ prepare_malf_and_path_columns = ($related_field, $model_row, association) ->
 
   #gather paraphs using $related_field
   paraphs = $related_field.find("ul p")
-  console.log "p elements containing malfos"
-  console.log paraphs
 
   # create a ul parent element
   html = "<ul>"
