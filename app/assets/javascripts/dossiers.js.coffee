@@ -39,28 +39,31 @@ jQuery ->
   prefill_summary_table("expositions")
 
   for association in ["malformation", "pathologie"]
-    $(".#{association}s_tree").attach_jstree(association)
+    do (association) ->
+      $(".#{association}s_tree").attach_jstree(association)
 
-    # when clicking on #bebes tab link
-    $("#tabs li a[href='#bebes']").bind 'click', ->
-      $("textarea.#{association}_tokens").attach_jquery_tokeninput("/#{association}s.json")
+      # when clicking on #bebes tab link
+      $("#tabs li a[href='#bebes']").bind 'click', ->
+        $tokens = $("textarea.#{association}_tokens")
+        console.log $tokens
+        $tokens.attach_jquery_tokeninput("/#{association}s.json")
 
-      $("select[id$=#{association}]").check_show_association_tokens(association)
+        $("select[id$=#{association}]").check_show_association_tokens(association)
 
-      prefill_summary_table("bebes")
+        prefill_summary_table("bebes")
 
-      $attach = $('#bebes')
-      $attach.bind 'insertion-callback', ->
-        hide_add_field_link("bebes")
+        $attach = $('#bebes')
+        $attach.bind 'insertion-callback', ->
+          hide_add_field_link("bebes")
 
-        # when the nested field is inserted check if the association trees buttons need to be shown
-        $("select[id$=_#{association}]").last().check_show_association_tokens(association)
+          # when the nested field is inserted check if the association trees buttons need to be shown
+          $("select[id$=_#{association}]").last().check_show_association_tokens(association)
 
-        # attach the jquery tokeninput to the bebe nested fields insertion callback
-        $("textarea.#{association}_tokens").last().attach_jquery_tokeninput("/#{association}s.json")
+          # attach the jquery tokeninput to the bebe nested fields insertion callback
+          $("textarea.#{association}_tokens").last().attach_jquery_tokeninput("/#{association}s.json")
 
-        $(".#{association}s_tree").last().attach_jstree(association)
-        $("a.show_#{association}_tree:visible").complete_modal_for_association(association)
+          $(".#{association}s_tree").last().attach_jstree(association)
+          $("a.show_#{association}_tree:visible").complete_modal_for_association(association)
 
   # assign validate bebe to related button
   $(".validate_bebe").live 'click', (event) ->
@@ -117,7 +120,7 @@ check_selected_option = ($select_elements, $tokens) ->
       check = if selected_option is "Oui" then true else false
     if check then $token.show() else $token.hide()
 
-jQuery.fn.attach_jquery_tokeninput = (url)->
+jQuery.fn.attach_jquery_tokeninput = (url) ->
   unless this.prev('.token-input-list-facebook').length
     this.tokenInput(url,
       propertyToSearch: "libelle"
@@ -234,9 +237,9 @@ append_to_summary = (fields, $target, model_id, model) ->
 
   $related_field = $model_row.parents().find(".nested-fields").has("input[id*='_#{model}_attributes_#{model_id}']")
 
-  if model == "bebes"
-    prepare_malf_and_path_columns $related_field, $model_row, "malformation"
-    prepare_malf_and_path_columns $related_field, $model_row, "pathologie"
+  if model is "bebes"
+    for association in ["malformation", "pathologie"]
+      prepare_malf_and_path_columns $related_field, $model_row, association
 
 create_cells = ($node, text) ->
   if text is "Oui"
