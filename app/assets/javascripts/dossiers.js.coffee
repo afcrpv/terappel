@@ -16,6 +16,8 @@ jQuery ->
     $attach = $("#expositions")
     $attach.bind 'insertion-callback', ->
       hide_add_field_link("expositions")
+    $attach.bind 'removal-callback', ->
+      show_add_field_link("expositions")
 
   # assign validate expo to related button
   $(".validate_expo").live 'click', (event) ->
@@ -64,6 +66,8 @@ jQuery ->
 
           $(".#{association}s_tree").last().attach_jstree(association)
           $("a.show_#{association}_tree:visible").complete_modal_for_association(association)
+        $attach.bind 'removal-callback', ->
+          show_add_field_link("bebes")
 
   # assign validate bebe to related button
   $(".validate_bebe").live 'click', (event) ->

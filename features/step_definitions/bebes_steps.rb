@@ -144,18 +144,21 @@ When /^I add (\w+) using the treeview$/ do |association|
   click_on "Montrer/Modifier #{plural_title}"
   tree = ".#{association}_tree"
   page.execute_script %{$("#{tree}").jstree("check_node", "li#1")}
+  sleep 1
   find(:css, ".#{association}_container").should have_content("#{singular_title}1")
   click_on "Rajouter ces #{association}"
 end
 
-Then /^the added malformations should appear as tokens$/ do
-  find(:css, "ul.token-input-list-facebook").should have_content("Malformation1")
+Then /^the added (\w+) should appear as tokens$/ do |association|
+  singular       = association.singularize
+  singular_title = association.titleize.singularize
+  plural_title   = association.titleize
+  sleep 1
+  find(:css, ".#{singular}_tokens ul.token-input-list-facebook").should have_content("#{singular_title}1")
 end
 
 When /^I choose "([^"]*)" from the "([^"]*)" select$/ do |option, select|
-  click_on "Nouveau-né"
-  click_on "M"
-  sleep 1
+  step %{I want to modify the bebe}
   select option, from: select
 end
 
@@ -165,4 +168,20 @@ end
 
 Then /^the "([^"]*)" tokens should be hidden$/ do |association|
   page.find(:css, ".#{association.downcase}_tokens").visible?.should_not be_true
+end
+
+Then /^the add bebe button should be (visible|hidden)/ do |condition|
+  check = condition == "visible" ? true : false
+  page.find(:css, "a[data-association=bebe]").visible?.should == check
+end
+
+When /^I want to modify the bebe$/ do
+  click_on "Nouveau-né"
+  click_on "M"
+  sleep 1
+end
+
+When /^I delete the initialized bebe$/ do
+  click_on "Supprimer"
+  sleep 1
 end

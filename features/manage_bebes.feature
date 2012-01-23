@@ -34,3 +34,26 @@ Feature: Manage bebes
     Given an existing dossier with bebes
     When I edit the dossier
     Then the bebe summary table should be filled up with existing bebes
+
+  @javascript
+  Scenario: hide add bebe button when a new bebe form is added
+    When I initialize a bebe for a dossier
+    Then the add bebe button should be hidden
+
+  @javascript
+  Scenario: show add bebe button when validating
+    When I update an existing bebe for a dossier
+    Then the add bebe button should be visible
+
+  @javascript
+  Scenario: hide add bebe button when a bebe form is being modified
+    Given an existing dossier with bebes
+    When I edit the dossier
+    And I want to modify the bebe
+    Then the add bebe button should be hidden
+
+  @javascript
+  Scenario: show add bebe button when removing a bebe form
+    When I initialize a bebe for a dossier
+    And I delete the initialized bebe
+    Then the add bebe button should be visible

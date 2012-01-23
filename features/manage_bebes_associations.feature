@@ -62,7 +62,7 @@ Feature: Manage bebes associations
       |malformations|
       |pathologies|
 
-  @javascript @focus
+  @javascript
   Scenario Outline: adding associations using treeview
     When I add a new bebe for a dossier
     And I add <association> using the treeview
