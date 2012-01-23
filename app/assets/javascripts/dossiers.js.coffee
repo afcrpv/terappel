@@ -45,6 +45,8 @@ jQuery ->
 
     $attach = $('#bebes')
     $attach.bind 'insertion-callback', ->
+      hide_add_field_link("bebes")
+
       # when the nested field is inserted check if the association trees buttons need to be shown
       $last_malformation_select = $("select[id$=_malformation]").last()
       $last_malformation_select.check_show_association_tokens("malformation")
@@ -60,6 +62,11 @@ jQuery ->
       $(".malformations_tree").last().attach_jstree(malformation_jstree_data)
       $malformation_tree_button = $("a.show_malformation_tree:visible")
       $malformation_tree_button.complete_modal_for_association("malformation")
+
+  $("#tabs li a[href='#expositions']").bind 'click', ->
+    $attach = $("#expositions")
+    $attach.bind 'insertion-callback', ->
+      hide_add_field_link("expositions")
 
   # assign validate expo to related button
   $(".validate_expo").live 'click', (event) ->
@@ -96,6 +103,14 @@ jQuery ->
     validate_field(event, this, $start_point, $target, bebe_values, "bebes")
 
 # functions
+
+show_add_field_link = (association) ->
+  $add_association_link = $("a.add_fields[data-associations=#{association}]")
+  $add_association_link.show()
+
+hide_add_field_link = (association) ->
+  $add_association_link = $("a.add_fields[data-associations=#{association}]")
+  $add_association_link.hide()
 
 humanizePluralizeFormat = (string) ->
   myToUpper = (match) ->
@@ -147,6 +162,7 @@ validate_field = (event, button, $start_point, $target, values, model) ->
     append_to_summary(values, $target, model_id, model)
     # toggle visibility of closest parent div.nested-fields
     $start_point.slideToggle()
+    show_add_field_link(model)
 
 better_errors_list = ->
   $errors_container = $('ul.dossier_errors')
@@ -258,9 +274,6 @@ prepare_malf_and_path_columns = ($related_field, $model_row, association) ->
 
   #gather paraphs using $related_field
   paraphs = $related_field.find("div.#{association}_tokens ul p")
-  console.log $related_field
-  console.log "paraphs for #{association}:"
-  console.log paraphs
 
   # create a ul parent element
   html = "<ul>"
@@ -287,8 +300,10 @@ cell_for_action_links = ($node, model_id, model) ->
     # clicking the link toggles the div.nested-fields containing the related model form
     $related_fieldset.slideToggle()
 
-    $malformation_tree_button = $("a.show_malformation_tree:visible")
-    $malformation_tree_button.complete_modal_for_association("malformation")
+    hide_add_field_link(model)
+    if model is "bebes"
+      $malformation_tree_button = $("a.show_malformation_tree:visible")
+      $malformation_tree_button.complete_modal_for_association("malformation")
 
   $destroy_link = $("<a href='#' id='destroy_#{model}_#{model_id}'><img alt='X' src='/assets/icons/destroy.png'></a>")
   $destroy_link.bind 'click', (event) ->
