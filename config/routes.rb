@@ -15,6 +15,7 @@ Terappel::Application.routes.draw do
   resources :users, :only => [:show, :edit, :update]
 
   resources :malformations, :only => :index
+  resources :pathologies, :only => :index
   match 'malformations/tree' => 'malformations#tree'
 
   root :to => "home#index"

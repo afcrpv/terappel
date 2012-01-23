@@ -6,8 +6,9 @@
 
 %p= @dossier.name
 %p= @dossier.date_appel
-%h4 Bebes
+%h4 Bébés
 - if @dossier.bebes.any?
-  %ul
-    - @dossier.bebes.each do |bebe|
-      %li Malformations : #{bebe.malformation_names}
+  - @dossier.bebes.each_with_index do |bebe, index|
+    %h5 Bébé #{index+1}
+    %p Malformations : #{bebe.malformation_names}
+    %p Pathologies : #{bebe.pathologie_names}

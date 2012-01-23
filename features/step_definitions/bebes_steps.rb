@@ -89,23 +89,41 @@ Then /^the bebe summary table should be filled up with existing bebes/ do
   find(:css, "#bebes .nested-fields").visible?.should_not be_true
 end
 
-When /^I add malformations for the bebe$/ do
+When /^I add (\w+) for the bebe$/ do |association|
+  singular       = association.singularize
+  singular_title = association.titleize.singularize
+  plural_title   = association.titleize
   click_on "Nouveau-né"
   click_on "M"
   sleep 1
-  select "Oui", :from => "Malformation"
-  malformation_token_input = "//input[contains(@id, '_malformation_tokens')]"
-  token_input("Malformations", :with => "Mal")
+  select "Oui", :from => singular_title
+  token_input(plural_title, :with => plural_title[0..2])
   click_on "Valider"
 end
 
-Then /^I should see (?:the|the added) malformations$/ do
+Then /^the associations should not be mixed up$/ do
   click_on "Nouveau-né"
-  malf_link = "a[data-original-title=Malformations]"
+  %w(malformation pathologie).each do |association|
+    opposite = association == "malformation" ? "pathologie" : "malformation"
+    link = "a[data-original-title=#{association.pluralize.titleize}]"
+    page.should have_css(link)
+    page.execute_script %{$("#{link}").popover('show')}
+    sleep 1
+    find(:css, ".popover").should have_content("#{association.titleize}1")
+    find(:css, ".popover").should_not have_content("#{opposite.titleize}1")
+  end
+end
+
+Then /^I should see the added (\w+)/ do |association|
+  singular       = association.singularize
+  singular_title = association.titleize.singularize
+  plural_title   = association.titleize
+  click_on "Nouveau-né"
+  malf_link = "a[data-original-title=#{plural_title}]"
   page.should have_css(malf_link)
   page.execute_script %{$("#{malf_link}").popover('show')}
   sleep 1
-  find(:css, ".popover").should have_content("Malfo1")
+  find(:css, ".popover").should have_content("#{singular_title}1")
 end
 
 Given /^the bebe has malformations$/ do

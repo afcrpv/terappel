@@ -33,19 +33,29 @@ jQuery ->
   $("#tabs li a[href='#bebes']").bind 'click', ->
     $malformation_tokens_inputs = $("textarea.malformation_tokens")
     $malformation_tokens_inputs.attach_jquery_tokeninput("/malformations.json")
-    $association_select = $("select[id$=_malformation]")
-    $association_select.check_show_association_tokens("malformation")
+    $pathologie_tokens_inputs = $("textarea.pathologie_tokens")
+    $pathologie_tokens_inputs.attach_jquery_tokeninput("/pathologies.json")
+
+    $malformation_select = $("select[id$=_malformation]")
+    $malformation_select.check_show_association_tokens("malformation")
+    $pathologie_select = $("select[id$=_pathologie]")
+    $pathologie_select.check_show_association_tokens("pathologie")
 
     prefill_summary_table("bebes")
 
     $attach = $('#bebes')
     $attach.bind 'insertion-callback', ->
       # when the nested field is inserted check if the association trees buttons need to be shown
-      $attach.find("select[id$=_malformation]").last().check_show_association_tokens("malformation")
-      $attach.find("select[id$=_pathologie]").last().check_show_association_tokens("pathologie")
+      $last_malformation_select = $("select[id$=_malformation]").last()
+      $last_malformation_select.check_show_association_tokens("malformation")
+      $last_pathologie_select = $("select[id$=_pathologie]").last()
+      $last_pathologie_select.check_show_association_tokens("pathologie")
+
       # attach the jquery tokeninput to the bebe nested fields insertion callback
-      $attach.find("textarea").last().attach_jquery_tokeninput("/malformations.json")
-      $attach.find("textarea").last().attach_jquery_tokeninput("/pathologies.json")
+      $last_malformation_tokens = $("textarea.malformation_tokens").last()
+      $last_malformation_tokens.attach_jquery_tokeninput("/malformations.json")
+      $last_pathologie_tokens = $("textarea.pathologie_tokens").last()
+      $last_pathologie_tokens.attach_jquery_tokeninput("/pathologies.json")
 
       $(".malformations_tree").last().attach_jstree(malformation_jstree_data)
       $malformation_tree_button = $("a.show_malformation_tree:visible")
@@ -93,9 +103,7 @@ humanizePluralizeFormat = (string) ->
   return string.replace(/^[a-z]{1}/, myToUpper) + "s"
 
 jQuery.fn.check_show_association_tokens = (association) ->
-  console.log this
   tokens = this.closest("div.select").next(".#{association}_tokens")
-  console.log tokens
   $tokens = $(tokens)
   $select = this
 
@@ -106,12 +114,16 @@ jQuery.fn.check_show_association_tokens = (association) ->
   this.change ->
     check_selected_option($(this), $tokens)
 
-check_selected_option = ($select_element, $tokens) ->
-  selected_option = $select_element.find('option:selected').val()
+check_selected_option = ($select_elements, $tokens) ->
+  selected_options = []
+  selected_options.push $($select).find('option:selected').val() for $select in $select_elements
+
   # check if selected option is not empty
-  if selected_option
-    check = if selected_option is "Oui" then true else false
-  if check then $tokens.show() else $tokens.hide()
+  for selected_option,i in selected_options
+    $token = $($tokens[i])
+    if selected_option
+      check = if selected_option is "Oui" then true else false
+    if check then $token.show() else $token.hide()
 
 jQuery.fn.attach_jquery_tokeninput = (url)->
   unless this.prev('.token-input-list-facebook').length
@@ -245,7 +257,10 @@ prepare_malf_and_path_columns = ($related_field, $model_row, association) ->
   td_position = if association is "malformation" then 2 else 1
 
   #gather paraphs using $related_field
-  paraphs = $related_field.find("ul p")
+  paraphs = $related_field.find("div.#{association}_tokens ul p")
+  console.log $related_field
+  console.log "paraphs for #{association}:"
+  console.log paraphs
 
   # create a ul parent element
   html = "<ul>"
