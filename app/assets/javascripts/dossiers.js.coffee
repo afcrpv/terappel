@@ -11,58 +11,7 @@ jQuery ->
   dateappel = $("#dossier_date_appel").attr("data-value")
   $("#dossier_date_appel").val(dateappel) if dateappel
 
-  # prefill summary tables for expos and bebes
-  prefill_summary_table("expositions")
-
-  malformation_jstree_data =
-    "json_data" :
-      "ajax" :
-        "url" : "/malformations/tree.json"
-        "data" : (node) ->
-          return { parent_id : if node.attr then node.attr("id") else 0}
-    plugins: ["themes", "json_data", "ui", "checkbox"]
-    themes:
-      theme: 'apple'
-    checkbox:
-      override_ui: true
-      two_state: true
-
-  $(".malformations_tree").attach_jstree(malformation_jstree_data)
-
-  # when clicking on #bebes tab link
-  $("#tabs li a[href='#bebes']").bind 'click', ->
-    $malformation_tokens_inputs = $("textarea.malformation_tokens")
-    $malformation_tokens_inputs.attach_jquery_tokeninput("/malformations.json")
-    $pathologie_tokens_inputs = $("textarea.pathologie_tokens")
-    $pathologie_tokens_inputs.attach_jquery_tokeninput("/pathologies.json")
-
-    $malformation_select = $("select[id$=_malformation]")
-    $malformation_select.check_show_association_tokens("malformation")
-    $pathologie_select = $("select[id$=_pathologie]")
-    $pathologie_select.check_show_association_tokens("pathologie")
-
-    prefill_summary_table("bebes")
-
-    $attach = $('#bebes')
-    $attach.bind 'insertion-callback', ->
-      hide_add_field_link("bebes")
-
-      # when the nested field is inserted check if the association trees buttons need to be shown
-      $last_malformation_select = $("select[id$=_malformation]").last()
-      $last_malformation_select.check_show_association_tokens("malformation")
-      $last_pathologie_select = $("select[id$=_pathologie]").last()
-      $last_pathologie_select.check_show_association_tokens("pathologie")
-
-      # attach the jquery tokeninput to the bebe nested fields insertion callback
-      $last_malformation_tokens = $("textarea.malformation_tokens").last()
-      $last_malformation_tokens.attach_jquery_tokeninput("/malformations.json")
-      $last_pathologie_tokens = $("textarea.pathologie_tokens").last()
-      $last_pathologie_tokens.attach_jquery_tokeninput("/pathologies.json")
-
-      $(".malformations_tree").last().attach_jstree(malformation_jstree_data)
-      $malformation_tree_button = $("a.show_malformation_tree:visible")
-      $malformation_tree_button.complete_modal_for_association("malformation")
-
+  #### EXPOSITIONS ####
   $("#tabs li a[href='#expositions']").bind 'click', ->
     $attach = $("#expositions")
     $attach.bind 'insertion-callback', ->
@@ -84,6 +33,34 @@ jQuery ->
     ]
     $target = $("#expositions_summary tbody")
     validate_field(event, this, $start_point, $target, expo_values, "expositions")
+
+  #### BEBES ####
+  # prefill summary tables for expos and bebes
+  prefill_summary_table("expositions")
+
+  for association in ["malformation", "pathologie"]
+    $(".#{association}s_tree").attach_jstree(association)
+
+    # when clicking on #bebes tab link
+    $("#tabs li a[href='#bebes']").bind 'click', ->
+      $("textarea.#{association}_tokens").attach_jquery_tokeninput("/#{association}s.json")
+
+      $("select[id$=#{association}]").check_show_association_tokens(association)
+
+      prefill_summary_table("bebes")
+
+      $attach = $('#bebes')
+      $attach.bind 'insertion-callback', ->
+        hide_add_field_link("bebes")
+
+        # when the nested field is inserted check if the association trees buttons need to be shown
+        $("select[id$=_#{association}]").last().check_show_association_tokens(association)
+
+        # attach the jquery tokeninput to the bebe nested fields insertion callback
+        $("textarea.#{association}_tokens").last().attach_jquery_tokeninput("/#{association}s.json")
+
+        $(".#{association}s_tree").last().attach_jstree(association)
+        $("a.show_#{association}_tree:visible").complete_modal_for_association(association)
 
   # assign validate bebe to related button
   $(".validate_bebe").live 'click', (event) ->
@@ -302,8 +279,9 @@ cell_for_action_links = ($node, model_id, model) ->
 
     hide_add_field_link(model)
     if model is "bebes"
-      $malformation_tree_button = $("a.show_malformation_tree:visible")
-      $malformation_tree_button.complete_modal_for_association("malformation")
+      for association in ["malformation", "pathologie"]
+        $link = $("a.show_#{association}_tree:visible")
+        $link.complete_modal_for_association(association)
 
   $destroy_link = $("<a href='#' id='destroy_#{model}_#{model_id}'><img alt='X' src='/assets/icons/destroy.png'></a>")
   $destroy_link.bind 'click', (event) ->
@@ -322,14 +300,26 @@ jQuery.fn.complete_modal_for_association = (association) ->
   field = this.prevAll("input")
   bebe_id = field.attr("id").match(/[0-9]+/).join()
   association_modal_id = "#{association}_bebe_#{bebe_id}_modal"
-  $modal = this.parent().next(".modal")
+  $modal = this.parent().nextAll(".modal.#{association}")
   this.attr("data-controls-modal", association_modal_id)
   $modal.attr("id", association_modal_id)
 
-jQuery.fn.attach_jstree = (settings) ->
+jQuery.fn.attach_jstree = (association) ->
   this.bind "loaded.jstree", (event, data) ->
     console.log "tree##{$(this).attr('class')} is loaded"
-  .jstree(settings)
+  .jstree(
+    "json_data" :
+      "ajax" :
+        "url" : "/#{association}s/tree.json"
+        "data" : (node) ->
+          return { parent_id : if node.attr then node.attr("id") else 0}
+    plugins: ["themes", "json_data", "ui", "checkbox"]
+    themes:
+      theme: 'apple'
+    checkbox:
+      override_ui: true
+      two_state: true
+  )
   .bind "check_node.jstree uncheck_node.jstree", (event, data) ->
     # assign the following to check/uncheck node events
     nodes = $(this).jstree("get_checked")
@@ -341,12 +331,12 @@ jQuery.fn.attach_jstree = (settings) ->
     html.push "<ul>"
     html.push "<li>#{name}</li>" for name in names
     html.push "</ul>"
-    # create a list with malformations checked nodes
-    $(this).parent().next().find(".malformations_container").html(html.join(""))
+    # create a list with associations checked nodes
+    $(this).parent().next().find(".#{association}s_container").html(html.join(""))
     $(this).parent().next().find("a").bind "click", (event) ->
-      # assign action to add checked malformations to be persisted in db
+      # assign action to add checked associations to be persisted in db
       event.preventDefault()
-      $tokeninput = $(this).parents('body').find(".nested-fields:visible").find("textarea[id$=malformation_tokens]")
+      $tokeninput = $(this).parents('body').find(".nested-fields:visible").find("textarea[id$=#{association}_tokens]")
       $modal = $(this).parents(".modal")
       $modal.modal('hide')
       $tokeninput.tokenInput("add", obj) for obj in checked_nodes_objs

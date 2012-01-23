@@ -1,0 +1,10 @@
+%div{class: "modal hide pathologie", style: "display: none;"}
+  .modal-header
+    = link_to "x", "#", class: "close"
+    %h3 Arbre des Pathologies
+  .modal-body
+    .pathologies_tree
+  .modal-footer
+    Pathologies Sélectionnées :
+    .pathologies_container
+    = link_to "Rajouter ces pathologies", "#", class: "btn primary add_pathologies"

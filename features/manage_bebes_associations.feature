@@ -52,14 +52,22 @@ Feature: Manage bebes associations
     Then the associations should not be mixed up
 
   @javascript
-  Scenario: adding malformations to bebes for existing dossiers
+  Scenario Outline: adding association to bebes for existing dossiers
     Given an existing dossier with bebes
-    And the bebe has malformations
+    And the bebe has <association>
     When I edit the dossier
-    Then I should see the added malformations
+    Then I should see the added <association>
+    Examples:
+      |association|
+      |malformations|
+      |pathologies|
 
-  @javascript
-  Scenario: adding malformations using treeview
+  @javascript @focus
+  Scenario Outline: adding associations using treeview
     When I add a new bebe for a dossier
-    And I add malformations using the treeview
-    Then the added malformations should appear as tokens
+    And I add <association> using the treeview
+    Then the added <association> should appear as tokens
+    Examples:
+      |association|
+      |malformations|
+      |pathologies|

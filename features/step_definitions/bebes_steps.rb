@@ -76,8 +76,8 @@ end
 Given /^an existing dossier with bebes/ do
   step %{an existing dossier}
   @dossier.bebes_attributes = [
-    {sexe: "Masculin", poids: "3500", malformation: "Oui"},
-    {sexe: "Féminin", poids: "4000", malformation: "Non"},
+    {sexe: "Masculin", poids: "3500", malformation: "Oui", pathologie: "Oui"},
+    {sexe: "Féminin", poids: "4000", malformation: "Non", pathologie: "Oui"},
   ]
   @dossier.save!
 end
@@ -126,22 +126,26 @@ Then /^I should see the added (\w+)/ do |association|
   find(:css, ".popover").should have_content("#{singular_title}1")
 end
 
-Given /^the bebe has malformations$/ do
+Given /^the bebe has (\w+)/ do |association|
   bebe = @dossier.bebes.first
-  bebe.malformation_ids = [1,2]
+  bebe.send("#{association.singularize}_ids=", [1,2])
   @dossier.save!
+  @dossier.bebes.first.send(association).should == association.singularize.classify.constantize.all
 end
 
-When /^I add malformations using the treeview$/ do
+When /^I add (\w+) using the treeview$/ do |association|
+  singular       = association.singularize
+  singular_title = association.titleize.singularize
+  plural_title   = association.titleize
   click_on "Nouveau-né"
   click_on "M"
   sleep 1
-  select "Oui", :from => "Malformation"
-  click_on "Montrer/Modifier Malformations"
-  tree = ".malformations_tree"
+  select "Oui", :from => singular_title
+  click_on "Montrer/Modifier #{plural_title}"
+  tree = ".#{association}_tree"
   page.execute_script %{$("#{tree}").jstree("check_node", "li#1")}
-  find(:css, ".malformations_container").should have_content("Malformation1")
-  click_on "Rajouter ces malformations"
+  find(:css, ".#{association}_container").should have_content("#{singular_title}1")
+  click_on "Rajouter ces #{association}"
 end
 
 Then /^the added malformations should appear as tokens$/ do

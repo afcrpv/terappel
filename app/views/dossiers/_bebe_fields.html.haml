@@ -17,4 +17,6 @@
     = link_to "Valider", "#", class: "btn success validate_bebe small"
     = link_to_remove_association "Supprimer", f, class: "btn danger small"
     = link_to "Montrer/Modifier Malformations", "#", class: "btn show_malformation_tree", "data-backdrop" => true
+    = link_to "Montrer/Modifier Pathologies", "#", class: "btn show_pathologie_tree", "data-backdrop" => true
   = render "malformations/tree", bebe: f.object
+  = render "pathologies/tree", bebe: f.object
