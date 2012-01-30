@@ -21,15 +21,22 @@ describe Ability do
     it { should be_able_to :access, :rails_admin}
     it { should be_able_to :read, centre}
     it { should be_able_to :read, user }
+    it { should be_able_to :read, UserDecorator }
     it { should be_able_to :update, user }
     it { should_not be_able_to :destroy, user }
 
-    it { should be_able_to :create, Dossier }
-    it { should be_able_to :read, Dossier }
-    it { should be_able_to :update, dossier_from_same_center }
-    it { should be_able_to :destroy, dossier }
+    it { should be_able_to :read, DossierDecorator }
+    it { should be_able_to :manage, dossier_from_same_center }
+    it { should_not be_able_to :destroy, dossier }
     it { should_not be_able_to :destroy, dossier_from_same_center }
     it { should_not be_able_to :destroy, dossier_from_other_center }
+
+    [Produit, Malformation, Pathologie].each do |model|
+      it { should be_able_to :read, model}
+    end
+    [Bebe, Exposition].each do |model|
+      it { should be_able_to :manage, model}
+    end
   end
 
   context "for a centre admin" do
@@ -39,17 +46,15 @@ describe Ability do
 
     subject { Ability.new(user) }
 
-    it {should be_able_to :update, centre}
-    it {should be_able_to :create, User}
-    it {should be_able_to :read, user_from_same_center}
-    it {should be_able_to :update, user_from_same_center}
-    it {should be_able_to :destroy, user_from_same_center}
-    it {should_not be_able_to :destroy, user}
-    it {should_not be_able_to :manage, user_from_other_center}
-
     it {should be_able_to :destroy, dossier_from_same_center}
     it {should_not be_able_to :update, dossier_from_other_center}
     it {should_not be_able_to :destroy, dossier_from_other_center}
+
+    it {should be_able_to :update, centre}
+
+    it {should be_able_to :manage, user_from_same_center}
+    it {should_not be_able_to :destroy, user}
+    it {should_not be_able_to :manage, user_from_other_center}
   end
 
   context "for an admin:" do

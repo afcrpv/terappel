@@ -1,5 +1,11 @@
 require 'spec_helper'
 
 describe Pathologie do
-  pending "add some examples to (or delete) #{__FILE__}"
+  subject {Factory(:pathologie)}
+
+  describe "#libelle_and_id" do
+    it "should return a hash with id and libelle values" do
+      subject.libelle_and_id.should == {"id" => subject.id, "libelle" => subject.libelle}
+    end
+  end
 end

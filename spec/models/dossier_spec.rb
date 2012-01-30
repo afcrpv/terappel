@@ -41,4 +41,13 @@ describe Dossier do
       subject.centre_code.should == "ly"
     end
   end
+
+  describe "#correspondant_nom" do
+    it "should return correspondant_fullname" do
+      correspondant = Factory(:correspondant)
+      subject.correspondant = correspondant
+      subject.save!
+      subject.correspondant_nom.should == subject.correspondant_fullname
+    end
+  end
 end
