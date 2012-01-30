@@ -2,6 +2,7 @@ class Dossier < ActiveRecord::Base
   #accessible attributes
   attr_accessible :date_appel, :centre_id, :user_id, :code,
     :correspondant_id, :a_relancer, :relance_counter,
+    :correspondant_nom,
     :evolution_id, :categoriesp_id, :motif_id, :mod_accouch_id,
     :date_dernieres_regles, :date_reelle_accouchement, :date_accouchement_prevu, :date_debut_grossesse,
     :name, :prenom, :age, :antecedents_perso, :antecedents_fam, :ass_med_proc, :expo_terato,
@@ -10,11 +11,11 @@ class Dossier < ActiveRecord::Base
     :comm_antecedents_perso, :comm_antecedents_fam, :comm_evol, :comm_expo, :commentaire,
     :expositions_attributes, :bebes_attributes
 
+  # writers
+  attr_writer :correspondant_nom
+
   extend FriendlyId
   friendly_id :code
-
-  # readers
-  attr_reader :correspondant_nom
 
   # validations
   validates_presence_of :code, :name, :date_appel, :centre_id, :user_id

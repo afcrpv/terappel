@@ -9,7 +9,7 @@ Feature: Manage expositions
     Given an existing expo_terme with name "T1"
     Given an existing indication with name "HERPES"
 
-  @javascript @focus
+  @javascript
   Scenario: add row in expo summary
     When I add a new exposition for a dossier
     Then the added exposition should appear in the summary table

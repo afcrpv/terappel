@@ -8,7 +8,7 @@ Then /^they should receive an email$/ do
 end
 
 When /^an unknown user asks for a new password$/ do
-  request_password(User.new, "wrong@domain.com")
+  request_password(Factory(:user), "wrong@domain.com")
 end
 
 Then /^they should not receive an email$/ do

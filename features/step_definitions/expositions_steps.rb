@@ -25,7 +25,6 @@ Then /^the added exposition should appear in the summary table$/ do
   find(:css, '#expositions_summary tbody').should have_content('T1')
   find(:css, '#expositions_summary tbody').should have_content('HERPES')
   find(:css, '#expositions_summary tbody').should have_content('2 g/j')
-  step %{the added exposition should belong to the dossier}
 end
 
 When /^I update an existing exposition for a dossier$/ do
