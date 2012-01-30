@@ -11,6 +11,24 @@ jQuery ->
   dateappel = $("#dossier_date_appel").attr("data-value")
   $("#dossier_date_appel").val(dateappel) if dateappel
 
+  #### Correspondant ####
+  $edit_correspondant_btn = $(".edit-correspondant")
+  # disactivate edit correspondant by default
+  $edit_correspondant_btn.hide()
+
+  # activate edit correspondant if dossier_correspondant_id is prefilled
+  correspondant_id = $("#dossier_correspondant_id").val()
+  if correspondant_id
+    $edit_correspondant_btn.show()
+    $edit_correspondant_btn.attr("href", "/correspondants/#{correspondant_id}/edit")
+
+  $correspondant_autocomplete = $("#dossier_correspondant_nom")
+  # activate edit correspondant when correspondant autocomplete item is selected
+  $correspondant_autocomplete.bind "railsAutocomplete.select", (e, data) ->
+    $edit_correspondant_btn.show()
+    correspondant_id = data.item.id
+    $edit_correspondant_btn.attr("href", "/correspondants/#{correspondant_id}/edit")
+
   #### EXPOSITIONS ####
   $("#tabs li a[href='#expositions']").bind 'click', ->
     $attach = $("#expositions")

@@ -24,6 +24,7 @@
           autocomplete_correspondant_fullname_dossiers_path,
           id_element: "#dossier_correspondant_id", class: "span8"
         = link_to "Ajout", new_correspondant_path, target: "_blank", class: "btn create-correspondant" if can?(:create, Correspondant)
+        = link_to "Voir/modifier", "#", target: "_blank", class: "btn edit-correspondant" if can?(:update, Correspondant)
       = f.input :correspondant_id, as: :hidden
 
     #patiente
