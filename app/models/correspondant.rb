@@ -6,6 +6,8 @@ class Correspondant < ActiveRecord::Base
   belongs_to :qualite
   belongs_to :formule
 
+  validates_presence_of :nom
+
   #callbacks
   after_create :assign_fullname
   before_update do

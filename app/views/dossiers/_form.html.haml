@@ -18,9 +18,12 @@
       = f.input :code
       = f.input :date_appel, as: :string, input_html: {autofocus: true, "data-value" => date_appel}
       = f.association :motif
-      = f.input :correspondant_nom, as: :autocomplete, label: "Correspondant",
-        url: autocomplete_correspondant_fullname_dossiers_path,
-        input_html: {id_element: "#dossier_correspondant_id", class: "span10"}
+      .inline-inputs
+        = f.label "Correspondant"
+        = f.autocomplete_field :correspondant_nom,
+          autocomplete_correspondant_fullname_dossiers_path,
+          id_element: "#dossier_correspondant_id", class: "span8"
+        = link_to "Ajout", new_correspondant_path, target: "_blank", class: "btn create-correspondant" if can?(:create, Correspondant)
       = f.input :correspondant_id, as: :hidden
 
     #patiente

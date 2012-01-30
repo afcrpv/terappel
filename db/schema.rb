@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120130131740) do
+ActiveRecord::Schema.define(:version => 20120130153632) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -180,6 +180,13 @@ ActiveRecord::Schema.define(:version => 20120130131740) do
     t.datetime "updated_at"
   end
 
+  create_table "formules", :force => true do |t|
+    t.integer  "oldid"
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "indications", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -227,6 +234,13 @@ ActiveRecord::Schema.define(:version => 20120130131740) do
     t.datetime "updated_at"
   end
 
+  create_table "qualites", :force => true do |t|
+    t.integer  "oldid"
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "rails_admin_histories", :force => true do |t|
     t.text     "message"
     t.string   "username"
@@ -239,6 +253,13 @@ ActiveRecord::Schema.define(:version => 20120130131740) do
   end
 
   add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_rails_admin_histories"
+
+  create_table "specialites", :force => true do |t|
+    t.integer  "oldid"
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                                 :default => "",            :null => false

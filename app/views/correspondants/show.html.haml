@@ -1,0 +1,5 @@
+- title(nil, true, id: @correspondant.nom)
+
+- content_for :page_title do
+  %small Actions :
+  = render "shared/action_links", object: @correspondant, verbs: %w(edit)

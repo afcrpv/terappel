@@ -1,0 +1,18 @@
+= simple_form_for correspondant, wrapper: :inline do |f|
+  - if f.error_notification
+    .alert-message.warning.fade.in{"data-alert" => "alert"}
+      %a.close{href: "#"}x
+      %p= f.error_notification
+  = f.input :nom
+  = f.association :specialite
+  = f.association :qualite
+  = f.association :formule
+  = f.input :adresse, input_html: {rows: "3"}
+  = f.input :cp
+  = f.input :ville
+  = f.input :telephone
+  = f.input :fax
+  = f.input :poste
+  = f.input :email
+  .actions
+    = f.button :submit, disable_with: "Attendre...", class: "success"

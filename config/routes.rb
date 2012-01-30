@@ -20,6 +20,8 @@ Terappel::Application.routes.draw do
   match 'malformations/tree' => 'malformations#tree'
   match 'pathologies/tree' => 'pathologies#tree'
 
+  resources :correspondants, :only => [:show, :new, :create, :edit, :update]
+
   root :to => "home#index"
 
   # The priority is based upon order of creation:

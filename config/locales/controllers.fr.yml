@@ -7,6 +7,12 @@ fr:
     create: "Nouveau Dossier"
     edit: "Modification Dossier #%{id}"
     update: "Modification Dossier #%{id}"
+  correspondants:
+    show: "Correspondant: %{id}"
+    new: "Nouveau Correspondant"
+    create: "Nouveau Correspondant"
+    edit: "Modification correspondant: %{id}"
+    update: "Modification correspondant: %{id}"
   flash:
     create: "%{resource} créé(e) avec succès."
     update: "%{resource} mis(e) à jour avec succès."
