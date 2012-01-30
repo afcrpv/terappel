@@ -7,5 +7,13 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 #
 
-# creating first Centre
-Centre.create!(:name => "Lyon", :code => "LY")
+require 'csv'
+
+puts "creating first Centre"
+Centre.where(name: "Lyon").first_or_create!(code: "LY")
+
+# create Motif
+puts "importing Motifs table from csv"
+CSV.foreach("csv/motifs.csv", headers: true) do |row|
+  Motif.where(name: row['name']).first_or_create!(oldid: row['oldid'])
+end
