@@ -1,8 +1,9 @@
 Terappel::Application.routes.draw do
 
-  devise_for :users do
-    get "/login" => "devise/sessions#new"
-    get "/logout" => "devise/sessions#destroy"
+  devise_for :users
+  as :user do
+    get "/login", :to => "devise/sessions#new"
+    get "/logout", :to=> "devise/sessions#destroy"
   end
 
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'

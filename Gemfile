@@ -1,19 +1,16 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.3'
+gem 'rails', '3.2.1'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
-gem 'pg'
-
-
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails', "  ~> 3.1.0"
-  gem 'coffee-rails', "~> 3.1.0"
-  gem 'uglifier'
+  gem 'sass-rails', "  ~> 3.2.3"
+  gem 'coffee-rails', "~> 3.2.1"
+  gem 'uglifier', '>=1.0.3'
 end
 
 gem 'jquery-rails'
@@ -32,6 +29,7 @@ group :test, :development do
 end
 
 group :development do
+  gem 'heroku'
   gem 'pry'
   gem 'haml-rails'
   gem 'guard'
@@ -61,6 +59,7 @@ group :test do
   gem "selenium-webdriver", "~> 2.13.0"
 end
 
+gem 'pg'
 gem "devise"
 gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
 gem 'haml'
@@ -75,5 +74,5 @@ gem "cocoon"
 
 gem 'newrelic_rpm'
 gem 'ancestry'
-gem 'jstree-rails', :git => 'git://github.com/tristanm/jstree-rails.git'
+gem 'jstree-rails', :git => 'git://github.com/adamico/jstree-rails.git'
 gem 'simple_form', :git => 'git://github.com/plataformatec/simple_form.git'
