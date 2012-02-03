@@ -10,6 +10,8 @@
 //= require jquery_ui
 //= require autocomplete-rails
 //= require cocoon
+//= require jquery.validate
+//= require jquery.maskedinput
 //= require common
 //= require jstree
 //= require_tree .

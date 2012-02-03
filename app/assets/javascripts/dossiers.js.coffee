@@ -10,6 +10,16 @@ jQuery ->
 
   dateappel = $("#dossier_date_appel").attr("data-value")
   $("#dossier_date_appel").val(dateappel) if dateappel
+  $("#dossier_date_appel").mask("99/99/9999")
+
+  #### Validator
+  $.validator.setDefaults(
+    debug: true
+  )
+
+  $("form.edit_dossier").validate()
+  $("form.new_dossier").validate()
+
 
   #### Correspondant ####
   $edit_correspondant_btn = $(".edit-correspondant")
@@ -105,6 +115,46 @@ jQuery ->
     validate_field(event, this, $start_point, $target, bebe_values, "bebes")
 
 # functions
+
+jQuery.validator.addMethod(
+  "dateNotFuture"
+  (value, element) ->
+    check = false
+    today = Date.now()
+    date_to_test = parse_fr_date(value)
+    check = true if date_to_test.getTime() <= today
+    return this.optional(element) || check
+  "Cette date est dans le futur"
+)
+
+jQuery.validator.addMethod(
+  "dateITA"
+  (value, element) ->
+    check = false
+    re = /^\d{1,2}\/\d{1,2}\/\d{4}$/
+    if re.test(value)
+      adata = value.split('/')
+      gg = parseInt(adata[0],10)
+      mm = parseInt(adata[1],10)
+      aaaa = parseInt(adata[2],10)
+      xdata = new Date(aaaa,mm-1,gg)
+      if xdata.getFullYear() is aaaa  && xdata.getMonth() is mm - 1  && xdata.getDate() is gg
+        check = true
+      else
+        check = false
+    else
+      check = false
+    return this.optional(element) || check
+  "Entrez une date valide"
+)
+
+parse_fr_date = (string) ->
+  adata = string.split("/")
+  gg = parseInt(adata[0],10)
+  mm = parseInt(adata[1],10)
+  aaaa = parseInt(adata[2],10)
+  xdata = new Date(aaaa,mm-1,gg)
+
 
 show_add_field_link = (association) ->
   $add_association_link = $("a.add_fields[data-associations=#{association}]")

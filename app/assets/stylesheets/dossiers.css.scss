@@ -46,6 +46,7 @@
       margin: auto;
     }
   }
+
   tr {
     &:nth-of-type(even) {
       background-color: #eee;
@@ -54,59 +55,64 @@
       background-color: #fff;
     }
   }
-}
 
-table.fields_summary {
-  width: 100%;
-  font-size: 12px;
-  border-bottom: 1px solid black;
-  margin-bottom: 0;
-  tr {
-    height: 40px;
-  }
-  td, th {
-    text-align: center;
-    &:first-child {
-      width: 54px;
+  table.fields_summary {
+    width: 100%;
+    font-size: 12px;
+    border-bottom: 1px solid black;
+    margin-bottom: 0;
+    tr {
+      height: 40px;
     }
-    a {
-      margin: 5px;
+    td, th {
+      text-align: center;
+      &:first-child {
+        width: 54px;
+      }
+      a {
+        margin: 5px;
+      }
     }
   }
-}
 
-.dossiers #tabs {
-  min-height: 400px
-}
+  #tabs {
+    min-height: 400px
+  }
 
-.simple_form {
-  input.btn {
-    padding: 5px 14px 6px;
-  }
-  .links, .expo_links {
-    margin-top: 5px;
-  }
-  .field_links {
-    border: 0;
-  }
-  .clearfix {
-    margin-bottom: 5px;
-  }
-  .inline-inputs {
-    margin-bottom: 5px;
-    label {
-      margin-right: 20px;
+  form {
+    label.error {
+      margin-left: 1em;
+      float: none;
+      color: #B94A48;
     }
-  }
-  #expositions {
-    fieldset {
-      padding-top: 0.5em;
+    input.btn {
+      padding: 5px 14px 6px;
     }
-  }
-  .ui-tabs .ui-tabs-panel {
-    padding: 5px;
-  }
-  .malformation_tokens, .pathologie_tokens {
-    display: none;
+    .links, .expo_links {
+      margin-top: 5px;
+    }
+    .field_links {
+      border: 0;
+    }
+    .clearfix {
+      margin-bottom: 5px;
+    }
+    .inline-inputs {
+      margin-bottom: 5px;
+      label {
+        margin-right: 20px;
+      }
+    }
+    #expositions {
+      fieldset {
+        padding-top: 0.5em;
+      }
+    }
+    .ui-tabs .ui-tabs-panel {
+      padding: 5px;
+    }
+    .malformation_tokens, .pathologie_tokens {
+      display: none;
+    }
   }
 }

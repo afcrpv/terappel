@@ -16,7 +16,7 @@
       = f.input :user_id, as: :hidden
       = f.input :centre_id, as: :hidden
       = f.input :code
-      = f.input :date_appel, as: :string, input_html: {autofocus: true, "data-value" => date_appel}
+      = f.input :date_appel, as: :string, input_html: {autofocus: true, "data-value" => date_appel, class: "dateITA dateNotFuture"}
       = f.association :motif
       .inline-inputs
         = f.label "Correspondant"
