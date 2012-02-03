@@ -7,15 +7,15 @@ GIT
 
 GIT
   remote: git://github.com/plataformatec/simple_form.git
-  revision: 10bd50dcf89fd5001e70369ec281c5887d335548
+  revision: f67bdbb12255da21c4253bc492fda32337da664a
   specs:
-    simple_form (2.0.0.dev)
+    simple_form (2.0.0.rc)
       actionpack (~> 3.0)
       activemodel (~> 3.0)
 
 GIT
   remote: git://github.com/sferik/rails_admin.git
-  revision: df5f5c9e7467ec079a2451a8362eef207080d210
+  revision: 2ff00c25d89d41f1d9f5569299b86b474db82019
   specs:
     rails_admin (0.0.1)
       bbenezech-nested_form (~> 0.0)
@@ -150,7 +150,7 @@ GEM
       guard (>= 0.2.2)
     guard-rspec (0.6.0)
       guard (>= 0.10.0)
-    guard-spork (0.5.1)
+    guard-spork (0.5.2)
       guard (>= 0.10.0)
       spork (>= 0.8.4)
     haml (3.1.4)
@@ -159,7 +159,7 @@ GEM
       activesupport (~> 3.0)
       haml (~> 3.0)
       railties (~> 3.0)
-    heroku (2.19.1)
+    heroku (2.19.2)
       launchy (>= 0.3.2)
       rest-client (~> 1.6.1)
       rubyzip
