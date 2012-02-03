@@ -12,6 +12,7 @@
 //= require cocoon
 //= require jquery.validate
 //= require jquery.maskedinput
+//= require jquery.tokeninput
 //= require common
 //= require jstree
 //= require_tree .
