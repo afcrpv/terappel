@@ -9,7 +9,7 @@ class DossiersController < AuthorizedController
   def autocomplete_correspondant_fullname
     term = params[:term]
     if term && term.present?
-      items = Correspondant.select(:fullname).where(centre_id: @centre.id).
+      items = Correspondant.where(centre_id: @centre.id).
         where("LOWER(nom) like ?", term.downcase + "%").limit(20).order(:nom)
     else
       items = {}
