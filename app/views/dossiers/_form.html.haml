@@ -1,4 +1,4 @@
-= simple_form_for dossier, wrapper: :inline, class: "saisie" do |f|
+= simple_form_for dossier, html: { class: "form-horizontal saisie"} do |f|
   - if f.error_notification
     .alert-message.warning.fade.in{"data-alert" => "alert"}
       %a.close{href: "#"}x

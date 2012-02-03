@@ -18,8 +18,7 @@ jQuery ->
     debug: false
   )
 
-  $("form.edit_dossier").validate()
-  $("form.new_dossier").validate()
+  $("form.saisie").validate()
 
 
   #### Correspondant ####
