@@ -69,11 +69,11 @@ Then /^the code field should be pre\-filled with "([^"]*)"$/ do |code|
 end
 
 When /^I fill in the search field with "([^"]*)"$/ do |search|
-  fill_in "dossier_code", :with => search
+  fill_in "codedossier", :with => search
 end
 
 Then /^the search field should contain "([^"]*)"$/ do |value|
-  find_field("dossier_code").value.should include(value)
+  find_field("codedossier").value.should include(value)
 end
 
 Given /^a correspondant from same user centre$/ do

@@ -8,11 +8,13 @@ jQuery ->
   # bootstrap tabs
   $("#tabs").tabs()
 
+  #### Validators and masks
+
   dateappel = $("#dossier_date_appel").attr("data-value")
   $("#dossier_date_appel").val(dateappel) if dateappel
   $("#dossier_date_appel").mask("99/99/9999")
-
-  #### Validator
+  $("#dossier_code").mask("aa9999999")
+  $("#dossier_code").mask("aa9999999")
   $.validator.setDefaults(
     debug: true
   )

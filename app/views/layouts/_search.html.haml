@@ -1,7 +1,7 @@
 = form_tag @dossier_for_search, method: :get do
-  = autocomplete_field_tag "dossier_code", '', home_autocomplete_dossier_code_path,
+  = autocomplete_field_tag "codedossier", '', home_autocomplete_dossier_code_path,
     required: true,
-    placeholder: "Rechercher ou saisir un dossier",
-    pattern: "[A-Z]{2}[0-9]{7}"
-  = hidden_field_tag params[:dossier_code]
+    placeholder: "Recherche ou saisie",
+    class: "span3"
+  = hidden_field_tag params[:codedossier]
   = submit_tag "OK", class: "btn primary"

@@ -13,12 +13,12 @@ class ApplicationController < ActionController::Base
   private
 
   def find_dossier_for_search
-    if params[:dossier_code]
-      @search = Dossier.find(params[:dossier_code]) rescue nil
+    if params[:codedossier]
+      @search = Dossier.find(params[:codedossier]) rescue nil
       if @search
         redirect_to dossier_path(@search)
       else
-        redirect_to new_dossier_path(:code => params[:dossier_code])
+        redirect_to new_dossier_path(:code => params[:codedossier])
       end
     end
   end
