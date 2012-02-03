@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 jQuery ->
-  #better_errors_list()
+  better_errors_list()
 
   # bootstrap tabs
   $("#tabs").tabs()
@@ -14,9 +14,8 @@ jQuery ->
   $("#dossier_date_appel").val(dateappel) if dateappel
   $("#dossier_date_appel").mask("99/99/9999")
   $("#dossier_code").mask("aa9999999")
-  $("#dossier_code").mask("aa9999999")
   $.validator.setDefaults(
-    debug: true
+    debug: false
   )
 
   $("form.edit_dossier").validate()
