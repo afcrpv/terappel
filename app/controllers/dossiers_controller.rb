@@ -1,10 +1,21 @@
 class DossiersController < AuthorizedController
-  autocomplete :correspondant, :fullname, :full => true
+  #autocomplete :correspondant, :fullname, :full => true
   before_filter :find_centre
   before_filter :decorated_dossier, :only => :show
   load_and_authorize_resource :dossier
 
   helper_method :date_appel
+
+  def autocomplete_correspondant_fullname
+    term = params[:term]
+    if term && term.present?
+      items = Correspondant.select(:fullname).where(centre_id: @centre.id).
+        where("LOWER(nom) like ?", term.downcase + "%").limit(20).order(:nom)
+    else
+      items = {}
+    end
+    render json: json_for_autocomplete(items, :fullname)
+  end
 
   def index
     @search = Dossier.search(params[:q])

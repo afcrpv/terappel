@@ -76,6 +76,25 @@ Then /^the search field should contain "([^"]*)"$/ do |value|
   find_field("dossier_code").value.should include(value)
 end
 
+Given /^a correspondant from same user centre$/ do
+  corr = Factory(:correspondant, centre: @user.centre)
+  corr.centre.should === @user.centre
+end
+
+Given /^a correspondant from centre "([^"]*)"$/ do |centre_name|
+  centre = Factory(:centre, name: centre_name)
+  Factory(:correspondant, centre: centre, ville: centre_name)
+  Correspondant.find_by_ville(centre_name).should_not be_nil
+end
+
+Then /^the correspondants list should (contain|not contain) "([^"]*)"$/ do |condition, text|
+  check = condition == "contain" ? true : false
+  page.execute_script %Q{ $('input[data-autocomplete]').trigger("focus") }
+  page.execute_script %Q{ $('input[data-autocomplete]').trigger("keydown") }
+  sleep 1
+  page.has_content?(text).should == check
+end
+
 When /^I fill in the correspondant field with "([^"]*)"$/ do |value|
   fill_in "dossier_correspondant_nom", :with => value
 end
@@ -108,4 +127,8 @@ end
 
 Then /^the ([^"]*) should be destroyed$/ do |resource|
   page.should have_content "#{resource.humanize} détruit(e) avec succès"
+end
+
+Then /^the modify correspondant button should be visible$/ do
+  page.find(:css, "a.edit-correspondant").visible?.should == true
 end

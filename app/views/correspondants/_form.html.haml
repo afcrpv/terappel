@@ -3,6 +3,7 @@
     .alert-message.warning.fade.in{"data-alert" => "alert"}
       %a.close{href: "#"}x
       %p= f.error_notification
+  = f.input :centre_id, as: :hidden
   = f.input :nom
   = f.association :specialite
   = f.association :qualite

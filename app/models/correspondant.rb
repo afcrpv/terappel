@@ -1,10 +1,11 @@
 class Correspondant < ActiveRecord::Base
-  attr_accessible :specialite_id, :qualite_id, :formule_id, :nom, :adresse, :cp, :ville, :telephone, :fax, :poste, :email, :fullname
+  attr_accessible :specialite_id, :qualite_id, :formule_id, :centre_id, :nom, :adresse, :cp, :ville, :telephone, :fax, :poste, :email, :fullname
 
   has_many :dossiers
   belongs_to :specialite
   belongs_to :qualite
   belongs_to :formule
+  belongs_to :centre
 
   validates_presence_of :nom
 

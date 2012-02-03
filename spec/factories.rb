@@ -28,8 +28,9 @@ FactoryGirl.define do
 
   factory :correspondant do
     sequence(:nom) {|n| "Correspondant#{n}"}
-    ville "Lyon"
+    ville { centre.name.titleize }
     cp "69006"
+    centre
   end
 
   factory :produit do

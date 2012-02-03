@@ -16,6 +16,9 @@ class Ability
       can :manage, dossier_and_decorator, :centre_id => user.centre_id
       cannot :destroy, dossier_and_decorator
 
+      can :manage, Correspondant, :centre_id => user.centre_id
+      cannot :destroy, Correspondant
+
       can :read, [Produit, Malformation, Pathologie]
       can :manage, [Bebe, Exposition]
     end
@@ -24,7 +27,7 @@ class Ability
       can :update, Centre, :id => user.centre_id
       can :manage, User, :centre_id => user.centre_id
       cannot :destroy, user
-
+      can :manage, Correspondant, :centre_id => user.centre_id
     end
     if user.role? :admin
       can :manage, :all

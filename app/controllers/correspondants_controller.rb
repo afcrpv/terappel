@@ -7,6 +7,7 @@ class CorrespondantsController < AuthorizedController
   end
 
   def new
+    @correspondant = Correspondant.new(centre_id: @centre.id)
   end
 
   def create
