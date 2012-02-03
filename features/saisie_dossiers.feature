@@ -5,6 +5,8 @@ Feature: Saisie dossier
 
   Background:
     Given a centre admin is logged in
+    Given a correspondant from same user centre
+    And a correspondant from centre "Bordeaux"
 
   Scenario: create dossier when code not found
     Given no dossiers exist with code "LY1111001"
@@ -24,25 +26,21 @@ Feature: Saisie dossier
 
   @javascript
   Scenario: correspondant name autocomplete
-    Given 2 correspondants exist
     And I go to the new dossier page with code "LY1101001"
-    When I fill in the correspondant field with "co"
-    And I choose "Correspondant1 - 69006 - Lyon" in the autocomplete list
-    Then the correspondant field should contain "Correspondant1 - 69006 - Lyon"
+    When I fill in the correspondant field with "ma"
+    And I choose "Martin - 69006 - Lyon" in the autocomplete list
+    Then the correspondant field should contain "Martin - 69006 - Lyon"
 
-  @javascript
+  @javascript @focus
   Scenario: correspondants list should contain same center items only
-    Given a correspondant from same user centre
-    And a correspondant from centre "Bordeaux"
     When I go to the new dossier page with code "LY1101001"
-    When I fill in the correspondant field with "co"
-    Then the correspondants list should contain "Correspondant1 - 69006 - Lyon"
-    But the correspondants list should not contain "Correspondant2 - 69006 - Bordeaux"
+    When I fill in the correspondant field with "ma"
+    Then the correspondants list should contain "Martin - 69006 - Lyon"
+    But the correspondants list should not contain "Martin - 69006 - Bordeaux"
 
   @javascript
   Scenario: on the fly correspondant modification
-    Given 2 correspondants exist
     When I go to the new dossier page with code "LY1101001"
-    And I fill in the correspondant field with "co"
-    And I choose "Correspondant1 - 69006 - Lyon" in the autocomplete list
+    And I fill in the correspondant field with "ma"
+    And I choose "Martin - 69006 - Lyon" in the autocomplete list
     Then the modify correspondant button should be visible
