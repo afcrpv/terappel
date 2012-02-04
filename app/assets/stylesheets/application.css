@@ -5,6 +5,7 @@
  *= require_self
  *= require layout
  *= require jquery_ui
+ *= require token-input-facebook
  *= require_tree .
 */
 
