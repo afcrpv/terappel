@@ -31,7 +31,7 @@ Feature: Saisie dossier
     And I choose "Martin - 69006 - Lyon" in the autocomplete list
     Then the correspondant field should contain "Martin - 69006 - Lyon"
 
-  @javascript @focus
+  @javascript
   Scenario: correspondants list should contain same center items only
     When I go to the new dossier page with code "LY1101001"
     When I fill in the correspondant field with "ma"
