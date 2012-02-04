@@ -19,7 +19,7 @@
   = f.association :expo_nature, label: "Nature"
   = f.input :dose, label: "Posologie"
   = f.association :expo_terme, label: "Terme d'exposition"
-  = f.input :medpres, as: :radio, collection: ["Oui", "Non", "NSP"], label: "Prescription", hint: "à remplir en cas de demande d'aide à la prescription"
+  = f.input :medpres, as: :radio_buttons, collection: ["Oui", "Non", "NSP"], label: "Prescription", hint: "à remplir en cas de demande d'aide à la prescription"
   .field_links
     = link_to "Valider", "#", class: "btn success validate_expo small"
     = link_to_remove_association "Supprimer", f, class: "btn danger small"
