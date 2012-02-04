@@ -6,7 +6,7 @@ end
 When /^I add a new dossier$/ do
   step %{I go to the new dossier page with code "LY1101001"}
   fill_in "Date Appel", :with => "31/01/2001"
-  fill_in "Nom patiente", :with => "Martin"
+  fill_in "dossier_name", :with => "Martin"
   expect do
     click_button I18n.t('helpers.submit.create')
   end.to change{Dossier.count}.by(1)
@@ -33,8 +33,8 @@ end
 
 When /^I update the dossier with new data$/ do
   visit edit_dossier_path(@dossier)
-  fill_in I18n.t("activerecord.attributes.dossier.name"), :with => "Dupont"
-  fill_in I18n.t("activerecord.attributes.dossier.date_appel"), :with => "01/01/2001"
+  fill_in "dossier_name", :with => "Dupont"
+  fill_in "dossier_date_appel", :with => "01/01/2001"
   click_button I18n.t('helpers.submit.update')
 end
 
