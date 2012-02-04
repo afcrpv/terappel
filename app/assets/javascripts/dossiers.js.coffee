@@ -8,6 +8,9 @@ jQuery ->
   # bootstrap tabs
   $("#tabs").tabs()
 
+  $("ul.ui-tabs-nav a").on 'click', ->
+    $("#tabs input:visible").first().focus()
+
   #### Validators and masks
 
   dateappel = $("#dossier_date_appel").attr("data-value")
