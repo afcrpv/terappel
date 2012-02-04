@@ -18,23 +18,21 @@
       = f.input :code
       = f.input :date_appel, as: :string, input_html: {autofocus: true, "data-value" => date_appel, class: "dateITA dateNotFuture"}
       = f.association :motif
-      .inline-inputs
+      .control-group.inline-inputs
         = f.label "Correspondant"
-        = f.autocomplete_field :correspondant_nom,
-          autocomplete_correspondant_fullname_dossiers_path,
-          id_element: "#dossier_correspondant_id", class: "span8"
-        = link_to "Ajout", new_correspondant_path, target: "_blank", class: "btn create-correspondant" if can?(:create, Correspondant)
-        = link_to "Voir/modifier", "#", target: "_blank", class: "btn edit-correspondant" if can?(:update, Correspondant)
-      = f.input :correspondant_id, as: :hidden
-
-    #grossesse
-      .inline-inputs
-        = f.label :name, "Nom"
-        = f.text_field :name
-        = f.label :prenom, "Prénom", class: "inline"
-        = f.text_field :prenom
-        = f.label :age, class: "inline"
-        = f.text_field :age, class: "span1"
+        .controls
+          = f.autocomplete_field :correspondant_nom,
+            autocomplete_correspondant_fullname_dossiers_path,
+            id_element: "#dossier_correspondant_id", class: "span8"
+          = link_to "Ajout", new_correspondant_path, target: "_blank", class: "btn create-correspondant" if can?(:create, Correspondant)
+          = link_to "Voir/modifier", "#", target: "_blank", class: "btn edit-correspondant" if can?(:update, Correspondant)
+        = f.input :correspondant_id, as: :hidden
+      .control-group.inline-inputs
+        = f.label "Patiente"
+        .controls
+          = f.text_field :name, placeholder: "Nom"
+          = f.text_field :prenom, placeholder: "Prénom"
+          = f.text_field :age, class: "span1", placeholder: "Age"
       = f.association :categoriesp
       = f.input :antecedents_fam, collection: Dossier::ONI,
         as: :radio_buttons, item_wrapper_class: "inline"
@@ -44,6 +42,8 @@
         as: :radio_buttons, item_wrapper_class: "inline"
       = f.input :alcool, collection: Dossier::ALCOOL,
         as: :radio_buttons, item_wrapper_class: "inline"
+
+    #grossesse
 
     #expositions
       %table.fields_summary#expositions_summary

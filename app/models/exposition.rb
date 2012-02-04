@@ -8,4 +8,6 @@ class Exposition < ActiveRecord::Base
   belongs_to :expo_nature
 
   delegate :name, to: :produit, allow_nil: true, prefix: true
+
+  ONNSP = [["Oui", "O"], ["Non", "N"], ["Ne sait pas", "NSP"]]
 end
