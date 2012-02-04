@@ -23,6 +23,10 @@ jQuery ->
 
   $("form.saisie").validate()
 
+  #### Grossesse
+  $("#dossier_grsant").on 'blur', ->
+    grsant = $(this).val()
+    if grsant is "0" then zero_grossesse_fields()
 
   #### Correspondant ####
   $edit_correspondant_btn = $(".edit-correspondant")
@@ -118,6 +122,12 @@ jQuery ->
     validate_field(event, this, $start_point, $target, bebe_values, "bebes")
 
 # functions
+
+zero_grossesse_fields = ->
+  fields_names = ["fcs", "geu", "miu", "ivg", "img", "nai"]
+  fields = []
+  fields.push($("#dossier_#{field_name}")) for field_name in fields_names
+  field.val("0") for field in fields
 
 jQuery.validator.addMethod(
   "dateNotFuture"
