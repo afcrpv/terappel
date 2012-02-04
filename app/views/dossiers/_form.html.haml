@@ -44,7 +44,7 @@
       = f.input :alcool, collection: Dossier::ALCOOL,
         as: :radio_buttons, item_wrapper_class: "inline"
 
-    #grossesse
+    #grossesse= render 'grossesse', f: f
 
     #expositions
       %table.fields_summary#expositions_summary

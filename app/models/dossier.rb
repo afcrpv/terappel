@@ -7,7 +7,7 @@ class Dossier < ActiveRecord::Base
     :evolution_id, :categoriesp_id, :motif_id, :mod_accouch_id,
     :date_dernieres_regles, :date_reelle_accouchement, :date_accouchement_prevu, :date_debut_grossesse,
     :name, :prenom, :age, :antecedents_perso, :antecedents_fam, :ass_med_proc, :expo_terato,
-    :tabac, :alcool, :fcs, :geu, :miu, :ivg, :nai, :age_grossesse,
+    :tabac, :alcool, :fcs, :geu, :miu, :ivg, :img, :nai, :grsant, :age_grossesse,
     :terme, :path_mat,
     :comm_antecedents_perso, :comm_antecedents_fam, :comm_evol, :comm_expo, :commentaire,
     :expositions_attributes, :bebes_attributes

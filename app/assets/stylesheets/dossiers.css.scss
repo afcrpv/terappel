@@ -17,42 +17,41 @@
     border-radius: 4px;
   }
 
-  th {
-    font-weight: bold;
-    background-color: #000;
-    color: #fff;
-    text-align: left;
-    a, a:visited {
+  table.fields_summary {
+    th {
+      font-weight: bold;
+      background-color: #000;
       color: #fff;
-      text-decoration: none;
-      &:hover {
-        color: inherit;
-        text-decoration: underline;
+      text-align: left;
+      a, a:visited {
+        color: #fff;
+        text-decoration: none;
+        &:hover {
+          color: inherit;
+          text-decoration: underline;
+        }
       }
     }
-  }
-
-  th, td {
-    vertical-align: middle;
-    padding: 0;
-    &:last-child {
-      text-align: center;
-      width: 56px;
+    th, td {
+      vertical-align: middle;
+      padding: 0;
+      &:last-child {
+        text-align: center;
+        width: 56px;
+      }
     }
-  }
-
-  td {
-    &:last-child {
-      margin: auto;
+    td {
+      &:last-child {
+        margin: auto;
+      }
     }
-  }
-
-  tr {
-    &:nth-of-type(even) {
-      background-color: #eee;
-    }
-    &:nth-of-type(odd) {
-      background-color: #fff;
+    tr {
+      &:nth-of-type(even) {
+        background-color: #eee;
+      }
+      &:nth-of-type(odd) {
+        background-color: #fff;
+      }
     }
   }
 
@@ -72,6 +71,12 @@
       a {
         margin: 5px;
       }
+    }
+  }
+
+  table.grsant {
+    td, th {
+      padding: 4px;
     }
   }
 

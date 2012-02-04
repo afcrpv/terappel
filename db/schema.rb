@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120203151824) do
+ActiveRecord::Schema.define(:version => 20120204105920) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -137,6 +137,8 @@ ActiveRecord::Schema.define(:version => 20120203151824) do
     t.text     "comm_expo"
     t.text     "comm_evol"
     t.text     "comm_bebe"
+    t.integer  "img"
+    t.integer  "grsant"
   end
 
   add_index "dossiers", ["categoriesp_id"], :name => "index_dossiers_on_categoriesp_id"
