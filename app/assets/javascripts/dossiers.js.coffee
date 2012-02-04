@@ -8,22 +8,37 @@ jQuery ->
   # bootstrap tabs
   $("#tabs").tabs()
 
-  #### Validators and masks
-
   dateappel = $("#dossier_date_appel").attr("data-value")
-  $("#dossier_date_appel").val(dateappel) if dateappel
-  $("#dossier_date_appel").mask("99/99/9999")
-  $("#dossier_code").mask("aa9999999")
+
+  #### Validators and masks
   $.validator.setDefaults(
     debug: false
   )
-
   $("form.saisie").validate()
+
+  $("#dossier_date_appel").val(dateappel) if dateappel
+  $("#dossier_date_appel").mask("99/99/9999")
+  $("#dossier_code").mask("aa9999999")
+  dates_grossesse_fields_names = ["date_dernieres_regles", "date_debut_grossesse", "date_accouchement_prevu"]
+  dates_grossesse_fields = []
+  dates_grossesse_fields.push($("#dossier_#{field_name}")) for field_name in dates_grossesse_fields_names
+  date_field.mask("99/99/9999") for date_field in dates_grossesse_fields
+  $("#dossier_age_grossesse").mask("99")
 
   #### Grossesse
   $("#dossier_grsant").on 'blur', ->
     grsant = $(this).val()
     if grsant is "0" then zero_grossesse_fields()
+
+  # calculateur dates
+  $("#calc_dates_grossesse").on 'click', -> calc_date_grossesse()
+  $("#reset_dates_grossesse").on 'click', ->
+    $("#grossesse_date_messages").html("")
+    $('#dossier_age_grossesse').val("")
+    $('#dossier_date_dernieres_regles').val("")
+    $('#dossier_date_debut_grossesse').val("")
+    $('#dossier_date_accouchement_prevu').val("")
+
 
   #### Correspondant ####
   $edit_correspondant_btn = $(".edit-correspondant")
@@ -119,6 +134,61 @@ jQuery ->
     validate_field(event, this, $start_point, $target, bebe_values, "bebes")
 
 # functions
+calc_date_grossesse = ->
+  date_appel            = parse_fr_date($('#dossier_date_appel').val())
+  date_dernieres_regles = parse_fr_date($('#dossier_date_dernieres_regles').val())
+  date_debut_grossesse  = parse_fr_date($('#dossier_date_debut_grossesse').val())
+  # ensure date_appel isnt empty or invalid
+  if isNaN(date_appel.getTime())
+    $("#grossesse_date_messages").html("<label class='error'>Calcul impossible, date appel vide</label>")
+  else
+    # when date_dernieres_regles is empty or invalid
+    if isNaN(date_dernieres_regles.getTime())
+      # ensure date_debut_grossesse isnt empty or invalid
+      if isNaN(date_debut_grossesse.getTime())
+        $("#grossesse_date_messages").html("<label class='error'>Calcul impossible, dates dernières règles et debut grossesse vides</label>")
+      else
+        # calculate date_accouchement_prevu from date_debut_grossesse
+        $("#grossesse_date_messages").html("")
+        date_acc_prev_string  = addDays(date_debut_grossesse, 269)
+        $('#dossier_date_accouchement_prevu').val(date_acc_prev_string)
+    else
+      # calculate date_debut_grossesse, date_accouchement_prevu and age_grossesse
+      $("#grossesse_date_messages").html("")
+      console.log "date dr : #{date_dernieres_regles}"
+      console.log "date appel : #{date_appel}"
+      # ensure fields ddr and date_appel are not empty
+      $('#dossier_age_grossesse').val(getSA(date_dernieres_regles, date_appel))
+      date_debut_grs_string = addDays(date_dernieres_regles, 14)
+      date_acc_prev_string  = addDays(date_dernieres_regles, 283)
+      $('#dossier_date_debut_grossesse').val(date_debut_grs_string)
+      $('#dossier_date_accouchement_prevu').val(date_acc_prev_string)
+
+addDays = (objDate, days) ->
+  strSep = "/"
+  # add days to date object
+  objDate.setDate(objDate.getDate() + days)
+  # parse string for the modified date object
+  arrDate = []
+  gg = objDate.getDate()
+  gg = if gg.toString().length is 2 then gg else "0" + gg
+  console.log "day is : #{gg}"
+  mm = objDate.getMonth() + 1
+  mm = if mm.toString().length is 2 then gg else "0" + mm
+  console.log "month is : #{mm}"
+  aaaa = objDate.getFullYear()
+  arrDate.push(gg, mm, aaaa)
+  arrDate.join(strSep)
+
+getSA = (dateDR, dateAppel) ->
+  start = dateDR.getTime()
+  console.log "ddr time is : #{start}"
+  end = dateAppel.getTime()
+  console.log "date appel time is : #{end}"
+  delta = end - start
+  console.log "delta is : #{delta}"
+  days = delta / (1000 * 60 * 60 * 24)
+  Math.round(days/7)
 
 zero_grossesse_fields = ->
   fields_names = ["fcs", "geu", "miu", "ivg", "img", "nai"]
@@ -164,7 +234,6 @@ parse_fr_date = (string) ->
   mm = parseInt(adata[1],10)
   aaaa = parseInt(adata[2],10)
   xdata = new Date(aaaa,mm-1,gg)
-
 
 show_add_field_link = (association) ->
   $add_association_link = $("a.add_fields[data-associations=#{association}]")

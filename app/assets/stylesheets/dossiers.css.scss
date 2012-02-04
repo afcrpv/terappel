@@ -74,10 +74,20 @@
     }
   }
 
-  table.grsant {
+  table.grsant, table.grossesse_dates {
+    width: 35%;
+    float: left;
     td, th {
       padding: 4px;
+      border-top: 0;
     }
+  }
+  table.grossesse_dates {
+    width: 60%;
+    float: right;
+  }
+  table.grsant:after, table.grossesse_dates:after {
+    clear: both;
   }
 
   #tabs {
