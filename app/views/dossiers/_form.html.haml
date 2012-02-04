@@ -7,7 +7,7 @@
   #tabs
     %ul
       %li= link_to "Informations générales", "#infos"
-      %li= link_to "Patiente", "#patiente"
+      %li= link_to "Grossesse", "#grossesse"
       %li= link_to "Exposition", "#expositions"
       %li= link_to "Evolution", "#evol"
       %li= link_to "Nouveau-né", "#bebes"
@@ -27,8 +27,23 @@
         = link_to "Voir/modifier", "#", target: "_blank", class: "btn edit-correspondant" if can?(:update, Correspondant)
       = f.input :correspondant_id, as: :hidden
 
-    #patiente
-      = f.input :name
+    #grossesse
+      .inline-inputs
+        = f.label :name, "Nom"
+        = f.text_field :name
+        = f.label :prenom, "Prénom", class: "inline"
+        = f.text_field :prenom
+        = f.label :age, class: "inline"
+        = f.text_field :age, class: "span1"
+      = f.association :categoriesp
+      = f.input :antecedents_fam, collection: Dossier::ONI,
+        as: :radio_buttons, item_wrapper_class: "inline"
+      = f.input :antecedents_perso, collection: Dossier::ONI,
+        as: :radio_buttons, item_wrapper_class: "inline"
+      = f.input :tabac, collection: Dossier::TABAC,
+        as: :radio_buttons, item_wrapper_class: "inline"
+      = f.input :alcool, collection: Dossier::ALCOOL,
+        as: :radio_buttons, item_wrapper_class: "inline"
 
     #expositions
       %table.fields_summary#expositions_summary

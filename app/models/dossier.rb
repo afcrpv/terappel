@@ -1,3 +1,4 @@
+#encoding: utf-8
 class Dossier < ActiveRecord::Base
   #accessible attributes
   attr_accessible :date_appel, :centre_id, :user_id, :code,
@@ -10,6 +11,11 @@ class Dossier < ActiveRecord::Base
     :terme, :path_mat,
     :comm_antecedents_perso, :comm_antecedents_fam, :comm_evol, :comm_expo, :commentaire,
     :expositions_attributes, :bebes_attributes
+
+  # Constants
+  ONI = [["Oui", "0"], ["Non", "1"], ["Inconnu", "2"]]
+  TABAC = [["0", "0"], ["0 à 5", "1"], ["5 à 10", "2"], ["Sup. à 10", "3"], ["Inconnu", "4"]]
+  ALCOOL = [["0", "0"], ["<= 2", "1"], ["> 2", "2"], ["Inconnu", "3"]]
 
   # writers
   attr_writer :correspondant_nom
