@@ -1,10 +1,16 @@
 .nested-fields
-  = f.input :sexe, as: :select, collection: ["Masculin", "Féminin", "Inconnu", "Indéterminé"]
-  = f.input :poids, label: "Poids (g)"
-  = f.input :taille, label: "Taille (cm)"
-  = f.input :pc, label: "PC (cm)"
-  = f.input :apgar1, label: "Apgar 1"
-  = f.input :apgar5, label: "Apgar 5"
+  = f.input :sexe, as: :radio_buttons, collection: Bebe::SEXE, item_wrapper_class: "inline"
+  .control-group.inline-inline
+    = f.label "Mensurations"
+    .controls
+      = f.text_field :poids, placeholder: "Poids (g)", class: "span2"
+      = f.text_field :taille, placeholder: "Taille (cm)", class: "span2"
+      = f.text_field :pc, placeholder: "PC (cm)", class: "span2"
+  .control-group.inline-inline
+    = f.label "Apgar"
+    .controls
+      = f.text_field :apgar1, placeholder: "1'", class: "span2"
+      = f.text_field :apgar5, placeholder: "5'", class: "span2"
   = f.input :malformation, label: "Malformation", as: :select, collection: ["Oui", "Non", "Ne sait pas"]
   .control-group.inline-inputs.malformation_tokens
     = f.label :malformation_tokens, "Malformations"
@@ -18,7 +24,7 @@
   .field_links
     = link_to "Valider", "#", class: "btn success validate_bebe small"
     = link_to_remove_association "Supprimer", f, class: "btn danger small"
-    = link_to "Montrer/Modifier Malformations", "#", class: "btn show_malformation_tree", "data-backdrop" => true
-    = link_to "Montrer/Modifier Pathologies", "#", class: "btn show_pathologie_tree", "data-backdrop" => true
+    = link_to "Arbre Malformations", "#", class: "btn show_malformation_tree", "data-backdrop" => true
+    = link_to "Arbre Pathologies", "#", class: "btn show_pathologie_tree", "data-backdrop" => true
   = render "malformations/tree", bebe: f.object
   = render "pathologies/tree", bebe: f.object

@@ -1,6 +1,6 @@
 - title t("devise.shared.sign_in")
 
-= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
+= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), html: {class: "form-horizontal"}) do |f|
   = f.input :username, input_html: {class: "span4"}
   = f.input :password, input_html: {class: "span4"}
   - if devise_mapping.rememberable?

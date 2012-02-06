@@ -1,3 +1,4 @@
+#encoding: utf-8
 class Bebe < ActiveRecord::Base
   attr_accessible :malformation, :pathologie, :sexe, :poids, :apgar1, :apgar5, :pc, :taille, :malformation_tokens, :pathologie_tokens
 
@@ -7,6 +8,8 @@ class Bebe < ActiveRecord::Base
   has_and_belongs_to_many :pathologies
 
   belongs_to :dossier
+
+  SEXE = [["Masculin", "M"], ["Féminin", "F"], ["Inconnu", "I"], ["Indéterminé", nil]]
 
   def malformation_tokens=(ids)
     self.malformation_ids = ids.split(",")

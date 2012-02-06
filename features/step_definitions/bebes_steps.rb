@@ -2,12 +2,12 @@
 
 When /^I add a new bebe for a dossier$/ do
   step %{I initialize a bebe for a dossier}
-  select "Masculin", :from => "Sexe"
-  fill_in "Poids (g)", :with => "3500"
-  fill_in "Taille (cm)", :with => "50"
-  fill_in "PC (cm)", :with => "38"
-  fill_in "Apgar 1", :with => "8"
-  fill_in "Apgar 5", :with => "10"
+  choose "Masculin"
+  find(:css, "input[id$=_poids]").set "3500"
+  find(:css, "input[id$=_taille]").set "50"
+  find(:css, "input[id$=_pc]").set "38"
+  find(:css, "input[id$=_apgar1]").set "8"
+  find(:css, "input[id$=_apgar5]").set "10"
   select "Non", :from => "Malformation"
   select "Oui", :from => "Pathologie"
   click_on "Valider"
@@ -33,7 +33,7 @@ end
 When /^I update an existing bebe for a dossier$/ do
   step %{I add a new bebe for a dossier}
   click_on "M"
-  fill_in "Poids (g)", :with => "3000"
+  find(:css, "input[id$=_poids]").set "3000"
   click_on "Valider"
 end
 
@@ -44,7 +44,7 @@ end
 When /^I add another bebe/ do
   click_on "Ajouter Nouveau-né"
   sleep 1
-  select "Féminin", :from => "Sexe"
+  choose "Féminin"
   click_on "Valider"
 end
 
@@ -52,7 +52,7 @@ When /^I update the first bebe/ do
   within(:css, "table#bebes_summary tr:first-child td") do
     click_on "M"
   end
-  fill_in "Poids", :with => "5000"
+  find(:css, "input[id$=_poids]").set "5000"
   click_on "Valider"
 end
 
@@ -141,7 +141,7 @@ When /^I add (\w+) using the treeview$/ do |association|
   click_on "M"
   sleep 1
   select "Oui", :from => singular_title
-  click_on "Montrer/Modifier #{plural_title}"
+  click_on "Arbre #{plural_title}"
   tree = ".#{association}_tree"
   page.execute_script %{$("#{tree}").jstree("check_node", "li#1")}
   sleep 1
