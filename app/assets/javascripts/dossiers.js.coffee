@@ -150,17 +150,15 @@ calc_date_grossesse = ->
       else
         # calculate date_accouchement_prevu from date_debut_grossesse
         $("#grossesse_date_messages").html("")
-        date_acc_prev_string  = addDays(date_debut_grossesse, 269)
+        date_acc_prev_string  = addDays(parse_fr_date($('#dossier_date_debut_grossesse').val()), 269)
         $('#dossier_date_accouchement_prevu').val(date_acc_prev_string)
     else
       # calculate date_debut_grossesse, date_accouchement_prevu and age_grossesse
       $("#grossesse_date_messages").html("")
-      console.log "date dr : #{date_dernieres_regles}"
-      console.log "date appel : #{date_appel}"
       # ensure fields ddr and date_appel are not empty
-      $('#dossier_age_grossesse').val(getSA(date_dernieres_regles, date_appel))
-      date_debut_grs_string = addDays(date_dernieres_regles, 14)
-      date_acc_prev_string  = addDays(date_dernieres_regles, 283)
+      $('#dossier_age_grossesse').val(getSA(parse_fr_date($('#dossier_date_dernieres_regles').val()), date_appel))
+      date_debut_grs_string = addDays(parse_fr_date($('#dossier_date_dernieres_regles').val()), 14)
+      date_acc_prev_string  = addDays(parse_fr_date($('#dossier_date_dernieres_regles').val()), 283)
       $('#dossier_date_debut_grossesse').val(date_debut_grs_string)
       $('#dossier_date_accouchement_prevu').val(date_acc_prev_string)
 
@@ -174,7 +172,7 @@ addDays = (objDate, days) ->
   gg = if gg.toString().length is 2 then gg else "0" + gg
   console.log "day is : #{gg}"
   mm = objDate.getMonth() + 1
-  mm = if mm.toString().length is 2 then gg else "0" + mm
+  mm = if mm.toString().length is 2 then mm else "0" + mm
   console.log "month is : #{mm}"
   aaaa = objDate.getFullYear()
   arrDate.push(gg, mm, aaaa)

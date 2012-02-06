@@ -44,3 +44,34 @@ Feature: Saisie dossier
     And I fill in the correspondant field with "ma"
     And I choose "Martin - 69006 - Lyon" in the autocomplete list
     Then the modify correspondant button should be visible
+
+  @javascript @calc_grossesse
+  Scenario: don't calculate and alert if date appel is empty
+    When I go to the new dossier page with code "LY1101001"
+    And I calculate the dates grossesse
+    Then I should see "Calcul impossible, date appel vide"
+
+  @javascript @calc_grossesse
+  Scenario: don't calculate and alert if ddr and dg are empty
+    When I go to the new dossier page with code "LY1101001"
+    And I fill in the date appel field with "01/01/2012"
+    And I calculate the dates grossesse
+    Then I should see "Calcul impossible, dates dernières règles et debut grossesse vides"
+
+  @javascript @calc_grossesse
+  Scenario: when ddr is empty, calculate dap using provided dg
+    When I go to the new dossier page with code "LY1101001"
+    And I fill in the date appel field with "01/01/2012"
+    And I fill in the date debut grossesse field with "15/12/2011"
+    And I calculate the dates grossesse
+    Then the date accouchement prevue should be "09/09/2012"
+
+  @javascript @calc_grossesse
+  Scenario: with ddr provided, calculate age grossesse, dg and dap
+    When I go to the new dossier page with code "LY1101001"
+    And I fill in the date appel field with "01/01/2012"
+    And I fill in the date dernieres regles field with "01/12/2011"
+    And I calculate the dates grossesse
+    Then the age grossesse should be "4"
+    And the date debut grossesse should be "15/12/2011"
+    And the date accouchement prevue should be "09/09/2012"

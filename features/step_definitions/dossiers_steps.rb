@@ -132,3 +132,38 @@ end
 Then /^the modify correspondant button should be visible$/ do
   page.find(:css, "a.edit-correspondant").visible?.should == true
 end
+
+When /^I calculate the dates grossesse$/ do
+  click_on "Grossesse"
+  click_on "Calculer"
+end
+
+Then /^I should see "([^"]*)"$/ do |message|
+  page.should have_content(message)
+end
+
+When /^I fill in the date appel field with "([^"]*)"$/ do |date|
+  fill_in "Date Appel", with: date
+end
+
+When /^I fill in the date debut grossesse field with "([^"]*)"$/ do |date|
+  click_on "Grossesse"
+  fill_in "dossier_date_debut_grossesse", with: date
+end
+
+Then /^the date accouchement prevue should be "([^"]*)"$/ do |date|
+  find(:css, 'input#dossier_date_accouchement_prevu').value.should == date
+end
+
+When /^I fill in the date dernieres regles field with "([^"]*)"$/ do |date|
+  click_on "Grossesse"
+  fill_in "dossier_date_dernieres_regles", with: date
+end
+
+Then /^the age grossesse should be "([^"]*)"$/ do |sa|
+  find(:css, 'input#dossier_age_grossesse').value.should == sa
+end
+
+Then /^the date debut grossesse should be "([^"]*)"$/ do |date|
+  find(:css, 'input#dossier_date_debut_grossesse').value.should == date
+end
