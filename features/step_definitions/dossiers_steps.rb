@@ -114,8 +114,7 @@ When /^I submit$/ do
 end
 
 Then /^I should see the page for the dossier with code "([^"]*)"$/ do |code|
-  visit dossier_path(code)
-  page.should have_content code
+  page.should have_content "Modification Dossier ##{code}"
 end
 
 When /^I press the destroy button$/ do

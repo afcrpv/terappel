@@ -15,7 +15,7 @@ Feature: Saisie dossier
     Then I should see the page for creating a new dossier
     And the code field should be pre-filled with "LY1111001"
 
-  @javascript
+  @javascript @focus
   Scenario: open dossier when code is found
     Given 3 dossiers exist
     When I fill in the search field with "11"
