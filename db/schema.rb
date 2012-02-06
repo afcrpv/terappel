@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120204105920) do
+ActiveRecord::Schema.define(:version => 20120206114730) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -108,7 +108,7 @@ ActiveRecord::Schema.define(:version => 20120204105920) do
     t.integer  "correspondant_id"
     t.integer  "categoriesp_id"
     t.integer  "motif_id"
-    t.integer  "mod_accouch_id"
+    t.string   "modaccouch"
     t.date     "date_dernieres_regles"
     t.date     "date_reelle_accouchement"
     t.date     "date_accouchement_prevu"
@@ -147,9 +147,16 @@ ActiveRecord::Schema.define(:version => 20120204105920) do
   add_index "dossiers", ["date_appel"], :name => "index_dossiers_on_date_appel"
   add_index "dossiers", ["evolution_id"], :name => "index_dossiers_on_evolution_id"
   add_index "dossiers", ["expo_terato"], :name => "index_dossiers_on_expo_terato"
-  add_index "dossiers", ["mod_accouch_id"], :name => "index_dossiers_on_mod_accouch_id"
+  add_index "dossiers", ["modaccouch"], :name => "index_dossiers_on_mod_accouch_id"
   add_index "dossiers", ["motif_id"], :name => "index_dossiers_on_motif_id"
   add_index "dossiers", ["name"], :name => "index_dossiers_on_name"
+
+  create_table "evolutions", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "oldid"
+  end
 
   create_table "expo_natures", :force => true do |t|
     t.string   "name"

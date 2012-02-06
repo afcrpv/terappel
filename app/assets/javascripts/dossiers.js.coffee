@@ -8,22 +8,23 @@ jQuery ->
   # bootstrap tabs
   $("#tabs").tabs()
 
-  dateappel = $("#dossier_date_appel").attr("data-value")
-
   #### Validators and masks
   $.validator.setDefaults(
     debug: false
   )
   $("form.saisie").validate()
 
-  $("#dossier_date_appel").val(dateappel) if dateappel
-  $("#dossier_date_appel").mask("99/99/9999")
   $("#dossier_code").mask("aa9999999")
-  dates_grossesse_fields_names = ["date_dernieres_regles", "date_debut_grossesse", "date_accouchement_prevu"]
+  $("#dossier_age_grossesse").mask("?99")
+
+  dates_grossesse_fields_names = ["date_appel", "date_dernieres_regles", "date_debut_grossesse", "date_accouchement_prevu", "date_reelle_accouchement"]
   dates_grossesse_fields = []
   dates_grossesse_fields.push($("#dossier_#{field_name}")) for field_name in dates_grossesse_fields_names
-  date_field.mask("99/99/9999") for date_field in dates_grossesse_fields
-  $("#dossier_age_grossesse").mask("99")
+
+  for date_field in dates_grossesse_fields
+    date_field.mask("99/99/9999")
+    value = date_field.attr("data-value")
+    date_field.val(value) if value
 
   #### Grossesse
   $("#dossier_grsant").on 'blur', ->

@@ -1,0 +1,5 @@
+= f.association :evolution, hint: "Si fausse couche, compléter le champ malformation dans la section nouveau-né si examen anatomo-pathologique interprétable"
+= f.input :modaccouch, label: "Accouchement", as: :radio_buttons, collection: Dossier::MODACCOUCH, item_wrapper_class: "inline"
+= f.input :date_reelle_accouchement, as: :string, input_html: {"data-value" => date_reelle_accouchement, class: "dateITA"}
+= f.input :terme, label: "Terme (SA)"
+= f.input :path_mat, label: "Pathologie Mat.", as: :radio_buttons, collection: Dossier::ONI, item_wrapper_class: "inline"

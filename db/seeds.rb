@@ -17,3 +17,9 @@ puts "importing Motifs table from csv"
 CSV.foreach("csv/motifs.csv", headers: true) do |row|
   Motif.where(name: row['name']).first_or_create!(oldid: row['oldid'])
 end
+
+# create Evolution
+puts "importing Evolution table from csv"
+CSV.foreach("csv/evolutions.csv", headers: true) do |row|
+  Evolution.where(name: row['name']).first_or_create!(oldid: row['oldid'])
+end

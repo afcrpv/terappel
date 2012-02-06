@@ -4,7 +4,7 @@ class Dossier < ActiveRecord::Base
   attr_accessible :date_appel, :centre_id, :user_id, :code,
     :correspondant_id, :a_relancer, :relance_counter,
     :correspondant_nom,
-    :evolution_id, :categoriesp_id, :motif_id, :mod_accouch_id,
+    :evolution_id, :categoriesp_id, :motif_id, :modaccouch,
     :date_dernieres_regles, :date_reelle_accouchement, :date_accouchement_prevu, :date_debut_grossesse,
     :name, :prenom, :age, :antecedents_perso, :antecedents_fam, :ass_med_proc, :expo_terato,
     :tabac, :alcool, :fcs, :geu, :miu, :ivg, :img, :nai, :grsant, :age_grossesse,
@@ -16,6 +16,7 @@ class Dossier < ActiveRecord::Base
   ONI = [["Oui", "0"], ["Non", "1"], ["Inconnu", "2"]]
   TABAC = [["0", "0"], ["0 à 5", "1"], ["5 à 10", "2"], ["Sup. à 10", "3"], ["Inconnu", "4"]]
   ALCOOL = [["0", "0"], ["<= 2", "1"], ["> 2", "2"], ["Inconnu", "3"]]
+  MODACCOUCH = [["VBS", "0"], ["VBI", "1"], ["CES", "2"], ["INC", "3"]]
 
   # writers
   attr_writer :correspondant_nom

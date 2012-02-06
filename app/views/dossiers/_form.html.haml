@@ -65,7 +65,7 @@
         = render 'exposition_fields', :f => exposition
       .links= link_to_add_association 'Ajouter Expo', f, :expositions, class: "btn primary small"
 
-    #evol
+    #evol= render "evolution", f: f
 
     #bebes
       %table.fields_summary#bebes_summary

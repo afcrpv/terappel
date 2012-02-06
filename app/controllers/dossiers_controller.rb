@@ -3,7 +3,7 @@ class DossiersController < AuthorizedController
   before_filter :decorated_dossier, :only => :show
   load_and_authorize_resource :dossier
 
-  helper_method :date_appel
+  helper_method :date_appel, :date_reelle_accouchement, :date_dernieres_regles, :date_debut_grossesse, :date_accouchement_prevu
 
   def autocomplete_correspondant_fullname
     term = params[:term]
@@ -67,5 +67,21 @@ class DossiersController < AuthorizedController
 
   def date_appel
     @date_appel ||= params[:id] && @dossier.date_appel? ? l(@dossier.date_appel) : ""
+  end
+
+  def date_dernieres_regles
+    @date_dernieres_regles ||= params[:id] && @dossier.date_dernieres_regles? ? l(@dossier.date_dernieres_regles) : ""
+  end
+
+  def date_debut_grossesse
+    @date_debut_grossesse ||= params[:id] && @dossier.date_debut_grossesse? ? l(@dossier.date_debut_grossesse) : ""
+  end
+
+  def date_reelle_accouchement
+    @date_reelle_accouchement ||= params[:id] && @dossier.date_reelle_accouchement? ? l(@dossier.date_reelle_accouchement) : ""
+  end
+
+  def date_accouchement_prevu
+    @date_accouchement_prevu ||= params[:id] && @dossier.date_accouchement_prevu? ? l(@dossier.date_accouchement_prevu) : ""
   end
 end
