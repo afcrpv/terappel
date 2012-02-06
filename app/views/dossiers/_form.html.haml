@@ -86,7 +86,7 @@
         = render 'bebe_fields', :f => bebe
       .links= link_to_add_association 'Ajouter Nouveau-né', f, :bebes, class: "btn primary small"
     #comm
-      = f.input :commentaire, input_html: {class: "span12"}
+      = f.input :commentaire, label: false, input_html: {class: "span12"}
   .actions
     = f.button :submit, disable_with: "Attendre...", class: "success"
     = link_to "Annuler", dossiers_path, class: "btn"
