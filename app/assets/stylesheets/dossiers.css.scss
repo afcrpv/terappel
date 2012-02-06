@@ -81,10 +81,18 @@
       padding: 4px;
       border-top: 0;
     }
+    th {
+      text-align: right;
+      vertical-align: middle;
+    }
   }
   table.grossesse_dates {
     width: 60%;
     float: right;
+    th {
+      text-align: right;
+      vertical-align: middle;
+    }
   }
   table.grsant:after, table.grossesse_dates:after {
     clear: both;

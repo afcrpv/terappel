@@ -2,11 +2,10 @@
 = f.input :ass_med_proc, as: :radio_buttons, collection: Dossier::ONI, item_wrapper_class: "inline"
 
 %table.grsant.span5
-  %thead
-    %tr
-      %th{colspan: "5", style: "text-align: right;"} Grossesses Antérieures
-      %th= f.text_field :grsant, class: "span1"
   %tbody
+    %tr
+      %th{colspan: "5"} Grossesses Antérieures
+      %td= f.text_field :grsant, class: "span1"
     %tr
       - [:fcs, :geu, :miu].each do |item|
         %th= item.to_s.upcase
