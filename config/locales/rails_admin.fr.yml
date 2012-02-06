@@ -1,12 +1,14 @@
 fr:
   home:
-    name: Home
+    name: Accueil
   views:
     pagination:
       previous: "&laquo; Préc."
       next: "Suiv. &raquo;"
       truncate: "…"
   admin:
+    dashboard:
+      pagename: "Administration"
     misc:
       search: "Rechercher"
       filter: "Filtrer"
@@ -22,7 +24,7 @@ fr:
       up: "Monter"
       down: "Descendre"
       navigation: "Navigation"
-      log_out: "Log out"
+      log_out: "Déconnectez-vous"
       ago: ""
     flash:
       successful: "%{name} a été %{action} avec succès"

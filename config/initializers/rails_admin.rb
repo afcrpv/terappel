@@ -8,12 +8,14 @@
 
 # RailsAdmin config file. Generated on October 18, 2011 11:13
 # See github.com/sferik/rails_admin for more informations
+require 'i18n'
+I18n.default_locale = :fr
 
 RailsAdmin.config do |config|
 
   config.current_user_method { current_user } # auto-generated
 
-  config.main_app_name { ['Terappel', 'Saisie'] } # auto-generated
+  config.main_app_name { ['Terappel', 'Administration'] } # auto-generated
 
   #  ==> Authentication (before_filter)
   # This is run inside the controller instance so you can setup any authentication you need to.
@@ -64,6 +66,8 @@ RailsAdmin.config do |config|
 
   # Application wide tried label methods for models' instances
   # config.label_methods << [:description] # Default is [:name, :title]
+  config.label_methods << :nom # Default is [:name, :title]
+  config.label_methods << :code # Default is [:name, :title]
 
   #  ==> Global models configuration
   # config.models do
