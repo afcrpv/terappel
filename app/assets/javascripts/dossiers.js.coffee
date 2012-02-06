@@ -358,7 +358,7 @@ collect_values_to_copy = ($start_point, model) ->
     ]
   else
     values = [
-      $start_point.find("select[name*='sexe'] option").filter(":selected").text()
+      $start_point.find("input[id*='sexe']").filter(":checked").val()
       $start_point.find("input[id$='_poids']").val()
       $start_point.find("input[id$='_taille']").val()
       $start_point.find("input[id$='_pc']").val()
