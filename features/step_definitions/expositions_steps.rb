@@ -40,6 +40,7 @@ end
 
 When /^I add another exposition$/ do
   click_on "Ajouter Expo"
+  sleep 1
   select "ACICLOVIR", :from => "Exposition"
   select "T1", :from => "Terme d'exposition"
   select "HERPES", :from => "Indication"
