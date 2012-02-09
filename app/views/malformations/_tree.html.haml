@@ -1,10 +1,12 @@
-%div{class: "modal hide malformation", style: "display: none;"}
+%div.modal.hide#malformation
   .modal-header
-    = link_to "x", "#", class: "close"
+    %a.close{"data-dismiss" => "modal"} x
     %h3 Arbre des Malformations
   .modal-body
     .malformations_tree
   .modal-footer
     Malformations Sélectionnées :
     .malformations_container
-    = link_to "Rajouter ces malformations", "#", class: "btn primary add_malformations"
+    = link_to "#", class: "btn btn-primary add_malformations" do
+      %i.icon-plus.icon-white
+      Rajouter ces malformations

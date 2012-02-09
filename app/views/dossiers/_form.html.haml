@@ -81,6 +81,8 @@
     #evol= render "evolution", f: f
 
     #bebes
+      = render "malformations/tree", bebe: f.object
+      = render "pathologies/tree", bebe: f.object
       %table.fields_summary#bebes_summary
         %thead
           %tr

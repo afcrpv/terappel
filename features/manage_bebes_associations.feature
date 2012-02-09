@@ -44,7 +44,7 @@ Feature: Manage bebes associations
       |malformations|
       |pathologies|
 
-  @javascript
+  @javascript @focus
   Scenario: malformation and pathologies should not be mixed up in the summary
     When I add a new bebe for a dossier
     And I add malformations for the bebe

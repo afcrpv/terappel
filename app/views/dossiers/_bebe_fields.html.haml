@@ -30,11 +30,9 @@
     = link_to_remove_association f, class: "btn btn-danger btn-small" do
       %i.icon-trash.icon-white
       Supprimer
-    = link_to "#", class: "btn show_malformation_tree", "data-backdrop" => true do
+    = link_to "#malformation", class: "btn show_malformation_tree", "data-toggle" => "modal" do
       %i.icon-list
       Arbre Malformations
-    = link_to "#", class: "btn show_pathologie_tree", "data-backdrop" => true do
+    = link_to "#pathologie", class: "btn show_pathologie_tree", "data-toggle" => "modal" do
       %i.icon-list
       Arbre Pathologies
-  = render "malformations/tree", bebe: f.object
-  = render "pathologies/tree", bebe: f.object

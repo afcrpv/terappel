@@ -1,10 +1,12 @@
-%div{class: "modal hide pathologie", style: "display: none;"}
+%div.modal.hide#pathologie
   .modal-header
-    = link_to "x", "#", class: "close"
+    %a.close{"data-dismiss" => "modal"} x
     %h3 Arbre des Pathologies
   .modal-body
     .pathologies_tree
   .modal-footer
     Pathologies Sélectionnées :
     .pathologies_container
-    = link_to "Rajouter ces pathologies", "#", class: "btn primary add_pathologies"
+    = link_to "#", class: "btn btn-primary add_pathologies" do
+      %i.icon-plus.icon-white
+      Rajouter ces pathologies

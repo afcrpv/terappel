@@ -393,7 +393,7 @@ append_to_summary = (fields, $target, model_id, model) ->
 
 create_cells = ($node, text) ->
   if text is "Oui"
-    cell_content = "<a href='#' class='btn danger' >#{text}</a>"
+    cell_content = "<a href='#' class='btn btn-danger' >#{text}</a>"
   else
     cell_content = text
 

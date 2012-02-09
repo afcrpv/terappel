@@ -5,8 +5,8 @@ end
 
 When /^I add a new dossier$/ do
   step %{I go to the new dossier page with code "LY1101001"}
-  fill_in "Date Appel", :with => "31/01/2001"
-  fill_in "dossier_name", :with => "Martin"
+  find(:css, "#dossier_date_appel").set "31/01/2001"
+  find(:css, "#dossier_name").set "Martin"
   expect do
     click_button I18n.t('helpers.submit.create')
   end.to change{Dossier.count}.by(1)
@@ -33,8 +33,8 @@ end
 
 When /^I update the dossier with new data$/ do
   visit edit_dossier_path(@dossier)
-  fill_in "dossier_name", :with => "Dupont"
-  fill_in "dossier_date_appel", :with => "01/01/2001"
+  find(:css, "#dossier_date_appel").set "01/01/2001"
+  find(:css, "#dossier_name").set "Dupont"
   click_button I18n.t('helpers.submit.update')
 end
 
@@ -65,7 +65,7 @@ Then /^I should see the page for creating a new dossier$/ do
 end
 
 Then /^the code field should be pre\-filled with "([^"]*)"$/ do |code|
-  page.should have_field('Numero Appel', with: code)
+  page.find(:css, '#dossier_code').value.should == code
 end
 
 When /^I fill in the search field with "([^"]*)"$/ do |search|
@@ -142,7 +142,7 @@ Then /^I should see "([^"]*)"$/ do |message|
 end
 
 When /^I fill in the date appel field with "([^"]*)"$/ do |date|
-  fill_in "Date Appel", with: date
+  find(:css, "#dossier_date_appel").set date
 end
 
 When /^I fill in the date debut grossesse field with "([^"]*)"$/ do |date|

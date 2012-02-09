@@ -111,6 +111,7 @@ Then /^the associations should not be mixed up$/ do
     sleep 1
     find(:css, ".popover").should have_content("#{association.titleize}1")
     find(:css, ".popover").should_not have_content("#{opposite.titleize}1")
+    page.execute_script %{$("#{link}").popover('hide')}
   end
 end
 
