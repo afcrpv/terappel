@@ -1,16 +1,18 @@
 .nested-fields
   = f.input :sexe, as: :radio_buttons, collection: Bebe::SEXE, item_wrapper_class: "inline"
-  .control-group.inline-inline
-    = f.label "Mensurations"
+  .control-group.inline-inputs
+    = f.label "Poids"
     .controls
-      = f.text_field :poids, placeholder: "Poids (g)", class: "span2"
-      = f.text_field :taille, placeholder: "Taille (cm)", class: "span2"
-      = f.text_field :pc, placeholder: "PC (cm)", class: "span2"
-  .control-group.inline-inline
+      = f.text_field :poids, placeholder: "g", class: "span1"
+      = f.label "Taille"
+      = f.text_field :taille, placeholder: "cm", class: "span1"
+      = f.label "Périmètre crânien"
+      = f.text_field :pc, placeholder: "cm", class: "span1"
+  .control-group.inline-inputs
     = f.label "Apgar"
     .controls
-      = f.text_field :apgar1, placeholder: "1'", class: "span2"
-      = f.text_field :apgar5, placeholder: "5'", class: "span2"
+      = f.text_field :apgar1, placeholder: "1'", class: "span1"
+      = f.text_field :apgar5, placeholder: "5'", class: "span1"
   = f.input :malformation, label: "Malformation", as: :select, collection: ["Oui", "Non", "Ne sait pas"]
   .control-group.inline-inputs.malformation_tokens
     = f.label :malformation_tokens, "Malformations"

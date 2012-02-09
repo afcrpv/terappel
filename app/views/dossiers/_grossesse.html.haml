@@ -17,17 +17,17 @@
 
 %table.grossesse_dates
   %tr
-    %th Age grossesse lors de l'appel (SA)
+    %th.span5 Age grossesse lors de l'appel (SA)
     %td.span7= f.text_field :age_grossesse, class: "span1"
   %tr
     %th DDR
-    %td= f.text_field :date_dernieres_regles, class: "span3 dateITA dateNotFuture", "data-value" => date_dernieres_regles
+    %td= f.text_field :date_dernieres_regles, class: "span2 dateITA dateNotFuture", "data-value" => date_dernieres_regles
   %tr
     %th Debut de grossesse
-    %td= f.text_field :date_debut_grossesse, class: "span3 dateITA dateNotFuture", "data-value" => date_debut_grossesse
+    %td= f.text_field :date_debut_grossesse, class: "span2 dateITA dateNotFuture", "data-value" => date_debut_grossesse
   %tr
     %th Date accouchement prévu
-    %td= f.text_field :date_accouchement_prevu, class: "span3 dateITA", "data-value" => date_accouchement_prevu
+    %td= f.text_field :date_accouchement_prevu, class: "span2 dateITA", "data-value" => date_accouchement_prevu
   %tr
     %td#grossesse_date_messages
     %td

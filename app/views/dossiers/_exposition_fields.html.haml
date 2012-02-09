@@ -1,19 +1,21 @@
 .nested-fields
-  = f.association :expo_type, label: "Type"
-  = f.association :produit, label: "Exposition", input_html: {class: "span10"}
-  = f.association :indication, input_html: {class: "span10"}
+  = f.association :expo_type, label: "Type", input_html: {class: "span7"}
+  = f.association :produit, label: "Exposition", input_html: {class: "span7"}
+  = f.association :indication, input_html: {class: "span7"}
   .control-group.inline-inputs
     = f.label "Période Expo (en SA)"
     .controls
       = f.text_field :de, class: "span1", placeholder: "De"
       = f.text_field :a, class: "span1", placeholder: "à"
-      = f.text_field :duree, class: "span2", placeholder: "Durée"
+      = f.label "Durée"
+      = f.text_field :duree, class: "span1"
   .control-group.inline-inputs
     = f.label "Reprise ttt "
     .controls
       = f.text_field :de2, class: "span1", placeholder: "De"
       = f.text_field :a2, class: "span1", placeholder: "à"
-      = f.text_field :duree2, class: "span2", placeholder: "Durée"
+      = f.label "Durée"
+      = f.text_field :duree2, class: "span1"
   = f.association :expo_nature, label: "Nature"
   = f.input :dose, label: "Posologie", hint: "p.e. en mg/jr"
   = f.association :expo_terme, label: "Terme d'exposition"

@@ -118,4 +118,15 @@
       display: none;
     }
   }
+  label {
+    &:after {
+      content: " :"
+    }
+    &.radio:after {
+      content: ""
+    }
+  }
+  .inline-inputs .controls label{
+    display: inline-block;
+  }
 }

@@ -13,9 +13,14 @@
     #infos
       = f.input :user_id, as: :hidden
       = f.input :centre_id, as: :hidden
-      = f.input :code
-      = f.input :date_appel, as: :string, input_html: {autofocus: true, "data-value" => date_appel, class: "dateITA dateNotFuture"}
-      = f.association :motif
+      .control-group.inline-inputs
+        = f.label "N° d'appel"
+        .controls
+          = f.text_field :code, class: "span2"
+          %label Date d'appel
+          = f.text_field :date_appel, autofocus: true, "data-value" => date_appel, class: "dateITA dateNotFuture span2"
+          %label Motif
+          = f.collection_select :motif_id, Motif.all, :id, :name
       .control-group.inline-inputs
         = f.label "Correspondant"
         .controls
@@ -31,7 +36,7 @@
           = f.text_field :name, placeholder: "Nom"
           = f.text_field :prenom, placeholder: "Prénom"
           = f.text_field :age, class: "span1", placeholder: "Age"
-      = f.association :categoriesp
+      = f.association :categoriesp, input_html: {class: "span5"}
       = f.input :antecedents_fam, collection: Dossier::ONI,
         as: :radio_buttons, item_wrapper_class: "inline"
       = f.input :antecedents_perso, collection: Dossier::ONI,
@@ -83,7 +88,7 @@
         = render 'bebe_fields', :f => bebe
       .links= link_to_add_association 'Ajouter Nouveau-né', f, :bebes, class: "btn primary small"
     #comm
-      = f.input :commentaire, label: false, input_html: {class: "span12"}
+      = f.input :commentaire, label: false, input_html: {class: "span9"}
   .actions
     = f.button :submit, disable_with: "Attendre...", class: "success"
     = link_to "Annuler", dossiers_path, class: "btn"
