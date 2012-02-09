@@ -1,8 +1,5 @@
 = simple_form_for dossier, html: { class: "form-horizontal saisie"} do |f|
-  - if f.error_notification
-    .alert-message.warning.fade.in{"data-alert" => "alert"}
-      %a.close{href: "#"}x
-      %p= f.error_notification
+  = f.error_notification if f.error_notification
 
   #tabs
     %ul

@@ -48,3 +48,20 @@ CSV.foreach("csv/indications.csv", headers: true) do |row|
   Indication.where(name: row['name']).first_or_create!(oldid: row['oldid'])
 end
 
+# create Formule
+puts "importing Formule table from csv"
+CSV.foreach("csv/formules.csv", headers: true) do |row|
+  Formule.where(name: row['name']).first_or_create!(oldid: row['oldid'])
+end
+
+# create Qualite
+puts "importing Qualite table from csv"
+CSV.foreach("csv/qualites.csv", headers: true) do |row|
+  Qualite.where(name: row['name']).first_or_create!(oldid: row['oldid'])
+end
+
+# create Specialite
+puts "importing Specialite table from csv"
+CSV.foreach("csv/specialites.csv", headers: true) do |row|
+  Specialite.where(name: row['name']).first_or_create!(oldid: row['oldid'])
+end
