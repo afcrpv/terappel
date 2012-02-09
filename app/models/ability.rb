@@ -6,6 +6,8 @@ class Ability
 
     if user.role? :centre_user
       dossier_and_decorator = [Dossier, DossierDecorator]
+      can :dashboard
+      can :access, :rails_admin
       can :read, Centre
 
       can [:read, :update], [user, UserDecorator]
