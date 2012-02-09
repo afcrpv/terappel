@@ -40,6 +40,23 @@ jQuery ->
     $('#dossier_date_debut_grossesse').val("")
     $('#dossier_date_accouchement_prevu').val("")
 
+  #### Evolution ####
+  # disactivate modaccouch association input by default
+  $modaccouch_input = $("#modaccouch")
+  console.log $modaccouch_input
+  $modaccouch_input.hide()
+  # activate modaccouch if evolution id is 6
+  evolution_id = $("input[name='dossier[evolution_id]']").filter(":checked").val()
+  if evolution_id and evolution_id is "6"
+    $modaccouch_input.show()
+  # activate modaccouch when evolution id 6 gets checked
+  $evolution_radio = $("input[name='dossier[evolution_id]']")
+  $evolution_radio.bind 'change', ->
+    naissance_checked = $(this).filter(":checked").val() is "6"
+    if naissance_checked
+      $modaccouch_input.show()
+    else
+      $modaccouch_input.hide()
 
   #### Correspondant ####
   $edit_correspondant_btn = $(".edit-correspondant")
@@ -95,7 +112,6 @@ jQuery ->
       # when clicking on #bebes tab link
       $("#tabs li a[href='#bebes']").bind 'click', ->
         $tokens = $("textarea.#{association}_tokens")
-        console.log $tokens
         $tokens.attach_jquery_tokeninput("/#{association}s.json")
 
         $("select[id$=#{association}]").check_show_association_tokens(association)
@@ -171,21 +187,16 @@ addDays = (objDate, days) ->
   arrDate = []
   gg = objDate.getDate()
   gg = if gg.toString().length is 2 then gg else "0" + gg
-  console.log "day is : #{gg}"
   mm = objDate.getMonth() + 1
   mm = if mm.toString().length is 2 then mm else "0" + mm
-  console.log "month is : #{mm}"
   aaaa = objDate.getFullYear()
   arrDate.push(gg, mm, aaaa)
   arrDate.join(strSep)
 
 getSA = (dateDR, dateAppel) ->
   start = dateDR.getTime()
-  console.log "ddr time is : #{start}"
   end = dateAppel.getTime()
-  console.log "date appel time is : #{end}"
   delta = end - start
-  console.log "delta is : #{delta}"
   days = delta / (1000 * 60 * 60 * 24)
   Math.round(days/7)
 
