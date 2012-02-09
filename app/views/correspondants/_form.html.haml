@@ -1,19 +1,16 @@
 = simple_form_for correspondant, html: {class: "form-horizontal"} do |f|
-  - if f.error_notification
-    .alert-message.warning.fade.in{"data-alert" => "alert"}
-      %a.close{href: "#"}x
-      %p= f.error_notification
-  = f.input :centre_id, as: :hidden
-  = f.input :nom
-  = f.association :specialite
-  = f.association :qualite
+  = f.error_notification if f.error_notification
   = f.association :formule
+  = f.input :nom
+  = f.association :qualite
+  = f.association :specialite
   = f.input :adresse, input_html: {rows: "3"}
   = f.input :cp
   = f.input :ville
-  = f.input :telephone
-  = f.input :fax
-  = f.input :poste
   = f.input :email
+  = f.input :telephone
+  = f.input :poste
+  = f.input :fax
+  = f.input :centre_id, as: :hidden
   .actions
     = f.button :submit, disable_with: "Attendre...", class: "success"
