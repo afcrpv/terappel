@@ -30,15 +30,14 @@
 
 %body{:class => params[:controller]}
 
-  .topbar
-    .fill
+  .navbar.navbar-fixed-top
+    .navbar-inner
       .container
         = link_to "Terappel", root_path, class: "brand"
         - if current_user
-          %ul.nav
-            %li= link_to t('admin.dashboard.pagename'), rails_admin_path if can? :access, :rails_admin
+
           = render 'layouts/search'
-          %ul.nav.secondary-nav= render 'layouts/user_nav'
+          %ul.nav.pull-right= render 'layouts/user_nav'
 
   .container
     .content

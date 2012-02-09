@@ -6,8 +6,6 @@ Terappel::Application.routes.draw do
     get "/logout", :to=> "devise/sessions#destroy"
   end
 
-  mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
-
   get "home/autocomplete_dossier_code"
 
   resources :dossiers do

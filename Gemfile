@@ -61,7 +61,6 @@ end
 
 gem 'pg'
 gem "devise"
-gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
 gem 'haml'
 gem 'cancan'
 gem 'friendly_id', "~> 4.0.0.beta8"
@@ -76,3 +75,4 @@ gem 'newrelic_rpm'
 gem 'ancestry'
 gem 'jstree-rails', :git => 'git://github.com/adamico/jstree-rails.git'
 gem 'simple_form', :git => 'git://github.com/plataformatec/simple_form.git'
+gem 'bootstrap-sass', '~> 2.0.0'

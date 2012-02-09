@@ -1,7 +1,6 @@
-= form_tag @dossier_for_search, method: :get do
+= form_tag @dossier_for_search, method: :get, class: "navbar-search pull-left" do
   = autocomplete_field_tag "codedossier", '', home_autocomplete_dossier_code_path,
     required: true,
     placeholder: "Recherche ou saisie",
-    class: "span3"
+    class: "span2 search-query"
   = hidden_field_tag params[:codedossier]
-  = submit_tag "OK", class: "btn primary"
