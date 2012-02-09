@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120206114730) do
+ActiveRecord::Schema.define(:version => 20120206163314) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -162,18 +162,21 @@ ActiveRecord::Schema.define(:version => 20120206114730) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "oldid"
   end
 
   create_table "expo_termes", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "oldid"
   end
 
   create_table "expo_types", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "oldid"
   end
 
   create_table "expositions", :force => true do |t|
@@ -208,6 +211,7 @@ ActiveRecord::Schema.define(:version => 20120206114730) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "oldid"
   end
 
   create_table "malformations", :force => true do |t|

@@ -23,3 +23,28 @@ puts "importing Evolution table from csv"
 CSV.foreach("csv/evolutions.csv", headers: true) do |row|
   Evolution.where(name: row['name']).first_or_create!(oldid: row['oldid'])
 end
+
+# create ExpoType
+puts "importing ExpoType table from csv"
+CSV.foreach("csv/expo_types.csv", headers: true) do |row|
+  ExpoType.where(name: row['name']).first_or_create!(oldid: row['oldid'])
+end
+
+# create ExpoNature
+puts "importing ExpoNature table from csv"
+CSV.foreach("csv/expo_natures.csv", headers: true) do |row|
+  ExpoNature.where(name: row['name']).first_or_create!(oldid: row['oldid'])
+end
+
+# create ExpoTerme
+puts "importing ExpoTerme table from csv"
+CSV.foreach("csv/expo_termes.csv", headers: true) do |row|
+  ExpoTerme.where(name: row['name']).first_or_create!(oldid: row['oldid'])
+end
+
+# create Indication
+puts "importing Indication table from csv"
+CSV.foreach("csv/indications.csv", headers: true) do |row|
+  Indication.where(name: row['name']).first_or_create!(oldid: row['oldid'])
+end
+
