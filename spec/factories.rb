@@ -56,4 +56,8 @@ FactoryGirl.define do
   factory :pathologie do
     sequence(:libelle) {|n| "Pathologie#{n}"}
   end
+
+  factory :evolution do
+    sequence(:name) {|n| "Evolution#{n}"}
+  end
 end

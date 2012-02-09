@@ -5,8 +5,9 @@ Feature: Saisie dossier
 
   Background:
     Given a centre admin is logged in
-    Given a correspondant from same user centre
+    And a correspondant from same user centre
     And a correspondant from centre "Bordeaux"
+    And the evolutions "GEU FCS IVG IMG MIU NAI INC GNC"
 
   Scenario: create dossier when code not found
     Given no dossiers exist with code "LY1111001"
@@ -44,6 +45,22 @@ Feature: Saisie dossier
     And I fill in the correspondant field with "ma"
     And I choose "Martin - 69006 - Lyon" in the autocomplete list
     Then the modify correspondant button should be visible
+
+  @javascript @focus
+  Scenario Outline: show/hide mod accouch input when evolution is naissance
+    When I go to the new dossier page with code "LY1101001"
+    And I choose "<evolution>" as the evolution
+    Then the mod accouch input should <condition> visible
+    Examples:
+      |evolution|condition|
+      |GEU      |not be   |
+      |FCS      |not be   |
+      |IVG      |not be   |
+      |IMG      |not be   |
+      |MIU      |not be   |
+      |INC      |not be   |
+      |GNC      |not be   |
+      |NAI      |be       |
 
   @javascript @calc_grossesse
   Scenario: don't calculate and alert if date appel is empty

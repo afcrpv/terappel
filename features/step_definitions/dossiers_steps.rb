@@ -166,3 +166,19 @@ end
 Then /^the date debut grossesse should be "([^"]*)"$/ do |date|
   find(:css, 'input#dossier_date_debut_grossesse').value.should == date
 end
+
+When /^I choose "([^"]*)" as the evolution$/ do |evolution|
+  click_on "Evolution"
+  choose evolution
+end
+
+Then /^the mod accouch input should (be|not be) visible$/ do |condition|
+  check = condition == "be" ? true : false
+  find(:css, '#modaccouch').visible?.should == check
+end
+
+Given /^the evolutions "([^"]*)"$/ do |evolutions|
+  evolutions.split(" ").each do |evolution|
+    Factory(:evolution, name: evolution)
+  end
+end
