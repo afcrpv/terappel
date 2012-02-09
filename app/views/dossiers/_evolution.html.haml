@@ -1,7 +1,7 @@
-= f.association :evolution, as: :radio_buttons, collection: evolutions,
+= f.association :evolution, label: "Evolution de la grossesse", as: :radio_buttons, collection: evolutions,
   label_method: lambda {|i| %w(FCS IVG IMG MIU).include?(i.name) ? "#{i.name} *" : i.name }, hint: "* Dans ces cas, et si il y a eu un examen anatomo-pathologique interprétable, allez dans l'onglet nouveau-né pour compléter le champ malformation", item_wrapper_class: "inline"
 = f.input :modaccouch, label: "Accouchement par", as: :radio_buttons, collection: Dossier::MODACCOUCH, item_wrapper_class: "inline"
-= f.input :path_mat, label: "pathologie Maternelle", as: :radio_buttons, collection: Dossier::ONI, item_wrapper_class: "inline"
+= f.input :path_mat, label: "Pathologie maternelle", as: :radio_buttons, collection: Dossier::ONI, item_wrapper_class: "inline"
 .control-group.inline-inputs
   = f.label "Terme (SA)"
   .controls

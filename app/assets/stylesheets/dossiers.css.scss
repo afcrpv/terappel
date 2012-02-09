@@ -99,17 +99,16 @@
       float: none;
       color: #B94A48;
     }
-    input.btn {
-      padding: 5px 14px 6px;
-    }
     .links, .expo_links {
       margin-top: 5px;
     }
     .field_links {
+      float: right;
       border: 0;
     }
     .nested-fields {
       padding-top: 0.5em;
+      overflow: auto;
     }
     .ui-tabs .ui-tabs-panel {
       padding: 5px;
@@ -128,5 +127,8 @@
   }
   .inline-inputs .controls label{
     display: inline-block;
+  }
+  a.btn-primary, a.btn-success, a.btn-danger {
+    color: white;
   }
 }

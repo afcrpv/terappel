@@ -1,10 +1,10 @@
-= f.input :expo_terato, as: :radio_buttons, collection: Dossier::ONI, item_wrapper_class: "inline"
-= f.input :ass_med_proc, as: :radio_buttons, collection: Dossier::ONI, item_wrapper_class: "inline"
+= f.input :expo_terato, label: "Exposition non-tératogène", as: :radio_buttons, collection: Dossier::ONI, item_wrapper_class: "inline"
+= f.input :ass_med_proc, label: "Assistance médicale à la procréation", as: :radio_buttons, collection: Dossier::ONI, item_wrapper_class: "inline"
 
 %table.grsant.span5
   %tbody
     %tr
-      %th{colspan: "5"} Grossesses Antérieures
+      %th{colspan: "5"} Nbr de grossesse(s) antérieure(s)
       %td= f.text_field :grsant, class: "span1"
     %tr
       - [:fcs, :geu, :miu].each do |item|

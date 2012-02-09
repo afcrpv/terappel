@@ -24,9 +24,17 @@
     .controls
       = f.text_area :pathologie_tokens, "data-pre" => f.object.pathologies.map(&:libelle_and_id).to_json, class: "pathologie_tokens"
   .field_links
-    = link_to "Valider", "#", class: "btn success validate_bebe small"
-    = link_to_remove_association "Supprimer", f, class: "btn danger small"
-    = link_to "Arbre Malformations", "#", class: "btn show_malformation_tree", "data-backdrop" => true
-    = link_to "Arbre Pathologies", "#", class: "btn show_pathologie_tree", "data-backdrop" => true
+    = link_to "#", class: "btn btn-success btn-small validate_bebe" do
+      %i.icon-ok.icon-white
+      Valider
+    = link_to_remove_association f, class: "btn btn-danger btn-small" do
+      %i.icon-trash.icon-white
+      Supprimer
+    = link_to "#", class: "btn show_malformation_tree", "data-backdrop" => true do
+      %i.icon-list
+      Arbre Malformations
+    = link_to "#", class: "btn show_pathologie_tree", "data-backdrop" => true do
+      %i.icon-list
+      Arbre Pathologies
   = render "malformations/tree", bebe: f.object
   = render "pathologies/tree", bebe: f.object

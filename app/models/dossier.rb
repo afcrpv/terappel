@@ -14,9 +14,9 @@ class Dossier < ActiveRecord::Base
 
   # Constants
   ONI = [["Oui", "0"], ["Non", "1"], ["Inconnu", "2"]]
-  TABAC = [["0", "0"], ["0 à 5", "1"], ["5 à 10", "2"], ["Sup. à 10", "3"], ["Inconnu", "4"]]
-  ALCOOL = [["0", "0"], ["<= 2", "1"], ["> 2", "2"], ["Inconnu", "3"]]
-  MODACCOUCH = [["VBS", "0"], ["VBI", "1"], ["CES", "2"], ["INC", "3"]]
+  TABAC = [["0", "0"], ["0 à 5", "1"], ["5 à 10", "2"], ["Sup. à 10", "3"], ["Ne sait pas", "4"]]
+  ALCOOL = [["0", "0"], ["Occasionnel (<= 2 verres/j)", "1"], ["Fréquent (> 2 verres/j)", "2"], ["Ne sait pas", "3"]]
+  MODACCOUCH = [["V-b spontanée", "0"], ["V-b instrumentale", "1"], ["Césarienne", "2"], ["Inconnue", "3"]]
 
   # writers
   attr_writer :correspondant_nom

@@ -21,5 +21,9 @@
   = f.association :expo_terme, label: "Terme d'exposition"
   = f.input :medpres, as: :radio_buttons, collection: Exposition::ONNSP, label: "Prescription", hint: "à remplir en cas de demande d'aide à la prescription", item_wrapper_class: "inline"
   .field_links
-    = link_to "Valider", "#", class: "btn success validate_expo small"
-    = link_to_remove_association "Supprimer", f, class: "btn danger small"
+    = link_to "#", class: "btn btn-small btn-success validate_expo" do
+      %i.icon-ok.icon-white
+      Valider
+    = link_to_remove_association f, class: "btn btn-danger btn-small" do
+      %i.icon-trash.icon-white
+      Supprimer
