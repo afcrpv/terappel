@@ -1,4 +1,4 @@
-= simple_form_for correspondant, wrapper: :inline do |f|
+= simple_form_for correspondant, html: {class: "form-horizontal"} do |f|
   - if f.error_notification
     .alert-message.warning.fade.in{"data-alert" => "alert"}
       %a.close{href: "#"}x
