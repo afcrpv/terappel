@@ -19,6 +19,7 @@ describe Ability do
 
     subject { Ability.new(user) }
 
+    it { should be_able_to :access, :rails_admin}
     it { should be_able_to :read, centre}
     it { should be_able_to :read, user }
     it { should be_able_to :read, UserDecorator }

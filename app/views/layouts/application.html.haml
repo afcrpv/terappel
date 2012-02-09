@@ -35,6 +35,8 @@
       .container
         = link_to "Terappel", root_path, class: "brand"
         - if current_user
+          %ul.nav
+            %li= link_to t('admin.dashboard.pagename'), rails_admin_path if can? :access, :rails
 
           = render 'layouts/search'
           %ul.nav.pull-right= render 'layouts/user_nav'
