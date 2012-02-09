@@ -35,15 +35,6 @@
     th, td {
       vertical-align: middle;
       padding: 0;
-      &:last-child {
-        text-align: center;
-        width: 56px;
-      }
-    }
-    td {
-      &:last-child {
-        margin: auto;
-      }
     }
     tr {
       &:nth-of-type(even) {
