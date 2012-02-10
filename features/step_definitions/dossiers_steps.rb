@@ -14,11 +14,17 @@ When /^I add a new dossier$/ do
   Dossier.last.centre_id.should == @centre.id
 end
 
-Then /^I should see the page for my newly created dossier$/ do
-  page.should have_content "Dossier créé(e) avec succès."
-  page.should have_content "Dossier #LY1101001"
+Then /^I should see the newly created dossier in the list$/ do
+  page.should have_content "Dossier#LY1101001 créé avec succès."
+  page.should have_content "LY1101001"
   page.should have_content "Martin"
   page.should have_content "31/01/2001"
+end
+
+Then /^I should see the updated dossier in the list$/ do
+  page.should have_content "Dossier mis(e) à jour avec succès."
+  page.should have_content "Dupont"
+  page.should have_content "01/01/2001"
 end
 
 Given /^an existing dossier$/ do
@@ -28,20 +34,13 @@ Given /^an existing dossier$/ do
         :date_appel => "31/1/2011")
   @dossier.user_id = @user.id
   @dossier.save!
-  visit dossier_path(@dossier)
+  visit edit_dossier_path(@dossier)
 end
 
 When /^I update the dossier with new data$/ do
-  visit edit_dossier_path(@dossier)
   find(:css, "#dossier_date_appel").set "01/01/2001"
   find(:css, "#dossier_name").set "Dupont"
   click_button I18n.t('helpers.submit.update')
-end
-
-Then /^I should see the updated dossier$/ do
-  page.should have_content "Dossier mis(e) à jour avec succès."
-  page.should have_content "Dupont"
-  page.should have_content "01/01/2001"
 end
 
 Given /^(\d+) dossiers exist$/ do |count|
@@ -115,13 +114,6 @@ end
 
 Then /^I should see the page for the dossier with code "([^"]*)"$/ do |code|
   page.should have_content "Modification Dossier ##{code}"
-end
-
-When /^I press the destroy button$/ do
-  click_on "Détruire"
-  dialog = page.driver.browser.switch_to.alert
-  dialog.text.should == "Etes-vous sûr ?"
-  dialog.accept
 end
 
 Then /^the ([^"]*) should be destroyed$/ do |resource|

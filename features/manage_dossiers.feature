@@ -8,15 +8,9 @@ Feature: Manage dossiers
 
   Scenario: successful creation
     When I add a new dossier
-    Then I should see the page for my newly created dossier
+    Then I should see the newly created dossier in the list
 
   Scenario: updating an existing dossier
     Given an existing dossier
     When I update the dossier with new data
-    Then I should see the updated dossier
-
-  @javascript
-  Scenario: destroying an existing dossier
-    Given an existing dossier
-    When I press the destroy button
-    Then the dossier should be destroyed
+    Then I should see the updated dossier in the list
