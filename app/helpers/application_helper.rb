@@ -1,4 +1,28 @@
 module ApplicationHelper
+  def sortable(column, title = nil, klass)
+    title ||= column.titleize
+    check_column = column == sort_column("", klass)
+    direction = check_column && sort_direction("desc") == "asc" ? "desc" : "asc"
+    css_class = check_column ? "sortable #{sort_direction("desc")}" : "sortable"
+    icon_css_class = "ui-icon"
+    wrap_css_class = "ui-state-default"
+    case css_class
+    when "sortable asc"
+      icon_css_class << " ui-icon-triangle-1-n"
+      wrap_css_class << " ui-state-active"
+    when "sortable desc"
+      icon_css_class << " ui-icon-triangle-1-s"
+      wrap_css_class << " ui-state-active"
+    when "sortable"
+      icon_css_class << " ui-icon-carat-2-n-s"
+    end
+    content = link_to :sort => column, :direction => direction do
+      title
+    end
+    content << content_tag(:span, "", class: icon_css_class)
+    content_tag :div, content, class: wrap_css_class
+  end
+
   def actions(&block)
     content_tag :nav, class: "action_links" do
       content_tag :ul, &block
