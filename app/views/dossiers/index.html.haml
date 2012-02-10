@@ -1,23 +1,14 @@
-- title "Liste des dossiers"
+- title "Dossiers récents"
 
-= search_form_for @search, :html => {:class => "search"} do |f|
+= search_form_for @search, :html => {:class => "form-horizontal"} do |f|
   %fieldset
     %legend Filtres
-    = f.label :name_cont
-    .input= f.text_field :name_cont, class: "span2"
-    = f.submit class: "btn primary"
 
-- if @dossiers.any?
-  %table.pretty
-    %thead
-      %th= sort_link @search, :date_appel, {}
-      %th= sort_link @search, :name, {}
-      %th N° Appel
-      %th Actions
-    %tbody
-      - @dossiers.each do |dossier|
-        %tr
-          %td= l dossier.date_appel
-          %td= dossier.name
-          %td= link_to dossier.code, dossier if can? :read, dossier
-          %td= render 'shared/action_links', :object => dossier, :verbs => %w(show edit destroy)
+    .control-group.inline-inputs
+      = f.label :name_cont
+      .controls
+        = f.text_field :name_cont, class: "span2"
+        = f.submit class: "btn btn-primary"
+%hr
+
+= render 'dossiers', dossiers: @dossiers

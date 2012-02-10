@@ -44,13 +44,13 @@
   .container
     .content
       .page-header
+        - flash && flash.each do |key, value|
+          .alert.fade.in{:class => "alert-#{key}"}
+            %a.close{"data-dismiss" => "alert"} &times;
+            = value
         %h1#page_title
           = yield(:title) if show_title?
           = yield(:page_title)
-        - flash && flash.each do |key, value|
-          .alert-message.fade.in{:class => key}
-            %a.close{href: "#"}x
-            %p= value
 
       = yield
 

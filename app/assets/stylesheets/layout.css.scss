@@ -25,18 +25,16 @@ ul.right {
 
 nav.action_links {
   display: inline-block;
-}
-
-nav.action_links ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-nav.action_links li {
-  padding: 0;
-  display: inline;
-  font-weight: bold;
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  li {
+    padding: 0 5px;
+    display: inline;
+    font-weight: bold;
+  }
 }
 
 .clear {

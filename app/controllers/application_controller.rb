@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :find_dossier_for_search
 
-  def redirect_with_flash(resource, flash_type=:success, path=nil, message=nil)
+  def redirect_with_flash(resource, path=nil, flash_type=:success, message=nil)
     path = resource unless path
     resource = resource[1] if resource.class == Array
     message = flash_message(resource) unless message

@@ -8,10 +8,15 @@ module ApplicationHelper
   def action_button(object, action)
     method = action == "destroy" ? :delete : :get
     confirm = action == "destroy" ? t("shared.action_links.confirm") : nil
+    icon_class = case action
+                 when "show" then "eye-open"
+                 when "edit" then "pencil"
+                 when "destroy" then "remove"
+                 end
     if can? action.to_sym, object
-      link_to image_tag("icons/#{action}.png", :alt => t("shared.action_links.#{action}")),
-        action_path(object, action),
-        :method => method, :confirm => confirm, :class => "#{action}_button"
+      link_to action_path(object, action), :method => method, :confirm => confirm, :class => "#{action}_button" do
+        safe_concat "<i class='icon-#{icon_class}'></i>" + "<span style='display:none;'>#{t('shared.action_links.#{action}')}</span>"
+      end
     end
   end
 

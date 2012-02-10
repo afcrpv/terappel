@@ -1,3 +1,4 @@
+#encoding: utf-8
 class DossiersController < AuthorizedController
   before_filter :find_centre
   before_filter :decorated_dossier, :only => :show
@@ -25,14 +26,14 @@ class DossiersController < AuthorizedController
   end
 
   def new
-    @dossier = Dossier.new(:centre_id => @centre.id, :user_id => current_user.id, :code => params[:code])
+    @dossier = Dossier.new(:code => params[:code])
   end
 
   def create
-    @dossier.centre_id = params[:dossier][:centre_id]
-    @dossier.user_id = params[:dossier][:user_id]
+    @dossier.centre_id = @centre.id
+    @dossier.user_id = current_user.id
     if @dossier.save
-      redirect_with_flash(@dossier)
+      redirect_with_flash(@dossier, dossiers_path, :success, "Dossier##{@dossier.code} créé avec succès.")
     else
       render :new
     end
@@ -43,7 +44,7 @@ class DossiersController < AuthorizedController
 
   def update
     if @dossier.update_attributes(params[:dossier])
-      redirect_with_flash(@dossier)
+      redirect_with_flash(@dossier, dossiers_path)
     else
       render :edit
     end

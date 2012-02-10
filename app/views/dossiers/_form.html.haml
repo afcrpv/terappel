@@ -11,8 +11,6 @@
       %li= link_to "Commentaire", "#comm"
 
     #infos
-      = f.input :user_id, as: :hidden
-      = f.input :centre_id, as: :hidden
       .control-group.inline-inputs
         = f.label "N° d'appel"
         .controls
@@ -108,6 +106,3 @@
   .actions
     = f.button :submit, disable_with: "Attendre...", class: "btn-success"
     = link_to "Annuler", dossiers_path, class: "btn btn-danger"
-
-= content_for :footer do
-  = debug "\nCentre : " + dossier.try(:centre_name) + "\nUser : " + dossier.username

@@ -1,0 +1,6 @@
+%tr
+  %td= dossier.code
+  %td= l dossier.date_appel
+  %td= dossier.name
+  %td= dossier.correspondant_nom
+  %td= render 'shared/action_links', :object => dossier, :verbs => %w(show edit destroy)
