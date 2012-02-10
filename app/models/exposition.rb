@@ -10,4 +10,17 @@ class Exposition < ActiveRecord::Base
   delegate :name, to: :produit, allow_nil: true, prefix: true
 
   ONNSP = [["Oui", "O"], ["Non", "N"], ["Ne sait pas", "NSP"]]
+
+  def produit_name
+    produit.name if produit
+  end
+  def produit_name=(name)
+    self.produit = Produit.where(name: name) unless name.blank?
+  end
+  def indication_name
+    indication.name if indication
+  end
+  def indication_name=(name)
+    self.indication = Indication.where(name: name) unless name.blank?
+  end
 end

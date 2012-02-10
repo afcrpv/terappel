@@ -36,6 +36,7 @@ class Dossier < ActiveRecord::Base
   belongs_to :evolution
   belongs_to :categoriesp
 
+  has_many :produits, through: :expositions
   has_many :expositions, :dependent => :destroy
   accepts_nested_attributes_for :expositions, :reject_if => :all_blank, :allow_destroy => true
   has_many :bebes, :dependent => :destroy
@@ -45,8 +46,15 @@ class Dossier < ActiveRecord::Base
   delegate :name, :code, :to => :centre, :prefix => true
   delegate :username, :to => :user, :allow_nil => true
   delegate :fullname, :to => :correspondant, :prefix => true, :allow_nil => true
+  delegate :ville, to: :correspondant, prefix: true, allow_nil: true
 
   def correspondant_nom
     self.try(:correspondant_fullname)
+  end
+
+  def produits_names
+    if produits.any?
+      produits.map(&:name).to_sentence
+    end
   end
 end

@@ -5,8 +5,9 @@
     %thead
       %th= sortable "code", "N° Appel", Dossier
       %th= sortable "date_appel", "Date Appel", Dossier
-      %th= sortable "name", "Nom patiente", Dossier
+      %th= sortable "name", "Patiente", Dossier
       %th= sortable "correspondant_id", "Correspondant", Dossier
+      %th.ui-state-default Exposition
       %th.ui-state-default
     %tbody#dossiers
       = render dossiers

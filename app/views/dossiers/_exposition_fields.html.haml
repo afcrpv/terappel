@@ -1,7 +1,7 @@
 .nested-fields
   = f.association :expo_type, label: "Type", input_html: {class: "span7"}
-  = f.association :produit, label: "Exposition", input_html: {class: "span7"}
-  = f.association :indication, input_html: {class: "span7"}
+  = f.input :produit_name, url: autocomplete_produit_name_dossiers_path, as: :autocomplete, label: "Exposition", input_html: {class: "span7"}
+  = f.input :indication_name, url: autocomplete_indication_name_dossiers_path, as: :autocomplete, label: "Indication", input_html: {class: "span7"}
   .control-group.inline-inputs
     = f.label "Période Expo (en SA)"
     .controls

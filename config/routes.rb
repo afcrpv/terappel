@@ -12,6 +12,8 @@ Terappel::Application.routes.draw do
 
   resources :dossiers do
     get :autocomplete_correspondant_fullname, :on => :collection
+    get :autocomplete_produit_name, :on => :collection
+    get :autocomplete_indication_name, :on => :collection
   end
   resources :users, :only => [:show, :edit, :update]
 

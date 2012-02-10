@@ -1,5 +1,7 @@
 #encoding: utf-8
 class DossiersController < AuthorizedController
+  autocomplete :produit, :name, full: true
+  autocomplete :indication, :name, full: true
   before_filter :find_centre
   before_filter :decorated_dossier, :only => :show
   load_and_authorize_resource :dossier

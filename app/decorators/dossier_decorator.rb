@@ -14,6 +14,12 @@ class DossierDecorator < ApplicationDecorator
     end
   end
 
+  def expositions
+    handle_none dossier.produits_names, "Aucune", nil do
+      twipsy dossier.produits_names
+    end
+  end
+
   private
 
   def method_missing (method, *args, &block)
@@ -41,8 +47,8 @@ class DossierDecorator < ApplicationDecorator
 
   def twipsy(value)
     h.content_tag :a, h.truncate(value, length: 20),
-      class: "twipsy-link", href: "#", rel: "twipsy",
-      "data-original-title" => value, "data-placement" => "above"
+      href: "#", rel: "tooltip",
+      "data-original-title" => value
   end
 
   # Accessing Helpers
