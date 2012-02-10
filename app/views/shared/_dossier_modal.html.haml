@@ -1,0 +1,8 @@
+%div{id: "dossier_#{dossier.id}_modal", class: "modal hide"}
+  .modal-header
+    %a.close{"data-dismiss" => "modal"} &times;
+    %h3 Dossier #{dossier.code}
+  .modal-body
+    Body
+  .modal-footer
+    = link_to "Modifier ce dossier", edit_dossier_path(dossier), class: "btn btn-primary", target: "_blank" if can? :update, dossier

@@ -1,9 +1,50 @@
+#encoding: utf-8
 class DossierDecorator < ApplicationDecorator
   decorates :dossier
 
-  def date_appel
-    h.l model.date_appel
+  def button_to_modal
+    h.link_to "#dossier_#{dossier.id}_modal", class: "btn btn-small", "data-toggle" => "modal" do
+      h.safe_concat "<i class='icon-info-sign'></i>" + "\nDétails"
+    end
   end
+
+  def date_appel
+    handle_none dossier.date_appel do
+      localize_date dossier.date_appel
+    end
+  end
+
+  private
+
+  def method_missing (method, *args, &block)
+    call = dossier.send(method, *args, &block)
+    handle_none call do
+      call
+    end
+  end
+
+  def localize_date(datefield)
+    h.l datefield
+  end
+
+  def handle_none(value, message="Non spécifié(e)", wrap="span")
+    if value.present?
+      yield
+    else
+      if wrap
+        h.content_tag wrap, message, class: "none"
+      else
+        message
+      end
+    end
+  end
+
+  def twipsy(value)
+    h.content_tag :a, h.truncate(value, length: 20),
+      class: "twipsy-link", href: "#", rel: "twipsy",
+      "data-original-title" => value, "data-placement" => "above"
+  end
+
   # Accessing Helpers
   #   You can access any helper via a proxy
   #

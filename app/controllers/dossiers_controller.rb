@@ -19,7 +19,8 @@ class DossiersController < AuthorizedController
 
   def index
     @search = Dossier.search(params[:q])
-    @dossiers = @search.result
+    dossiers_ordered_unordered = @search.result.order(sort_column("date_appel", Dossier) + ' ' + sort_direction("desc"))
+    @dossiers = DossierDecorator.decorate(dossiers_ordered_unordered.includes(:correspondant).page(params[:page]))
   end
 
   def show

@@ -1,12 +1,17 @@
 - if dossiers.any?
+  .row
+    .span4= "#{dossiers.total_count} dossiers"
   %table.table.table-striped.table-condensed
     %thead
-      %th N° Appel
-      %th= sort_link @search, :date_appel, {}
-      %th= sort_link @search, :name, {}
-      %th= sort_link @search, :correspondant_id, {}
-      %th Actions
-    %tbody
+      %th= sortable "code", "N° Appel", Dossier
+      %th= sortable "date_appel", "Date Appel", Dossier
+      %th= sortable "name", "Nom patiente", Dossier
+      %th= sortable "correspondant_id", "Correspondant", Dossier
+      %th.ui-state-default
+    %tbody#dossiers
       = render dossiers
+
+  = paginate dossiers, theme: "twitter-bootstrap"
+
 - else
   Aucun dossier dans la base
