@@ -21,6 +21,7 @@ class Ability
 
       can :read, [Produit, Malformation, Pathologie]
       can :manage, [Bebe, Exposition]
+      cannot :index, [Bebe, Exposition]
     end
     if user.role? :centre_admin
       can :destroy, dossier_and_decorator, :centre_id => user.centre_id
