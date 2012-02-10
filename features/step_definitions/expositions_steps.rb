@@ -4,9 +4,9 @@ When /^I add a new exposition for a dossier$/ do
   step %{I go to the new dossier page with code "LY1101001"}
   click_on "Exposition"
   click_on "Ajouter Expo"
-  select "ACICLOVIR", :from => "Exposition"
   select "T1", :from => "Terme d'exposition"
-  select "HERPES", :from => "Indication"
+  fill_in "Exposition", with: "ACICLOVIR"
+  fill_in "Indication", with: "HERPES"
   fill_in "Posologie", :with => "2 g/j"
   click_on "Valider"
 end
@@ -41,9 +41,9 @@ end
 When /^I add another exposition$/ do
   click_on "Ajouter Expo"
   sleep 1
-  select "ACICLOVIR", :from => "Exposition"
+  fill_in "Exposition", with: "ACICLOVIR"
+  fill_in "Indication", with: "HERPES"
   select "T1", :from => "Terme d'exposition"
-  select "HERPES", :from => "Indication"
   fill_in "Posologie", :with => "3 g/j"
   click_on "Valider"
 end

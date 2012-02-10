@@ -89,9 +89,9 @@ jQuery ->
     $start_point = $(this).closest(".nested-fields")
     # collect produit, expo_terme, indication, dose, de, a, de2, a2 fields values
     expo_values = [
-      $start_point.find("select[name*='produit'] option").filter(":selected").text()
+      $start_point.find("input[id$='produit_name']").val()
       $start_point.find("select[name*='expo_terme'] option").filter(":selected").text()
-      $start_point.find("select[name*='indication'] option").filter(":selected").text()
+      $start_point.find("input[id$='indication_name']").val()
       $start_point.find("input[id$='_dose']").val()
       $start_point.find("input[id$='_de']").val()
       $start_point.find("input[id$='_a']").val()
@@ -358,9 +358,9 @@ collect_values_to_copy = ($start_point, model) ->
   # damn ugly... but i'm outta ideas for now, need a bit of oo to not do like this
   if model == "expositions"
     values = [
-      $start_point.find("select[name*='produit'] option").filter(":selected").text()
+      $start_point.find("input[id$='produit_name']").val()
       $start_point.find("select[name*='expo_terme'] option").filter(":selected").text()
-      $start_point.find("select[name*='indication'] option").filter(":selected").text()
+      $start_point.find("input[id$='indication_name']").val()
       $start_point.find("input[id$='_dose']").val()
       $start_point.find("input[id$='_de']").val()
       $start_point.find("input[id$='_a']").val()

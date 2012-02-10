@@ -1,5 +1,5 @@
 class Exposition < ActiveRecord::Base
-  attr_accessible :expo_type_id, :produit_name, :indication_name, :de, :a, :duree, :de2, :a2, :duree2, :expo_nature_id, :dose, :expo_terme_id, :medpres
+  attr_accessible :expo_type_id, :produit_name, :indication_name, :de, :a, :duree, :de2, :a2, :duree2, :expo_nature_id, :dose, :expo_terme_id, :medpres, :produit_id, :indication_id
   belongs_to :produit
   belongs_to :dossier
   belongs_to :expo_type
