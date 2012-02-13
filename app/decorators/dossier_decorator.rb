@@ -2,6 +2,14 @@
 class DossierDecorator < ApplicationDecorator
   decorates :dossier
 
+  %w(expo_terato ass_med_proc).each do |method|
+    define_method method do
+      handle_none dossier.send(method) do
+        hash = array_to_hash Dossier::ONI
+        hash[dossier.send(method)]
+      end
+    end
+  end
   def age_grossesse
     handle_none dossier.age_grossesse do
       dossier.age_grossesse.to_s + " SA"
@@ -53,11 +61,8 @@ class DossierDecorator < ApplicationDecorator
 
   %w(tabac alcool).each do |vice|
     define_method vice do
-      hash = {}
       const = vice == "tabac" ? Dossier::TABAC : Dossier::ALCOOL
-      const.each do |m,n|
-        hash[n] = m
-      end
+      hash = array_to_hash(const)
       handle_none dossier.send(vice) do
         hash[dossier.send(vice).to_s]
       end
@@ -120,6 +125,14 @@ class DossierDecorator < ApplicationDecorator
     h.content_tag :a, h.truncate(value, length: 20),
       href: "#", rel: "tooltip",
       "data-original-title" => value
+  end
+
+  def array_to_hash(a)
+    h = {}
+    a.each do |m,n|
+      h[n] = m
+    end
+    return h
   end
 
   # Accessing Helpers

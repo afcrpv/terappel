@@ -58,6 +58,21 @@
       .span3
         %span.libelle Accouchement prévu
         = dossier.date_accouchement_prevu
+    .row
+      .span6
+        %span.libelle Exposition non-tératogène
+        = dossier.expo_terato
+      .span6
+        %span.libelle Assistance médicale à la procréation
+        = dossier.ass_med_proc
+    .row
+      .span12
+        %span.libelle Exposition
+        = dossier.produits_names
+    .row
+      .span4
+        %span.libelle Evolution
+        = dossier.evolution_name
 
   .modal-footer
     = link_to "Modifier ce dossier", edit_dossier_path(dossier), class: "btn btn-primary", target: "_blank" if can? :update, dossier
