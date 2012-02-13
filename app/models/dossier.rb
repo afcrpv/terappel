@@ -44,9 +44,15 @@ class Dossier < ActiveRecord::Base
 
   #delegations
   delegate :name, :code, :to => :centre, :prefix => true
+  delegate :name, :to => :motif, :prefix => true, allow_nil: true
+  delegate :name, :to => :categoriesp, :prefix => true, allow_nil: true
   delegate :username, :to => :user, :allow_nil => true
   delegate :fullname, :to => :correspondant, :prefix => true, :allow_nil => true
   delegate :ville, to: :correspondant, prefix: true, allow_nil: true
+
+  def patiente_fullname
+    [self.try(:name).upcase, self.try(:prenom)].join(" ")
+  end
 
   def correspondant_nom
     self.try(:correspondant_fullname)

@@ -71,3 +71,27 @@ table.table-striped {
     }
   }
 }
+
+.modal {
+  width: 980px;
+  margin: 0;
+  position: fixed;
+  top: 20%;
+  left: 30px;
+  .row  {
+    margin: 5px 0;
+    margin-left: -10px;
+  }
+  .modal-body {
+    padding: 10px;
+    .libelle {
+      font-weight: bold;
+      &:after {
+        content: " : ";
+      }
+    }
+  }
+}
+.none {
+  color: #999;
+}

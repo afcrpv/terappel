@@ -15,6 +15,7 @@ Spork.prefork do
   require 'rspec/rails'
   require 'capybara/rspec'
   require 'database_cleaner'
+  require 'draper/rspec_integration'
 
   # Requires supporting ruby files with custom matchers and macros, etc,
   # in spec/support/ and its subdirectories.

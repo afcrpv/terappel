@@ -2,6 +2,26 @@
 class DossierDecorator < ApplicationDecorator
   decorates :dossier
 
+  %w(fam perso).each do |atcds|
+    define_method "atcds_#{atcds}" do
+      attribute = dossier.send("antecedents_#{atcds}")
+      handle_none attribute do
+        case attribute
+        when "1" then "Aucun"
+        when "0" then self.send("comm_antecedents_#{atcds}")
+        else
+          attribute
+        end
+      end
+    end
+  end
+
+  def patiente
+    handle_none dossier.patiente_fullname do
+      dossier.patiente_fullname
+    end
+  end
+
   def button_to_modal
     h.link_to "#dossier_#{dossier.id}_modal", class: "btn btn-small", "data-toggle" => "modal" do
       h.safe_concat "<i class='icon-info-sign'></i>" + "\nDétails"

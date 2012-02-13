@@ -3,6 +3,37 @@
     %a.close{"data-dismiss" => "modal"} &times;
     %h3 Dossier #{dossier.code}
   .modal-body
-    Body
+    .row
+      .span3
+        %span.libelle Centre
+        = dossier.centre_name
+      .span3
+        %span.libelle Date Appel
+        = dossier.date_appel
+      .span6
+        %span.libelle Motif
+        = dossier.motif_name
+    .row
+      .span6
+        %span.libelle Correspondant
+        = dossier.correspondant_fullname
+    .row
+      .span5
+        %span.libelle Nom/prénom patiente
+        = dossier.patiente
+      .span2
+        %span.libelle Age
+        = dossier.age
+      .span5
+        %span.libelle C.S.P.
+        = dossier.categoriesp_name
+    .row
+      .span6
+        %span.libelle Atcds familiaux
+        = dossier.atcds_fam
+      .span6
+        %span.libelle Atcds personnels
+        = dossier.atcds_perso
+
   .modal-footer
     = link_to "Modifier ce dossier", edit_dossier_path(dossier), class: "btn btn-primary", target: "_blank" if can? :update, dossier
