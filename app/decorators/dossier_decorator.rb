@@ -2,6 +2,36 @@
 class DossierDecorator < ApplicationDecorator
   decorates :dossier
 
+  def atcds_grs
+    attribute = dossier.grsant
+    handle_none attribute do
+      if attribute == 0
+        result = "primipare-primigeste"
+      else
+        result = attribute.to_s
+        gestes = {}
+        %w(fcs geu miu ivg img nai).each do |geste|
+          if geste == "nai"
+            gestes["naissance"] = dossier.send(geste)
+          else
+            gestes[geste] = dossier.send(geste)
+          end
+        end
+        autres = []
+        gestes.each do |k, v|
+          if v && v > 0
+            if k == "naissance"
+              autres.push "#{h.pluralize(v, k)}"
+            else
+              autres.push v.to_s + " #{k.upcase}"
+            end
+          end
+        end
+        result += " (#{autres.to_sentence})"
+      end
+    end
+  end
+
   %w(fam perso).each do |atcds|
     define_method "atcds_#{atcds}" do
       attribute = dossier.send("antecedents_#{atcds}")

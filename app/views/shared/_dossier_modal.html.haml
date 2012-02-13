@@ -41,6 +41,10 @@
       .span6
         %span.libelle Alcool
         = dossier.alcool
+    .row
+      .span6
+        %span.libelle Grossesse(s) antérieure(s)
+        = dossier.atcds_grs
 
   .modal-footer
     = link_to "Modifier ce dossier", edit_dossier_path(dossier), class: "btn btn-primary", target: "_blank" if can? :update, dossier

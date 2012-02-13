@@ -8,6 +8,31 @@ describe DossierDecorator do
   let(:dossier) { Factory(:dossier) }
   let(:decorated_dossier) { DossierDecorator.decorate(dossier)}
 
+  describe "#atcds_grs" do
+    subject {decorated_dossier.atcds_grs}
+    context "when 0" do
+      before { dossier.grsant = 0}
+      it { should == "primipare-primigeste"}
+    end
+    context "when > 0" do
+      context "for nai = 1" do
+        before do
+          dossier.grsant = 1
+          dossier.nai = 1
+        end
+        it { should == "1 (1 naissance)"}
+      end
+      context "for nai = 2, ivg = 2, fcs = 2" do
+        before do
+          dossier.grsant = 6
+          dossier.nai = 2
+          dossier.ivg = 2
+          dossier.fcs = 2
+        end
+        it { should == "6 (2 FCS, 2 IVG et 2 naissances)"}
+      end
+    end
+  end
   describe "#button_to_modal" do
     it "should render a link to open a modal with dossier details" do
       html = "<a href=\"#dossier_1_modal\" class=\"btn btn-small\" data-toggle=\"modal\"><i class='icon-info-sign'></i>\nDétails</a>"
