@@ -2,6 +2,11 @@
 class DossierDecorator < ApplicationDecorator
   decorates :dossier
 
+  def age_grossesse
+    handle_none dossier.age_grossesse do
+      dossier.age_grossesse.to_s + " SA"
+    end
+  end
   def atcds_grs
     attribute = dossier.grsant
     handle_none attribute do
@@ -71,9 +76,12 @@ class DossierDecorator < ApplicationDecorator
     end
   end
 
-  def date_appel
-    handle_none dossier.date_appel do
-      localize_date dossier.date_appel
+  %w(appel dernieres_regles debut_grossesse accouchement_prevu).each do |date|
+    method_name = "date_#{date}"
+    define_method method_name do
+      handle_none dossier.send(method_name) do
+        localize_date dossier.send(method_name)
+      end
     end
   end
 

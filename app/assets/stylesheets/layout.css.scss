@@ -84,7 +84,11 @@ table.table-striped {
   }
   .modal-body {
     padding: 10px;
+    dl.dates {
+      margin-top: 0;
+    }
     .libelle {
+      clear: left;
       font-weight: bold;
       &:after {
         content: " : ";

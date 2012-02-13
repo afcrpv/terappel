@@ -42,9 +42,22 @@
         %span.libelle Alcool
         = dossier.alcool
     .row
-      .span6
+      .span12
         %span.libelle Grossesse(s) antérieure(s)
         = dossier.atcds_grs
+    .row
+      .span4
+        %span.libelle Age grossesse lors de l'appel
+        = dossier.age_grossesse
+      .span2
+        %span.libelle DDR
+        = dossier.date_dernieres_regles
+      .span3
+        %span.libelle Debut de grossesse
+        = dossier.date_debut_grossesse
+      .span3
+        %span.libelle Accouchement prévu
+        = dossier.date_accouchement_prevu
 
   .modal-footer
     = link_to "Modifier ce dossier", edit_dossier_path(dossier), class: "btn btn-primary", target: "_blank" if can? :update, dossier
