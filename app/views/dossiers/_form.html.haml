@@ -43,10 +43,37 @@
           = f.label "Age"
           = f.text_field :age, class: "span1"
       = f.association :categoriesp, label: "C.S.P.", input_html: {class: "span5"}
-      = f.input :antecedents_fam, label: "Antécédents fam.", collection: Dossier::ONI,
-        as: :radio_buttons, item_wrapper_class: "inline"
-      = f.input :antecedents_perso, label: "Antécédents perso.", collection: Dossier::ONI,
-        as: :radio_buttons, item_wrapper_class: "inline"
+      .control-group.radio_buttons.optional
+        %label.radio_buttons.optional Antécédents fam.
+        .controls
+          .radio-wrap
+            %label.radio
+              = f.radio_button :antecedents_fam, "0", class: "radio_buttons optional"
+              = "Oui"
+            %label.radio
+              = f.radio_button :antecedents_fam, "1", class: "radio_buttons optional"
+              = "Non"
+            %label.radio
+              = f.radio_button :antecedents_fam, "2", class: "radio_buttons optional"
+              = "Inconnu"
+          .textarea-wrap
+            = f.text_area :comm_antecedents_fam, class: "span8", rows: "4"
+
+      .control-group.radio_buttons.optional
+        %label.radio_buttons.optional Antécédents perso.
+        .controls
+          .radio-wrap
+            %label.radio
+              = f.radio_button :antecedents_perso, "0", class: "radio_buttons optional"
+              = "Oui"
+            %label.radio
+              = f.radio_button :antecedents_perso, "1", class: "radio_buttons optional"
+              = "Non"
+            %label.radio
+              = f.radio_button :antecedents_perso, "2", class: "radio_buttons optional"
+              = "Inconnu"
+          .textarea-wrap
+            = f.text_area :comm_antecedents_perso, class: "span8", rows: "4"
       = f.input :tabac, collection: Dossier::TABAC,
         as: :radio_buttons, item_wrapper_class: "inline"
       = f.input :alcool, collection: Dossier::ALCOOL,

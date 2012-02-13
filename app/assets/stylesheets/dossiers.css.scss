@@ -125,6 +125,12 @@
       content: ""
     }
   }
+  .radio-wrap, .textarea-wrap {
+    float: left;
+  }
+  .textarea-wrap {
+    margin-left: 10px;
+  }
   .inline-inputs .controls label{
     display: inline-block;
   }
