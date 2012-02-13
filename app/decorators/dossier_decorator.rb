@@ -16,6 +16,19 @@ class DossierDecorator < ApplicationDecorator
     end
   end
 
+  %w(tabac alcool).each do |vice|
+    define_method vice do
+      hash = {}
+      const = vice == "tabac" ? Dossier::TABAC : Dossier::ALCOOL
+      const.each do |m,n|
+        hash[n] = m
+      end
+      handle_none dossier.send(vice) do
+        hash[dossier.send(vice).to_s]
+      end
+    end
+  end
+
   def patiente
     handle_none dossier.patiente_fullname do
       dossier.patiente_fullname

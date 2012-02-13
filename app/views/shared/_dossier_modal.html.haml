@@ -34,6 +34,13 @@
       .span6
         %span.libelle Atcds personnels
         = dossier.atcds_perso
+    .row
+      .span6
+        %span.libelle Tabac
+        = dossier.tabac
+      .span6
+        %span.libelle Alcool
+        = dossier.alcool
 
   .modal-footer
     = link_to "Modifier ce dossier", edit_dossier_path(dossier), class: "btn btn-primary", target: "_blank" if can? :update, dossier
