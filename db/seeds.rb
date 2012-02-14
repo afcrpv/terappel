@@ -21,7 +21,7 @@ end
 # create Evolution
 puts "importing Evolution table from csv"
 CSV.foreach("csv/evolutions.csv", headers: true) do |row|
-  Evolution.where(name: row['name']).first_or_create!(oldid: row['oldid'])
+  Evolution.where(name: row['name']).first_or_create!(oldid: row['oldid'], libelle: row['libelle'])
 end
 
 # create ExpoType

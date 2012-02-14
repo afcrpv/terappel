@@ -72,7 +72,13 @@
     .row
       .span4
         %span.libelle Evolution
-        = dossier.evolution_name
+        = dossier.evolution_libelle
+      .span4
+        %span.libelle Terme
+        = dossier.terme
+      .span4
+        %span.libelle Date accouchement
+        = dossier.date_reelle_accouchement
 
   .modal-footer
     = link_to "Modifier ce dossier", edit_dossier_path(dossier), class: "btn btn-primary", target: "_blank" if can? :update, dossier

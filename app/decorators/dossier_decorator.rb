@@ -10,9 +10,11 @@ class DossierDecorator < ApplicationDecorator
       end
     end
   end
-  def age_grossesse
-    handle_none dossier.age_grossesse do
-      dossier.age_grossesse.to_s + " SA"
+  %w(age_grossesse terme).each do |sa|
+    define_method sa do
+      handle_none dossier.send(sa) do
+        dossier.send(sa).to_s + " SA"
+      end
     end
   end
   def atcds_grs
@@ -62,9 +64,10 @@ class DossierDecorator < ApplicationDecorator
   %w(tabac alcool).each do |vice|
     define_method vice do
       const = vice == "tabac" ? Dossier::TABAC : Dossier::ALCOOL
+      suffix = vice == "tabac" ? " cigarettes/j" : ""
       hash = array_to_hash(const)
       handle_none dossier.send(vice) do
-        hash[dossier.send(vice).to_s]
+        hash[dossier.send(vice).to_s] + suffix
       end
     end
   end
@@ -81,7 +84,7 @@ class DossierDecorator < ApplicationDecorator
     end
   end
 
-  %w(appel dernieres_regles debut_grossesse accouchement_prevu).each do |date|
+  %w(appel dernieres_regles debut_grossesse accouchement_prevu reelle_accouchement).each do |date|
     method_name = "date_#{date}"
     define_method method_name do
       handle_none dossier.send(method_name) do
