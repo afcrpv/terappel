@@ -73,10 +73,11 @@ table.table-striped {
 }
 
 .modal {
+  max-height: 650px;
   width: 980px;
   margin: 0;
   position: fixed;
-  top: 20%;
+  top: 15%;
   left: 30px;
   .row  {
     margin: 5px 0;

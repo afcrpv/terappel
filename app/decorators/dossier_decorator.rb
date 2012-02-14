@@ -2,6 +2,21 @@
 class DossierDecorator < ApplicationDecorator
   decorates :dossier
 
+  def liste_bebes
+    if dossier.bebes.any?
+      rows = ""
+      dossier.bebes.each_with_index do |bebe, index|
+        fields = []
+        %w(poids taille pc apgar1 apgar5 malformation pathologie).each do |field|
+          fields.push "#{field}=#{bebe.send(field)}"
+        end
+        label = h.content_tag :span, "Bebe #{index}", class: "libelle"
+        columns = h.content_tag :div, label + fields.join(", "), class: "span12"
+        rows += h.content_tag :div, columns, class: "row"
+      end
+      rows.html_safe
+    end
+  end
   def evolution_full_name
     attribute = dossier.evolution_name
     liste = %w(GEU FCS IVG IMG MIU NAI)
