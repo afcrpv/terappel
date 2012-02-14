@@ -1,0 +1,17 @@
+= simple_form_for search, html: { class: "form-horizontal search"} do |f|
+  = f.input :centre_id, collection: Centre.order(:code)
+  .control-group.inline-inputs
+    = f.label "Date Appel"
+    .controls
+      = f.text_field :min_date_appel, class: "span2", "data-value" => min_date_appel
+      = f.text_field :max_date_appel, class: "span2", "data-value" => max_date_appel
+  = f.input :motif_id, collection: Motif.order(:name), input_html: {class: "span5"}
+  = f.input :expo_nature_id, collection: ExpoNature.order(:name)
+  = f.input :expo_type_id, collection: ExpoType.order(:name), input_html: {class: "span6"}
+  = f.input :expo_terme_id, collection: ExpoTerme.order(:name)
+  = f.input :indication_name, url: autocomplete_indication_name_dossiers_path, label: "Indication",
+    as: :autocomplete, input_html: {id_element: "#search_indication_id", class: "span7"}
+  = f.input :indication_id, as: :hidden
+  .actions
+    = f.button :submit, "Rechercher", disable_with: "Rechercher", class: "btn-primary"
+    = button_tag "Effacer le formulaire", type: :reset, class: "btn btn-danger"

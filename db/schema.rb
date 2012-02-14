@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120214082156) do
+ActiveRecord::Schema.define(:version => 20120214180011) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -309,6 +309,22 @@ ActiveRecord::Schema.define(:version => 20120214082156) do
   end
 
   add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_rails_admin_histories"
+
+  create_table "searches", :force => true do |t|
+    t.date     "min_date_appel"
+    t.integer  "centre_id"
+    t.date     "max_date_appel"
+    t.integer  "motif_id"
+    t.integer  "expo_nature_id"
+    t.integer  "expo_type_id"
+    t.integer  "indication_id"
+    t.integer  "expo_terme_id"
+    t.integer  "evolution_id"
+    t.string   "malformation"
+    t.string   "pathologie"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
 
   create_table "specialites", :force => true do |t|
     t.integer  "oldid"
