@@ -29,23 +29,6 @@ describe DossierDecorator do
       end
     end
   end
-    #describe "#evolution", "when equal #{evol}" do
-      #subject {decorated_dossier.evolution}
-      #before do
-        #dossier.evolution = Factory(:evolution, name: evol, libelle: evol)
-        #dossier.modaccouch = "0"
-        #dossier.terme = 40
-      #end
-      #case evol
-      #when "NAI"
-        #it { should == "NAI à #{dossier.terme} par V-b spontanée"}
-      #when "INC", "GNC"
-        #it { should == evol}
-      #else
-        #it { should == "#{evol} à #{dossier.terme}"}
-      #end
-    #end
-  #end
 
   describe "#atcds_grs" do
     subject {decorated_dossier.atcds_grs}
