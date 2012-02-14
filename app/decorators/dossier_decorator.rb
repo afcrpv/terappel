@@ -2,6 +2,22 @@
 class DossierDecorator < ApplicationDecorator
   decorates :dossier
 
+  def evolution_full_name
+    attribute = dossier.evolution_name
+    liste = %w(GEU FCS IVG IMG MIU NAI)
+    hash_modaccouch = array_to_hash(Dossier::MODACCOUCH)
+    if liste.include?(attribute)
+      result = dossier.evolution_libelle
+      result += " à #{dossier.terme} SA" if dossier.terme
+      if attribute == "NAI"
+        result += " par #{ hash_modaccouch[dossier.modaccouch]}" if dossier.modaccouch
+      else
+        result
+      end
+    else
+      dossier.evolution_libelle
+    end
+  end
   %w(expo_terato ass_med_proc).each do |method|
     define_method method do
       handle_none dossier.send(method) do
@@ -107,37 +123,6 @@ class DossierDecorator < ApplicationDecorator
       call
     end
   end
-
-  def localize_date(datefield)
-    h.l datefield
-  end
-
-  def handle_none(value, message="Non spécifié(e)", wrap="span")
-    if value.present?
-      yield
-    else
-      if wrap
-        h.content_tag wrap, message, class: "none"
-      else
-        message
-      end
-    end
-  end
-
-  def twipsy(value)
-    h.content_tag :a, h.truncate(value, length: 20),
-      href: "#", rel: "tooltip",
-      "data-original-title" => value
-  end
-
-  def array_to_hash(a)
-    h = {}
-    a.each do |m,n|
-      h[n] = m
-    end
-    return h
-  end
-
   # Accessing Helpers
   #   You can access any helper via a proxy
   #

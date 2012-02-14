@@ -2,11 +2,50 @@
 require 'spec_helper'
 
 describe DossierDecorator do
-  include ActionView::Helpers::TextHelper
-  before { ApplicationController.new.set_current_view_context }
-
-  let(:dossier) { Factory(:dossier) }
+  let(:dossier) { Factory(:dossier, modaccouch: "0", terme: 40) }
   let(:decorated_dossier) { DossierDecorator.decorate(dossier)}
+
+  describe "#full_name" do
+    context "when evolution == 'NAI" do
+      it "should return 'NAI à 40 SA par V-b spontanée'" do
+        dossier.evolution = Factory(:evolution, name: "NAI", libelle: "NAI")
+        decorated_dossier.evolution_full_name.should == "NAI à 40 SA par V-b spontanée"
+      end
+    end
+    %w(GEU FCS IVG IMG MIU).each do |evol|
+      context "when #{evol}" do
+        it "should return '#{evol} à 40 SA'" do
+          dossier.evolution = Factory(:evolution, name: evol, libelle: evol)
+          decorated_dossier.evolution_full_name.should == "#{evol} à 40 SA"
+        end
+      end
+    end
+    %w(INC GNC).each do |evol|
+      context "when #{evol}" do
+        it "should return '#{evol}'" do
+          dossier.evolution = Factory(:evolution, name: evol, libelle: evol)
+          decorated_dossier.evolution_full_name.should == "#{evol}"
+        end
+      end
+    end
+  end
+    #describe "#evolution", "when equal #{evol}" do
+      #subject {decorated_dossier.evolution}
+      #before do
+        #dossier.evolution = Factory(:evolution, name: evol, libelle: evol)
+        #dossier.modaccouch = "0"
+        #dossier.terme = 40
+      #end
+      #case evol
+      #when "NAI"
+        #it { should == "NAI à #{dossier.terme} par V-b spontanée"}
+      #when "INC", "GNC"
+        #it { should == evol}
+      #else
+        #it { should == "#{evol} à #{dossier.terme}"}
+      #end
+    #end
+  #end
 
   describe "#atcds_grs" do
     subject {decorated_dossier.atcds_grs}
