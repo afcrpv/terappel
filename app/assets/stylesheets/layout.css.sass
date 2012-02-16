@@ -1,0 +1,83 @@
+@import "bootstrap"
+
+body
+  padding-top: 40px !important
+  background-color: #eee !important
+
+/* Header */
+ul.right
+  float: right !important
+
+.content
+  padding: 20px !important
+  background-color: whiteSmoke
+
+/* Page Header */
+.page-header
+  overflow: hidden
+  padding: 10px 20px 5px
+  margin: -20px -20px 0
+
+nav.action_links
+  display: inline-block
+  ul
+    list-style: none
+    margin: 0
+    padding: 0
+  li
+    padding: 0 5px
+    display: inline
+    font-weight: bold
+
+
+.clear
+  clear: both
+
+table.table-striped
+  font-size: 11px
+  background-color: white
+  tr:nth-child(odd)
+    td
+      background-color: white
+
+  tr:nth-child(even)
+    td
+      background-color: #eee
+
+  td, th
+    padding: 5px 5px 4px
+    text-align: center
+
+  th
+    border: 1px solid #666666
+    padding: 0
+
+  td
+    vertical-align: middle
+
+  .ui-state-default
+    span.ui-icon
+      float: right
+
+.modal
+  max-height: 650px
+  width: 980px
+  margin: 0
+  position: fixed
+  top: 15%
+  left: 30px
+  .row
+    margin: 5px 0
+    margin-left: -10px
+  .modal-body
+    padding: 10px
+    dl.dates
+      margin-top: 0
+    .libelle
+      clear: left
+      font-weight: bold
+      &:after
+        content: " : "
+
+.none
+  color: #999
