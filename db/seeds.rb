@@ -65,3 +65,9 @@ puts "importing Specialite table from csv"
 CSV.foreach("csv/specialites.csv", headers: true) do |row|
   Specialite.where(name: row['name']).first_or_create!(oldid: row['oldid'])
 end
+
+# create Produits
+puts "importing Produit table from csv"
+CSV.foreach("csv/produits.csv", headers: true) do |row|
+  Produit.where(name: row['name']).first_or_create!(oldid: row['oldid'])
+end
