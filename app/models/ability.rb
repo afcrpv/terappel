@@ -5,26 +5,25 @@ class Ability
     alias_action :update, :destroy, :to => :modify
 
     if user.role? :centre_user
-      dossier_and_decorator = [Dossier, DossierDecorator]
       can :dashboard
       can :access, :rails_admin
       can :read, Centre
 
-      can [:read, :update], [user, UserDecorator]
-      cannot :destroy, [user, UserDecorator]
+      can [:read, :update], user
+      cannot :destroy, user
 
-      can :manage, dossier_and_decorator, :centre_id => user.centre_id
-      cannot :destroy, dossier_and_decorator
+      can :manage, Dossier, :centre_id => user.centre_id
+      cannot :destroy, Dossier
 
       can :manage, Correspondant, :centre_id => user.centre_id
       cannot :destroy, Correspondant
 
-      can :read, [Produit, Malformation, Pathologie]
-      can :manage, [Bebe, Exposition]
-      cannot :index, [Bebe, Exposition]
+      can :read, [Produit, Malformation, Pathologie, Search]
+      can :manage, [Bebe, Exposition, Search]
+      cannot :index, [Bebe, Exposition, Search]
     end
     if user.role? :centre_admin
-      can :destroy, dossier_and_decorator, :centre_id => user.centre_id
+      can :destroy, Dossier, :centre_id => user.centre_id
       can :update, Centre, :id => user.centre_id
       can :manage, User, :centre_id => user.centre_id
       cannot :destroy, user

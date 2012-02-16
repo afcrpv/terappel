@@ -43,7 +43,7 @@
                 %li= link_to "Recherche Simple", dossiers_path
                 %li= link_to "Recherche Avancée", new_search_path
 
-            %li= link_to t('admin.dashboard.pagename'), rails_admin_path if can? :access, :rails
+            %li= link_to t('admin.dashboard.pagename'), rails_admin_path if can? :access, :rails_admin
 
           %ul.nav.pull-right= render 'layouts/user_nav'
 

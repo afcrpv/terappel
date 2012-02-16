@@ -19,15 +19,18 @@ describe Ability do
 
     subject { Ability.new(user) }
 
+    it { should be_able_to :create, Search}
+    it { should be_able_to :show, Search}
+    it { should be_able_to :update, Search}
+    it { should_not be_able_to :index, Search}
+    it { should_not be_able_to :destroy, Search}
+
     it { should be_able_to :access, :rails_admin}
     it { should be_able_to :read, centre}
     it { should be_able_to :read, user }
-    it { should be_able_to :read, UserDecorator }
     it { should be_able_to :update, user }
     it { should_not be_able_to :destroy, User }
-    it { should_not be_able_to :destroy, UserDecorator }
 
-    it { should be_able_to :read, DossierDecorator }
     it { should be_able_to :manage, dossier_from_same_center }
     it { should_not be_able_to :destroy, dossier }
     it { should_not be_able_to :destroy, Dossier }
