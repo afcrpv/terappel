@@ -52,6 +52,9 @@ class Dossier < ActiveRecord::Base
   delegate :fullname, :to => :correspondant, :prefix => true, :allow_nil => true
   delegate :ville, to: :correspondant, prefix: true, allow_nil: true
 
+  def localized_dateappel
+    I18n.l(date_appel) if date_appel
+  end
   def patiente_fullname
     [self.try(:name).upcase, self.try(:prenom)].join(" ")
   end

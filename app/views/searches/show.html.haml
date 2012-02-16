@@ -13,6 +13,6 @@
     .actions
       = link_to "Modifier la recherche", edit_search_path(@search), class: "btn-primary"
       = link_to "Nouvelle recherche", new_search_path
-      = link_to "Exporter", "#"
+      = link_to "Exporter", search_path(@search, format: :csv)
 
 = render "dossiers/dossiers", dossiers: @dossiers

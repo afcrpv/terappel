@@ -1,0 +1,18 @@
+#encoding: utf-8
+
+headers = ["N° appel", "Date appel", "Motif", "Exposition1", "Exposition2", "Evolution", "Malformation", "Pathologie"]
+
+csv << headers
+
+@dossiers_for_csv.each do |dossier|
+  csv << [
+    dossier.code,
+    dossier.date_appel,
+    dossier.motif_code,
+    dossier.produit_name(0),
+    dossier.produit_name(1),
+    dossier.evolution_name,
+    dossier.malformation,
+    dossier.pathologie
+  ]
+end

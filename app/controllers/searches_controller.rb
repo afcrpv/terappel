@@ -16,10 +16,17 @@ class SearchesController < ApplicationController
   end
 
   def show
+    @filename = "Export_terappel_" + I18n.l(Date.today).gsub("/","_") + ".csv"
+    @csv_options = {col_sep: ";"}
     @search = SearchDecorator.find(params[:id])
     dossiers = @search.find_dossiers
     dossiers_ordered_unordered = dossiers.order(sort_column("date_appel", Dossier) + ' ' + sort_direction("desc"))
     @dossiers = DossierDecorator.decorate(dossiers_ordered_unordered.page(params[:page]))
+    @dossiers_for_csv = DossierDecorator.decorate dossiers_ordered_unordered
+    respond_to do |format|
+      format.html
+      format.csv
+    end
   end
 
   def edit

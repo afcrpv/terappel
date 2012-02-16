@@ -76,3 +76,4 @@ gem 'ancestry'
 gem 'jstree-rails', :git => 'git://github.com/adamico/jstree-rails.git'
 gem 'simple_form', :git => 'git://github.com/plataformatec/simple_form.git'
 gem 'rails_admin', git: "https://github.com/sferik/rails_admin.git"
+gem 'csv_builder'

@@ -136,6 +136,12 @@ class DossierDecorator < ApplicationDecorator
     end
   end
 
+  def produit_name(index)
+    if produits.any?
+      produits[index].try(:name)
+    end
+  end
+
   def expositions
     handle_none dossier.produits_names, "Aucune", nil do
       twipsy dossier.produits_names
