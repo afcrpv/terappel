@@ -16,3 +16,5 @@ $ ->
     date_field.mask("99/99/9999")
     value = date_field.attr("data-value")
     date_field.val(value) if value
+
+  $(".row .actions a").addClass("btn")

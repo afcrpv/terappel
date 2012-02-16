@@ -16,6 +16,7 @@ class SearchesController < ApplicationController
   end
 
   def show
+    @search = SearchDecorator.find(params[:id])
     dossiers = @search.find_dossiers
     dossiers_ordered_unordered = dossiers.order(sort_column("date_appel", Dossier) + ' ' + sort_direction("desc"))
     @dossiers = DossierDecorator.decorate(dossiers_ordered_unordered.page(params[:page]))

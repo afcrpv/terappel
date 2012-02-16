@@ -1,2 +1,18 @@
-%h1 Searches#show
-%p Find me in app/views/searches/show.html.haml
+- title "Résultats"
+
+.row
+  .span6
+    .well.search-params
+      %h4 Paramètres de recherche
+      %ul
+        - @search.search_params.each do |k, v|
+          %li
+            %span.libelle= t('attributes.search.' + k)
+            = v
+  .span5
+    .actions
+      = link_to "Modifier la recherche", edit_search_path(@search), class: "btn-primary"
+      = link_to "Nouvelle recherche", new_search_path
+      = link_to "Exporter", "#"
+
+= render "dossiers/dossiers", dossiers: @dossiers
