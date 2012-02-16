@@ -38,14 +38,9 @@ development: &development
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test: &test
-  adapter: postgresql
   database: myapp_test
-  username: postgres
+  <<: *login
 
 production: &production
-  adapter: postgresql
-  encoding: unicode
-  pool: 5
-  database: your_production_database
-  username: your_production_database_login
-  password: your_production_database_password
+  database: terappel_production
+  <<: *login
