@@ -15,6 +15,8 @@
   = f.input :produit_name, url: autocomplete_produit_name_dossiers_path, label: "Produit",
     as: :autocomplete, input_html: {id_element: "#search_produit_id", class: "span7"}
   = f.input :produit_id, as: :hidden
+  = f.input :malformation, label: "Malformations", as: :radio_buttons, collection: Dossier::ONI, item_wrapper_class: "inline"
+  = f.input :pathologie, label: "Pathologies", as: :radio_buttons, collection: Dossier::ONI, item_wrapper_class: "inline"
   .actions
     = f.button :submit, "Rechercher", disable_with: "Rechercher", class: "btn-primary"
     = button_tag "Effacer le formulaire", type: :reset, class: "btn btn-danger"
