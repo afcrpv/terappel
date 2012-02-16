@@ -1,7 +1,7 @@
 class Search < ActiveRecord::Base
-  attr_accessible :centre_id, :min_date_appel, :max_date_appel, :motif_id, :expo_nature_id, :expo_type_id, :indication_id, :expo_terme_id, :evolution_id, :malformation, :pathologie, :indication_name
+  attr_accessible :centre_id, :min_date_appel, :max_date_appel, :motif_id, :expo_nature_id, :expo_type_id, :indication_id, :expo_terme_id, :evolution_id, :malformation, :pathologie, :indication_name, :produit_id, :produit_name
 
-  attr_writer :indication_name
+  attr_writer :indication_name, :produit_name
 
   def find_dossiers
     dossiers = Dossier.includes(:centre, :motif, :expositions, :evolution)
@@ -11,6 +11,7 @@ class Search < ActiveRecord::Base
     dossiers = dossiers.joins(:expositions).where('expositions.expo_type_id' => expo_type_id) if expo_type_id.present?
     dossiers = dossiers.joins(:expositions).where('expositions.expo_terme_id' => expo_terme_id) if expo_terme_id.present?
     dossiers = dossiers.joins(:expositions).where('expositions.indication_id' => indication_id) if indication_id.present?
+    dossiers = dossiers.joins(:expositions).where('expositions.produit_id' => produit_id) if produit_id.present?
     dossiers = dossiers.where(evolution_id: evolution_id) if evolution_id.present?
     dossiers = dossiers.where(malformation: malformation) if malformation.present?
     dossiers = dossiers.where(pathologie: pathologie) if pathologie.present?
@@ -21,5 +22,8 @@ class Search < ActiveRecord::Base
 
   def indication_name
     Indication.find(indication_id).name if indication_id
+  end
+  def produit_name
+    Produit.find(produit_id).name if produit_id
   end
 end

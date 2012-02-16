@@ -6,6 +6,7 @@ class SearchDecorator < ApplicationDecorator
     result['centre'] = Centre.find(centre_id).name if centre_id
     result['date appel'] = "du " + h.l(min_date_appel) + " au " + h.l(max_date_appel)
     result['motif'] = Motif.find(motif_id).name if motif_id
+    result['exposition'] = Produit.find(produit_id).name if produit_id
     result['expo_nature'] = ExpoNature.find(expo_nature_id).name if expo_nature_id
     result['expo_type'] = ExpoType.find(expo_type_id).name if expo_type_id
     result['expo_terme'] = ExpoTerme.find(expo_terme_id).name if expo_terme_id
