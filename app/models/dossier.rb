@@ -44,8 +44,9 @@ class Dossier < ActiveRecord::Base
 
   #delegations
   delegate :name, :code, :to => :centre, :prefix => true
-  delegate :name, :to => :motif, :prefix => true, allow_nil: true
+  delegate :name, :code, :to => :motif, :prefix => true, allow_nil: true
   delegate :name, :to => :categoriesp, :prefix => true, allow_nil: true
+  delegate :name, :to => :evolution, :prefix => true, allow_nil: true
   delegate :libelle, :name, :to => :evolution, :prefix => true, allow_nil: true
   delegate :username, :to => :user, :allow_nil => true
   delegate :fullname, :to => :correspondant, :prefix => true, :allow_nil => true

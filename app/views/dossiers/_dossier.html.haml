@@ -2,8 +2,11 @@
   %td= dossier.code
   %td= dossier.date_appel
   %td= dossier.name
-  %td= dossier.correspondant_nom
+  %td= dossier.motif_code
   %td= dossier.expositions
+  %td= dossier.evolution_name
+  %td= dossier.malformation
+  %td= dossier.pathologie
   %td= dossier.button_to_modal
 
 = render 'shared/dossier_modal', dossier: dossier

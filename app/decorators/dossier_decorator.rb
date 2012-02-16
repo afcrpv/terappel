@@ -2,6 +2,18 @@
 class DossierDecorator < ApplicationDecorator
   decorates :dossier
 
+  %w(malformation pathologie).each do |mp|
+    define_method mp do
+      if dossier.bebes.any?
+        ["Oui", "Non", "Ne sait pas"].each do |value|
+          if dossier.bebes.any? {|b| b.send(mp) == value}
+            return value
+          end
+        end
+      end
+    end
+  end
+
   def liste_bebes
     if dossier.bebes.any?
       rows = ""
