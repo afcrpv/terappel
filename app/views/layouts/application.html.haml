@@ -20,7 +20,7 @@
   = csrf_meta_tags
   / Favicons
 
-  %link{:href => "images/favicon.ico", :rel => "shortcut icon"}/
+  = favicon_link_tag
   %link{:href => "images/apple-touch-icon.png", :rel => "apple-touch-icon"}/
   %link{:href => "images/apple-touch-icon-72x72.png", :rel => "apple-touch-icon", :sizes => "72x72"}/
   %link{:href => "images/apple-touch-icon-114x114.png", :rel => "apple-touch-icon", :sizes => "114x114"}/
@@ -50,13 +50,13 @@
   .container
     .content
       .page-header
-        - flash && flash.each do |key, value|
-          .alert.fade.in{:class => "alert-#{key}"}
-            %a.close{"data-dismiss" => "alert"} &times;
-            = value
         %h1#page_title
           = yield(:title) if show_title?
           = yield(:page_title)
+        - flash && flash.each do |key, value|
+          .alert.fade.in{:class => "alert-#{key}"}
+            %a.close{"data-dismiss" => "alert"} &times;
+            %strong= value
 
       = yield
 
