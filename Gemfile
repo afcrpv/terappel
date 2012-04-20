@@ -57,7 +57,7 @@ group :test do
   gem 'database_cleaner'
   gem 'simplecov', :require => false
   gem 'mocha'
-  gem "selenium-webdriver", "~> 2.13.0"
+  gem "selenium-webdriver", "~> 2.15.0"
 end
 
 gem 'pg'
