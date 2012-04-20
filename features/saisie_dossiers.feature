@@ -46,7 +46,7 @@ Feature: Saisie dossier
     And I choose "Martin - 69006 - Lyon" in the autocomplete list
     Then the modify correspondant button should be visible
 
-  @javascript @focus
+  @javascript
   Scenario Outline: show/hide mod accouch input when evolution is naissance
     When I go to the new dossier page with code "LY1101001"
     And I choose "<evolution>" as the evolution
