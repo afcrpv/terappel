@@ -81,6 +81,12 @@ jQuery ->
     $attach = $("#expositions")
     $attach.bind 'insertion-callback', ->
       hide_add_field_link("expositions")
+      $(".duree").on 'blur', ->
+        de = $(this).prev().val()
+        de2 = $(this).val()
+        result = de2 - de
+        $(this).nextAll("input").val(de2 - de) if result > 0
+
     $attach.bind 'removal-callback', ->
       show_add_field_link("expositions")
 

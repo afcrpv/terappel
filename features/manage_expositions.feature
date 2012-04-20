@@ -37,3 +37,9 @@ Feature: Manage expositions
     Given an existing dossier with expositions
     When I edit the dossier
     Then the expo summary table should be filled up with existing expos
+
+  @javascript @focus
+  Scenario: calculate expo duree from de and a fields
+    When I initialize an exposition for a dossier
+    And I fill in the expo dates in sa
+    Then the duree field should be automatically calculated

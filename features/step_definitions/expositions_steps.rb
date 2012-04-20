@@ -11,6 +11,22 @@ When /^I add a new exposition for a dossier$/ do
   click_on "Valider"
 end
 
+When /^I initialize an exposition for a dossier$/ do
+  step %{I go to the new dossier page with code "LY1101001"}
+  click_on "Exposition"
+  click_on "Ajouter Expo"
+end
+
+When /^I fill in the expo dates in sa$/ do
+  page.execute_script %Q{ $('.duree').first().val("5") }
+  page.execute_script %Q{ $('.duree').first().prev().val("2") }
+  page.execute_script %Q{ $('.duree').first().trigger("blur") }
+end
+
+Then /^the duree field should be automatically calculated$/ do
+  find("input[id$=duree]").value.should == "3"
+end
+
 Then /^the added exposition should belong to the dossier$/ do
   click_on "Informations générales"
   fill_in "Date Appel", :with => "31/01/2001"

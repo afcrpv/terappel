@@ -6,14 +6,14 @@
     = f.label "Période Expo (en SA)"
     .controls
       = f.text_field :de, class: "span1", placeholder: "De"
-      = f.text_field :a, class: "span1", placeholder: "à"
+      = f.text_field :a, class: "span1 duree", placeholder: "à"
       = f.label "Durée"
       = f.text_field :duree, class: "span1"
   .control-group.inline-inputs
     = f.label "Reprise ttt "
     .controls
       = f.text_field :de2, class: "span1", placeholder: "De"
-      = f.text_field :a2, class: "span1", placeholder: "à"
+      = f.text_field :a2, class: "span1 duree", placeholder: "à"
       = f.label "Durée"
       = f.text_field :duree2, class: "span1"
   = f.association :expo_nature, label: "Nature"
