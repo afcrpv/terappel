@@ -223,6 +223,8 @@ GEM
       activesupport (= 3.2.3)
       bundler (~> 1.0)
       railties (= 3.2.3)
+    rails-footnotes (3.7.7)
+      rails (>= 3.0.0)
     rails3-jquery-autocomplete (1.0.5)
       rails (~> 3.0)
     railties (3.2.3)
@@ -336,6 +338,7 @@ DEPENDENCIES
   pickle
   pry
   rails (= 3.2.3)
+  rails-footnotes (>= 3.7.5.rc4)
   rails3-jquery-autocomplete
   rails_admin!
   ransack

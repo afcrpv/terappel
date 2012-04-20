@@ -61,7 +61,3 @@
       = yield
 
       %footer#page_footer
-        - if Rails.env.development?
-          %details
-            = debug params
-            = yield(:footer)

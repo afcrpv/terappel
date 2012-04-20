@@ -44,6 +44,7 @@ group :development do
   gem 'guard-spork'
   gem 'guard-rspec'
   gem 'guard-cucumber'
+  gem 'rails-footnotes', '>= 3.7.5.rc4'
 end
 
 group :test do
