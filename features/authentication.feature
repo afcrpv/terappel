@@ -7,26 +7,27 @@ Feature: testing user authentication
   Background:
     Given a user belonging to an existing centre
 
+  @javascript
   Scenario: user authenticates successfully
     When the user logs in with correct credentials
     Then they should see a success message
 
+  @javascript
   Scenario: user is denied access
     When the user logs in with wrong credentials
     Then they should be denied access
 
-  Scenario: user can access his profile
-    When the user goes to his profile page
-    Then they should see their personal informations
-
+  @javascript
   Scenario: user edits his profile
     When the user edits his profile informations
-    Then they should see their updated profile
+    Then their profile should be update with new informations
 
+  @javascript
   Scenario: user tries to change his password without filling in current password
     When the user changes his password without filling the current password
     Then their password shouldn't change
 
+  @javascript
   Scenario: user changes his password
     When the user changes his password
     Then they should be able to reconnect with the changed password

@@ -39,14 +39,12 @@ When /^the user goes to his profile page$/ do
   steps %Q{
     When the user logs in with correct credentials
   }
-  visit user_path(@user)
+  visit edit_user_path(@user)
 end
 
 Then /^they should see their personal informations$/ do
   page.should have_content @user.username
   page.should have_content @user.email
-  page.should have_content @user.centre_name
-  page.should have_content @user.role
 end
 
 When /^the user edits his profile informations$/ do
@@ -59,9 +57,10 @@ When /^the user edits his profile informations$/ do
   click_on I18n.t('formtastic.actions.update_profile')
 end
 
-Then /^they should see their updated profile$/ do
-  page.should have_content "utilisateur"
-  page.should have_content "utilisateur@test.com"
+Then /^their profile should be update with new informations$/ do
+  user = User.find(@user.id)
+  user.username.should == "utilisateur"
+  user.email.should == "utilisateur@test.com"
 end
 
 When /^the user changes his password without filling the current password$/ do

@@ -19,7 +19,7 @@ class UsersController < AuthorizedController
     end
 
     if @user.errors[:base].empty? && @user.update_attributes(params[:user])
-      redirect_with_flash(@user)
+      redirect_with_flash(@user, root_path)
     else
       render :edit
     end
