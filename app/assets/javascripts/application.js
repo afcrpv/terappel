@@ -5,11 +5,11 @@
 // the compiled file.
 //
 //= require jquery
+//= require jquery_ui
 //= require jquery_ujs
 //= require bootstrap
-//= require jquery_ui
-//= require autocomplete-rails
 //= require cocoon
+//= require autocomplete-rails
 //= require jquery.validate
 //= require jquery.maskedinput
 //= require jquery.tokeninput
