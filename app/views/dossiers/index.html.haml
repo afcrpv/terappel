@@ -1,6 +1,6 @@
 - title "Liste de Dossiers"
 
-= search_form_for @search, :html => {:class => "form-search"} do |f|
+= search_form_for @search, :html => {class: "form-search"} do |f|
   %fieldset
     = f.label :code_cont, "N° d'appel"
     = f.text_field :code_cont, class: "span2"
