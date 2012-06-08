@@ -10,7 +10,7 @@ fr:
         current_password: "Mot de passe actuel"
         password: "Mot de passe"
         password_confirmation: "Confirmer"
-        remember_me: "Se souvenir de moi"
+        remember_me: "Se souvenir de moi ?"
         email: "Courriel"
         role: "Rôle"
         centre_name: "Centre"
