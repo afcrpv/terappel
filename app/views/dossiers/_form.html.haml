@@ -17,8 +17,7 @@
           = f.text_field :code, class: "span2"
           %label Date d'appel
           = f.text_field :date_appel, autofocus: true, "data-value" => date_appel, class: "dateITA dateNotFuture span2"
-          %label Motif
-          = f.collection_select :motif_id, Motif.all, :id, :name
+      = f.association :motif, input_html: {class: "span8"}
       .control-group.inline-inputs
         = f.label "Correspondant"
         .controls
@@ -40,8 +39,12 @@
           = f.text_field :name
           = f.label "Prénom"
           = f.text_field :prenom
-          = f.label "Age"
+      .control-group.inline-inputs
+        = f.label "Age"
+        .controls
           = f.text_field :age, class: "span1"
+          = f.label "Date de Naissance"
+          = f.text_field :date_naissance, "data-value" => date_naissance, class: "dateITA dateNotFuture span2"
       = f.association :categoriesp, label: "C.S.P.", input_html: {class: "span5"}
       .control-group.radio_buttons.optional
         %label.radio_buttons.optional Antécédents fam.
@@ -55,7 +58,7 @@
               = "Non"
             %label.radio
               = f.radio_button :antecedents_fam, "2", class: "radio_buttons optional"
-              = "Inconnu"
+              = "NSP"
           .textarea-wrap
             = f.text_area :comm_antecedents_fam, class: "span8", rows: "4"
 
@@ -71,12 +74,14 @@
               = "Non"
             %label.radio
               = f.radio_button :antecedents_perso, "2", class: "radio_buttons optional"
-              = "Inconnu"
+              = "NSP"
           .textarea-wrap
             = f.text_area :comm_antecedents_perso, class: "span8", rows: "4"
       = f.input :tabac, collection: Dossier::TABAC,
         as: :radio_buttons, item_wrapper_class: "inline"
       = f.input :alcool, collection: Dossier::ALCOOL,
+        as: :radio_buttons, item_wrapper_class: "inline"
+      = f.input :toxiques, collection: Dossier::ONI,
         as: :radio_buttons, item_wrapper_class: "inline"
 
     #grossesse= render 'grossesse', f: f

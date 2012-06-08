@@ -47,7 +47,7 @@ jQuery ->
   $("#dossier_code").mask("aa9999999")
   $("#dossier_age_grossesse").mask("?99")
 
-  dates_grossesse_fields_names = ["date_appel", "date_dernieres_regles", "date_debut_grossesse", "date_accouchement_prevu", "date_reelle_accouchement"]
+  dates_grossesse_fields_names = ["date_appel", "date_dernieres_regles", "date_debut_grossesse", "date_accouchement_prevu", "date_reelle_accouchement", "date_naissance"]
   dates_grossesse_fields = []
   dates_grossesse_fields.push($("#dossier_#{field_name}")) for field_name in dates_grossesse_fields_names
 
@@ -62,6 +62,12 @@ jQuery ->
     if grsant is "0" then zero_grossesse_fields()
 
   # calculateur dates
+  $("#dossier_date_naissance").on 'blur', ->
+    unless $("#dossier_age").val()
+      date_naissance = parse_fr_date($(this).val())
+      date_appel = parse_fr_date($("#dossier_date_appel").val())
+      $("#dossier_age").val(getYears(date_naissance, date_appel))
+
   $("#calc_dates_grossesse").on 'click', -> calc_date_grossesse()
   $("#reset_dates_grossesse").on 'click', ->
     $("#grossesse_date_messages").html("")
@@ -228,6 +234,14 @@ addDays = (objDate, days) ->
   aaaa = objDate.getFullYear()
   arrDate.push(gg, mm, aaaa)
   arrDate.join(strSep)
+
+getYears = (startDate, endDate) ->
+  unless isNaN(startDate.getTime()) and isNaN(endDate.getTime())
+    start = startDate.getTime()
+    end = endDate.getTime()
+    delta = end - start
+    days = delta / (1000 * 60 * 60 * 24)
+    Math.round(days/365)
 
 getSA = (dateDR, dateAppel) ->
   start = dateDR.getTime()

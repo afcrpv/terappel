@@ -61,6 +61,13 @@ class DossierDecorator < ApplicationDecorator
       rows.html_safe
     end
   end
+
+  def toxiques
+    handle_none dossier.toxiques do
+      dossier.toxiques
+    end
+  end
+
   def evolution_full_name
     attribute = dossier.evolution_name
     liste = %w(GEU FCS IVG IMG MIU NAI)

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120216112729) do
+ActiveRecord::Schema.define(:version => 20120608130154) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -65,6 +65,59 @@ ActiveRecord::Schema.define(:version => 20120216112729) do
   add_index "admins", ["email"], :name => "index_admins_on_email", :unique => true
   add_index "admins", ["reset_password_token"], :name => "index_admins_on_reset_password_token", :unique => true
 
+  create_table "argumentaires", :force => true do |t|
+    t.integer  "main_argument_id"
+    t.integer  "aux_argument_id"
+    t.integer  "article_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "arguments", :force => true do |t|
+    t.string   "name"
+    t.string   "nature"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "slug"
+  end
+
+  add_index "arguments", ["slug"], :name => "index_arguments_on_slug", :unique => true
+
+  create_table "articles", :force => true do |t|
+    t.text     "titre"
+    t.integer  "revue_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "contenu"
+    t.boolean  "fiche_technique"
+    t.integer  "position"
+    t.integer  "authorships_count", :default => 0
+  end
+
+  create_table "articles_categories", :id => false, :force => true do |t|
+    t.integer "article_id"
+    t.integer "categorie_id"
+  end
+
+  create_table "authors", :force => true do |t|
+    t.string   "nom"
+    t.string   "prenom"
+    t.boolean  "current"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "authorships_count", :default => 0
+    t.string   "slug"
+  end
+
+  add_index "authors", ["slug"], :name => "index_authors_on_slug", :unique => true
+
+  create_table "authorships", :force => true do |t|
+    t.integer  "article_id"
+    t.integer  "author_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "bebes", :force => true do |t|
     t.integer  "dossier_id"
     t.string   "malformation"
@@ -87,6 +140,12 @@ ActiveRecord::Schema.define(:version => 20120216112729) do
   create_table "bebes_pathologies", :id => false, :force => true do |t|
     t.integer "bebe_id"
     t.integer "pathologie_id"
+  end
+
+  create_table "categories", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "categoriesps", :force => true do |t|
@@ -173,6 +232,8 @@ ActiveRecord::Schema.define(:version => 20120216112729) do
     t.text     "comm_bebe"
     t.integer  "img"
     t.integer  "grsant"
+    t.integer  "toxiques"
+    t.date     "date_naissance"
   end
 
   add_index "dossiers", ["categoriesp_id"], :name => "index_dossiers_on_categoriesp_id"
@@ -184,6 +245,15 @@ ActiveRecord::Schema.define(:version => 20120216112729) do
   add_index "dossiers", ["modaccouch"], :name => "index_dossiers_on_mod_accouch_id"
   add_index "dossiers", ["motif_id"], :name => "index_dossiers_on_motif_id"
   add_index "dossiers", ["name"], :name => "index_dossiers_on_name"
+
+  create_table "editorials", :force => true do |t|
+    t.text     "titre"
+    t.text     "contenu"
+    t.integer  "author_id"
+    t.integer  "revue_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "evolutions", :force => true do |t|
     t.string   "name"
@@ -310,6 +380,20 @@ ActiveRecord::Schema.define(:version => 20120216112729) do
   end
 
   add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_rails_admin_histories"
+
+  create_table "redactionships", :force => true do |t|
+    t.integer "revue_id"
+    t.integer "author_id"
+  end
+
+  create_table "revues", :force => true do |t|
+    t.integer  "numero"
+    t.date     "date_sortie"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "articles_count", :default => 0
+    t.string   "pdf_url"
+  end
 
   create_table "searches", :force => true do |t|
     t.date     "min_date_appel"
