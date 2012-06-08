@@ -19,12 +19,44 @@ class DossierDecorator < ApplicationDecorator
       rows = ""
       dossier.bebes.each_with_index do |bebe, index|
         fields = []
-        %w(poids taille pc apgar1 apgar5 malformation pathologie).each do |field|
-          fields.push "#{field}=#{bebe.send(field)}"
+        %w(poids taille pc).each do |field|
+          label = ""
+          value = bebe.send(field)
+          if value
+            label += field
+            label = "P" if field == "poids"
+            label = "T" if field == "taille"
+            label = "<strong>#{label.upcase}</strong>"
+            suffix = ""
+            suffix += " g" if field == "poids"
+            suffix += " cm" if %w(taille pc).include?(field)
+            fields.push label + " " + value.to_s + suffix
+          end
         end
-        label = h.content_tag :span, "Bebe #{index}", class: "libelle"
-        columns = h.content_tag :div, label + fields.join(", "), class: "span12"
+        bebe_label = h.content_tag :span, "Bébé #{index + 1 if dossier.bebes.many?}", class: "libelle"
+        apgar_values = []
+        %w(apgar1 apgar5).each do |ap|
+          value = bebe.send(ap)
+          apgar_values.push value if value
+        end
+        apgar = ""
+        apgar += ", " + h.content_tag(:strong, "Apgar") + " " + apgar_values.compact.join("-") if apgar_values.any?
+        gap = h.content_tag :div, "&nbsp;".html_safe, class: "span1"
+        malf_path_fields = []
+        %w(malformation pathologie).each do |morp|
+          label = ""
+          value = bebe.send(morp)
+          if value
+            label += morp
+            label = h.content_tag :strong, label.upcase
+            malf_path_fields.push label + " " + value
+          end
+        end
+        malform_path = h.content_tag :div, gap + h.content_tag(:div, malf_path_fields.compact.join(", ").html_safe, class: "span10"), class: "row"
+        columns = h.content_tag(:div, bebe_label, class: "span1") + h.content_tag(:div, fields.join(", ").html_safe + apgar.html_safe, class: "span10")
         rows += h.content_tag :div, columns, class: "row"
+        rows += malform_path
+
       end
       rows.html_safe
     end
@@ -110,8 +142,15 @@ class DossierDecorator < ApplicationDecorator
       suffix = vice == "tabac" ? " cigarettes/j" : ""
       hash = array_to_hash(const)
       handle_none dossier.send(vice) do
+        suffix = "" if dossier.send(vice) == 0
         hash[dossier.send(vice).to_s] + suffix
       end
+    end
+  end
+
+  def age
+    handle_none dossier.age do
+      dossier.age.to_s + " ans"
     end
   end
 
@@ -122,7 +161,7 @@ class DossierDecorator < ApplicationDecorator
   end
 
   def button_to_modal
-    h.link_to "#dossier_#{dossier.id}_modal", class: "btn btn-small", "data-toggle" => "modal" do
+    h.button_tag id: dossier.id, class: "btn btn-small opener" do
       h.safe_concat "<i class='icon-info-sign'></i>" + "\nDétails"
     end
   end

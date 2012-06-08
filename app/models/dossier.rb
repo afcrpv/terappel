@@ -13,9 +13,9 @@ class Dossier < ActiveRecord::Base
     :expositions_attributes, :bebes_attributes
 
   # Constants
-  ONI = [["Oui", "0"], ["Non", "1"], ["Inconnu", "2"]]
-  TABAC = [["0", "0"], ["0 à 5", "1"], ["5 à 10", "2"], ["Sup. à 10", "3"], ["Ne sait pas", "4"]]
-  ALCOOL = [["0", "0"], ["Occasionnel (<= 2 verres/j)", "1"], ["Fréquent (> 2 verres/j)", "2"], ["Ne sait pas", "3"]]
+  ONI = [["Oui", "0"], ["Non", "1"], ["NSP", "2"]]
+  TABAC = [["Non", "0"], ["0 à 5", "1"], ["5 à 10", "2"], ["Sup. à 10", "3"], ["NSP", "4"]]
+  ALCOOL = [["Non", "0"], ["Occasionnel (<= 2 verres/j)", "1"], ["Fréquent (> 2 verres/j)", "2"], ["NSP", "3"]]
   MODACCOUCH = [["V-b spontanée", "0"], ["V-b instrumentale", "1"], ["Césarienne", "2"], ["Inconnue", "3"]]
 
   # writers

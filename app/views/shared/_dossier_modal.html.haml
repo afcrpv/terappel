@@ -1,86 +1,51 @@
-%div{id: "dossier_#{dossier.id}_modal", class: "modal hide"}
-  .modal-header
-    %a.close{"data-dismiss" => "modal"} &times;
-    %h3 Dossier #{dossier.code}
-  .modal-body
-    .row
-      .span3
-        %span.libelle Centre
-        = dossier.centre_name
-      .span3
-        %span.libelle Date Appel
-        = dossier.date_appel
-      .span6
-        %span.libelle Motif
-        = dossier.motif_name
-    .row
-      .span6
-        %span.libelle Correspondant
-        = dossier.correspondant_fullname
-    .row
-      .span5
-        %span.libelle Nom/prénom patiente
-        = dossier.patiente
-      .span2
-        %span.libelle Age
-        = dossier.age
-      .span5
-        %span.libelle C.S.P.
-        = dossier.categoriesp_name
-    .row
-      .span6
-        %span.libelle Atcds familiaux
-        = dossier.atcds_fam
-      .span6
-        %span.libelle Atcds personnels
-        = dossier.atcds_perso
-    .row
-      .span6
-        %span.libelle Tabac
-        = dossier.tabac
-      .span6
-        %span.libelle Alcool
-        = dossier.alcool
-    .row
-      .span12
-        %span.libelle Grossesse(s) antérieure(s)
-        = dossier.atcds_grs
+%div{id: "dossier_#{dossier.id}_modal", class: "dialog", "data-show" => dossier_url(dossier), "data-edit" => can?(:update, dossier) ? edit_dossier_url(dossier) : nil, "data-title" => "Dossier #{dossier.code}#{' - ' + dossier.centre_name if Rails.env.development?}" }
+  .my-table
     .row
       .span4
-        %span.libelle Age grossesse lors de l'appel
-        = dossier.age_grossesse
-      .span2
-        %span.libelle DDR
-        = dossier.date_dernieres_regles
+        %span.libelle Date Appel
+        = dossier.date_appel
+      .span4
+        %span.libelle Motif
+        = dossier.motif_name
       .span3
-        %span.libelle Debut de grossesse
+        %span.libelle Témoin
+        = dossier.expo_terato
+    .row
+      .span4
+        %span.libelle Patiente
+        = dossier.patiente
+      .span4
+        %span.libelle Age
+        = dossier.age
+    .row
+      .span4
+        %span.libelle Age grossesse lors appel
+        = dossier.age_grossesse
+      .span4
+        %span.libelle Début grossesse
         = dossier.date_debut_grossesse
       .span3
         %span.libelle Accouchement prévu
         = dossier.date_accouchement_prevu
     .row
-      .span6
-        %span.libelle Exposition non-tératogène
-        = dossier.expo_terato
-      .span6
-        %span.libelle Assistance médicale à la procréation
-        = dossier.ass_med_proc
-    .row
       .span12
         %span.libelle Exposition
         = dossier.produits_names
     .row
-      .span6
-        %span.libelle Evolution
-        = dossier.evolution_full_name
-      .span6
-        %span.libelle Date accouchement
-        = dossier.date_reelle_accouchement
-    = dossier.liste_bebes
+      .span4
+        %span.libelle Tabac
+        = dossier.tabac
+      .span4
+        %span.libelle Alcool
+        = dossier.alcool
+      .span3
+        %span.libelle Autres toxiques
+        = dossier.toxiques
     .row
-      .span12
-        %span.libelle Commentaire
-        = dossier.commentaire
-
-  .modal-footer
-    = link_to "Modifier ce dossier", edit_dossier_path(dossier), class: "btn btn-primary", target: "_blank" if can? :update, dossier
+      .span4
+        %span.libelle Evolution
+        = dossier.evolution_name
+      .span4
+        %span.libelle Terme
+        = dossier.terme
+    = dossier.liste_bebes

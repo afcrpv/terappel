@@ -5,7 +5,7 @@ class ApplicationDecorator < Draper::Base
     h.l datefield
   end
 
-  def handle_none(value, message="Non spécifié(e)", wrap="span")
+  def handle_none(value, message="-", wrap="span")
     if value.present?
       yield
     else
