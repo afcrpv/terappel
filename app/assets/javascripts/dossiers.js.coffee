@@ -3,6 +3,7 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 jQuery ->
+  calcIMC()
   better_errors_list()
 
   # jquery dialog for dossier details
@@ -55,6 +56,9 @@ jQuery ->
     date_field.mask("99/99/9999")
     value = date_field.attr("data-value")
     date_field.val(value) if value
+
+  # calc imc
+  $("#dossier_taille").on 'blur', -> calcIMC()
 
   #### Grossesse
   $("#dossier_grsant").on 'blur', ->
@@ -554,3 +558,9 @@ jQuery.fn.attach_jstree = (association) ->
       $modal = $(this).parents(".modal")
       $modal.modal('hide')
       $tokeninput.tokenInput("add", obj) for obj in checked_nodes_objs
+
+calcIMC = ->
+  poids = $("#dossier_poids").val()
+  taille = $("#dossier_taille").val()
+  imc = if poids and taille then poids / Math.round(Math.pow(taille/100, 2)) else ""
+  $("#imc").html(imc)
