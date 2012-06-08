@@ -12,3 +12,4 @@ vendor/ruby
 coverage
 .DS_Store
 csv
+*.dump
