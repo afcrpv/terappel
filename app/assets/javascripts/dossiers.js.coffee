@@ -23,11 +23,11 @@ jQuery ->
     if $dossier_dialog.attr("data-edit")
       dialog_buttons =
         "Voir":
-          text: "Voir"
+          text: "Détails du dossier"
           "class": "btn btn-primary"
           click: -> window.location = dossier_show_url
         "Modifier":
-          text: "Modifier"
+          text: "Modifier ce dossier"
           "class": "btn btn-info"
           click: -> window.location = dossier_edit_url
     $dossier_dialog.dialog(
