@@ -1,20 +1,6 @@
 = f.input :ass_med_proc, label: "Assistance médicale à la procréation", as: :radio_buttons, collection: Dossier::ONI, item_wrapper_class: "inline"
 
-%table.grsant.span5
-  %tbody
-    %tr
-      %th{colspan: "5"} Nbr de grossesse(s) antérieure(s)
-      %td= f.text_field :grsant, class: "span1"
-    %tr
-      - [:fcs, :geu, :miu].each do |item|
-        %th= item.to_s.upcase
-        %td= f.text_field item, class: "span1"
-    %tr
-      - [:ivg, :img, :nai].each do |item|
-        %th= item.to_s.upcase
-        %td= f.text_field item, class: "span1"
-
-%table.grossesse_dates
+%table
   %tr
     %th.span5 Age grossesse lors de l'appel (SA)
     %td.span7= f.text_field :age_grossesse, class: "span1"
@@ -32,3 +18,10 @@
     %td
       = link_to "Calculer", "#", id: "calc_dates_grossesse", class: "btn"
       = link_to "Effacer", "#", id:"reset_dates_grossesse", class: "btn"
+
+= f.input :tabac, collection: Dossier::TABAC,
+  as: :radio_buttons, item_wrapper_class: "inline"
+= f.input :alcool, collection: Dossier::ALCOOL,
+  as: :radio_buttons, item_wrapper_class: "inline"
+= f.input :toxiques, collection: Dossier::ONI,
+  as: :radio_buttons, item_wrapper_class: "inline"

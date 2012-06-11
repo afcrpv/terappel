@@ -104,12 +104,21 @@
                   = "NSP"
               .textarea-wrap
                 = f.text_area :comm_antecedents_fam, class: "span4", rows: "3"
-      = f.input :tabac, collection: Dossier::TABAC,
-        as: :radio_buttons, item_wrapper_class: "inline"
-      = f.input :alcool, collection: Dossier::ALCOOL,
-        as: :radio_buttons, item_wrapper_class: "inline"
-      = f.input :toxiques, collection: Dossier::ONI,
-        as: :radio_buttons, item_wrapper_class: "inline"
+
+      %table
+        %tbody
+          %tr
+            %th{colspan: "5"} Nbr de grossesse(s) antérieure(s)
+            %td= f.text_field :grsant, class: "span1"
+          %tr
+            - [:fcs, :geu, :miu].each do |item|
+              %th= item.to_s.upcase
+              %td= f.text_field item, class: "span1"
+          %tr
+            - [:ivg, :img, :nai].each do |item|
+              %th= item.to_s.upcase
+              %td= f.text_field item, class: "span1"
+
 
     #grossesse= render 'grossesse', f: f
 
