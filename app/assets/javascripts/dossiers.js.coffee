@@ -99,22 +99,26 @@ jQuery ->
       $modaccouch_input.hide()
 
   #### Correspondant ####
-  $edit_correspondant_btn = $(".edit-correspondant")
+  if $("#correspondant_modal").length
+    $("#dossier_correspondant_id_field .btn").hide()
+  else
+    $("#dossier_correspondant_id_field").remoteForm()
+
+  $new_correspondant_btn = $(".create")
+  $edit_correspondant_btn = $(".update")
+
   # disactivate edit correspondant by default
   $edit_correspondant_btn.hide()
 
   # activate edit correspondant if dossier_correspondant_id is prefilled
   correspondant_id = $("#dossier_correspondant_id").val()
-  if correspondant_id
-    $edit_correspondant_btn.show()
-    $edit_correspondant_btn.attr("href", "/correspondants/#{correspondant_id}/edit")
+  activateCorrespondantEdit(correspondant_id) if correspondant_id
 
   $correspondant_autocomplete = $("#dossier_correspondant_nom")
   # activate edit correspondant when correspondant autocomplete item is selected
   $correspondant_autocomplete.bind "railsAutocomplete.select", (e, data) ->
-    $edit_correspondant_btn.show()
     correspondant_id = data.item.id
-    $edit_correspondant_btn.attr("href", "/correspondants/#{correspondant_id}/edit")
+    activateCorrespondantEdit(correspondant_id) if correspondant_id
 
   #### EXPOSITIONS ####
   $("#tabs li a[href='#expositions']").bind 'click', ->
@@ -564,3 +568,10 @@ calcIMC = ->
   taille = $("#dossier_taille").val()
   imc = if poids and taille then poids / Math.round(Math.pow(taille/100, 2)) else ""
   $("#imc").html(imc)
+
+activateCorrespondantEdit = (correspondant_id) ->
+  $edit_correspondant_btn = $(".update")
+  $edit_correspondant_btn.show()
+  $edit_correspondant_btn.attr("data-link", "/correspondants/#{correspondant_id}/edit")
+  $("#correspondant_modal_title").html("Modification correspondant #{correspondant_id}")
+  $("#save-correspondant").html("Mettre à jour ce correspondant et assigner au dossier")

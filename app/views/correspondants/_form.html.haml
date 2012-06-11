@@ -1,16 +1,16 @@
-= simple_form_for correspondant, html: {class: "form-horizontal"} do |f|
+= simple_form_for correspondant, html: {class: "form-horizontal", data: {title: form_title}} do |f|
   = f.error_notification if f.error_notification
   = f.association :formule
-  = f.input :nom
-  = f.association :qualite
-  = f.association :specialite
+  = f.input :nom, label: "Nom et Prénom"
+  = f.association :qualite, label: "Qualité"
+  = f.association :specialite, label: "Specialité"
   = f.input :adresse, input_html: {rows: "3"}
-  = f.input :cp
+  = f.input :cp, label: "Code Postal"
   = f.input :ville
   = f.input :email
-  = f.input :telephone
-  = f.input :poste
+  = f.input :telephone, label: "Téléphone"
   = f.input :fax
   = f.input :centre_id, as: :hidden
-  .actions
-    = f.button :submit, disable_with: "Attendre...", class: "success"
+  .form-actions
+    = f.button :submit, disable_with: "Attendre...", class: "btn-success", name: "_save"
+    = button_tag "Annuler", type: :submit, name: "_cancel", class: "btn btn-danger"

@@ -15,4 +15,6 @@
 //= require jquery.tokeninput
 //= require common
 //= require jstree
+//= require ra.remote-form
+//= require ra.filtering-select
 //= require_tree .
