@@ -8,7 +8,6 @@
       %li= link_to "Exposition", "#expositions"
       %li= link_to "Evolution", "#evol"
       %li= link_to "Nouveau-né", "#bebes"
-      %li= link_to "Commentaire", "#comm"
 
     #infos
       .control-group.inline-inputs
@@ -38,12 +37,12 @@
             autocomplete_correspondant_fullname_dossiers_path,
             id_element: "#dossier_correspondant_id", class: "span6"
           - if can?(:create, Correspondant)
-            = link_to "#", data: {link: new_correspondant_path(modal: true)}, class: "btn create" do
-              %i.icon-plus
+            = link_to "#", data: {link: new_correspondant_path(modal: true)}, class: "btn btn-primary create" do
+              %i.icon-plus.icon-white
               Ajout
           - if can?(:update, Correspondant)
-            = link_to "#", data: {link: edit_correspondant_path(modal: true, id: "__ID__")}, class: "btn update" do
-              %i.icon-pencil
+            = link_to "#", data: {link: edit_correspondant_path(modal: true, id: "__ID__")}, class: "btn btn-info update" do
+              %i.icon-pencil.icon-white
               Voir/modifier
         = f.input :correspondant_id, as: :hidden
 
@@ -70,7 +69,7 @@
           <strong>IMC :</strong>
           %span#imc
       = f.association :categoriesp, label: "C.S.P.", input_html: {class: "span5"}
-      .row
+      .row#antecedents
         .span1
           &nbsp;
         .span5
@@ -106,7 +105,7 @@
               .textarea-wrap
                 = f.text_area :comm_antecedents_fam, class: "span4", rows: "3"
 
-      %table
+      %table#grossesses_anterieures
         %tbody
           %tr
             %th{colspan: "5"} Nbr de grossesse(s) antérieure(s)
@@ -170,8 +169,8 @@
         = link_to_add_association f, :bebes, class: "btn btn-primary btn-small" do
           %i.icon-plus.icon-white
           Ajouter Nouveau-né
-    #comm
-      = f.input :commentaire, label: false, input_html: {class: "span9"}
-  .actions
-    = f.button :submit, disable_with: "Attendre...", class: "btn-success"
+
+  = f.input :commentaire, input_html: {class: "span9", rows: 3}
+  .form-actions
+    = button_tag "Enregistrer et rajouter un nouveau dossier", type: :submit, disable_with: "Enregistrer et rajouter un nouveau dossier", name: "_add_another", class: "btn btn-success"
     = link_to "Annuler", dossiers_path, class: "btn btn-danger"

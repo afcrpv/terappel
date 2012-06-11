@@ -71,18 +71,23 @@ body.dossiers
 
   #tabs
     min-height: 400px
+    margin-bottom: 10px
 
   form
+    .control-group
+      margin-bottom: 12px
     .no-label
       .controls
         margin-left: 0
-    label.error
-      margin-left: 1em
-      display: inline-block
-      color: #B94A48
-      max-width: 180px
-      &:after
-        content: ""
+    label
+      font-weight: bold
+      &.error
+        margin-left: 1em
+        display: inline-block
+        color: #B94A48
+        max-width: 180px
+        &:after
+          content: ""
 
     .links, .expo_links
       margin-top: 5px
@@ -117,5 +122,33 @@ body.dossiers
   .inline-inputs .controls label
     display: inline-block
 
-  a.btn-primary, a.btn-success, a.btn-danger
+  a.btn
     color: white
+
+  a.create, a.update
+    margin-left: 5px
+
+  #antecedents
+    h4
+      margin-bottom: 5px
+      border-bottom: 1px solid black
+
+  #grossesses_anterieures
+    margin-left: 160px
+    th
+      &:after
+        content: " : "
+
+  #dates_grossesse
+    margin-bottom: 5px
+    th
+      text-align: right
+      &:after
+        content: " : "
+    td#calc_column
+      text-align: right
+
+    td#grossesse_date_messages
+      .calc_error
+        font-weight: bold
+        color: #B94A48

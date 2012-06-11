@@ -207,13 +207,13 @@ calc_date_grossesse = ->
   date_debut_grossesse  = parse_fr_date($('#dossier_date_debut_grossesse').val())
   # ensure date_appel isnt empty or invalid
   if isNaN(date_appel.getTime())
-    $("#grossesse_date_messages").html("<label class='error'>Calcul impossible, date appel vide</label>")
+    $("#grossesse_date_messages").html("<span class='calc_error'>Calcul impossible, date appel vide</span>")
   else
     # when date_dernieres_regles is empty or invalid
     if isNaN(date_dernieres_regles.getTime())
       # ensure date_debut_grossesse isnt empty or invalid
       if isNaN(date_debut_grossesse.getTime())
-        $("#grossesse_date_messages").html("<label class='error'>Calcul impossible, dates dernières règles et debut grossesse vides</label>")
+        $("#grossesse_date_messages").html("<span class='calc_error'>Calcul impossible, dates dernières règles et debut grossesse vides</span>")
       else
         # calculate date_accouchement_prevu from date_debut_grossesse
         $("#grossesse_date_messages").html("")
