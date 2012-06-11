@@ -22,6 +22,6 @@ class Correspondant < ActiveRecord::Base
   end
 
   def create_fullname
-    [nom, cp, ville].join(" - ")
+    [nom, specialite.name, cp, ville].join(" - ")
   end
 end

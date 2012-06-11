@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 class CorrespondantsController < AuthorizedController
   respond_to :html, :js
   before_filter :find_centre
@@ -11,11 +13,16 @@ class CorrespondantsController < AuthorizedController
   end
 
   def create
-    flash[:notice] = "Correspondant created" if @correspondant.save
+    flash[:notice] = "Le correspondant #{@correspondant.fullname} a été créé." if @correspondant.save
     respond_with @correspondant, layout: !request.xhr?
   end
 
   def edit
+  end
+
+  def update
+    flash[:notice] = "Le correspondant #{@correspondant.fullname} a été mis à jour." if @correspondant.update_attributes(params[:correspondant])
+    respond_with @correspondant, layout: !request.xhr?
   end
 
   private
