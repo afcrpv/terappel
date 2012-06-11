@@ -95,27 +95,33 @@
           widget._bindFormEvents();
         } else {
           var json = $.parseJSON(data.responseText);
-          var option = '<option value="' + json.id + '" selected>' + json.label + '</option>';
-          var select = widget.element.find('select').filter(":hidden");
+          var correspondant_label = json.label;
+          var correspondant_id = json.id;
+          // put label in autocomplete field
+          widget.element.find("#dossier_correspondant_nom").val(correspondant_label);
+          widget.element.find("#dossier_correspondant_id").val(correspondant_id);
 
-          if(widget.element.find('.filtering-select').length) { // select input
-            var input = widget.element.find('.filtering-select').children('.ra-filtering-select-input');
-            input.val(json.label);
-            if (!select.find('option[value=' + json.id + ']').length) { // not a replace
-              select.html(option).val(json.id);
-              widget.element.find('.update').removeClass('disabled');
-            }
-          } else { // multi-select input
-            var input = widget.element.find('.ra-filtering-select-input');
-            var multiselect = widget.element.find('.ra-multiselect');
-            if (multiselect.find('option[value=' + json.id + ']').length) { // replace
-              select.find('option[value=' + json.id + ']').text(json.label);
-              multiselect.find('option[value= ' + json.id + ']').text(json.label);
-            } else { // add
-              select.prepend(option);
-              multiselect.find('select.ra-multiselect-selection').prepend(option);
-            }
-          }
+          //var option = '<option value="' + json.id + '" selected>' + json.label + '</option>';
+          //var select = widget.element.find('select').filter(":hidden");
+
+          //if(widget.element.find('.filtering-select').length) { // select input
+            //var input = widget.element.find('.filtering-select').children('.ra-filtering-select-input');
+            //input.val(json.label);
+            //if (!select.find('option[value=' + json.id + ']').length) { // not a replace
+              //select.html(option).val(json.id);
+              //widget.element.find('.update').removeClass('disabled');
+            //}
+          //} else { // multi-select input
+            //var input = widget.element.find('.ra-filtering-select-input');
+            //var multiselect = widget.element.find('.ra-multiselect');
+            //if (multiselect.find('option[value=' + json.id + ']').length) { // replace
+              //select.find('option[value=' + json.id + ']').text(json.label);
+              //multiselect.find('option[value= ' + json.id + ']').text(json.label);
+            //} else { // add
+              //select.prepend(option);
+              //multiselect.find('select.ra-multiselect-selection').prepend(option);
+            //}
+          //}
           widget._trigger("success");
           dialog.modal("hide");
         }
