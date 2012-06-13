@@ -64,6 +64,10 @@ jQuery ->
   # calc imc
   $("#dossier_taille").on 'blur', -> calcIMC()
 
+  #### Antécédents
+  $("#dossier_antecedents_perso").showAtcdsComm()
+  $("#dossier_antecedents_fam").showAtcdsComm()
+
   #### Grossesse
   $("#dossier_grsant").on 'blur', ->
     grsant = $(this).val()
@@ -574,6 +578,16 @@ calcIMC = ->
   taille = $("#dossier_taille").val()
   imc = if poids and taille then poids / Math.round(Math.pow(taille/100, 2)) else ""
   $("#imc").html(imc)
+
+jQuery.fn.showAtcdsComm = ->
+  widget = this
+  element = $(this)
+  showNextifzero(element)
+  widget.change -> showNextifzero(element)
+
+showNextifzero = (element) ->
+  next = element.next()
+  if element.val() is "0" then next.show() else next.hide()
 
 activateCorrespondantEdit = (correspondant_id) ->
   $edit_correspondant_btn = $(".update")
