@@ -9,15 +9,8 @@
   .controls
     = f.collection_select :motif_id, Motif.all, :id, :name, {}, {class: "span6"}
     = f.label :expo_terato, "Témoin"
-    %label.radio
-      = f.radio_button :expo_terato, "0", class: "radio_buttons optional"
-      Oui
-    %label.radio
-      = f.radio_button :expo_terato, "1", class: "radio_buttons optional"
-      Non
-    %label.radio
-      = f.radio_button :expo_terato, "2", class: "radio_buttons optional"
-      NSP
+    = f.collection_select :expo_terato, Dossier::ONI, :last, :first, {include_blank: true}, {class: "span1"}
+
 .control-group#dossier_correspondant_id_field
   = f.label :correspondant_nom, "Correspondant"
   .controls
@@ -59,7 +52,19 @@
 
 = f.association :categoriesp, label: "C.S.P.", input_html: {class: "span5"}
 
-.row#antecedents
+.control-group.inline-inputs
+  = f.label :antecedents_perso, "Antécédents personnels"
+  .controls
+    = f.collection_select :antecedents_perso, Dossier::ONI, :last, :first, {include_blank: true}, {class: "span1"}
+    = f.text_area :comm_antecedents_perso, class: "span7", style: "display: none;", rows: "1"
+
+.control-group.inline-inputs
+  = f.label :antecedents_fam, "Antécédents familiaux"
+  .controls
+    = f.collection_select :antecedents_fam, Dossier::ONI, :last, :first, {include_blank: true}, {class: "span1"}
+    = f.text_area :comm_antecedents_fam, class: "span7", style: "display: none;", rows: "1"
+
+-#.row#antecedents
   .span1
     &nbsp;
   .span5
@@ -79,7 +84,7 @@
         .textarea-wrap
           = f.text_area :comm_antecedents_perso, class: "span4", rows: "2"
   .span5
-    %h4 Antécédents Familiers
+    %h4 Antécédents Familiaux
     .control-group.radio_buttons.optional.no-label
       .controls
         .radio-wrap
