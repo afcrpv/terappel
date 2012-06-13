@@ -1,11 +1,21 @@
-= f.association :evolution, label: "Evolution de la grossesse", as: :radio_buttons, collection: evolutions,
-  label_method: lambda {|i| %w(FCS IVG IMG MIU).include?(i.name) ? "#{i.name} *" : i.name }, hint: "* Dans ces cas, et si il y a eu un examen anatomo-pathologique interprétable, allez dans l'onglet nouveau-né pour compléter le champ malformation", item_wrapper_class: "inline"
-#modaccouch
-  = f.input :modaccouch, label: "Accouchement par", as: :radio_buttons, collection: Dossier::MODACCOUCH, item_wrapper_class: "inline"
-= f.input :path_mat, label: "Pathologie maternelle", as: :radio_buttons, collection: Dossier::ONI, item_wrapper_class: "inline"
+%h4 Déroulement de la grossesse
+= f.input :path_mat, label: "Pathologie maternelle", collection: Dossier::ONI, input_html: {class: "span1"}
+
 .control-group.inline-inputs
-  = f.label "Terme (SA)"
+  = f.label :evolution, "Evolution de la grossesse"
   .controls
-    = f.text_field :terme, class: "span1"
-    = f.label "Date réelle d'accouchement"
-    = f.text_field :date_reelle_accouchement, "data-value" => date_reelle_accouchement, class: "dateITA span2"
+    = f.collection_select :evolution, Dossier::EVOLUTIONS, :last, :first, {include_blank: true}, {class: "span1"}
+    %span.message Compléter le champ malformation si un examen anatomo-pathologique interprétable a été effectué
+
+= f.input :date_recueil_evol, as: :string, input_html: {data: {value: date_recueil_evol}, class: "dateITA span2"}
+
+#accouchement{style: "display: none;"}
+  %h4 Accouchement
+  = f.input :modaccouch, label: "Modalité accouchement", collection: Dossier::MODACCOUCH, input_html: {class: "span2"}
+
+  .control-group.inline-inputs
+    = f.label "Terme (SA)"
+    .controls
+      = f.text_field :terme, class: "span1"
+      = f.label "Date réelle d'accouchement"
+      = f.text_field :date_reelle_accouchement, "data-value" => date_reelle_accouchement, class: "dateITA dateAPvsRA span2"

@@ -51,8 +51,9 @@ jQuery ->
 
   $("#dossier_code").mask("aa9999999")
   $("#dossier_age_grossesse").mask("?99")
+  $("#dossier_terme").mask("?99")
 
-  dates_grossesse_fields_names = ["date_appel", "date_dernieres_regles", "date_debut_grossesse", "date_accouchement_prevu", "date_reelle_accouchement", "date_naissance"]
+  dates_grossesse_fields_names = ["date_appel", "date_dernieres_regles", "date_debut_grossesse", "date_accouchement_prevu", "date_reelle_accouchement", "date_naissance", "date_recueil_evol"]
   dates_grossesse_fields = []
   dates_grossesse_fields.push($("#dossier_#{field_name}")) for field_name in dates_grossesse_fields_names
 
@@ -105,22 +106,19 @@ jQuery ->
     $('#dossier_date_accouchement_prevu').val("")
 
   #### Evolution ####
-  # disactivate modaccouch association input by default
-  $modaccouch_input = $("#modaccouch")
-  console.log $modaccouch_input
-  $modaccouch_input.hide()
-  # activate modaccouch if evolution id is 6
-  evolution_id = $("input[name='dossier[evolution_id]']").filter(":checked").val()
-  if evolution_id and evolution_id is "6"
-    $modaccouch_input.show()
-  # activate modaccouch when evolution id 6 gets checked
-  $evolution_radio = $("input[name='dossier[evolution_id]']")
-  $evolution_radio.bind 'change', ->
-    naissance_checked = $(this).filter(":checked").val() is "6"
-    if naissance_checked
-      $modaccouch_input.show()
-    else
-      $modaccouch_input.hide()
+  $accouchement_div = $("#accouchement")
+  $evolution_element = $("#dossier_evolution")
+  evolution = $evolution_element.val()
+
+  showNextif evolution and evolution in ["2", "3", "4", "5"], $evolution_element
+
+  $accouchement_div.show() if evolution and evolution is "6"
+
+  $evolution_element.on 'change', ->
+    evolution = $(this).val()
+    showNextif evolution and evolution in ["2", "3", "4", "5"], $(this)
+    condition = evolution is "6"
+    if condition then $accouchement_div.show() else $accouchement_div.hide()
 
   #### Correspondant ####
   if $("#correspondant_modal").length
@@ -297,6 +295,24 @@ jQuery.validator.addMethod(
     check = true if date_to_test.getTime() <= today
     return this.optional(element) || check
   "Cette date est dans le futur"
+)
+
+jQuery.validator.addMethod(
+  "dateAPvsRA"
+  (value, element) ->
+    check = false
+    dra = parse_fr_date value
+    dap = parse_fr_date $("#dossier_date_accouchement_prevu").val()
+    semaine = 1000 * 60 * 60 * 24 * 7
+    dap_moins_8semaines = dap.getTime() - (semaine * 8)
+    dap_plus_4semaines = dap.getTime() + (semaine * 4)
+    console.log dra.getTime()
+    console.log dap_moins_8semaines
+    console.log dap_plus_4semaines
+    console.log check
+    check = true if dra.getTime() > dap_moins_8semaines and dra.getTime() < dap_plus_4semaines
+    return this.optional(element) || check
+  "La date réelle d'accouchement est en dehors de l'intervalle Date prévue d'accouchement -8 semaines et Date prévue d'accouchement +4 semaines"
 )
 
 jQuery.validator.addMethod(
@@ -593,7 +609,7 @@ calcIMC = ->
   imc = if poids and taille then poids / Math.round(Math.pow(taille/100, 2)) else ""
   $("#imc").html(imc)
 
-showNextif= (condition, element) ->
+showNextif = (condition, element) ->
   next = element.next()
   if condition then next.show() else next.hide()
 

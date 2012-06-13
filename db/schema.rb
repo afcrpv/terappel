@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120613115446) do
+ActiveRecord::Schema.define(:version => 20120613122827) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -238,6 +238,8 @@ ActiveRecord::Schema.define(:version => 20120613115446) do
     t.integer  "taille"
     t.integer  "folique"
     t.integer  "patho1t"
+    t.integer  "evolution"
+    t.date     "date_recueil_evol"
   end
 
   add_index "dossiers", ["categoriesp_id"], :name => "index_dossiers_on_categoriesp_id"
