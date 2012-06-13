@@ -1,14 +1,14 @@
 .control-group.inline-inputs
-  = f.label "N° d'appel"
+  = f.label :code, "N° d'appel"
   .controls
     = f.text_field :code, class: "span2"
-    %label Date d'appel
+    = f.label :date_appel, "Date d'appel"
     = f.text_field :date_appel, autofocus: true, "data-value" => date_appel, class: "dateITA dateNotFuture span2"
 .control-group.inline-inputs
-  = f.label "Motif"
+  = f.label :motif_id, "Motif"
   .controls
     = f.collection_select :motif_id, Motif.all, :id, :name, {}, {class: "span6"}
-    = f.label "Témoin"
+    = f.label :expo_terato, "Témoin"
     %label.radio
       = f.radio_button :expo_terato, "0", class: "radio_buttons optional"
       Oui
@@ -19,7 +19,7 @@
       = f.radio_button :expo_terato, "2", class: "radio_buttons optional"
       NSP
 .control-group#dossier_correspondant_id_field
-  = f.label "Correspondant"
+  = f.label :correspondant_nom, "Correspondant"
   .controls
     = f.autocomplete_field :correspondant_nom,
       autocomplete_correspondant_fullname_dossiers_path,
@@ -35,19 +35,19 @@
   = f.input :correspondant_id, as: :hidden
 
 .control-group.inline-inputs
-  = f.label "Nom patiente"
+  = f.label :name, "Nom patiente"
   .controls
     = f.text_field :name
-    = f.label "Prénom"
+    = f.label :prenom, "Prénom"
     = f.text_field :prenom
 .control-group.inline-inputs
-  = f.label "Age"
+  = f.label :age, "Age"
   .controls
     = f.text_field :age, class: "span1"
-    = f.label "Date de Naissance"
+    = f.label :date_naissance, "Date de Naissance"
     = f.text_field :date_naissance, "data-value" => date_naissance, class: "dateITA dateNotFuture span2"
 .control-group.inline-inputs
-  = f.label "Poids"
+  = f.label :poids, "Poids"
   .controls
     = f.text_field :poids, class: "span1"
     kg
@@ -56,7 +56,9 @@
     cm
     <strong>IMC :</strong>
     %span#imc
+
 = f.association :categoriesp, label: "C.S.P.", input_html: {class: "span5"}
+
 .row#antecedents
   .span1
     &nbsp;
