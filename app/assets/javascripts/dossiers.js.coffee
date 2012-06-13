@@ -306,10 +306,6 @@ jQuery.validator.addMethod(
     semaine = 1000 * 60 * 60 * 24 * 7
     dap_moins_8semaines = dap.getTime() - (semaine * 8)
     dap_plus_4semaines = dap.getTime() + (semaine * 4)
-    console.log dra.getTime()
-    console.log dap_moins_8semaines
-    console.log dap_plus_4semaines
-    console.log check
     check = true if dra.getTime() > dap_moins_8semaines and dra.getTime() < dap_plus_4semaines
     return this.optional(element) || check
   "La date réelle d'accouchement est en dehors de l'intervalle Date prévue d'accouchement -8 semaines et Date prévue d'accouchement +4 semaines"
