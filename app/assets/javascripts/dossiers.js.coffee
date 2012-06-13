@@ -64,8 +64,7 @@ jQuery ->
   # calc imc
   $("#dossier_taille").on 'blur', -> calcIMC()
 
-  #### Antécédents
-  for field in ["antecedents_perso", "antecedents_fam", "toxiques"]
+  for field in ["antecedents_perso", "antecedents_fam", "toxiques", "folique", "patho1t"]
     element = $("#dossier_#{field}")
     condition = element.val() is "0"
     showNextif condition, element
@@ -518,7 +517,7 @@ cell_for_action_links = ($node, model_id, model) ->
   $cell = $("<td />")
   $related_fieldset = $node.parents().find(".nested-fields").has("input[id*='_#{model}_attributes_#{model_id}']")
 
-  $modify_link = $("<a href='#' id='modify_#{model}_#{model_id}' class='modify_link'><img alt='M' src='/assets/icons/edit.png'></a>")
+  $modify_link = $("<a href='#' id='modify_#{model}_#{model_id}' class='modify_link' title='Modifier cette exposition'><img alt='M' src='/assets/icons/edit.png'></a>")
   $modify_link.bind 'click', (event) ->
     event.preventDefault()
     # clicking the link toggles the div.nested-fields containing the related model form
@@ -530,7 +529,7 @@ cell_for_action_links = ($node, model_id, model) ->
         $link = $("a.show_#{association}_tree:visible")
         $link.complete_modal_for_association(association)
 
-  $destroy_link = $("<a href='#' id='destroy_#{model}_#{model_id}'><img alt='X' src='/assets/icons/destroy.png'></a>")
+  $destroy_link = $("<a href='#' id='destroy_#{model}_#{model_id}' title='Détruire cette exposition'><img alt='X' src='/assets/icons/destroy.png'></a>")
   $destroy_link.bind 'click', (event) ->
     event.preventDefault()
     # clicking the link removes the parent tr from the DOM
