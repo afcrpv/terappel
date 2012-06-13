@@ -48,27 +48,6 @@ body.dossiers
         width: 54px
       a
         margin: 5px
-
-  table.grsant, table.grossesse_dates
-    width: 35%
-    float: left
-    td, th
-      padding: 4px
-      border-top: 0
-    th
-      text-align: right
-      vertical-align: middle
-
-  table.grossesse_dates
-    width: 60%
-    float: right
-    th
-      text-align: right
-      vertical-align: middle
-
-  table.grsant:after, table.grossesse_dates:after
-    clear: both
-
   #tabs
     min-height: 400px
     margin-bottom: 10px
@@ -136,12 +115,14 @@ body.dossiers
   #grossesses_anterieures
     margin-left: 160px
     th
+      vertical-align: middle
       &:after
         content: " : "
 
   #dates_grossesse
     margin-bottom: 5px
     th
+      vertical-align: middle
       text-align: right
       &:after
         content: " : "

@@ -87,7 +87,7 @@
                   = f.radio_button :antecedents_perso, "2", class: "radio_buttons optional"
                   = "NSP"
               .textarea-wrap
-                = f.text_area :comm_antecedents_perso, class: "span4", rows: "3"
+                = f.text_area :comm_antecedents_perso, class: "span4", rows: "2"
         .span5
           %h4 Antécédents Familiers
           .control-group.radio_buttons.optional.no-label
@@ -103,7 +103,7 @@
                   = f.radio_button :antecedents_fam, "2", class: "radio_buttons optional"
                   = "NSP"
               .textarea-wrap
-                = f.text_area :comm_antecedents_fam, class: "span4", rows: "3"
+                = f.text_area :comm_antecedents_fam, class: "span4", rows: "2"
 
       %table#grossesses_anterieures
         %tbody
@@ -170,7 +170,7 @@
           %i.icon-plus.icon-white
           Ajouter Nouveau-né
 
-  = f.input :commentaire, input_html: {class: "span9", rows: 3}
+  = f.input :commentaire, input_html: {class: "span9", rows: 2}
   .form-actions
     = button_tag "Enregistrer et rajouter un nouveau dossier", type: :submit, disable_with: "Enregistrer et rajouter un nouveau dossier", name: "_add_another", class: "btn btn-success"
     = link_to "Annuler", dossiers_path, class: "btn btn-danger"
