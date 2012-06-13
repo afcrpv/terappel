@@ -17,7 +17,7 @@
 
   %hr
 
-  = f.input :commentaire, input_html: {class: "span9", rows: 2}
+  = f.input :commentaire, label: "Commentaire du dossier", input_html: {class: "span9", rows: 2}
 
   .form-actions
     = button_tag "Enregistrer et rajouter un nouveau dossier", type: :submit, disable_with: "Enregistrer et rajouter un nouveau dossier", name: "_add_another", class: "btn btn-success"
