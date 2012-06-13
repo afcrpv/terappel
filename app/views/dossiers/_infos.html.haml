@@ -1,0 +1,108 @@
+.control-group.inline-inputs
+  = f.label "N° d'appel"
+  .controls
+    = f.text_field :code, class: "span2"
+    %label Date d'appel
+    = f.text_field :date_appel, autofocus: true, "data-value" => date_appel, class: "dateITA dateNotFuture span2"
+.control-group.inline-inputs
+  = f.label "Motif"
+  .controls
+    = f.collection_select :motif_id, Motif.all, :id, :name, {}, {class: "span6"}
+    = f.label "Témoin"
+    %label.radio
+      = f.radio_button :expo_terato, "0", class: "radio_buttons optional"
+      Oui
+    %label.radio
+      = f.radio_button :expo_terato, "1", class: "radio_buttons optional"
+      Non
+    %label.radio
+      = f.radio_button :expo_terato, "2", class: "radio_buttons optional"
+      NSP
+.control-group#dossier_correspondant_id_field
+  = f.label "Correspondant"
+  .controls
+    = f.autocomplete_field :correspondant_nom,
+      autocomplete_correspondant_fullname_dossiers_path,
+      id_element: "#dossier_correspondant_id", class: "span6"
+    - if can?(:create, Correspondant)
+      = link_to "#", data: {link: new_correspondant_path(modal: true)}, class: "btn btn-primary create" do
+        %i.icon-plus.icon-white
+        Ajout
+    - if can?(:update, Correspondant)
+      = link_to "#", data: {link: edit_correspondant_path(modal: true, id: "__ID__")}, class: "btn btn-info update" do
+        %i.icon-pencil.icon-white
+        Voir/modifier
+  = f.input :correspondant_id, as: :hidden
+
+.control-group.inline-inputs
+  = f.label "Nom patiente"
+  .controls
+    = f.text_field :name
+    = f.label "Prénom"
+    = f.text_field :prenom
+.control-group.inline-inputs
+  = f.label "Age"
+  .controls
+    = f.text_field :age, class: "span1"
+    = f.label "Date de Naissance"
+    = f.text_field :date_naissance, "data-value" => date_naissance, class: "dateITA dateNotFuture span2"
+.control-group.inline-inputs
+  = f.label "Poids"
+  .controls
+    = f.text_field :poids, class: "span1"
+    kg
+    = f.label :taille
+    = f.text_field :taille, class: "span1"
+    cm
+    <strong>IMC :</strong>
+    %span#imc
+= f.association :categoriesp, label: "C.S.P.", input_html: {class: "span5"}
+.row#antecedents
+  .span1
+    &nbsp;
+  .span5
+    %h4 Antécédents Personnels
+    .control-group.radio_buttons.optional.no-label
+      .controls
+        .radio-wrap
+          %label.radio
+            = f.radio_button :antecedents_perso, "0", class: "radio_buttons optional"
+            = "Oui"
+          %label.radio
+            = f.radio_button :antecedents_perso, "1", class: "radio_buttons optional"
+            = "Non"
+          %label.radio
+            = f.radio_button :antecedents_perso, "2", class: "radio_buttons optional"
+            = "NSP"
+        .textarea-wrap
+          = f.text_area :comm_antecedents_perso, class: "span4", rows: "2"
+  .span5
+    %h4 Antécédents Familiers
+    .control-group.radio_buttons.optional.no-label
+      .controls
+        .radio-wrap
+          %label.radio
+            = f.radio_button :antecedents_fam, "0", class: "radio_buttons optional"
+            = "Oui"
+          %label.radio
+            = f.radio_button :antecedents_fam, "1", class: "radio_buttons optional"
+            = "Non"
+          %label.radio
+            = f.radio_button :antecedents_fam, "2", class: "radio_buttons optional"
+            = "NSP"
+        .textarea-wrap
+          = f.text_area :comm_antecedents_fam, class: "span4", rows: "2"
+
+%table#grossesses_anterieures
+  %tbody
+    %tr
+      %th{colspan: "5"} Nbr de grossesse(s) antérieure(s)
+      %td= f.text_field :grsant, class: "span1"
+    %tr
+      - [:fcs, :geu, :miu].each do |item|
+        %th= item.to_s.upcase
+        %td= f.text_field item, class: "span1"
+    %tr
+      - [:ivg, :img, :nai].each do |item|
+        %th= item.to_s.upcase
+        %td= f.text_field item, class: "span1"

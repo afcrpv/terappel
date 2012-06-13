@@ -19,9 +19,6 @@
       = link_to "Effacer", "#", id:"reset_dates_grossesse", class: "btn btn-danger"
     %td#grossesse_date_messages
 
-= f.input :tabac, collection: Dossier::TABAC,
-  as: :radio_buttons, item_wrapper_class: "inline"
-= f.input :alcool, collection: Dossier::ALCOOL,
-  as: :radio_buttons, item_wrapper_class: "inline"
-= f.input :toxiques, collection: Dossier::ONI,
-  as: :radio_buttons, item_wrapper_class: "inline"
+= f.input :tabac, collection: Dossier::TABAC, as: :radio_buttons, item_wrapper_class: "inline"
+= f.input :alcool, collection: Dossier::ALCOOL, as: :radio_buttons, item_wrapper_class: "inline"
+= f.input :toxiques, collection: Dossier::ONI, as: :radio_buttons, item_wrapper_class: "inline"

@@ -1,0 +1,22 @@
+= render "malformations/tree", bebe: f.object
+= render "pathologies/tree", bebe: f.object
+%table.fields_summary#bebes_summary
+  %thead
+    %tr
+      %th#action
+      %th Sexe
+      %th Poids
+      %th Taille
+      %th PC
+      %th Apgar (1')
+      %th Apgar (5')
+      %th Malformation
+      %th Pathologie
+  %tbody
+
+= f.simple_fields_for :bebes do |bebe|
+  = render "bebe_fields", :f => bebe
+.links
+  = link_to_add_association f, :bebes, class: "btn btn-primary btn-small" do
+    %i.icon-plus.icon-white
+    Ajouter Nouveau-né

@@ -36,7 +36,7 @@ jQuery ->
       title: dialog_title)
       .dialog('open')
 
-  # bootstrap tabs
+  # bootstrap form tabs
   $("#tabs").tabs()
 
   #### Validators and masks
@@ -64,6 +64,8 @@ jQuery ->
   $("#dossier_grsant").on 'blur', ->
     grsant = $(this).val()
     if grsant is "0" then zero_grossesse_fields()
+
+  # reminder to fill expositions if tabac/alcool/toxiques equals "Oui"
 
   # calculateur dates
   $("#dossier_date_naissance").on 'blur', ->
