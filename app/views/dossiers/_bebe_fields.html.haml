@@ -13,12 +13,12 @@
     .controls
       = f.text_field :apgar1, placeholder: "1'", class: "span1"
       = f.text_field :apgar5, placeholder: "5'", class: "span1"
-  = f.input :malformation, label: "Malformation", as: :select, collection: ["Oui", "Non", "NSP"]
+  = f.input :malformation, label: "Malformation", as: :select, collection: ["Oui", "Non", "NSP"], input_html: {class: "span1"}
   .control-group.inline-inputs.malformation_tokens
     = f.label :malformation_tokens, "Malformations"
     .controls
       = f.text_area :malformation_tokens, "data-pre" => f.object.malformations.map(&:libelle_and_id).to_json, class: "malformation_tokens"
-  = f.input :pathologie, label: "Pathologie", as: :select, collection: ["Oui", "Non", "NSP"]
+  = f.input :pathologie, label: "Pathologie", as: :select, collection: ["Oui", "Non", "NSP"], input_html: {class: "span1"}
   .control-group.inline-inputs.pathologie_tokens
     = f.label :pathologie_tokens, "Pathologies"
     .controls
