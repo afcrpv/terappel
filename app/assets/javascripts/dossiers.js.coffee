@@ -3,6 +3,9 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 jQuery ->
+  $("form.saisie").keypress (e) -> 
+    return false if e.which is 13
+
   calcIMC()
   better_errors_list()
 
