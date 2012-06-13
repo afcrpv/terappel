@@ -10,7 +10,7 @@ class Dossier < ActiveRecord::Base
     :tabac, :alcool, :fcs, :geu, :miu, :ivg, :img, :nai, :grsant, :age_grossesse,
     :terme, :path_mat,
     :comm_antecedents_perso, :comm_antecedents_fam, :comm_evol, :comm_expo, :commentaire,
-    :expositions_attributes, :bebes_attributes, :toxiques, :date_naissance, :poids, :taille
+    :expositions_attributes, :bebes_attributes, :toxiques, :date_naissance, :poids, :taille, :folique, :patho1t
 
   # Constants
   ONI = [["Oui", "0"], ["Non", "1"], ["NSP", "2"]]

@@ -1,4 +1,4 @@
-= f.input :ass_med_proc, label: "Assistance médicale à la procréation", as: :radio_buttons, collection: Dossier::ONI, item_wrapper_class: "inline"
+= f.input :ass_med_proc, label: "Assistance médicale à la procréation", collection: Dossier::ONI, input_html: {class: "span1"}
 
 %table.table.table-condensed#dates_grossesse
   %tr
@@ -36,6 +36,18 @@
   .controls
     = f.collection_select :toxiques, Dossier::ONI, :last, :first, {include_blank: true}, {class: "span1"}
     %span.message{style: "display: none;"} N'oubliez pas de saisir une exposition "toxiques"
+
+.control-group.inline-inputs
+  = f.label :folique, "Acide folique avant la grossesse"
+  .controls
+    = f.collection_select :folique, Dossier::ONI, :last, :first, {include_blank: true}, {class: "span1"}
+    %span.message{style: "display: none;"} Préciser éventuellement le dosage dans le commentaire
+
+.control-group.inline-inputs
+  = f.label :patho1t, "Pathologie(s) au premier trimestre"
+  .controls
+    = f.collection_select :patho1t, Dossier::ONI, :last, :first, {include_blank: true}, {class: "span1"}
+    %span.message{style: "display: none;"} Préciser la ou les pathologies dans le commentaire
 
 -#= f.input :tabac, collection: Dossier::TABAC, as: :radio_buttons, item_wrapper_class: "inline"
 -#= f.input :alcool, collection: Dossier::ALCOOL, as: :radio_buttons, item_wrapper_class: "inline"
