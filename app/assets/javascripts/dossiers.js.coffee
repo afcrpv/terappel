@@ -37,12 +37,13 @@ jQuery ->
       .dialog('open')
 
   # bootstrap form tabs
-  $("#tabs").tabs()
+  $(".nav-tabs a:first").tab('show')
+  $(".nav-pills a:first").tab('show')
 
   #### Validators and masks
-  $.validator.setDefaults(
+  $.validator.setDefaults
     debug: false
-  )
+
   $("form.saisie").validate()
 
   $("#dossier_code").mask("aa9999999")

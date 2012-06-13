@@ -1,20 +1,22 @@
 = simple_form_for dossier, html: { class: "form-horizontal saisie"} do |f|
   = f.error_notification if f.error_notification
 
-  #tabs
-    %ul
-      %li= link_to "Informations générales", "#infos"
-      %li= link_to "Grossesse", "#grossesse"
-      %li= link_to "Exposition", "#expositions"
-      %li= link_to "Evolution", "#evol"
-      %li= link_to "Nouveau-né", "#bebes"
+  %ul.nav.nav-pills
+    %li= link_to "Informations générales", "#infos", data: {toggle: "pill"}
+    %li= link_to "Grossesse", "#grossesse", data: {toggle: "pill"}
+    %li= link_to "Exposition", "#expositions", data: {toggle: "pill"}
+    %li= link_to "Evolution", "#evol", data: {toggle: "pill"}
+    %li= link_to "Nouveau-né", "#bebes", data: {toggle: "pill"}
 
-    #infos= render "infos", f: f
-    #grossesse= render "grossesse", f: f
-    #expositions= render "expositions", f: f
-    #evol= render "evolution", f: f
-    #bebes= render "bebes", f: f
+  .tab-content
+    #infos.tab-pane.fade.in.active= render "infos", f: f
+    #grossesse.tab-pane.fade.in= render "grossesse", f: f
+    #expositions.tab-pane.fade.in= render "expositions", f: f
+    #evol.tab-pane.fade.in= render "evolution", f: f
+    #bebes.tab-pane.fade.in= render "bebes", f: f
+
   = f.input :commentaire, input_html: {class: "span9", rows: 2}
+
   .form-actions
     = button_tag "Enregistrer et rajouter un nouveau dossier", type: :submit, disable_with: "Enregistrer et rajouter un nouveau dossier", name: "_add_another", class: "btn btn-success"
     = link_to "Annuler", dossiers_path, class: "btn btn-danger"
