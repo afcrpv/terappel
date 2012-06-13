@@ -19,6 +19,24 @@
       = link_to "Effacer", "#", id:"reset_dates_grossesse", class: "btn btn-danger"
     %td#grossesse_date_messages
 
-= f.input :tabac, collection: Dossier::TABAC, as: :radio_buttons, item_wrapper_class: "inline"
-= f.input :alcool, collection: Dossier::ALCOOL, as: :radio_buttons, item_wrapper_class: "inline"
-= f.input :toxiques, collection: Dossier::ONI, as: :radio_buttons, item_wrapper_class: "inline"
+.control-group.inline-inputs
+  = f.label :tabac
+  .controls
+    = f.collection_select :tabac, Dossier::TABAC, :last, :first, {include_blank: true}, {class: "span1"}
+    %span.message{style: "display: none;"} N'oubliez pas de saisir une exposition "TABAC"
+
+.control-group.inline-inputs
+  = f.label :alcool
+  .controls
+    = f.collection_select :alcool, Dossier::ALCOOL, :last, :first, {include_blank: true}, {class: "span1"}
+    %span.message{style: "display: none;"} N'oubliez pas de saisir une exposition "ALCOOL"
+
+.control-group.inline-inputs
+  = f.label :toxiques
+  .controls
+    = f.collection_select :toxiques, Dossier::ONI, :last, :first, {include_blank: true}, {class: "span1"}
+    %span.message{style: "display: none;"} N'oubliez pas de saisir une exposition "toxiques"
+
+-#= f.input :tabac, collection: Dossier::TABAC, as: :radio_buttons, item_wrapper_class: "inline"
+-#= f.input :alcool, collection: Dossier::ALCOOL, as: :radio_buttons, item_wrapper_class: "inline"
+-#= f.input :toxiques, collection: Dossier::ONI, as: :radio_buttons, item_wrapper_class: "inline"

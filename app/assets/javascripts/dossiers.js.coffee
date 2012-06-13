@@ -65,8 +65,13 @@ jQuery ->
   $("#dossier_taille").on 'blur', -> calcIMC()
 
   #### Antécédents
-  $("#dossier_antecedents_perso").showAtcdsComm()
-  $("#dossier_antecedents_fam").showAtcdsComm()
+  for field in ["antecedents_perso", "antecedents_fam", "toxiques"]
+    element = $("#dossier_#{field}")
+    condition = element.val() is "0"
+    showNextif condition, element
+    element.on 'change', ->
+      condition = $(this).val() is "0"
+      showNextif condition, $(this)
 
   #### Grossesse
   $("#dossier_grsant").on 'blur', ->
@@ -74,6 +79,16 @@ jQuery ->
     if grsant is "0" then zero_grossesse_fields()
 
   # reminder to fill expositions if tabac/alcool/toxiques equals "Oui"
+  toxiquesFields = "tabac": "4", "alcool": "3"
+  for field, last of toxiquesFields
+    element = $("#dossier_#{field}")
+    value = element.val()
+    condition = value and value isnt "0" and value isnt last
+    showNextif condition, element
+    element.on 'change', ->
+      value = $(this).val()
+      condition = value and value isnt "0" and value isnt last
+      showNextif condition, $(this)
 
   # calculateur dates
   $("#dossier_date_naissance").on 'blur', ->
@@ -579,15 +594,9 @@ calcIMC = ->
   imc = if poids and taille then poids / Math.round(Math.pow(taille/100, 2)) else ""
   $("#imc").html(imc)
 
-jQuery.fn.showAtcdsComm = ->
-  widget = this
-  element = $(this)
-  showNextifzero(element)
-  widget.change -> showNextifzero(element)
-
-showNextifzero = (element) ->
+showNextif= (condition, element) ->
   next = element.next()
-  if element.val() is "0" then next.show() else next.hide()
+  if condition then next.show() else next.hide()
 
 activateCorrespondantEdit = (correspondant_id) ->
   $edit_correspondant_btn = $(".update")
