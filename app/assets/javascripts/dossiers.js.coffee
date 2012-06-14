@@ -50,6 +50,10 @@ jQuery ->
   $("form.saisie").validate()
 
   $("#dossier_code").mask("aa9999999")
+  $("#dossier_code").on "blur", ->
+    value = $(this).val()
+    $(this).val(value.toUpperCase())
+
   $("#dossier_age_grossesse").mask("?99")
   $("#dossier_terme").mask("?99")
 
