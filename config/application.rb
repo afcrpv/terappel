@@ -46,6 +46,6 @@ module Terappel
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
-    config.assets.precompile << "ie*.css"
+    config.assets.precompile += ["ie*.css", "jstree-themes/apple/style.css"]
   end
 end
