@@ -36,7 +36,7 @@ class DossiersController < AuthorizedController
     @dossier.centre_id = @centre.id
     @dossier.user_id = current_user.id
     if @dossier.save
-      redirect_with_flash(@dossier, dossiers_path, :success, "Dossier##{@dossier.code} créé avec succès.")
+      redirect_on_success
     else
       render :new
     end
@@ -47,7 +47,7 @@ class DossiersController < AuthorizedController
 
   def update
     if @dossier.update_attributes(params[:dossier])
-      redirect_with_flash(@dossier, dossiers_path)
+      redirect_on_success
     else
       render :edit
     end
@@ -99,5 +99,15 @@ class DossiersController < AuthorizedController
 
   def evolutions
     @evolutions = Evolution.all
+  end
+
+  def redirect_on_success
+    if params[:_continue]
+      redirect_with_flash @dossier, edit_dossier_path(@dossier)
+    elsif params[:_add_another]
+      redirect_with_flash @dossier, new_dossier_path
+    else
+      redirect_with_flash @dossier
+    end
   end
 end
