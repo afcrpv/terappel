@@ -33,6 +33,6 @@ class ApplicationController < ActionController::Base
   end
 
   def flash_message(instance)
-    @flash_message = t("flash.#{self.action_name}", :resource => t('activerecord.models.' + instance.class.name.downcase).classify)
+    @flash_message = t("flash.#{self.action_name}", :resource => t('activerecord.models.' + instance.class.name.downcase).classify, :id => instance.to_param)
   end
 end

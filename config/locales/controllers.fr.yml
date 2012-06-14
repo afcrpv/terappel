@@ -2,11 +2,11 @@ fr:
   home:
     index: "Page d'accueil de Terappel"
   dossiers:
-    show: "Dossier #%{id}"
+    show: "Dossier %{id}"
     new: "Nouveau Dossier"
     create: "Nouveau Dossier"
-    edit: "Modification Dossier #%{id}"
-    update: "Modification Dossier #%{id}"
+    edit: "Modification Dossier %{id}"
+    update: "Modification Dossier %{id}"
   correspondants:
     show: "Correspondant: %{id}"
     new: "Nouveau Correspondant"
@@ -14,9 +14,9 @@ fr:
     edit: "Modification correspondant: %{id}"
     update: "Modification correspondant: %{id}"
   flash:
-    create: "%{resource} créé(e) avec succès."
-    update: "%{resource} mis(e) à jour avec succès."
-    destroy: "%{resource} détruit(e) avec succès."
+    create: "%{resource} %{id} créé(e) avec succès."
+    update: "%{resource} %{id} mis(e) à jour avec succès."
+    destroy: "%{resource} %{id} détruit(e) avec succès."
   shared:
     action_links:
       show: "Détails"
