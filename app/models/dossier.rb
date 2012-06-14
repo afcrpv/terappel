@@ -17,7 +17,7 @@ class Dossier < ActiveRecord::Base
   TABAC = [["Non", "0"], ["0 à 5 cig/j", "1"], ["5 à 10 cig/j", "2"], ["Sup. à 10 cig/j", "3"], ["NSP", "4"]]
   ALCOOL = [["Non", "0"], ["Occasionnel (<= 2 verres/j)", "1"], ["Fréquent (> 2 verres/j)", "2"], ["NSP", "3"]]
   MODACCOUCH = [["V-b spontanée", "0"], ["V-b instrumentale", "1"], ["Césarienne", "2"], ["Inconnue", "3"]]
-  EVOLUTIONS = [["GEU", "1"], ["FCS", "2"], ["IVG", "3"], ["IMG", "4"], ["MIU", "5"], ["NAI", "6"], ["INC", "7"], ["GNC", "8"]]
+  EVOLUTION = [["GEU", 1], ["FCS", 2], ["IVG", 3], ["IMG", 4], ["MIU", 5], ["NAI", 6], ["INC", 7], ["GNC", 8]]
 
   # writers
   attr_writer :correspondant_nom
@@ -46,8 +46,6 @@ class Dossier < ActiveRecord::Base
   delegate :name, :code, :to => :centre, :prefix => true
   delegate :name, :code, :to => :motif, :prefix => true, allow_nil: true
   delegate :name, :to => :categoriesp, :prefix => true, allow_nil: true
-  delegate :name, :to => :evolution, :prefix => true, allow_nil: true
-  delegate :libelle, :name, :to => :evolution, :prefix => true, allow_nil: true
   delegate :username, :to => :user, :allow_nil => true
   delegate :fullname, :to => :correspondant, :prefix => true, :allow_nil => true
   delegate :ville, to: :correspondant, prefix: true, allow_nil: true
