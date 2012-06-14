@@ -5,4 +5,7 @@ class HomeController < ApplicationController
   def index
   end
 
+  def try_new_dossier
+    @code = params[:code]
+  end
 end

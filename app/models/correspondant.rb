@@ -15,6 +15,10 @@ class Correspondant < ActiveRecord::Base
     self.fullname = create_fullname
   end
 
+  def to_s
+    fullname
+  end
+
   private
 
   def assign_fullname

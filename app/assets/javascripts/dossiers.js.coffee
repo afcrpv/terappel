@@ -606,7 +606,7 @@ jQuery.fn.attach_jstree = (association) ->
 calcIMC = ->
   poids = $("#dossier_poids").val()
   taille = $("#dossier_taille").val()
-  imc = if poids and taille then poids / Math.round(Math.pow(taille/100, 2)) else ""
+  imc = if poids and taille then Math.round(poids / (Math.pow(taille/100, 2))) else ""
   $("#imc").html(imc)
 
 showNextif = (condition, element) ->

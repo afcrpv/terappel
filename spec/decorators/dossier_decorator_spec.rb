@@ -5,31 +5,6 @@ describe DossierDecorator do
   let(:dossier) { Factory(:dossier, modaccouch: "0", terme: 40) }
   let(:decorated_dossier) { DossierDecorator.decorate(dossier)}
 
-  describe "#full_name" do
-    context "when evolution == 'NAI" do
-      it "should return 'NAI à 40 SA par V-b spontanée'" do
-        dossier.evolution = Factory(:evolution, name: "NAI", libelle: "NAI")
-        decorated_dossier.evolution_full_name.should == "NAI à 40 SA par V-b spontanée"
-      end
-    end
-    %w(GEU FCS IVG IMG MIU).each do |evol|
-      context "when #{evol}" do
-        it "should return '#{evol} à 40 SA'" do
-          dossier.evolution = Factory(:evolution, name: evol, libelle: evol)
-          decorated_dossier.evolution_full_name.should == "#{evol} à 40 SA"
-        end
-      end
-    end
-    %w(INC GNC).each do |evol|
-      context "when #{evol}" do
-        it "should return '#{evol}'" do
-          dossier.evolution = Factory(:evolution, name: evol, libelle: evol)
-          decorated_dossier.evolution_full_name.should == "#{evol}"
-        end
-      end
-    end
-  end
-
   describe "#atcds_grs" do
     subject {decorated_dossier.atcds_grs}
     context "when 0" do
@@ -42,7 +17,7 @@ describe DossierDecorator do
           dossier.grsant = 1
           dossier.nai = 1
         end
-        it { should == "1 (1 naissance)"}
+        it { should == "1 naissance"}
       end
       context "for nai = 2, ivg = 2, fcs = 2" do
         before do
@@ -57,7 +32,7 @@ describe DossierDecorator do
   end
   describe "#button_to_modal" do
     it "should render a link to open a modal with dossier details" do
-      html = "<a href=\"#dossier_1_modal\" class=\"btn btn-small\" data-toggle=\"modal\"><i class='icon-info-sign'></i>\nDétails</a>"
+      html = "<button class=\"btn btn-small opener\" id=\"1\"><i class='icon-info-sign'></i>\nDétails</button>"
       decorated_dossier.button_to_modal.should == html
     end
   end
@@ -71,7 +46,7 @@ describe DossierDecorator do
     context "when value is not present" do
       context "when message is not given as argument" do
         it "should return the default message" do
-          decorated_dossier.send(:handle_none, nil).should =~ /Non spécifié\(e\)/
+          decorated_dossier.send(:handle_none, nil).should == "<span class=\"none\">-</span>"
         end
       end
       context "when message is provided" do
@@ -93,9 +68,9 @@ describe DossierDecorator do
   %w(fam perso).each do |atcds|
     describe "#atcds_#{atcds}" do
       context "when = 'Non'" do
-        it "should return 'Aucun'" do
+        it "should return 'Non'" do
           dossier.send("antecedents_#{atcds}=", "1")
-          decorated_dossier.send("atcds_#{atcds}").should == "Aucun"
+          decorated_dossier.send("atcds_#{atcds}").should == "Non"
         end
       end
       context "when = 'Oui'" do
@@ -108,7 +83,7 @@ describe DossierDecorator do
         end
         context "when the related commentary is empty" do
           it "should return 'Non spécifié(e)'" do
-            decorated_dossier.send("atcds_#{atcds}").should =~ /Non spécifié/
+            decorated_dossier.send("atcds_#{atcds}").should == "<span class=\"none\">-</span>"
           end
         end
       end

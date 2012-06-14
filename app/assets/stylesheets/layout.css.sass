@@ -30,12 +30,24 @@ nav.action_links
     display: inline
     font-weight: bold
 
-
 .clear
   clear: both
 
-table.table-striped
+table.dossiers
   font-size: 11px
+  td, th
+    padding: 5px 5px 4px
+    text-align: center
+  th
+    border: 1px solid #666666
+    padding: 0
+  td
+    vertical-align: middle
+  .ui-state-default
+    span.ui-icon
+      float: right
+
+table.table-striped
   background-color: white
   tr:nth-child(odd)
     td
@@ -44,21 +56,6 @@ table.table-striped
   tr:nth-child(even)
     td
       background-color: #eee
-
-  td, th
-    padding: 5px 5px 4px
-    text-align: center
-
-  th
-    border: 1px solid #666666
-    padding: 0
-
-  td
-    vertical-align: middle
-
-  .ui-state-default
-    span.ui-icon
-      float: right
 
 .dialog
   font-size: 0.8em
@@ -73,11 +70,12 @@ table.table-striped
 
   dl.dates
     margin-top: 0
-  .libelle
-    clear: left
-    font-weight: bold
-    &:after
-      content: " : "
+
+span.libelle
+  clear: left
+  font-weight: bold
+  &:after
+    content: " : "
 
 .none
   color: #999

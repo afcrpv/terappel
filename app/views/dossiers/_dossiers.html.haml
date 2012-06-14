@@ -1,7 +1,7 @@
 - if dossiers.any?
   .row
     .span4= "#{dossiers.total_count} dossiers"
-  %table.table.table-striped.table-condensed
+  %table.table.table-striped.table-condensed.dossiers
     %thead
       %th= sortable "code", "N° Appel", Dossier
       %th= sortable "date_appel", "Date Appel", Dossier

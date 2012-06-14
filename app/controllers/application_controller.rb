@@ -25,9 +25,9 @@ class ApplicationController < ActionController::Base
     if params[:codedossier]
       @search = Dossier.find(params[:codedossier]) rescue nil
       if @search
-        redirect_to edit_dossier_path(@search)
+        redirect_to dossier_path(@search)
       else
-        redirect_to new_dossier_path(:code => params[:codedossier])
+        redirect_to try_new_dossier_path(code: params[:codedossier])
       end
     end
   end

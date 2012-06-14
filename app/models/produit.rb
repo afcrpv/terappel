@@ -4,4 +4,8 @@ class Produit < ActiveRecord::Base
   has_many :dossiers, :through => :expositions
 
   default_scope order(:name)
+
+  def to_s
+    name
+  end
 end

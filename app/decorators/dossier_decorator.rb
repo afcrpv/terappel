@@ -1,6 +1,35 @@
 #encoding: utf-8
 class DossierDecorator < ApplicationDecorator
   decorates :dossier
+  decorates_association :correspondant
+
+  def poids
+    handle_none dossier.poids do
+      "#{dossier.poids} kg"
+    end
+  end
+
+  def taille
+    handle_none dossier.taille do
+      "#{dossier.taille} cm"
+    end
+  end
+
+  def poids_et_taille
+    [poids, taille].join("/").html_safe + imc
+  end
+
+  def imc
+    if dossier.poids && dossier.taille
+      " (IMC : #{(dossier.poids / (dossier.taille/100.to_f)**2).round})"
+    end
+  end
+
+  def correspondant
+    handle_none dossier.correspondant do
+      dossier.correspondant
+    end
+  end
 
   %w(malformation pathologie).each do |mp|
     define_method mp do
@@ -62,29 +91,7 @@ class DossierDecorator < ApplicationDecorator
     end
   end
 
-  def toxiques
-    handle_none dossier.toxiques do
-      dossier.toxiques
-    end
-  end
-
-  def evolution_full_name
-    attribute = dossier.evolution_name
-    liste = %w(GEU FCS IVG IMG MIU NAI)
-    hash_modaccouch = array_to_hash(Dossier::MODACCOUCH)
-    if liste.include?(attribute)
-      result = dossier.evolution_libelle
-      result += " à #{dossier.terme} SA" if dossier.terme
-      if attribute == "NAI"
-        result += " par #{ hash_modaccouch[dossier.modaccouch]}" if dossier.modaccouch
-      else
-        result
-      end
-    else
-      dossier.evolution_libelle
-    end
-  end
-  %w(expo_terato ass_med_proc).each do |method|
+  %w(expo_terato ass_med_proc toxiques folique patho1t path_mat).each do |method|
     define_method method do
       handle_none dossier.send(method) do
         hash = array_to_hash Dossier::ONI
@@ -92,6 +99,15 @@ class DossierDecorator < ApplicationDecorator
       end
     end
   end
+  %w(modaccouch evolution).each do |method|
+    define_method method do
+      hash = array_to_hash(Dossier.const_get(method.upcase))
+      handle_none dossier.send(method) do
+        hash[dossier.send(method)]
+      end
+    end
+  end
+
   %w(age_grossesse terme).each do |sa|
     define_method sa do
       handle_none dossier.send(sa) do
@@ -99,6 +115,7 @@ class DossierDecorator < ApplicationDecorator
       end
     end
   end
+
   def atcds_grs
     attribute = dossier.grsant
     handle_none attribute do
@@ -124,7 +141,11 @@ class DossierDecorator < ApplicationDecorator
             end
           end
         end
-        result += " (#{autres.to_sentence})"
+        if attribute == 1
+          result = autres.join
+        else
+          result += " (#{autres.to_sentence})"
+        end
       end
     end
   end
@@ -134,7 +155,7 @@ class DossierDecorator < ApplicationDecorator
       attribute = dossier.send("antecedents_#{atcds}")
       handle_none attribute do
         case attribute
-        when "1" then "Aucun"
+        when "1" then "Non"
         when "0" then self.send("comm_antecedents_#{atcds}")
         else
           attribute
@@ -173,7 +194,7 @@ class DossierDecorator < ApplicationDecorator
     end
   end
 
-  %w(appel dernieres_regles debut_grossesse accouchement_prevu reelle_accouchement).each do |date|
+  %w(appel dernieres_regles debut_grossesse accouchement_prevu reelle_accouchement recueil_evol).each do |date|
     method_name = "date_#{date}"
     define_method method_name do
       handle_none dossier.send(method_name) do
@@ -185,6 +206,24 @@ class DossierDecorator < ApplicationDecorator
   def produit_name(index)
     if produits.any?
       produits[index].try(:name)
+    end
+  end
+
+  %w(expositions bebes).each do |name|
+    define_method "#{name}_table" do |fields|
+      association = dossier.send(name)
+      if association.any?
+        rows = []
+        association.each do |assoc|
+          cells = []
+          fields.each do |field|
+            value = assoc.send(field) || " - "
+            cells.push h.content_tag(:td, value.to_s)
+          end
+          rows.push h.content_tag(:tr, cells.join("\n").html_safe)
+        end
+        rows.join("\n").html_safe
+      end
     end
   end
 

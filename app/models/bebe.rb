@@ -11,6 +11,13 @@ class Bebe < ActiveRecord::Base
 
   SEXE = [["Masculin", "M"], ["Féminin", "F"], ["Inconnu", "I"], ["Indéterminé", nil]]
 
+  def apgar
+    contents = []
+    contents.push apgar1 if apgar1.present?
+    contents.push apgar5 if apgar1.present?
+    contents.join(" - ")
+  end
+
   def malformation_tokens=(ids)
     self.malformation_ids = ids.split(",")
   end

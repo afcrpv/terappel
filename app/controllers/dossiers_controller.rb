@@ -26,6 +26,7 @@ class DossiersController < AuthorizedController
   end
 
   def show
+    @dossier = DossierDecorator.find(@dossier.id)
   end
 
   def new

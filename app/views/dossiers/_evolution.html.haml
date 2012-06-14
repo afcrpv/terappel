@@ -4,7 +4,7 @@
 .control-group.inline-inputs
   = f.label :evolution, "Evolution de la grossesse"
   .controls
-    = f.collection_select :evolution, Dossier::EVOLUTIONS, :last, :first, {include_blank: true}, {class: "span1"}
+    = f.collection_select :evolution, Dossier::EVOLUTION, :last, :first, {include_blank: true}, {class: "span1"}
     %span.message Compléter le champ malformation si un examen anatomo-pathologique interprétable a été effectué
 
 = f.input :date_recueil_evol, as: :string, input_html: {data: {value: date_recueil_evol}, class: "dateITA span2"}

@@ -1,14 +1,135 @@
 - title(nil, true, :id => @dossier.code)
 
-- content_for :page_title do
-  %small Actions :
-  = render "shared/action_links", :object => @dossier, :verbs => %w(edit destroy)
+#infos
+  %h2 Informations Générales
+  %table.table.table-condensed.table-striped
+    %tr
+      %td
+        %span.libelle Date Appel
+        = @dossier.date_appel
+      %td
+        %span.libelle Motif
+        = @dossier.motif_name
+      %td
+        %span.libelle Témoin
+        = @dossier.expo_terato
+    %tr
+      %td{colspan: "3"}
+        %span.libelle Correspondant
+        = @dossier.correspondant
+    %tr
+      %td
+        %span.libelle Patiente
+        = @dossier.patiente
+      %td
+        %span.libelle Age
+        = @dossier.age
+      %td
+        %span.libelle Poids/Taille
+        = @dossier.poids_et_taille
+    %tr
+      %td{colspan: "3"}
+        %span.libelle Catégorie socio-professionnelle
+        = @dossier.categoriesp
+    %tr
+      %td{colspan: "3"}
+        %span.libelle Antécédents Personnels
+        = @dossier.atcds_perso
+    %tr
+      %td{colspan: "3"}
+        %span.libelle Antécédents Familiaux
+        = @dossier.atcds_fam
+    %tr
+      %td{colspan: "3"}
+        %span.libelle Grossesse antérieures
+        = @dossier.atcds_grs
 
-%p= @dossier.name
-%p= @dossier.date_appel
-%h4 Bébés
-- if @dossier.bebes.any?
-  - @dossier.bebes.each_with_index do |bebe, index|
-    %h5 Bébé #{index+1}
-    %p Malformations : #{bebe.malformation_names}
-    %p Pathologies : #{bebe.pathologie_names}
+#grossesse
+  %h2 Grossesse
+  %table.table.table-condensed.table-striped
+    %tr
+      %td
+        %span.libelle Age grossesse lors de l'appel
+        = @dossier.age_grossesse
+      %td
+        %span.libelle Début grossesse
+        = @dossier.date_debut_grossesse
+      %td
+        %span.libelle Accouchement prévu
+        = @dossier.date_accouchement_prevu
+    %tr
+      %td
+        %span.libelle Tabac
+        = @dossier.tabac
+      %td
+        %span.libelle Alcool
+        = @dossier.alcool
+      %td
+        %span.libelle Autres toxiques
+        = @dossier.toxiques
+    %tr
+      %td
+        %span.libelle Acide folique avant grossesse
+        = @dossier.folique
+
+      %td
+        %span.libelle Pathologie(s) au 1er trimestre
+        = @dossier.patho1t
+
+#expositions
+  %h2 Expositions
+  %table.table.table-condensed.table-striped
+    %tr
+      %th Produit
+      %th Indication
+      %th Terme
+      %th Posologie
+      %th Voie
+    = @dossier.expositions_table(%w(produit indication expo_terme dose voie))
+
+#evol
+  %h2 Evolution
+  %table.table.table-condensed.table-striped
+    %tr
+      %td
+        %span.libelle Date recueil évolution
+        = @dossier.date_recueil_evol
+      %td
+        %span.libelle Pathologie maternelle
+        = @dossier.path_mat
+      %td
+        %span.libelle Evolution
+        = @dossier.evolution
+    %tr
+      %td
+        %span.libelle Modalité accouchement
+        = @dossier.modaccouch
+      %td
+        %span.libelle Terme
+        = @dossier.terme
+      %td
+        %span.libelle Date réelle d'accouchement
+        = @dossier.date_reelle_accouchement
+
+#bebes
+  %h2 Nouveau-né
+  %table.table.table-condensed.table-striped
+    %tr
+      %th Age au dernier examen
+      %th Sexe
+      %th Poids
+      %th Taille
+      %th PC
+      %th Apgar
+      %th Malformation
+      %th Pathologie
+    = @dossier.bebes_table(%w(age sexe poids taille pc apgar malformation pathologie))
+
+#commentaire
+  %h2 Commentaire
+  = @dossier.commentaire
+
+.form-actions
+  = link_to edit_dossier_path(@dossier), class: "btn btn-primary" do
+    %i.icon-white.icon-pencil
+    Modifier ce dossier
