@@ -40,7 +40,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'spork', '~> 0.9.0.rc'
   gem 'capybara'
-  gem 'cucumber-rails'
+  gem 'cucumber-rails', require: false
   gem 'pickle'
   gem 'launchy'    # So you can do Then show me the page
   gem 'database_cleaner'
