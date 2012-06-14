@@ -61,7 +61,7 @@ gem "cocoon"
 
 gem 'newrelic_rpm'
 gem 'ancestry'
-gem 'jstree-rails', :git => 'git://github.com/adamico/jstree-rails.git'
+gem 'jstree-rails', :git => 'git://github.com/tristanm/jstree-rails.git'
 gem 'simple_form'
 gem 'rails_admin', git: "https://github.com/sferik/rails_admin.git"
 gem 'csv_builder'

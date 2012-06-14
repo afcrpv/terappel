@@ -1,9 +1,9 @@
 GIT
-  remote: git://github.com/adamico/jstree-rails.git
-  revision: a3ca40df7563c3963e0b9fbea9ad32f4ab6cc24b
+  remote: git://github.com/tristanm/jstree-rails.git
+  revision: e2ad211ea7835a1811e66c3d4ef1e21bfbe6e27d
   specs:
     jstree-rails (0.0.1)
-      rails (~> 3.2.1)
+      rails (>= 3.1)
 
 GIT
   remote: https://github.com/sferik/rails_admin.git
