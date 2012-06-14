@@ -83,16 +83,19 @@ jQuery ->
     if grsant is "0" then zero_grossesse_fields()
 
   # reminder to fill expositions if tabac/alcool/toxiques equals "Oui"
-  toxiquesFields = "tabac": "4", "alcool": "3"
-  for field, last of toxiquesFields
-    element = $("#dossier_#{field}")
-    value = element.val()
-    condition = value and value isnt "0" and value isnt last
-    showNextif condition, element
-    element.on 'change', ->
-      value = $(this).val()
-      condition = value and value isnt "0" and value isnt last
-      showNextif condition, $(this)
+  $tabac_element = $("#dossier_tabac")
+  tabac = $tabac_element.val()
+  showNextif tabac and tabac in ["1", "2", "3"], $tabac_element
+  $tabac_element.on "change", ->
+    tabac = $(this).val()
+    showNextif tabac and tabac in ["1", "2", "3"], $(this)
+
+  $alcool_element = $("#dossier_alcool")
+  alcool = $alcool_element.val()
+  showNextif alcool and alcool in ["1", "2"], $alcool_element
+  $alcool_element.on "change", ->
+    alcool = $(this).val()
+    showNextif alcool and alcool in ["1", "2"], $(this)
 
   # calculateur dates
   $("#dossier_date_naissance").on 'blur', ->
