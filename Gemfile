@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.5'
+gem 'rails', '3.2.6'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
@@ -51,7 +51,7 @@ end
 gem 'pg'
 gem "devise"
 gem 'cancan'
-gem 'friendly_id', "~> 4.0.0.beta8"
+gem "friendly_id", "~> 4.0.1"
 gem 'formtastic'
 gem 'rails3-jquery-autocomplete'
 gem 'draper'
