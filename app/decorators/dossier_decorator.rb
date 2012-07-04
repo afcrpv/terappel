@@ -222,7 +222,7 @@ class DossierDecorator < ApplicationDecorator
   end
 
   def expositions
-    handle_none dossier.produits_names, "Aucune", nil do
+    handle_none dossier.produits_names, "Aucune" do
       twipsy dossier.produits_names
     end
   end

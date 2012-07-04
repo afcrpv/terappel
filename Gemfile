@@ -68,3 +68,4 @@ gem 'simple_form'
 gem 'rails_admin', github: "sferik/rails_admin"
 gem 'csv_builder'
 gem 'coffee-filter'
+gem 'will_paginate'

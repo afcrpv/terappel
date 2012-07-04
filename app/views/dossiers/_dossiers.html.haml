@@ -1,4 +1,4 @@
-%table#dossiers.display
+%table#dossiers.display{"data-source" => dossiers_url(format: "json")}
   %thead
     %th N° Appel
     %th Date Appel
@@ -10,4 +10,3 @@
     %th Path
     %th
   %tbody
-    = render dossiers
