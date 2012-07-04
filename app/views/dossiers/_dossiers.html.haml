@@ -3,10 +3,10 @@
     .span4= "#{dossiers.total_count} dossiers"
   %table.table.table-striped.table-condensed.dossiers
     %thead
-      %th= sortable "code", "N° Appel", Dossier
-      %th= sortable "date_appel", "Date Appel", Dossier
-      %th= sortable "name", "Patiente", Dossier
-      %th= sortable "motif_id", "Motif", Dossier
+      = sortable "code", "N° Appel", Dossier
+      = sortable "date_appel", "Date Appel", Dossier
+      = sortable "name", "Patiente", Dossier
+      = sortable "motif_id", "Motif", Dossier
       %th.ui-state-default Exposition
       %th.ui-state-default Evolution
       %th.ui-state-default Malf
