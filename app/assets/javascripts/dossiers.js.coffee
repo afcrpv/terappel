@@ -36,7 +36,6 @@ jQuery ->
       { sWidth: "150px", aTargets: [ 2, 4 ] }
     ]
 
-
   $("form.saisie").keypress (e) ->
     return false if e.which is 13
 
