@@ -11,7 +11,7 @@ class SearchDecorator < ApplicationDecorator
     result['expo_type'] = ExpoType.find(expo_type_id).name if expo_type_id
     result['expo_terme'] = ExpoTerme.find(expo_terme_id).name if expo_terme_id
     result['indication'] = Indication.find(indication_id).name if indication_id
-    result['evolution'] = Evolution.find(evolution_id).name if evolution_id
+    result['evolution'] = Evolution.find(evolution).name if evolution
     result = result.delete_if {|k,v| k =~ /id$/}
     result = result.delete_if {|k,v| %w(max_date_appel min_date_appel).include?(k)}
     result = result.delete_if {|k,v| %w(created_at updated_at).include?(k)}

@@ -1,10 +1,10 @@
 class Search < ActiveRecord::Base
-  attr_accessible :centre_id, :min_date_appel, :max_date_appel, :motif_id, :expo_nature_id, :expo_type_id, :indication_id, :expo_terme_id, :evolution_id, :malformation, :pathologie, :indication_name, :produit_id, :produit_name
+  attr_accessible :centre_id, :min_date_appel, :max_date_appel, :motif_id, :expo_nature_id, :expo_type_id, :indication_id, :expo_terme_id, :evolution, :malformation, :pathologie, :indication_name, :produit_id, :produit_name
 
   attr_writer :indication_name, :produit_name
 
   def find_dossiers
-    dossiers = Dossier.includes(:centre, :motif, :expositions, :evolution)
+    dossiers = Dossier.includes(:centre, :motif, :expositions)
     dossiers = dossiers.where(centre_id: centre_id) if centre_id.present?
     dossiers = dossiers.where(motif_id: motif_id) if motif_id.present?
     dossiers = dossiers.joins(:expositions).where('expositions.expo_nature_id' => expo_nature_id) if expo_nature_id.present?
@@ -12,7 +12,7 @@ class Search < ActiveRecord::Base
     dossiers = dossiers.joins(:expositions).where('expositions.expo_terme_id' => expo_terme_id) if expo_terme_id.present?
     dossiers = dossiers.joins(:expositions).where('expositions.indication_id' => indication_id) if indication_id.present?
     dossiers = dossiers.joins(:expositions).where('expositions.produit_id' => produit_id) if produit_id.present?
-    dossiers = dossiers.where(evolution_id: evolution_id) if evolution_id.present?
+    dossiers = dossiers.where(evolution: evolution) if evolution.present?
     dossiers = dossiers.where(malformation: malformation) if malformation.present?
     dossiers = dossiers.where(pathologie: pathologie) if pathologie.present?
     dossiers = dossiers.where("date_appel >= ?", min_date_appel) if min_date_appel.present?
