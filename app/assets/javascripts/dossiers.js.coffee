@@ -3,7 +3,9 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 jQuery ->
-  $("#dossiers").dataTable()
+  $("#dossiers").dataTable
+    sPaginationType: "full_numbers"
+    bJQueryUI: true
 
   $("form.saisie").keypress (e) ->
     return false if e.which is 13
