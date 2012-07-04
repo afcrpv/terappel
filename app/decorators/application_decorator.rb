@@ -5,15 +5,11 @@ class ApplicationDecorator < Draper::Base
     h.l datefield
   end
 
-  def handle_none(value, message="-", wrap="span")
+  def handle_none(value, message="-")
     if value.present?
       yield
     else
-      if wrap
-        h.content_tag wrap, message, class: "none"
-      else
-        message
-      end
+      message
     end
   end
 
