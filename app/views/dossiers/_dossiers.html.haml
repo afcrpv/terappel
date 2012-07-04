@@ -1,21 +1,13 @@
-- if dossiers.any?
-  .row
-    .span4= "#{dossiers.total_count} dossiers"
-  %table.table.table-striped.table-condensed.dossiers
-    %thead
-      = sortable "code", "N° Appel", Dossier
-      = sortable "date_appel", "Date Appel", Dossier
-      = sortable "name", "Patiente", Dossier
-      = sortable "motif_id", "Motif", Dossier
-      %th Exposition
-      %th Evolution
-      %th Malf
-      %th Path
-      %th
-    %tbody#dossiers
-      = render dossiers
-
-  = paginate dossiers, theme: "twitter-bootstrap"
-
-- else
-  Aucun dossier avec ces critères
+%table#dossiers
+  %thead
+    %th N° Appel
+    %th Date Appel
+    %th Patiente
+    %th Motif
+    %th Exposition
+    %th Evolution
+    %th Malf
+    %th Path
+    %th
+  %tbody
+    = render dossiers
