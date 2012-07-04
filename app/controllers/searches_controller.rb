@@ -1,7 +1,7 @@
 class SearchesController < ApplicationController
   load_and_authorize_resource :search
 
-  helper_method :min_date_appel, :max_date_appel, :sort_column, :sort_direction
+  helper_method :min_date_appel, :max_date_appel
 
   def new
     @search = Search.new(centre_id: current_user.centre_id)
@@ -20,9 +20,8 @@ class SearchesController < ApplicationController
     @csv_options = {col_sep: ";"}
     @search = SearchDecorator.find(params[:id])
     dossiers = @search.find_dossiers
-    dossiers_ordered_unordered = dossiers.order(sort_column("date_appel", Dossier) + ' ' + sort_direction("desc"))
-    @dossiers = DossierDecorator.decorate(dossiers_ordered_unordered.page(params[:page]))
-    @dossiers_for_csv = DossierDecorator.decorate dossiers_ordered_unordered
+    @dossiers = DossierDecorator.decorate(dossiers)
+    @dossiers_for_csv = DossierDecorator.decorate dossiers
     respond_to do |format|
       format.html
       format.csv

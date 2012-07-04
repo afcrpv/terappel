@@ -1,26 +1,4 @@
 module ApplicationHelper
-  def sortable(column, title = nil, klass)
-    title ||= column.titleize
-    check_column = column == sort_column("", klass)
-    direction = check_column && sort_direction("desc") == "asc" ? "desc" : "asc"
-    css_class = check_column ? "sortable #{sort_direction("desc")}" : "sortable"
-    icon_css_class = "icon-resize-vertical"
-    wrap_css_class = nil
-    case css_class
-    when "sortable asc"
-      icon_css_class = "icon-chevron-up"
-    when "sortable desc"
-      icon_css_class = "icon-chevron-down"
-    when "sortable"
-      icon_css_class = "icon-resize-vertical"
-    end
-    sort_icon = content_tag(:i, nil, class: icon_css_class)
-    content = link_to :sort => column, :direction => direction do
-      safe_concat sort_icon + " " + title
-    end
-    content_tag :th, content, class: wrap_css_class
-  end
-
   def actions(&block)
     content_tag :nav, class: "action_links" do
       content_tag :ul, &block
