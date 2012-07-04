@@ -5,7 +5,7 @@
 // the compiled file.
 //
 //= require jquery
-//= require jquery_ui
+//= require jquery.ui.all
 //= require jquery_ujs
 //= require bootstrap
 //= require cocoon
