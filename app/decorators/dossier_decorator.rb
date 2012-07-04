@@ -198,8 +198,8 @@ class DossierDecorator < ApplicationDecorator
   end
 
   def produit_name(index)
-    if produits.any?
-      produits[index].try(:name)
+    if dossier.produits.any?
+      dossier.produits[index].try(:name)
     end
   end
 
