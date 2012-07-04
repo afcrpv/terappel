@@ -1,22 +1,3 @@
 - title "Liste de Dossiers"
 
-= search_form_for @search, :html => {class: "form-search"} do |f|
-  %fieldset
-    = f.label :code_cont, "N° d'appel"
-    = f.text_field :code_cont, class: "span2"
-    = f.label :name_cont, "Patiente"
-    = f.text_field :name_cont, class: "span2"
-    = f.label :date_appel_gteq, "Date appel du"
-    = f.text_field :date_appel_gteq, class: "span2"
-    = f.label :date_appel_lteq, "au"
-    = f.text_field :date_appel_lteq, class: "span2"
-    = f.label :correspondant_fullname_eq, "Correspondant"
-    = f.autocomplete_field :correspondant_fullname_eq, autocomplete_correspondant_fullname_dossiers_path,
-      class: "span5"
-    = f.label :produits_name_eq, "Exposition"
-    = f.autocomplete_field :produits_name_eq,
-      autocomplete_produit_name_dossiers_path, class: "span4"
-    = f.submit class: "btn btn-primary"
-%hr
-
 = render 'dossiers', dossiers: @dossiers
