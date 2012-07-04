@@ -48,4 +48,28 @@
       .span4
         %span.libelle Terme
         = dossier.terme
-    = dossier.liste_bebes
+
+    - if dossier.bebes.any?
+      - dossier.bebes.each_with_index do |bebe, index|
+        .row
+          .span1
+            %span.libelle
+              Bébé&nbsp;
+              = index + 1 if dossier.bebes.many?
+          .span10
+            %strong P
+            = bebe.poids
+            g
+            %strong T
+            = bebe.taille
+            cm
+            %strong Apgar
+            = bebe.apgar1 rescue 'NC'
+            = '-'
+            = bebe.apgar5 rescue 'NC'
+        .row
+          .span10.offset1
+            %strong MALFORMATION
+            = bebe.malformation
+            %strong PATHOLOGIE
+            = bebe.pathologie
