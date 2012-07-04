@@ -20,10 +20,7 @@ class DossiersController < AuthorizedController
   end
 
   def index
-    respond_to do |format|
-      format.html
-      format.json { render json: DossiersDatatable.new(view_context) }
-    end
+    @dossiers = DossierDecorator.decorate(@dossiers)
   end
 
   def show
