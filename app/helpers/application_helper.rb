@@ -4,21 +4,19 @@ module ApplicationHelper
     check_column = column == sort_column("", klass)
     direction = check_column && sort_direction("desc") == "asc" ? "desc" : "asc"
     css_class = check_column ? "sortable #{sort_direction("desc")}" : "sortable"
-    icon_css_class = "ui-icon"
-    wrap_css_class = "ui-state-default"
+    icon_css_class = "icon-resize-vertical"
+    wrap_css_class = nil
     case css_class
     when "sortable asc"
-      icon_css_class << " ui-icon-triangle-1-n"
-      wrap_css_class << " ui-state-active"
+      icon_css_class = "icon-chevron-up"
     when "sortable desc"
-      icon_css_class << " ui-icon-triangle-1-s"
-      wrap_css_class << " ui-state-active"
+      icon_css_class = "icon-chevron-down"
     when "sortable"
-      icon_css_class << " ui-icon-carat-2-n-s"
+      icon_css_class = "icon-resize-vertical"
     end
-    sort_icon = content_tag(:span, nil, class: icon_css_class)
+    sort_icon = content_tag(:i, nil, class: icon_css_class)
     content = link_to :sort => column, :direction => direction do
-      safe_concat title + sort_icon
+      safe_concat sort_icon + " " + title
     end
     content_tag :th, content, class: wrap_css_class
   end
