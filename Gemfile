@@ -13,6 +13,7 @@ group :assets do
   gem 'uglifier', '>=1.0.3'
   gem 'bootstrap-sass'
   gem "jquery-ui-rails"
+  gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
 end
 
 gem 'jquery-rails'
@@ -62,8 +63,8 @@ gem "cocoon"
 
 gem 'newrelic_rpm'
 gem 'ancestry'
-gem 'jstree-rails', :git => 'git://github.com/tristanm/jstree-rails.git'
+gem 'jstree-rails', github: "tristanm/jstree-rails"
 gem 'simple_form'
-gem 'rails_admin', git: "https://github.com/sferik/rails_admin.git"
+gem 'rails_admin', github: "sferik/rails_admin"
 gem 'csv_builder'
 gem 'coffee-filter'
