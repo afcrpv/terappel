@@ -188,12 +188,6 @@ class DossierDecorator < ApplicationDecorator
     end
   end
 
-  def button_to_modal
-    h.button_tag id: dossier.id, class: "btn btn-small opener" do
-      h.safe_concat "<i class='icon-info-sign'></i>" + "\nDétails"
-    end
-  end
-
   %w(appel dernieres_regles debut_grossesse accouchement_prevu reelle_accouchement recueil_evol).each do |date|
     method_name = "date_#{date}"
     define_method method_name do

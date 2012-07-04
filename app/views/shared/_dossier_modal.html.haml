@@ -1,4 +1,4 @@
-%div{id: "dossier_#{dossier.id}_modal", class: "dialog", "data-show" => dossier_url(dossier), "data-edit" => can?(:update, dossier) ? edit_dossier_url(dossier) : nil, "data-title" => "Dossier #{dossier.code}#{' - ' + dossier.centre_name if Rails.env.development?}" }
+%div{id: "dossier_#{dossier.id}_modal", class: "dialog", "data-show" => can?(:read, dossier) ? dossier_url(dossier) : nil, "data-edit" => can?(:update, dossier) ? edit_dossier_url(dossier) : nil, "data-title" => "Dossier #{dossier.code}#{' - ' + dossier.centre_name if Rails.env.development?}" }
   .my-table
     .row
       .span4

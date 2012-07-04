@@ -7,6 +7,10 @@
   %td= dossier.evolution
   %td= dossier.malformation
   %td= dossier.pathologie
-  %td= dossier.button_to_modal
+  %td
+    = link_to "#", id: dossier.id, class: "btn btn-small opener", title: "Aperçu du dossier #{dossier.code}" do
+      %i.icon-eye-open
+    = link_to dossier_path(dossier), class: "btn btn-small", title: "Détails du dossier #{dossier.code}" do
+      %i.icon-info-sign
 
 = render 'shared/dossier_modal', dossier: dossier

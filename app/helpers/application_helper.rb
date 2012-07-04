@@ -16,11 +16,11 @@ module ApplicationHelper
     when "sortable"
       icon_css_class << " ui-icon-carat-2-n-s"
     end
+    sort_icon = content_tag(:span, nil, class: icon_css_class)
     content = link_to :sort => column, :direction => direction do
-      title
+      safe_concat title + sort_icon
     end
-    content << content_tag(:span, "", class: icon_css_class)
-    content_tag :div, content, class: wrap_css_class
+    content_tag :th, content, class: wrap_css_class
   end
 
   def actions(&block)

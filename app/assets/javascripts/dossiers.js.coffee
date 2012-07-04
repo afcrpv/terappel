@@ -12,9 +12,9 @@ jQuery ->
   # jquery dialog for dossier details
   $dialog = $(".dialog")
   $(".dialog").dialog
-              autoOpen: false
-              modal: true
-              width: 980
+    autoOpen: false
+    modal: true
+    width: 980
 
   $(".opener").on 'click', (event) ->
     event.preventDefault()
@@ -25,15 +25,15 @@ jQuery ->
     dialog_title = $dossier_dialog.attr("data-title")
     dialog_buttons = {}
     if $dossier_dialog.attr("data-edit")
-      dialog_buttons =
-        "Voir":
-          text: "Détails du dossier"
-          "class": "btn btn-primary"
-          click: -> window.location = dossier_show_url
-        "Modifier":
-          text: "Modifier ce dossier"
-          "class": "btn btn-info"
-          click: -> window.location = dossier_edit_url
+      dialog_buttons["Modifier"] =
+        text: "Modifier ce dossier"
+        "class": "btn btn-info"
+        click: -> window.location = dossier_edit_url
+    if $dossier_dialog.attr("data-show")
+      dialog_buttons["Voir"] =
+        text: "Détails du dossier"
+        "class": "btn btn-primary"
+        click: -> window.location = dossier_show_url
     $dossier_dialog.dialog(
       buttons: dialog_buttons
       title: dialog_title)
