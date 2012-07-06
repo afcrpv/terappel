@@ -1,104 +1,55 @@
-.control-group.inline-inputs
-  = f.label :code, "N° d'appel"
-  .controls
-    = f.text_field :code, class: "span2"
-    = f.label :date_appel, "Date d'appel"
-    = f.text_field :date_appel, autofocus: true, "data-value" => date_appel, class: "dateITA dateNotFuture span2"
-.control-group.inline-inputs
-  = f.label :motif_id, "Motif"
-  .controls
-    = f.collection_select :motif_id, Motif.all, :id, :name, {}, {class: "span6"}
-    = f.label :expo_terato, "Témoin"
-    = f.collection_select :expo_terato, Dossier::ONI, :last, :first, {include_blank: true}, {class: "span1"}
+.inline-inputs
+  = f.input :code, label: "N° d'appel", input_html: {class: "span2"}
+  = f.input :date_appel, as: :string, label: "Date d'appel", input_html: {autofocus: true, "data-value" => date_appel, class: "dateITA dateNotFuture span2"}
+.inline-inputs
+  = f.association :motif, input_html: {class: "span6"}
+  = f.input :expo_terato, as: :select, collection: Dossier::ONI, label: "Témoin", input_html: {class: "span1"}
 
 .control-group#dossier_correspondant_id_field
-  = f.label :correspondant_nom, "Correspondant"
+  = f.label :correspondant_nom, "Correspondant", class: "control-label"
   .controls
-    = f.autocomplete_field :correspondant_nom,
-      autocomplete_correspondant_fullname_dossiers_path,
-      id_element: "#dossier_correspondant_id", class: "span6"
-    - if can?(:create, Correspondant)
-      = link_to "#", data: {link: new_correspondant_path(modal: true)}, class: "btn btn-primary create" do
-        %i.icon-plus.icon-white
-        Ajout
-    - if can?(:update, Correspondant)
-      = link_to "#", data: {link: edit_correspondant_path(modal: true, id: "__ID__")}, class: "btn btn-info update" do
-        %i.icon-pencil.icon-white
-        Voir/modifier
+    .input-append
+      = f.autocomplete_field :correspondant_nom, autocomplete_correspondant_fullname_dossiers_path,
+        id_element: "#dossier_correspondant_id", class: "span6"
+      - if can?(:create, Correspondant)
+        = button_tag "#", data: {link: new_correspondant_path(modal: true)}, class: "btn btn-primary create" do
+          %i.icon-plus.icon-white
+          Ajout
+      - if can?(:update, Correspondant)
+        = button_tag "#", data: {link: edit_correspondant_path(modal: true, id: "__ID__")}, class: "btn btn-info update" do
+          %i.icon-pencil.icon-white
+          Voir/modifier
   = f.input :correspondant_id, as: :hidden
 
-.control-group.inline-inputs
-  = f.label :name, "Nom patiente"
-  .controls
-    = f.text_field :name
-    = f.label :prenom, "Prénom"
-    = f.text_field :prenom
-.control-group.inline-inputs
-  = f.label :age, "Age"
-  .controls
-    = f.text_field :age, class: "span1"
-    = f.label :date_naissance, "Date de Naissance"
-    = f.text_field :date_naissance, "data-value" => date_naissance, class: "dateITA dateNotFuture span2"
-.control-group.inline-inputs
-  = f.label :poids, "Poids"
-  .controls
-    = f.text_field :poids, class: "span1"
-    kg
-    = f.label :taille
-    = f.text_field :taille, class: "span1"
-    cm
-    <strong>IMC :</strong>
-    %span#imc
+.inline-inputs
+  = f.input :name, label: "Nom patiente", input_html: {class: "span2"}
+  = f.input :prenom, label: "Prénom", input_html: {class: "span2"}
+.inline-inputs
+  = f.input :date_naissance, as: :string, label: "Date de naissance", input_html: {class: "dateITA dateNotFuture span2", "data-value" => date_naissance}
+  = f.input :age, input_html: {class: "span1"}
 
-= f.association :categoriesp, label: "C.S.P.", input_html: {class: "span5"}
+.inline-inputs
+  = f.input :poids, wrapper: :append do
+    = f.input_field :poids, class: :span1
+    %span.add-on kg
+  = f.input :taille, wrapper: :append do
+    = f.input_field :taille, class: "span1"
+    %span.add-on cm
+  = f.input :imc, disabled: true, label: "IMC", input_html: {class: "span1"}
 
-.control-group.inline-inputs
-  = f.label :antecedents_perso, "Antécédents personnels"
-  .controls
-    = f.collection_select :antecedents_perso, Dossier::ONI, :last, :first, {include_blank: true}, {class: "span1"}
-    = f.text_area :comm_antecedents_perso, class: "span7", style: "display: none;", rows: "1"
+= f.association :categoriesp, label: "C.S.P.", input_html: {class: "span6"}
 
-.control-group.inline-inputs
-  = f.label :antecedents_fam, "Antécédents familiaux"
-  .controls
-    = f.collection_select :antecedents_fam, Dossier::ONI, :last, :first, {include_blank: true}, {class: "span1"}
-    = f.text_area :comm_antecedents_fam, class: "span7", style: "display: none;", rows: "1"
+.inline-inputs
+  = f.input :antecedents_perso, label: "Antécédents personnels", as: :select, collection: Dossier::ONI,
+    input_html: {class: "span1"}
+  = f.input :comm_antecedents_perso, label: "Préciser", wrapper_html: {style: "display: none;"},
+    input_html: {class: "span6", rows: "1"}
 
--#.row#antecedents
-  .span1
-    &nbsp;
-  .span5
-    %h4 Antécédents Personnels
-    .control-group.radio_buttons.optional.no-label
-      .controls
-        .radio-wrap
-          %label.radio
-            = f.radio_button :antecedents_perso, "0", class: "radio_buttons optional"
-            = "Oui"
-          %label.radio
-            = f.radio_button :antecedents_perso, "1", class: "radio_buttons optional"
-            = "Non"
-          %label.radio
-            = f.radio_button :antecedents_perso, "2", class: "radio_buttons optional"
-            = "NSP"
-        .textarea-wrap
-          = f.text_area :comm_antecedents_perso, class: "span4", rows: "2"
-  .span5
-    %h4 Antécédents Familiaux
-    .control-group.radio_buttons.optional.no-label
-      .controls
-        .radio-wrap
-          %label.radio
-            = f.radio_button :antecedents_fam, "0", class: "radio_buttons optional"
-            = "Oui"
-          %label.radio
-            = f.radio_button :antecedents_fam, "1", class: "radio_buttons optional"
-            = "Non"
-          %label.radio
-            = f.radio_button :antecedents_fam, "2", class: "radio_buttons optional"
-            = "NSP"
-        .textarea-wrap
-          = f.text_area :comm_antecedents_fam, class: "span4", rows: "2"
+.inline-inputs
+  = f.input :antecedents_fam, label: "Antécédents familiaux", as: :select, collection: Dossier::ONI,
+    input_html: {class: "span1"}
+  = f.input :comm_antecedents_fam, label: "Préciser", wrapper_html: {style: "display: none;"},
+    input_html: {class: "span7", rows: "1"}
 
 %table#grossesses_anterieures
   %tbody

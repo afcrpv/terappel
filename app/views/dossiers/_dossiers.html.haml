@@ -1,13 +1,14 @@
-%table#dossiers.table.table-striped.table-bordered{"data-source" => dossiers_url(format: "json")}
+%table#dossiers.table.table-striped.table-condensed.table-bordered{"data-source" => dossiers_url(format: "json")}
   %thead
-    %th N° Appel
-    %th Date Appel
-    %th Patiente
-    %th Motif
-    %th Exposition
-    %th Evolution
-    %th Malf
-    %th Path
-    %th
+    %tr
+      %th N° Appel
+      %th Date Appel
+      %th Patiente
+      %th Motif
+      %th Exposition
+      %th Evolution
+      %th Malf
+      %th Path
+      %th
   %tbody
     = render dossiers

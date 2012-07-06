@@ -1,7 +1,7 @@
-- title "Résultats"
+- title "Résultats de la recherche"
 
 .row
-  .span6
+  .span9
     .well.search-params
       %h4 Paramètres de recherche
       %ul
@@ -9,10 +9,18 @@
           %li
             %span.libelle= t('attributes.search.' + k)
             = v
-  .span5
+  .span3
     .actions
-      = link_to "Modifier la recherche", edit_search_path(@search), class: "btn-primary"
-      = link_to "Nouvelle recherche", new_search_path
-      = link_to "Exporter", search_path(@search, format: :csv)
+      = link_to edit_search_path(@search), class: "btn-primary" do
+        %i.icon-white.icon-pencil
+        Modifier la recherche
+      = link_to search_path(@search, format: :csv) do
+        %i.icon-download-alt
+        Exporter fichier csv
+      = link_to new_search_path do
+        %i.icon-plus
+        Nouvelle recherche
+
+%hr
 
 = render "dossiers/dossiers", dossiers: @dossiers

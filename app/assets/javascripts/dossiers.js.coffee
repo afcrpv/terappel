@@ -612,10 +612,9 @@ calcIMC = ->
   poids = $("#dossier_poids").val()
   taille = $("#dossier_taille").val()
   imc = if poids and taille then Math.round(poids / (Math.pow(taille/100, 2))) else ""
-  $("#imc").html(imc)
+  $("#dossier_imc").val(imc)
 
-showNextif = (condition, element) ->
-  next = element.next()
+showNextif = (condition, element, next=element.parents(".control-group").next()) ->
   if condition then next.show() else next.hide()
 
 activateCorrespondantEdit = (correspondant_id) ->

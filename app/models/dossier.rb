@@ -10,7 +10,7 @@ class Dossier < ActiveRecord::Base
     :tabac, :alcool, :fcs, :geu, :miu, :ivg, :img, :nai, :grsant, :age_grossesse,
     :terme, :path_mat,
     :comm_antecedents_perso, :comm_antecedents_fam, :comm_evol, :comm_expo, :commentaire,
-    :expositions_attributes, :bebes_attributes, :toxiques, :date_naissance, :poids, :taille, :folique, :patho1t, :evolution
+    :expositions_attributes, :bebes_attributes, :toxiques, :date_naissance, :poids, :taille, :folique, :patho1t, :evolution, :imc
 
   # Constants
   ONI = [["Oui", "0"], ["Non", "1"], ["NSP", "2"]]
@@ -19,6 +19,8 @@ class Dossier < ActiveRecord::Base
   MODACCOUCH = [["V-b spontanée", "0"], ["V-b instrumentale", "1"], ["Césarienne", "2"], ["Inconnue", "3"]]
   EVOLUTION = [["GEU", 1], ["FCS", 2], ["IVG", 3], ["IMG", 4], ["MIU", 5], ["NAI", 6], ["INC", 7], ["GNC", 8]]
 
+  # readers
+  attr_reader :imc
   # writers
   attr_writer :correspondant_nom
 
