@@ -4,4 +4,5 @@
     placeholder: "N° Appel",
     class: "span2 search-query"
   = hidden_field_tag params[:codedossier]
-  = submit_tag "OK", class: "btn btn-primary"
+  = button_tag class: "btn btn-primary" do
+    %i.icon-white.icon-search
