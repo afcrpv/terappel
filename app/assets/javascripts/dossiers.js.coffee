@@ -163,12 +163,25 @@ jQuery ->
   $("#tabs li a[href='#expositions']").bind 'click', ->
     $attach = $("#expositions")
     $attach.bind 'insertion-callback', ->
+      $(".calendar").on 'click', (e) ->
+        e.preventDefault()
+        sa_field = $(this).prev()
+        date_field = $(this).next()
+        date_field.toggle()
+        date_field.focus()
+        date_field.on 'blur', ->
+          date_expo = parse_fr_date($(this).val())
+          if !isNaN(date_expo.getTime())
+            ddr = parse_fr_date($('#dossier_date_dernieres_regles').val())
+            sa_field.val(getSA(ddr, date_expo))
+            $(this).toggle()
+
       hide_add_field_link("expositions")
       $(".duree").on 'blur', ->
-        de = $(this).prev().val()
+        de = $(this).parent().prev().find(".de").val()
         de2 = $(this).val()
         result = de2 - de
-        $(this).nextAll("input").val(de2 - de) if result > 0
+        $(this).parents(".control-group").next().find("input").val(de2 - de) if !isNaN(result) and result > 0
 
     $attach.bind 'removal-callback', ->
       show_add_field_link("expositions")

@@ -3,24 +3,56 @@
   = f.input :produit_name, url: autocomplete_produit_name_dossiers_path, as: :autocomplete, label: "Exposition", input_html: {class: "span7"}
   = f.input :indication_name, url: autocomplete_indication_name_dossiers_path, as: :autocomplete, label: "Indication", input_html: {class: "span7"}
   = f.association :expo_nature, label: "Nature"
-  .control-group.inline-inputs
-    = f.label "Période Expo (en SA)"
-    .controls
-      = f.text_field :de, class: "span1", placeholder: "De"
-      = f.text_field :a, class: "span1 duree", placeholder: "à"
-      = f.label "Durée"
-      = f.text_field :duree, class: "span1"
-  .control-group.inline-inputs
-    = f.label "Reprise ttt "
-    .controls
-      = f.text_field :de2, class: "span1", placeholder: "De"
-      = f.text_field :a2, class: "span1 duree", placeholder: "à"
-      = f.label "Durée"
-      = f.text_field :duree2, class: "span1"
+
+  .inline-inputs
+    .control-group
+      = f.label "Période Expo (en SA)", class: "control-label"
+      .controls
+        .input-append
+          = f.text_field :de, class: "de span1", placeholder: "De"
+          = button_tag class: "btn calendar" do
+            %i.icon-calendar
+          = f.text_field :de_date, style: "display: none;", class: "span2"
+        .input-append
+          = f.text_field :a, class: "span1 duree", placeholder: "à"
+          = button_tag class: "btn calendar" do
+            %i.icon-calendar
+          = f.text_field :a_date, style: "display: none;", class: "span2"
+    .control-group
+      = f.label "Durée", class: "control-label"
+      .controls
+        = f.text_field :duree, class: "span1"
+  .inline-inputs
+    .control-group
+      = f.label "Reprise ttt ", class: "control-label"
+      .controls
+        .input-append
+          = f.text_field :de2, class: "de span1", placeholder: "De"
+          = button_tag class: "btn calendar" do
+            %i.icon-calendar
+          = f.text_field :de2_date, style: "display: none;", class: "span2"
+        .input-append
+          = f.text_field :a2, class: "span1 duree", placeholder: "à"
+          = button_tag class: "btn calendar" do
+            %i.icon-calendar
+          = f.text_field :a2_date, style: "display: none;", class: "span2"
+    .control-group
+      = f.label "Durée", class: "control-label"
+      .controls
+        = f.text_field :duree2, class: "span1"
+
   = f.association :expo_terme, label: "Terme d'exposition"
-  = f.input :dose, label: "Posologie", hint: "p.e. en mg/jr"
+  .control-group.string.optional
+    = f.label :dose, "Posologie", class: "string optional control-label"
+    .controls
+      = f.text_field :dose
+      %span.help-inline par example en mg/j
   = f.association :voie, label: "Voie d'exposition"
-  = f.input :medpres, collection: Exposition::ONNSP, label: "Prescription", hint: "à remplir en cas de demande d'aide à la prescription", input_html: {class: "span1"}
+  .control-group.select.optional
+    = f.label :medpres, "Prescription", class: "select optional control-label"
+    .controls
+      = f.collection_select :medpres, Dossier::ONI, :last, :first, {include_blank: true}, {class: "span1"}
+      %span.help-inline à remplir en cas de demande d'aide à la prescription
   .field_links
     = link_to "#", class: "btn btn-small btn-success validate_expo" do
       %i.icon-ok.icon-white

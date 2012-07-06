@@ -1,5 +1,5 @@
 class Exposition < ActiveRecord::Base
-  attr_accessible :expo_type_id, :produit_name, :indication_name, :de, :a, :duree, :de2, :a2, :duree2, :expo_nature_id, :dose, :expo_terme_id, :medpres, :produit_id, :indication_id, :voie_id
+  attr_accessible :expo_type_id, :produit_name, :indication_name, :de, :a, :duree, :de2, :a2, :duree2, :expo_nature_id, :dose, :expo_terme_id, :medpres, :produit_id, :indication_id, :voie_id, :de_date, :a_date, :de2_date, :a2_date
   belongs_to :produit
   belongs_to :dossier
   belongs_to :expo_type
@@ -7,6 +7,8 @@ class Exposition < ActiveRecord::Base
   belongs_to :expo_terme
   belongs_to :expo_nature
   belongs_to :voie
+
+  attr_reader :de_date, :a_date, :de2_date, :a2_date
 
   delegate :name, to: :produit, allow_nil: true, prefix: true
 
