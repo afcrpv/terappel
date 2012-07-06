@@ -104,11 +104,21 @@ body.dossiers
   .textarea-wrap
     margin-left: 10px
 
+  .larger-labels
+    label
+      width: 340px !important
+
+    .controls
+      margin-left: 350px !important
+
   .inline-inputs
     margin-bottom: 5px
     display: table
     .control-group
       display: table-cell
+    .message
+      display: table-cell
+      vertical-align: middle
     .controls > label
       display: inline-block
     & > label
@@ -140,6 +150,7 @@ body.dossiers
       text-align: right
       &:after
         content: " : "
+      width: 300px
     td#calc_column
       text-align: right
 

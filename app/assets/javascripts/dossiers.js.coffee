@@ -74,10 +74,12 @@ jQuery ->
   for field in ["antecedents_perso", "antecedents_fam", "toxiques", "folique", "patho1t"]
     element = $("#dossier_#{field}")
     condition = element.val() is "0"
-    showNextif condition, element
+    next = element.parents(".control-group").next()
+    showNextif condition, element, next
     element.on 'change', ->
       condition = $(this).val() is "0"
-      showNextif condition, $(this)
+      next = $(this).parents(".control-group").next()
+      showNextif(condition, $(this), next)
 
   #### Grossesse
   $("#dossier_grsant").on 'blur', ->
@@ -87,17 +89,23 @@ jQuery ->
   # reminder to fill expositions if tabac/alcool/toxiques equals "Oui"
   $tabac_element = $("#dossier_tabac")
   tabac = $tabac_element.val()
-  showNextif tabac and tabac in ["1", "2", "3"], $tabac_element
-  $tabac_element.on "change", ->
+  tabac_condition = tabac and tabac in ["1", "2", "3"]
+  showNextif tabac_condition, $tabac_element, $tabac_element.parents(".control-group").next()
+  $tabac_element.on 'change', ->
     tabac = $(this).val()
-    showNextif tabac and tabac in ["1", "2", "3"], $(this)
+    condition = tabac and tabac in ["1", "2", "3"]
+    next = $(this).parents(".control-group").next()
+    showNextif condition, $(this), next
 
   $alcool_element = $("#dossier_alcool")
   alcool = $alcool_element.val()
-  showNextif alcool and alcool in ["1", "2"], $alcool_element
-  $alcool_element.on "change", ->
+  alcool_condition = alcool and alcool in ["1", "2"]
+  showNextif alcool_condition, $alcool_element, $alcool_element.parents(".control-group").next()
+  $alcool_element.on 'change', ->
     alcool = $(this).val()
-    showNextif alcool and alcool in ["1", "2"], $(this)
+    condition = alcool and alcool in ["1", "2"]
+    next = $(this).parents(".control-group").next()
+    showNextif condition, $(this), next
 
   # calculateur dates
   $("#dossier_date_naissance").on 'blur', ->
@@ -614,8 +622,8 @@ calcIMC = ->
   imc = if poids and taille then Math.round(poids / (Math.pow(taille/100, 2))) else ""
   $("#dossier_imc").val(imc)
 
-showNextif = (condition, element, next=element.parents(".control-group").next()) ->
-  if condition then next.show() else next.hide()
+showNextif = (condition, element, next) ->
+  if condition then $(next).show() else $(next).hide()
 
 activateCorrespondantEdit = (correspondant_id) ->
   $edit_correspondant_btn = $(".update")

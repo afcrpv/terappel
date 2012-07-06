@@ -1,5 +1,3 @@
-= f.input :ass_med_proc, label: "Assistance médicale à la procréation", collection: Dossier::ONI, input_html: {class: "span1"}
-
 %table.table.table-condensed#dates_grossesse
   %tr
     %th.span5 Age grossesse lors de l'appel (SA)
@@ -19,36 +17,25 @@
       = link_to "Effacer", "#", id:"reset_dates_grossesse", class: "btn btn-danger"
     %td#grossesse_date_messages
 
-.control-group.inline-inputs
-  = f.label :tabac
-  .controls
-    = f.collection_select :tabac, Dossier::TABAC, :last, :first, {include_blank: true}, {class: "span1"}
-    %span.message{style: "display: none;"} N'oubliez pas de saisir une exposition "TABAC"
+.larger-labels
+  .inline-inputs
+    = f.input :tabac, as: :select, collection: Dossier::TABAC, input_html: {class: "span3"}
+    %span.message{style: "display: none;"} N'oubliez pas de saisir "TABAC" dans l'onglet Exposition
 
-.control-group.inline-inputs
-  = f.label :alcool
-  .controls
-    = f.collection_select :alcool, Dossier::ALCOOL, :last, :first, {include_blank: true}, {class: "span1"}
-    %span.message{style: "display: none;"} N'oubliez pas de saisir une exposition "ALCOOL"
+  .inline-inputs
+    = f.input :alcool, as: :select, collection: Dossier::ALCOOL, input_html: {class: "span3"}
+    %span.message{style: "display: none;"} N'oubliez pas de saisir "ALCOOL" dans l'onglet Exposition
 
-.control-group.inline-inputs
-  = f.label :toxiques
-  .controls
-    = f.collection_select :toxiques, Dossier::ONI, :last, :first, {include_blank: true}, {class: "span1"}
-    %span.message{style: "display: none;"} N'oubliez pas de saisir une exposition "toxiques"
+  .inline-inputs
+    = f.input :toxiques, as: :select, collection: Dossier::ONI, input_html: {class: "span1"}
+    %span.message{style: "display: none;"} N'oubliez pas de saisir "toxiques" dans l'onglet Exposition
 
-.control-group.inline-inputs
-  = f.label :folique, "Acide folique avant la grossesse"
-  .controls
-    = f.collection_select :folique, Dossier::ONI, :last, :first, {include_blank: true}, {class: "span1"}
+  .inline-inputs
+    = f.input :folique, label: "Acide folique avant la grossesse", as: :select, collection: Dossier::ONI, input_html: {class: "span1"}
     %span.message{style: "display: none;"} Préciser éventuellement le dosage dans le commentaire
 
-.control-group.inline-inputs
-  = f.label :patho1t, "Pathologie(s) au premier trimestre"
-  .controls
-    = f.collection_select :patho1t, Dossier::ONI, :last, :first, {include_blank: true}, {class: "span1"}
+  .inline-inputs
+    = f.input :patho1t, label: "Pathologie(s) au premier trimestre", as: :select, collection: Dossier::ONI, input_html: {class: "span1"}
     %span.message{style: "display: none;"} Préciser la ou les pathologies dans le commentaire
 
--#= f.input :tabac, collection: Dossier::TABAC, as: :radio_buttons, item_wrapper_class: "inline"
--#= f.input :alcool, collection: Dossier::ALCOOL, as: :radio_buttons, item_wrapper_class: "inline"
--#= f.input :toxiques, collection: Dossier::ONI, as: :radio_buttons, item_wrapper_class: "inline"
+  = f.input :ass_med_proc, label: "Assistance médicale à la procréation", collection: Dossier::ONI, input_html: {class: "span1"}
