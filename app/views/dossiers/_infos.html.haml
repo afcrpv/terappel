@@ -12,12 +12,12 @@
       = f.autocomplete_field :correspondant_nom, autocomplete_correspondant_fullname_dossiers_path,
         id_element: "#dossier_correspondant_id", class: "span6"
       - if can?(:create, Correspondant)
-        = button_tag "#", data: {link: new_correspondant_path(modal: true)}, class: "btn btn-primary create" do
-          %i.icon-plus.icon-white
+        = button_tag "#", data: {link: new_correspondant_path(modal: true)}, class: "btn create" do
+          %i.icon-plus
           Ajout
       - if can?(:update, Correspondant)
-        = button_tag "#", data: {link: edit_correspondant_path(modal: true, id: "__ID__")}, class: "btn btn-info update" do
-          %i.icon-pencil.icon-white
+        = button_tag "#", data: {link: edit_correspondant_path(modal: true, id: "__ID__")}, class: "btn update" do
+          %i.icon-pencil
           Voir/modifier
   = f.input :correspondant_id, as: :hidden
 

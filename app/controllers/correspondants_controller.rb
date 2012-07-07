@@ -59,6 +59,6 @@ class CorrespondantsController < AuthorizedController
   end
 
   def form_title
-    @form_title ||= params[:id] && params[:id].present? ? "Edition correspondant : #{@correspondant.fullname}" : "Creation d'un nouveau correspondant"
+    @form_title ||= params[:id] && params[:id].present? ? "#{@correspondant.fullname}" : "Nouveau correspondant"
   end
 end

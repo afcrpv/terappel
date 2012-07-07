@@ -69,9 +69,7 @@
       var widget = this,
           dialog = this._getModal(),
           form = dialog.find("form"),
-          //saveButtonText = dialog.find(":submit[name=_save]").html(),
-          saveButtonText = "Sauvegarder et assigner au dossier"
-          //cancelButtonText = dialog.find(":submit[name=_continue]").html();
+          saveButtonText = "Enregistrer"
           cancelButtonText = "Annuler"
       dialog.find('.form-actions').remove();
 
@@ -86,9 +84,9 @@
         form.submit();
         return false;
       }).html(saveButtonText);
-      
+
       $(document).trigger('rails_admin.dom_ready')
-      
+
       form.bind("ajax:complete", function(xhr, data, status) {
         if (status == 'error') {
           dialog.find('.modal-body').html(data.responseText);
@@ -98,7 +96,11 @@
           var correspondant_label = json.label;
           var correspondant_id = json.id;
           // put label in autocomplete field
-          widget.element.find("#dossier_correspondant_nom").val(correspondant_label);
+          $autocomplete_field = widget.element.find("#dossier_correspondant_nom");
+          $autocomplete_field.val(correspondant_label);
+          $edit_correspondant_btn = $(".update");
+          $edit_correspondant_btn.attr("data-link", "/correspondants/"+ correspondant_id +"/edit");
+          $edit_correspondant_btn.show();
           widget.element.find("#dossier_correspondant_id").val(correspondant_id);
 
           //var option = '<option value="' + json.id + '" selected>' + json.label + '</option>';

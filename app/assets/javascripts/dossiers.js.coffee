@@ -4,46 +4,22 @@
 
 jQuery ->
   initDossiersDatatable()
+  initDossierDialog()
 
+  # disable submit with enter key
   $("form.saisie").keypress (e) ->
     return false if e.which is 13
+    #TODO: maybe replace "enter" key code with "tab"
 
-  calcIMC()
-  better_errors_list()
-
-  # jquery dialog for dossier details
-  $dialog = $(".dialog")
-  $(".dialog").dialog
-    autoOpen: false
-    modal: true
-    width: 980
-
-  $(".opener").on 'click', (event) ->
-    event.preventDefault()
-    dossier_id = $(this).attr("id")
-    $dossier_dialog = $("#dossier_#{dossier_id}_modal")
-    dossier_edit_url = $dossier_dialog.attr("data-edit")
-    dossier_show_url = $dossier_dialog.attr("data-show")
-    dialog_title = $dossier_dialog.attr("data-title")
-    dialog_buttons = {}
-    if $dossier_dialog.attr("data-edit")
-      dialog_buttons["Modifier"] =
-        text: "Modifier ce dossier"
-        "class": "btn btn-info"
-        click: -> window.location = dossier_edit_url
-    if $dossier_dialog.attr("data-show")
-      dialog_buttons["Voir"] =
-        text: "Détails du dossier"
-        "class": "btn btn-primary"
-        click: -> window.location = dossier_show_url
-    $dossier_dialog.dialog(
-      buttons: dialog_buttons
-      title: dialog_title)
-      .dialog('open')
+  #TODO: fix better_error_list func
+  #better_errors_list()
 
   # bootstrap form tabs
-  $(".nav-tabs a:first").tab('show')
   $(".nav-pills a:first").tab('show')
+
+  $("#dossier_code").on "blur", ->
+    value = $(this).val()
+    $(this).val(value.toUpperCase())
 
   #### Validators and masks
   $.validator.setDefaults
@@ -52,16 +28,11 @@ jQuery ->
   $("form.saisie").validate()
 
   $("#dossier_code").mask("aa9999999")
-  $("#dossier_code").on "blur", ->
-    value = $(this).val()
-    $(this).val(value.toUpperCase())
-
   $("#dossier_age_grossesse").mask("?99")
   $("#dossier_terme").mask("?99")
 
-  dates_grossesse_fields_names = ["date_appel", "date_dernieres_regles", "date_debut_grossesse", "date_accouchement_prevu", "date_reelle_accouchement", "date_naissance", "date_recueil_evol"]
   dates_grossesse_fields = []
-  dates_grossesse_fields.push($("#dossier_#{field_name}")) for field_name in dates_grossesse_fields_names
+  dates_grossesse_fields.push($("#dossier_date_#{field_name}")) for field_name in ["appel", "dernieres_regles", "debut_grossesse", "accouchement_prevu", "reelle_accouchement", "naissance", "recueil_evol"]
 
   for date_field in dates_grossesse_fields
     date_field.mask("99/99/9999")
@@ -69,7 +40,12 @@ jQuery ->
     date_field.val(value) if value
 
   # calc imc
-  $("#dossier_taille").on 'blur', -> calcIMC()
+  $("#dossier_#{field}").calculateBMI() for field in ["taille", "poids"]
+
+  #### Grossesse
+  $("#dossier_grsant").on 'blur', ->
+    grsant = $(this).val()
+    if grsant is "0" then zero_grossesse_fields()
 
   for field in ["antecedents_perso", "antecedents_fam", "toxiques", "folique", "patho1t"]
     element = $("#dossier_#{field}")
@@ -80,11 +56,6 @@ jQuery ->
       condition = $(this).val() is "0"
       next = $(this).parents(".control-group").next()
       showNextif(condition, $(this), next)
-
-  #### Grossesse
-  $("#dossier_grsant").on 'blur', ->
-    grsant = $(this).val()
-    if grsant is "0" then zero_grossesse_fields()
 
   # reminder to fill expositions if tabac/alcool/toxiques equals "Oui"
   $tabac_element = $("#dossier_tabac")
@@ -115,12 +86,7 @@ jQuery ->
       $("#dossier_age").val(getYears(date_naissance, date_appel))
 
   $("#calc_dates_grossesse").on 'click', -> calc_date_grossesse()
-  $("#reset_dates_grossesse").on 'click', ->
-    $("#grossesse_date_messages").html("")
-    $('#dossier_age_grossesse').val("")
-    $('#dossier_date_dernieres_regles').val("")
-    $('#dossier_date_debut_grossesse').val("")
-    $('#dossier_date_accouchement_prevu').val("")
+  $("#reset_dates_grossesse").on 'click', -> reset_date_grossesse()
 
   #### Evolution ####
   $accouchement_div = $("#accouchement")
@@ -160,34 +126,32 @@ jQuery ->
     activateCorrespondantEdit(correspondant_id) if correspondant_id
 
   #### EXPOSITIONS ####
+  $("form").on 'click', ".calendar", (e) ->
+    e.preventDefault()
+    sa_field = $(this).prev()
+    date_field = $(this).next()
+    date_field.toggle()
+    date_field.focus()
+    date_field.on 'blur', ->
+      date_expo = parse_fr_date($(this).val())
+      if !isNaN(date_expo.getTime())
+        ddr = parse_fr_date($('#dossier_date_dernieres_regles').val())
+        sa_field.val(getSA(ddr, date_expo))
+        $(this).toggle()
+
+  $("form").on 'blur', ".duree", (e)  ->
+    de = $(this).parent().prev().find(".de").val()
+    de2 = $(this).val()
+    result = de2 - de
+    $(this).parents(".control-group").next().find("input").val(de2 - de) if !isNaN(result) and result > 0
+
   $("#tabs li a[href='#expositions']").bind 'click', ->
     $attach = $("#expositions")
-    $attach.bind 'insertion-callback', ->
-      $(".calendar").on 'click', (e) ->
-        e.preventDefault()
-        sa_field = $(this).prev()
-        date_field = $(this).next()
-        date_field.toggle()
-        date_field.focus()
-        date_field.on 'blur', ->
-          date_expo = parse_fr_date($(this).val())
-          if !isNaN(date_expo.getTime())
-            ddr = parse_fr_date($('#dossier_date_dernieres_regles').val())
-            sa_field.val(getSA(ddr, date_expo))
-            $(this).toggle()
-
-      hide_add_field_link("expositions")
-      $(".duree").on 'blur', ->
-        de = $(this).parent().prev().find(".de").val()
-        de2 = $(this).val()
-        result = de2 - de
-        $(this).parents(".control-group").next().find("input").val(de2 - de) if !isNaN(result) and result > 0
-
-    $attach.bind 'removal-callback', ->
-      show_add_field_link("expositions")
+    $attach.bind 'insertion-callback', -> hide_add_field_link("expositions")
+    $attach.bind 'removal-callback', -> show_add_field_link("expositions")
 
   # assign validate expo to related button
-  $(".validate_expo").live 'click', (event) ->
+  $("form").on 'click', ".validate_expo", (event) ->
     $start_point = $(this).closest(".nested-fields")
     # collect produit, expo_terme, indication, dose, de, a, de2, a2 fields values
     expo_values = [
@@ -253,114 +217,10 @@ jQuery ->
     validate_field(event, this, $start_point, $target, bebe_values, "bebes")
 
 # functions
-calc_date_grossesse = ->
-  date_appel            = parse_fr_date($('#dossier_date_appel').val())
-  date_dernieres_regles = parse_fr_date($('#dossier_date_dernieres_regles').val())
-  date_debut_grossesse  = parse_fr_date($('#dossier_date_debut_grossesse').val())
-  # ensure date_appel isnt empty or invalid
-  if isNaN(date_appel.getTime())
-    $("#grossesse_date_messages").html("<span class='calc_error'>Calcul impossible, date appel vide</span>")
-  else
-    # when date_dernieres_regles is empty or invalid
-    if isNaN(date_dernieres_regles.getTime())
-      # ensure date_debut_grossesse isnt empty or invalid
-      if isNaN(date_debut_grossesse.getTime())
-        $("#grossesse_date_messages").html("<span class='calc_error'>Calcul impossible, dates dernières règles et debut grossesse vides</span>")
-      else
-        # calculate date_accouchement_prevu from date_debut_grossesse
-        $("#grossesse_date_messages").html("")
-        date_acc_prev_string  = addDays(parse_fr_date($('#dossier_date_debut_grossesse').val()), 269)
-        $('#dossier_date_accouchement_prevu').val(date_acc_prev_string)
-    else
-      # calculate date_debut_grossesse, date_accouchement_prevu and age_grossesse
-      $("#grossesse_date_messages").html("")
-      # ensure fields ddr and date_appel are not empty
-      $('#dossier_age_grossesse').val(getSA(parse_fr_date($('#dossier_date_dernieres_regles').val()), date_appel))
-      date_debut_grs_string = addDays(parse_fr_date($('#dossier_date_dernieres_regles').val()), 14)
-      date_acc_prev_string  = addDays(parse_fr_date($('#dossier_date_dernieres_regles').val()), 283)
-      $('#dossier_date_debut_grossesse').val(date_debut_grs_string)
-      $('#dossier_date_accouchement_prevu').val(date_acc_prev_string)
-
-addDays = (objDate, days) ->
-  strSep = "/"
-  # add days to date object
-  objDate.setDate(objDate.getDate() + days)
-  # parse string for the modified date object
-  arrDate = []
-  gg = objDate.getDate()
-  gg = if gg.toString().length is 2 then gg else "0" + gg
-  mm = objDate.getMonth() + 1
-  mm = if mm.toString().length is 2 then mm else "0" + mm
-  aaaa = objDate.getFullYear()
-  arrDate.push(gg, mm, aaaa)
-  arrDate.join(strSep)
-
-getYears = (startDate, endDate) ->
-  unless isNaN(startDate.getTime()) and isNaN(endDate.getTime())
-    start = startDate.getTime()
-    end = endDate.getTime()
-    delta = end - start
-    days = delta / (1000 * 60 * 60 * 24)
-    Math.round(days/365)
-
-getSA = (dateDR, dateAppel) ->
-  start = dateDR.getTime()
-  end = dateAppel.getTime()
-  delta = end - start
-  days = delta / (1000 * 60 * 60 * 24)
-  Math.round(days/7)
-
 zero_grossesse_fields = ->
-  fields_names = ["fcs", "geu", "miu", "ivg", "img", "nai"]
   fields = []
-  fields.push($("#dossier_#{field_name}")) for field_name in fields_names
+  fields.push($("#dossier_#{field_name}")) for field_name in ["fcs", "geu", "miu", "ivg", "img", "nai"]
   field.val("0") for field in fields
-
-jQuery.validator.addMethod(
-  "dateNotFuture"
-  (value, element) ->
-    check = false
-    today = Date.now()
-    date_to_test = parse_fr_date(value)
-    check = true if date_to_test.getTime() <= today
-    return this.optional(element) || check
-  "Cette date est dans le futur"
-)
-
-jQuery.validator.addMethod(
-  "dateAPvsRA"
-  (value, element) ->
-    check = false
-    dra = parse_fr_date value
-    dap = parse_fr_date $("#dossier_date_accouchement_prevu").val()
-    semaine = 1000 * 60 * 60 * 24 * 7
-    dap_moins_8semaines = dap.getTime() - (semaine * 8)
-    dap_plus_4semaines = dap.getTime() + (semaine * 4)
-    check = true if dra.getTime() > dap_moins_8semaines and dra.getTime() < dap_plus_4semaines
-    return this.optional(element) || check
-  "La date réelle d'accouchement est en dehors de l'intervalle Date prévue d'accouchement -8 semaines et Date prévue d'accouchement +4 semaines"
-)
-
-jQuery.validator.addMethod(
-  "dateITA"
-  (value, element) ->
-    check = false
-    re = /^\d{1,2}\/\d{1,2}\/\d{4}$/
-    if re.test(value)
-      adata = value.split('/')
-      gg = parseInt(adata[0],10)
-      mm = parseInt(adata[1],10)
-      aaaa = parseInt(adata[2],10)
-      xdata = new Date(aaaa,mm-1,gg)
-      if xdata.getFullYear() is aaaa  && xdata.getMonth() is mm - 1  && xdata.getDate() is gg
-        check = true
-      else
-        check = false
-    else
-      check = false
-    return this.optional(element) || check
-  "Entrez une date valide"
-)
 
 parse_fr_date = (string) ->
   adata = string.split("/")
@@ -370,12 +230,10 @@ parse_fr_date = (string) ->
   xdata = new Date(aaaa,mm-1,gg)
 
 show_add_field_link = (association) ->
-  $add_association_link = $("a.add_fields[data-associations=#{association}]")
-  $add_association_link.show()
+  $("a.add_fields[data-associations=#{association}]").show()
 
 hide_add_field_link = (association) ->
-  $add_association_link = $("a.add_fields[data-associations=#{association}]")
-  $add_association_link.hide()
+  $("a.add_fields[data-associations=#{association}]").hide()
 
 humanizePluralizeFormat = (string) ->
   myToUpper = (match) ->
@@ -383,8 +241,7 @@ humanizePluralizeFormat = (string) ->
   return string.replace(/^[a-z]{1}/, myToUpper) + "s"
 
 jQuery.fn.check_show_association_tokens = (association) ->
-  tokens = this.closest("div.select").next(".#{association}_tokens")
-  $tokens = $(tokens)
+  $tokens = $(this.closest("div.select").next(".#{association}_tokens"))
   $select = this
 
   # make tokens visible when association field is == "Oui"
@@ -629,50 +486,10 @@ jQuery.fn.attach_jstree = (association) ->
       $modal.modal('hide')
       $tokeninput.tokenInput("add", obj) for obj in checked_nodes_objs
 
-calcIMC = ->
-  poids = $("#dossier_poids").val()
-  taille = $("#dossier_taille").val()
-  imc = if poids and taille then Math.round(poids / (Math.pow(taille/100, 2))) else ""
-  $("#dossier_imc").val(imc)
-
 showNextif = (condition, element, next) ->
   if condition then $(next).show() else $(next).hide()
 
 activateCorrespondantEdit = (correspondant_id) ->
   $edit_correspondant_btn = $(".update")
-  $edit_correspondant_btn.show()
   $edit_correspondant_btn.attr("data-link", "/correspondants/#{correspondant_id}/edit")
-  $("#correspondant_modal_title").html("Modification correspondant #{correspondant_id}")
-  $("#save-correspondant").html("Mettre à jour ce correspondant et assigner au dossier")
-
-initDossiersDatatable = ->
-  dossiers_table = $("#dossiers").dataTable
-    oLanguage:
-       #French translation
-        #@name French
-        #@anchor French
-        #@author Guillaume LO RE
-
-      "sProcessing":     "Traitement en cours..."
-      "sLengthMenu":     "Afficher _MENU_ dossiers"
-      "sZeroRecords":    "Aucun dossier &agrave; afficher"
-      "sInfo":           "Affichage du dossier _START_ &agrave; _END_ sur _TOTAL_ dossiers"
-      "sInfoEmpty":      "Affichage de dossier 0 &agrave; 0 sur 0 dossiers"
-      "sInfoFiltered":   "(filtr&eacute; de _MAX_ dossiers au total)"
-      "sInfoPostFix":    ""
-      "sSearch":         "Nom patiente&nbsp;:"
-      "sLoadingRecords": "Téléchargement..."
-      "sUrl":            ""
-      "oPaginate":
-        "sFirst":    "Premi&egravere"
-        "sPrevious": "Pr&eacute;c&eacute;dente"
-        "sNext":     "Suivante"
-        "sLast":     "Derni&egravere"
-    sDom: "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>",
-    sPaginationType: "bootstrap"
-    bProcessing: true
-    aoColumnDefs: [
-      { bSortable: false, aTargets: [4, 6, 7, 8]}
-      { sWidth: "80px", aTargets: [ -1 ] }
-      { sWidth: "150px", aTargets: [ 2, 4 ] }
-    ]
+  $edit_correspondant_btn.show()
