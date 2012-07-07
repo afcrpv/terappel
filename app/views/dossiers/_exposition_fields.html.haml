@@ -12,12 +12,12 @@
           = f.text_field :de, class: "de span1", placeholder: "De"
           = button_tag class: "btn calendar" do
             %i.icon-calendar
-          = f.text_field :de_date, style: "display: none;", class: "span2"
+          = f.text_field :de_date, style: "display: none;", class: "span2 dateITA dateNotFuture"
         .input-append
           = f.text_field :a, class: "span1 duree", placeholder: "à"
           = button_tag class: "btn calendar" do
             %i.icon-calendar
-          = f.text_field :a_date, style: "display: none;", class: "span2"
+          = f.text_field :a_date, style: "display: none;", class: "span2 dateITA dateNotFuture"
     .control-group
       = f.label "Durée", class: "control-label"
       .controls

@@ -61,3 +61,10 @@ window.getYears = (startDate, endDate) ->
     delta = end - start
     days = delta / (1000 * 60 * 60 * 24)
     Math.round(days/365)
+
+window.parse_fr_date = (string) ->
+  adata = string.split("/")
+  gg = parseInt(adata[0],10)
+  mm = parseInt(adata[1],10)
+  aaaa = parseInt(adata[2],10)
+  xdata = new Date(aaaa,mm-1,gg)

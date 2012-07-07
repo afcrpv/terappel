@@ -130,13 +130,15 @@ jQuery ->
     e.preventDefault()
     sa_field = $(this).prev()
     date_field = $(this).next()
+    date_field.mask("99/99/9999")
     date_field.toggle()
     date_field.focus()
-    date_field.on 'blur', ->
+    date_field.one 'blur', ->
       date_expo = parse_fr_date($(this).val())
-      if !isNaN(date_expo.getTime())
-        ddr = parse_fr_date($('#dossier_date_dernieres_regles').val())
+      ddr = parse_fr_date($('#dossier_date_dernieres_regles').val())
+      if !isNaN(date_expo.getTime()) and !isNaN(ddr.getTime())
         sa_field.val(getSA(ddr, date_expo))
+        console.log $(this)
         $(this).toggle()
 
   $("form").on 'blur', ".duree", (e)  ->
@@ -221,13 +223,6 @@ zero_grossesse_fields = ->
   fields = []
   fields.push($("#dossier_#{field_name}")) for field_name in ["fcs", "geu", "miu", "ivg", "img", "nai"]
   field.val("0") for field in fields
-
-parse_fr_date = (string) ->
-  adata = string.split("/")
-  gg = parseInt(adata[0],10)
-  mm = parseInt(adata[1],10)
-  aaaa = parseInt(adata[2],10)
-  xdata = new Date(aaaa,mm-1,gg)
 
 show_add_field_link = (association) ->
   $("a.add_fields[data-associations=#{association}]").show()
