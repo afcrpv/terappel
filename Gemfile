@@ -29,6 +29,8 @@ gem 'jquery-rails'
 
 group :test, :development do
   gem "rspec-rails", "~> 2.6"
+  gem 'jasminerice'
+  gem 'guard-jasmine'
 end
 
 group :development do
