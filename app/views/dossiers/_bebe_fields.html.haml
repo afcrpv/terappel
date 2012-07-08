@@ -1,20 +1,24 @@
 .nested-fields
   = f.input :sexe, as: :radio_buttons, collection: Bebe::SEXE, item_wrapper_class: "inline"
-  .control-group.inline-inputs
-    = f.label "Poids"
-    .controls
-      = f.text_field :poids, placeholder: "g", class: "span1"
-      = f.label "Taille"
-      = f.text_field :taille, placeholder: "cm", class: "span1"
-      = f.label "Périmètre crânien"
-      = f.text_field :pc, placeholder: "cm", class: "span1"
-  .control-group.inline-inputs
-    = f.label "Apgar 1'"
-    .controls
-      = f.text_field :apgar1, class: "span1"
-      = f.label "Apgar 5'"
-      = f.text_field :apgar5, class: "span1"
-  = f.input :malformation, label: "Malformation", as: :select, collection: ["Oui", "Non", "NSP"], input_html: {class: "span1"}
+  .inline-inputs
+    = f.input :poids, wrapper: :append do
+      = f.input_field :poids, class: "span1"
+      %span.add-on g
+    = f.input :taille, wrapper: :append do
+      = f.input_field :taille, class: "span1"
+      %span.add-on cm
+    = f.input :pc, wrapper: :append, label: "Périmètre crânien" do
+      = f.input_field :pc, class: "span1"
+      %span.add-on cm
+  .inline-inputs
+    = f.input :apgar1, label: "Apgar", wrapper: :append do
+      = f.input_field :apgar1, class: "span1"
+      %span.add-on 1'
+    = f.input :apgar5, label: "Apgar", wrapper: :append do
+      = f.input_field :apgar5, class: "span1"
+      %span.add-on 5'
+  = f.input :malformation, label: "Malformation", as: :select, collection: ["Oui", "Non", "NSP"],
+    input_html: {class: "span1"}
   .control-group.inline-inputs.malformation_tokens
     = f.label :malformation_tokens, "Malformations"
     .controls
@@ -24,11 +28,10 @@
     = f.label :pathologie_tokens, "Pathologies"
     .controls
       = f.text_area :pathologie_tokens, "data-pre" => f.object.pathologies.map(&:libelle_and_id).to_json, class: "pathologie_tokens"
-  .control-group
-    = f.label :age, "Age de l'enfant lors du dernier examen"
-    .controls
-      = f.text_field :age, class: "span1"
-      SA
+  = f.input :age, wrapper: :append, label: "Age de l'enfant" do
+    = f.input_field :age, class: "span1"
+    %span.add-on SA
+    %span.help-inline (lors du dernier examen)
   .field_links
     = link_to "#", class: "btn btn-success btn-small validate_bebe" do
       %i.icon-ok.icon-white
