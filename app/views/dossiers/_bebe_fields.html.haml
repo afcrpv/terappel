@@ -28,10 +28,9 @@
     = f.label :pathologie_tokens, "Pathologies"
     .controls
       = f.text_area :pathologie_tokens, "data-pre" => f.object.pathologies.map(&:libelle_and_id).to_json, class: "pathologie_tokens"
-  = f.input :age, wrapper: :append, label: "Age de l'enfant" do
+  = f.input :age, wrapper: :append, label: "Age de l'enfant lors du dernier examen" do
     = f.input_field :age, class: "span1"
-    %span.add-on SA
-    %span.help-inline (lors du dernier examen)
+    %span.add-on semaines
   .field_links
     = link_to "#", class: "btn btn-success btn-small validate_bebe" do
       %i.icon-ok.icon-white
