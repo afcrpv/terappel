@@ -8,8 +8,6 @@ class Exposition < ActiveRecord::Base
   belongs_to :expo_nature
   belongs_to :voie
 
-  attr_reader :de_date, :a_date, :de2_date, :a2_date
-
   delegate :name, to: :produit, allow_nil: true, prefix: true
 
   ONNSP = [["Oui", "O"], ["Non", "N"], ["Ne sait pas", "NSP"]]
