@@ -1,5 +1,5 @@
-window.getSA = (dateDR, dateAppel) ->
-  start = dateDR.getTime()
+window.getSA = (dateFrom, dateAppel) ->
+  start = dateFrom.getTime()
   end = dateAppel.getTime()
   delta = end - start
   days = delta / (1000 * 60 * 60 * 24)
