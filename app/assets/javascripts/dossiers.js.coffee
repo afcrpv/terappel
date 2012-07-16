@@ -85,7 +85,7 @@ jQuery ->
       date_appel = parse_fr_date($("#dossier_date_appel").val())
       $("#dossier_age").val(getYears(date_naissance, date_appel))
 
-  $(".calc_dates_grossesse").on 'blur', -> calc_date_grossesse()
+  $(".calc_dates_grossesse").calculateGrossesse()
 
   #### Evolution ####
   $accouchement_div = $("#accouchement")
