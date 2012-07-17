@@ -15,7 +15,7 @@ jQuery ->
   #better_errors_list()
 
   # bootstrap form tabs
-  $(".nav-pills a:first").tab('show')
+  $(".nav-tabs a:first").tab('show')
 
   $("#dossier_code").on "blur", ->
     value = $(this).val()

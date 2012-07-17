@@ -1,12 +1,12 @@
 = simple_form_for dossier, html: { class: "form-horizontal saisie"} do |f|
   = f.error_notification if f.error_notification
 
-  %ul.nav.nav-pills#tabs
-    %li= link_to "Informations générales", "#infos", data: {toggle: "pill"}
-    %li= link_to "Grossesse", "#grossesse", data: {toggle: "pill"}
-    %li= link_to "Exposition", "#expositions", data: {toggle: "pill"}
-    %li= link_to "Evolution", "#evol", data: {toggle: "pill"}
-    %li= link_to "Nouveau-né", "#bebes", data: {toggle: "pill"}
+  %ul.nav.nav-tabs#tabs
+    %li= link_to "INFORMATIONS GÉNÉRALES", "#infos", data: {toggle: "pill"}
+    %li= link_to "GROSSESSE", "#grossesse", data: {toggle: "pill"}
+    %li= link_to "EXPOSITION", "#expositions", data: {toggle: "pill"}
+    %li= link_to "ÉVOLUTION", "#evol", data: {toggle: "pill"}
+    %li= link_to "NOUVEAU-NÉ", "#bebes", data: {toggle: "pill"}
 
   .tab-content
     #infos.tab-pane.fade.in.active= render "infos", f: f
@@ -14,8 +14,6 @@
     #expositions.tab-pane.fade.in= render "expositions", f: f
     #evol.tab-pane.fade.in= render "evolution", f: f
     #bebes.tab-pane.fade.in= render "bebes", f: f
-
-  %hr
 
   = f.input :commentaire, label: "Commentaire du dossier", input_html: {class: "span9", rows: 2}
 
