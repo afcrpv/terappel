@@ -1,4 +1,9 @@
 $black: #000
+$oldgrayDarker: #222
+$oldgrayDark: #333
+$oldgray: #555
+$oldgrayLight: #999
+$oldgrayLighter:#eee
 $gray: #D8005F
 $grayDark: #A2285E
 $grayDarker: #8C003D
@@ -7,10 +12,10 @@ $grayLighter: #EB6AA3
 $white: #fff
 $linkColor: #8506A9
 $headingsColor: $grayDarker
-$btnInverseBackground: lighten($black, 20%)
-$btnInverseBackgroundHighlight: $black
+$btnInverseBackground: $oldgray
+$btnInverseBackgroundHighlight: $oldgrayDarker
 $inputBorderRadius: 5px
-$inputDisabledBackground: #eee
+$inputDisabledBackground: $oldgrayLighter
 $formActionsBackground: #f5f5f5
 $placeholderText: $grayLighter
 $navbarLinkColor: $grayLighter
@@ -34,14 +39,22 @@ $heroUnitLeadColor: inherit
 
 //custom .add-on color
 .input-prepend .add-on, .input-append .add-on
-  background-color: #eee
+  background-color: $oldgrayLighter
 
 select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input
-  color: #222
+  color: $oldgrayDarker
 
 .nav-tabs > li > a
   &:hover
-    border-color: #eee #eee #ddd
+    border-color: $oldgrayLighter $oldgrayLighter #ddd
 
 .nav > li > a:hover
-  background-color: #eee
+  background-color: $oldgrayLighter
+
+.pagination .active a
+  color: $oldgrayLight
+
+.pagination .disabled span,
+.pagination .disabled a,
+.pagination .disabled a:hover
+  color: $oldgrayLight
