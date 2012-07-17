@@ -47,17 +47,28 @@
 
           %ul.nav.pull-right= render 'layouts/user_nav'
 
-  .container
-    .content
-      .page-header
-        %h1#page_title
-          = yield(:title) if show_title?
-          = yield(:page_title)
-        - flash && flash.each do |key, value|
-          .alert.fade.in{:class => "alert-#{key}"}
-            %a.close{"data-dismiss" => "alert"} &times;
-            %strong= value
+  #main_wrap
+    #header_wrap
+      .container
+        .row
+          %header#page_header
+            .span8
+              %h1#page_title
+                = yield(:title) if show_title?
+                = yield(:page_title)
+            .span4
+              - flash && flash.each do |key, value|
+                .alert.fade.in{:class => "alert-#{key}"}
+                  %a.close{"data-dismiss" => "alert"} &times;
+                  %strong= value
 
-      = yield
+    #page_wrap
+      .container
+        = yield
 
-      %footer#page_footer
+    #footer_wrap
+      .container
+        %footer#page_footer
+          .row
+            .span4.offset8
+              Copyright Terappel 2012
