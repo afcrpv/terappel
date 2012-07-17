@@ -65,7 +65,7 @@ describe "Grossesse", ->
     it "should warn when date_appel is empty", ->
       @date_dernieres_regles_field.calculateGrossesse().blur()
       expect($("#grossesse_date_messages").html())
-        .toBe('<span class="calc_error">Calcul dates de grossesse impossible, date appel vide</span>')
+        .toBe('<span class="calc_error">Calcul des dates de grossesse impossible, date appel vide</span>')
     describe "when a valid date_appel is provided", ->
       beforeEach ->
         $("#dossier_date_appel").val("15/01/2012")
@@ -88,7 +88,7 @@ describe "Grossesse", ->
               @date_dernieres_regles_field.blur()
             it "should warn that calculation is impossible", ->
               expect($("#grossesse_date_messages").html())
-                .toBe('<span class="calc_error">Calcul impossible, veuillez saisir au moins la date de dernières règles, de début grossesse ou date prévue d\'accouchement.</span>')
+                .toBe('<span class="calc_error">Calcul des dates de grossesse impossible, veuillez saisir au moins la date de dernières règles, de début grossesse ou date prévue d\'accouchement.</span>')
           #end DDR empty DG empty DAP empty
 
           #start DDR empty DG empty DAP entered

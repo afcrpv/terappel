@@ -58,16 +58,17 @@ $.fn.calculateGrossesse = ->
         # ensure all dates are not empty
         if !date_dernieres_regles and !date_debut_grossesse and !date_accouchement_prevu
           $("#grossesse_date_messages").
-            html("<span class='calc_error'>Calcul impossible, veuillez saisir au moins la date de dernières règles, de début grossesse ou date prévue d'accouchement.</span>")
+            html("<span class='calc_error'>Calcul des dates de grossesse impossible, veuillez saisir au moins la date de dernières règles, de début grossesse ou date prévue d'accouchement.</span>")
         else
           grossesse = new Grossesse(date_appel, date_dernieres_regles, date_debut_grossesse, date_accouchement_prevu)
           $('#dossier_date_dernieres_regles').val(grossesse.date_dernieres_regles)
           $('#dossier_date_debut_grossesse').val(grossesse.get_date_debut_grossesse())
           $('#dossier_date_accouchement_prevu').val(grossesse.get_date_accouchement_prevu())
           $('#dossier_age_grossesse').val(grossesse.age_grossesse())
+          $("#grossesse_date_messages").html("&nbsp;")
       else
         $("#grossesse_date_messages").
-          html("<span class='calc_error'>Calcul dates de grossesse impossible, date appel vide</span>")
+          html("<span class='calc_error'>Calcul des dates de grossesse impossible, date appel vide</span>")
 
  window.addDays = (objDate, days) ->
   strSep = "/"
