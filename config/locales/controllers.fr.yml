@@ -2,7 +2,7 @@ fr:
   home:
     index: "Page d'accueil de Terappel"
   dossiers:
-    show: "Dossier %{id}"
+    show: "Détails du dossier %{id}"
     new: "Nouveau Dossier"
     create: "Nouveau Dossier"
     edit: "Modification Dossier %{id}"
