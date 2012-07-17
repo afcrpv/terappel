@@ -1,2 +1,47 @@
+$black: #000
+$gray: #D8005F
+$grayDark: #A2285E
+$grayDarker: #8C003D
+$grayLight: #EB3B88
+$grayLighter: #EB6AA3
+$white: #fff
+$linkColor: #8506A9
+$headingsColor: $grayDarker
+$btnInverseBackground: lighten($black, 20%)
+$btnInverseBackgroundHighlight: $black
+$inputBorderRadius: 5px
+$inputDisabledBackground: #eee
+$formActionsBackground: #f5f5f5
+$placeholderText: $grayLighter
+$navbarLinkColor: $grayLighter
+$navbarBackground: $grayDarker
+$navbarBackgroundHighlight: $grayDark
+$navbarBrandColor: $navbarLinkColor
+$navbarLinkBackgroundActive: $navbarBackground
+$navbarLinkBackgroundHover: transparent
+$navbarLinkColorHover: $white
+$navbarLinkColorActive: $navbarLinkColorHover
+$navbarSearchBackground: $grayLighter
+$navbarSearchBackgroundFocus: $white
+$navbarSearchBorder: darken($navbarSearchBackground, 30%)
+$navbarSearchPlaceholderColor: lighten($grayLighter, 25%)
+$navbarText: $grayLight
+$heroUnitBackground: $grayLighter
+$heroUnitHeadingColor: inherit
+$heroUnitLeadColor: inherit
 @import "bootstrap"
 @import "bootstrap-responsive"
+
+//custom .add-on color
+.input-prepend .add-on, .input-append .add-on
+  background-color: #eee
+
+select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input
+  color: #222
+
+.nav-tabs > li > a
+  &:hover
+    border-color: #eee #eee #ddd
+
+.nav > li > a:hover
+  background-color: #eee

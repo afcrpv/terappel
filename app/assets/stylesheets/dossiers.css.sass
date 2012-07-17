@@ -12,7 +12,7 @@ body.dossiers
   table.fields_summary
     th
       font-weight: bold
-      background-color: #000
+      background-color: $grayDarker
       color: #fff
       text-align: left
       a, a:visited
@@ -51,6 +51,15 @@ body.dossiers
     margin-bottom: 10px
 
   form
+    #tabs
+      margin-bottom: 0
+    .nav-tabs > li > a, .nav-pills > li > a
+      font-weight: bold
+    .tab-content
+      padding-top: 18px
+      border: 1px solid #DDDDDD
+      border-top: 0
+      +border-radius(0 0 5px 5px)
     input, select
       margin-right: 5px
     .input-append
