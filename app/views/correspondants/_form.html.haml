@@ -1,9 +1,9 @@
 = simple_form_for correspondant, html: {class: "form-horizontal", data: {title: form_title}} do |f|
   = f.error_notification if f.error_notification
   = f.association :formule
-  = f.input :nom, label: "Nom et Prénom"
+  = f.input :nom, label: "NOM et Prénom"
   = f.association :qualite, label: "Qualité"
-  = f.association :specialite, label: "Specialité"
+  = f.association :specialite, label: "Spécialité"
   = f.input :adresse, input_html: {rows: "3"}
   = f.input :cp, label: "Code Postal"
   = f.input :ville

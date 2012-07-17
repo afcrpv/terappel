@@ -143,8 +143,8 @@
               ...\
             </div>\
             <div class="modal-footer">\
-              <a href="#" class="btn cancel-action">...</a>\
               <a href="#" class="btn btn-primary save-action">...</a>\
+              <a href="#" class="btn cancel-action">...</a>\
             </div>\
           </div>')
           .modal({
