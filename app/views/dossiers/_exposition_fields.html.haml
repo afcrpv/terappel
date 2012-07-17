@@ -1,8 +1,14 @@
 .nested-fields
   = f.association :expo_type, label: "Type", input_html: {class: "span7"}
+  = f.association :expo_nature, label: "Nature"
   = f.input :produit_name, url: autocomplete_produit_name_dossiers_path, as: :autocomplete, label: "Exposition", input_html: {class: "span7"}
   = f.input :indication_name, url: autocomplete_indication_name_dossiers_path, as: :autocomplete, label: "Indication", input_html: {class: "span7"}
-  = f.association :expo_nature, label: "Nature"
+  = f.association :voie, label: "Voie d'exposition"
+  .control-group.string.optional
+    = f.label :dose, "Posologie", class: "string optional control-label"
+    .controls
+      = f.text_field :dose
+      %span.help-inline par example en mg/j
 
   .inline-inputs
     .control-group
@@ -42,12 +48,6 @@
         = f.text_field :duree2, class: "span1"
 
   = f.association :expo_terme, label: "Terme d'exposition"
-  .control-group.string.optional
-    = f.label :dose, "Posologie", class: "string optional control-label"
-    .controls
-      = f.text_field :dose
-      %span.help-inline par example en mg/j
-  = f.association :voie, label: "Voie d'exposition"
   .control-group.select.optional
     = f.label :medpres, "Prescription", class: "select optional control-label"
     .controls
