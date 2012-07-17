@@ -14,6 +14,7 @@ group :assets do
   gem 'bootstrap-sass'
   gem "jquery-ui-rails"
   gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
+  gem 'compass-rails'
 end
 
 gem 'jquery-rails'
