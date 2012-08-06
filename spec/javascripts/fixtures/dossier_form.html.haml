@@ -1,10 +1,32 @@
 %form
-  %input{type: "text", id: "dossier_poids"}
-  %input{type: "text", id: "dossier_taille"}
-  %input{type: "text", id: "dossier_imc"}
-  %input{type: "text", id: "dossier_date_appel"}
-  %input{type: "text", id: "dossier_age_grossesse"}
-  %input{type: "text", id: "dossier_date_dernieres_regles"}
-  %input{type: "text", id: "dossier_date_debut_grossesse"}
-  %input{type: "text", id: "dossier_date_accouchement_prevu"}
+  %input#dossier_poids{:type => "text"}/
+  %input#dossier_taille{:type => "text"}/
+  %input#dossier_imc{:type => "text"}/
+  %input#dossier_date_appel{:type => "text"}/
+  %input#dossier_age_grossesse{:type => "text"}/
+  %input#dossier_date_dernieres_regles{:type => "text"}/
+  %input#dossier_date_debut_grossesse{:type => "text"}/
+  %input#dossier_date_accouchement_prevu{:type => "text"}/
   #grossesse_date_messages
+  #expositions
+    %table#expositions_summary.fields_summary
+      %thead
+        %tr
+          %th#action
+          %th#exposition Exposition
+          %th#terme Terme
+          %th#indication Indication
+          %th Posologie
+          %th De
+          %th.to à
+          %th Et de
+          %th.to à
+      %tbody
+    .nested-fields
+      .control-group
+        .controls
+          %input#dossier_expositions_attributes_0_produit_name{type: "text", name: "dossier[expositions_attributes][0][produit_name]"}
+      .field_links
+        %a.validate_expo{href: "#"}
+    .links
+      %a.add_fields{data: {associations: "expositions"}, href: "#"}
