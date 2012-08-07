@@ -61,14 +61,13 @@ $.widget "terappel.validateAssociation"
     return selected_attributes
 
   _actionsCell: ($model_row, plural_name_and_id) ->
-    model_name = plural_name_and_id.replace(/(\w+)s_\d+/, "$1")
-    model_id = plural_name_and_id.replace(/\w+s_(\d+)/, "$1")
+    model_name = @options.modelName
+    model_id = @options.modelId
 
     $cell = $("<td />")
     $related_fieldset = $model_row.parents().find(".nested-fields").has("input[id*='_#{model_name}s_attributes_#{model_id}']")
 
     $modify_link = $("<a href='#' id='modify_#{plural_name_and_id}' class='modify_link' title='Modifier cette #{model_name}'><img alt='M' src='/assets/icons/edit.png'></a>")
-    console.log $related_fieldset
     $modify_link.one 'click', (e) ->
       e.preventDefault()
       # toggle the div.nested-fields containing the related model form
@@ -88,7 +87,7 @@ $.widget "terappel.validateAssociation"
       # marks the corresponding model for destroy assigning the _destroy input value to 1
       $related_fieldset.find("input[type=hidden]").val("1")
       # and close the modal
-      $(this).closest(".modal").modal('hide')
+      $(@).closest(".modal").modal('hide')
 
     $modify_link.appendTo($cell)
     $destroy_link.appendTo($cell)
