@@ -1,4 +1,6 @@
 #= require jquery
+#= require jquery.ui.core
+#= require jquery.ui.widget
 #= require bootstrap
 #= require bmi
 #= require dates_calc_functions

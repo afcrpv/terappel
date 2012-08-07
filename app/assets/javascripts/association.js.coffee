@@ -4,96 +4,101 @@ class @Association
     @attributes = attributes
 
 
-###$.widget "terappel.validateAssociation", ->
+$.widget "terappel.validateAssociation"
   options:
     modelName: null
+    modelId: null
+    selectedFields: []
 
-  #@model_name = model_name###
-$.fn.validateAssociation = (model_name, selected_fields) ->
-  @selected_fields = selected_fields
-  @model_name = model_name
-  @each =>
-    $(this).on 'click', (e) =>
+  _create: ->
+    model_name = @options.modelName
+    selected_fields = @options.selectedFields
+    @_bindActions(model_name, selected_fields)
+
+  _bindActions: (model_name, selected_fields) ->
+    $start_point = @element.closest(".nested-fields")
+    @options.modelId = model_id = $start_point.find("input").filter(":first").attr("name").match(/[0-9]+/).join()
+    plural_name_and_id = "#{model_name}s_#{model_id}"
+
+    @element.on 'click', (e) =>
       e.preventDefault()
-      $start_point = $(this).closest(".nested-fields")
-      model_id = $start_point.find("input").filter(":first").attr("name").match(/[0-9]+/).join()
-      @plural_name_and_id = "#{@model_name}s_#{model_id}"
 
-      fields_and_values = {}
-
-      for field in $start_point.find("input, select")
-        name = $(field).attr('name').replace(/\w+\[\w+\]\[\d+\]\[(\w+)\]/, '$1')
-        fields_and_values[name] = $(field).val()
-
-      selected_attributes = {}
-      for field in @selected_fields
-        selected_attributes[field] = fields_and_values[field]
-
-      association = new Association(@model_name, selected_attributes)
+      association = new Association(model_name, @_getFieldsValues($start_point))
       values = for key, value of association.attributes
         value
 
-      $target = $("##{@model_name}s_summary")
+      $target = $("##{model_name}s_summary")
 
       # don't do anything if collected attributes values are all empty
       if values.join("").length
         #check if we need to replace an existing or create a new row
-        if ($model_row = $target.find("tbody tr##{@plural_name_and_id}")).length
+        if ($model_row = $target.find("tbody tr##{plural_name_and_id}")).length
           $model_row.empty()
         else
-          ($model_row = $("<tr id='#{@plural_name_and_id}' />")).
+          ($model_row = $("<tr id='#{plural_name_and_id}' />")).
             appendTo($target.find("tbody"))
 
-        _populateRow($model_row, @plural_name_and_id, association.attributes)
-        $(this).closest(".nested-fields").hide()
+        @_actionsCell($model_row, plural_name_and_id)
+        @_fieldsCells($model_row, association.attributes)
+        $start_point.hide()
 
       else
         $('<p id="exposition_message">')
-          .insertBefore($(this))
+          .insertBefore(@element)
           .text("Vous devez remplir au moins un nom de produit")
 
-_populateRow = ($model_row, plural_name_and_id, fields_and_values) ->
-  _actionsCell($model_row, plural_name_and_id)
-  _fieldsCells($model_row, fields_and_values)
+  _getFieldsValues: ($start_point) ->
+    fields_and_values = {}
 
-_actionsCell = ($model_row, plural_name_and_id) ->
-  model_name = plural_name_and_id.replace(/(\w+)s_\d+/, "$1")
-  model_id = plural_name_and_id.replace(/\w+s_(\d+)/, "$1")
+    for field in $start_point.find("input, select")
+      name = $(field).attr('name').replace(/\w+\[\w+\]\[\d+\]\[(\w+)\]/, '$1')
+      fields_and_values[name] = $(field).val()
 
-  $cell = $("<td />")
-  $related_fieldset = $model_row.parents().find(".nested-fields").has("input[id*='_#{model_name}s_attributes_#{model_id}']")
+    selected_attributes = {}
+    for field in @options.selectedFields
+      selected_attributes[field] = fields_and_values[field]
 
-  $modify_link = $("<a href='#' id='modify_#{plural_name_and_id}' class='modify_link' title='Modifier cette #{model_name}'><img alt='M' src='/assets/icons/edit.png'></a>")
-  $modify_link.one 'click', (e) ->
-    e.preventDefault()
-    # toggle the div.nested-fields containing the related model form
-    $related_fieldset.slideToggle()
-    hide_add_field_link("#{model_name}s")
+    return selected_attributes
 
-    if model_name is "bebes"
-      $("a.show_#{association}_tree:visible").complete_modal_for_association(association) for association in ["malformation", "pathologie"]
+  _actionsCell: ($model_row, plural_name_and_id) ->
+    model_name = plural_name_and_id.replace(/(\w+)s_\d+/, "$1")
+    model_id = plural_name_and_id.replace(/\w+s_(\d+)/, "$1")
 
-  $destroy_link = $("<a href='#association_destroy' id='destroy_#{plural_name_and_id}' class='destroy_link' data-toggle='modal' title='Détruire cette #{model_name}'><img alt='X' src='/assets/icons/destroy.png'></a>")
+    $cell = $("<td />")
+    $related_fieldset = $model_row.parents().find(".nested-fields").has("input[id*='_#{model_name}s_attributes_#{model_id}']")
 
-  $("#association_destroy").on 'click', '#confirm-destruction', (event) ->
-    event.preventDefault()
+    $modify_link = $("<a href='#' id='modify_#{plural_name_and_id}' class='modify_link' title='Modifier cette #{model_name}'><img alt='M' src='/assets/icons/edit.png'></a>")
+    console.log $related_fieldset
+    $modify_link.one 'click', (e) ->
+      e.preventDefault()
+      # toggle the div.nested-fields containing the related model form
+      $related_fieldset.slideToggle()
+      hide_add_field_link("#{model_name}s")
 
-    # remove the model row from the DOM
-    $model_row.remove()
-    # marks the corresponding model for destroy assigning the _destroy input value to 1
-    $related_fieldset.find("input[type=hidden]").val("1")
-    # and close the modal
-    $(this).closest(".modal").modal('hide')
+      if model_name is "bebes"
+        $("a.show_#{association}_tree:visible").complete_modal_for_association(association) for association in ["malformation", "pathologie"]
 
-  $modify_link.appendTo($cell)
-  $destroy_link.appendTo($cell)
-  $cell.appendTo($model_row)
+    $destroy_link = $("<a href='#association_destroy' id='destroy_#{plural_name_and_id}' class='destroy_link' data-toggle='modal' title='Détruire cette #{model_name}'><img alt='X' src='/assets/icons/destroy.png'></a>")
 
-_fieldsCells = ($model_row, fields_and_values) ->
-  for key, value of fields_and_values
-    cell = $("<td class=\"#{key}\">")
-    cell.appendTo($model_row)
-      .text(value)
+    $("#association_destroy").on 'click', '#confirm-destruction', (event) ->
+      event.preventDefault()
+
+      # remove the model row from the DOM
+      $model_row.remove()
+      # marks the corresponding model for destroy assigning the _destroy input value to 1
+      $related_fieldset.find("input[type=hidden]").val("1")
+      # and close the modal
+      $(this).closest(".modal").modal('hide')
+
+    $modify_link.appendTo($cell)
+    $destroy_link.appendTo($cell)
+    $cell.appendTo($model_row)
+
+  _fieldsCells: ($model_row, fields_and_values) ->
+    for key, value of fields_and_values
+      cell = $("<td class=\"#{key}\">")
+      cell.appendTo($model_row)
+        .text(value)
 
 jQuery ->
   $("#tabs li a[href='#expositions']").bind 'click', ->

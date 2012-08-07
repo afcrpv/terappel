@@ -27,9 +27,12 @@ describe "Association", ->
       @table = $("table##{@model_name}s_summary")
       @table_row = "tr##{@plural_name_and_id}"
 
-    describe "when fields are all empty", ->
+    describe "and fields are all empty", ->
       beforeEach ->
-        $(".validate_expo").validateAssociation(@model_name, ["produit_name"]).click()
+        $(".validate_expo").validateAssociation(
+          modelName: @model_name
+          selectedFields: ["produit_name"]
+        ).click()
 
       it "should not add a table row", ->
         expect(@table).not.toContain @table_row
@@ -40,7 +43,10 @@ describe "Association", ->
     describe "when at least 1 field is filled", ->
       beforeEach ->
         $("#dossier_expositions_attributes_0_produit_name").val("tartampionate")
-        $(".validate_expo").validateAssociation(@model_name, ["produit_name", "indication"]).click()
+        $(".validate_expo").validateAssociation(
+          modelName: @model_name
+          selectedFields: ["produit_name", "indication"]
+        ).click()
 
       it "should hide the association fields group", ->
         expect($(".nested-fields")).toBeHidden()
