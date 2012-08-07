@@ -3,7 +3,6 @@ class @Association
     @name = name
     @attributes = attributes
 
-
 $.widget "terappel.validateAssociation"
   options:
     modelName: null
@@ -11,14 +10,15 @@ $.widget "terappel.validateAssociation"
     selectedFields: []
 
   _create: ->
-    model_name = @options.modelName
-    selected_fields = @options.selectedFields
-    @_bindActions(model_name, selected_fields)
+    @_bindActions(@options.modelName, @options.selectedFields)
+
+  pluralNameAndId: ->
+    "#{@options.modelName}s_#{@options.modelId}"
 
   _bindActions: (model_name, selected_fields) ->
     $start_point = @element.closest(".nested-fields")
     @options.modelId = model_id = $start_point.find("input").filter(":first").attr("name").match(/[0-9]+/).join()
-    plural_name_and_id = "#{model_name}s_#{model_id}"
+    plural_name_and_id = @pluralNameAndId()
 
     @element.on 'click', (e) =>
       e.preventDefault()
@@ -31,21 +31,28 @@ $.widget "terappel.validateAssociation"
 
       # don't do anything if collected attributes values are all empty
       if values.join("").length
-        #check if we need to replace an existing or create a new row
-        if ($model_row = $target.find("tbody tr##{plural_name_and_id}")).length
-          $model_row.empty()
-        else
-          ($model_row = $("<tr id='#{plural_name_and_id}' />")).
-            appendTo($target.find("tbody"))
-
-        @_actionsCell($model_row, plural_name_and_id)
+        $model_row = @_getModelRow($target)
+        @_actionsCell($model_row)
         @_fieldsCells($model_row, association.attributes)
         $start_point.hide()
-
       else
-        $('<p id="exposition_message">')
-          .insertBefore(@element)
-          .text("Vous devez remplir au moins un nom de produit")
+        @_emptyFieldsError()
+
+  _getModelRow: ($target) ->
+    plural_name_and_id = @pluralNameAndId()
+    #check if we need to replace an existing or create a new row
+    if ($model_row = $target.find("tbody tr##{plural_name_and_id}")).length
+      $model_row.empty()
+    else
+      ($model_row = $("<tr id='#{plural_name_and_id}' />")).
+        appendTo($target.find("tbody"))
+
+    return $model_row
+
+  _emptyFieldsError: ->
+    $('<p id="exposition_message">')
+      .insertBefore(@element)
+      .text("Vous devez remplir au moins un nom de produit")
 
   _getFieldsValues: ($start_point) ->
     fields_and_values = {}
@@ -60,23 +67,25 @@ $.widget "terappel.validateAssociation"
 
     return selected_attributes
 
-  _actionsCell: ($model_row, plural_name_and_id) ->
+  _actionsCell: ($model_row) ->
+    plural_name_and_id = @pluralNameAndId()
     model_name = @options.modelName
     model_id = @options.modelId
-
     $cell = $("<td />")
-    $related_fieldset = $model_row.parents().find(".nested-fields").has("input[id*='_#{model_name}s_attributes_#{model_id}']")
+    $related_fieldset = $model_row
+      .parents()
+      .find(".nested-fields")
+      .has("input[id*='_#{model_name}s_attributes_#{model_id}']")
 
-    $modify_link = $("<a href='#' id='modify_#{plural_name_and_id}' class='modify_link' title='Modifier cette #{model_name}'><img alt='M' src='/assets/icons/edit.png'></a>")
-    $modify_link.one 'click', (e) ->
-      e.preventDefault()
-      # toggle the div.nested-fields containing the related model form
-      $related_fieldset.slideToggle()
-      hide_add_field_link("#{model_name}s")
+    @_modifyLink(model_name, $related_fieldset)
+      .appendTo($cell)
+    @_destroyLink(model_name, $related_fieldset, $model_row)
+      .appendTo($cell)
 
-      if model_name is "bebes"
-        $("a.show_#{association}_tree:visible").complete_modal_for_association(association) for association in ["malformation", "pathologie"]
+    $cell.appendTo($model_row)
 
+  _destroyLink: (model_name, $related_fieldset, $model_row) ->
+    plural_name_and_id = @pluralNameAndId()
     $destroy_link = $("<a href='#association_destroy' id='destroy_#{plural_name_and_id}' class='destroy_link' data-toggle='modal' title='Détruire cette #{model_name}'><img alt='X' src='/assets/icons/destroy.png'></a>")
 
     $("#association_destroy").on 'click', '#confirm-destruction', (event) ->
@@ -89,9 +98,21 @@ $.widget "terappel.validateAssociation"
       # and close the modal
       $(@).closest(".modal").modal('hide')
 
-    $modify_link.appendTo($cell)
-    $destroy_link.appendTo($cell)
-    $cell.appendTo($model_row)
+    return $destroy_link
+
+  _modifyLink: (model_name, $related_fieldset) ->
+    plural_name_and_id = @pluralNameAndId()
+    $modify_link = $("<a href='#' id='modify_#{plural_name_and_id}' class='modify_link' title='Modifier cette #{model_name}'><img alt='M' src='/assets/icons/edit.png'></a>")
+    $modify_link.one 'click', (e) ->
+      e.preventDefault()
+      # toggle the div.nested-fields containing the related model form
+      $related_fieldset.slideToggle()
+      hide_add_field_link("#{model_name}s")
+
+      if model_name is "bebes"
+        $("a.show_#{association}_tree:visible").complete_modal_for_association(association) for association in ["malformation", "pathologie"]
+
+      return $modify_link
 
   _fieldsCells: ($model_row, fields_and_values) ->
     for key, value of fields_and_values
