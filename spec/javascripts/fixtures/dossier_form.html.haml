@@ -26,7 +26,21 @@
       .control-group
         .controls
           %input#dossier_expositions_attributes_0_produit_name{type: "text", name: "dossier[expositions_attributes][0][produit_name]"}
+      .control-group
+        .controls
+          %input#dossier_expositions_attributes_0_indication{type: "text", name: "dossier[expositions_attributes][0][indication]"}
       .field_links
         %a.validate_expo{href: "#"}
+        %input#dossier_expositions_attributes_0__destroy{type:"hidden", name: "dossier[expositions_attributes][0][_destroy]"}
     .links
       %a.add_fields{data: {associations: "expositions"}, href: "#"}
+
+.modal.hide#association_destroy{style: "display: none;"}
+  .modal-header
+    %button{type: "button", class: "close", "data-dismiss" => "modal"} x
+    %h3 Destruction 
+  .modal-body
+    %p Etes-vous sûr ?
+  .modal-footer
+    = link_to "Annuler", "#", class: "btn", "data-dismiss" => "modal"
+    = link_to "Détruire", "#", class: "btn btn-danger", id: "confirm-destruction"

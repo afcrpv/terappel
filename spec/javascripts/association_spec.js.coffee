@@ -22,8 +22,8 @@ describe "Association", ->
     beforeEach ->
       jasmine.getFixtures().fixturesPath = 'jasmine/fixtures'
       loadFixtures "dossier_form"
-      model_id = "0"
-      @plural_name_and_id = "#{@model_name}s_#{model_id}"
+      @model_id = "0"
+      @plural_name_and_id = "#{@model_name}s_#{@model_id}"
       @table = $("table##{@model_name}s_summary")
       @table_row = "tr##{@plural_name_and_id}"
 
@@ -40,7 +40,7 @@ describe "Association", ->
     describe "when at least 1 field is filled", ->
       beforeEach ->
         $("#dossier_expositions_attributes_0_produit_name").val("tartampionate")
-        $(".validate_expo").validateAssociation(@model_name, ["produit_name"]).click()
+        $(".validate_expo").validateAssociation(@model_name, ["produit_name", "indication"]).click()
 
       it "should hide the association fields group", ->
         expect($(".nested-fields")).toBeHidden()
@@ -52,11 +52,15 @@ describe "Association", ->
         expect($(@table_row)).toContain ("a#modify_#{@plural_name_and_id}")
         expect($(@table_row)).toContain ("a#destroy_#{@plural_name_and_id}")
 
+      it "the table row should contain the collected fields as cells", ->
+        expect($(@table_row)).toContain ("td.produit_name")
+        expect($(@table_row)).toContain ("td.indication")
+
       describe "clicking the modify link", ->
         beforeEach ->
           $("#modify_#{@plural_name_and_id}").click()
 
-        it "should disable the modify link", ->
+        it "should disable itself", ->
           $("#modify_#{@plural_name_and_id}").click()
           expect($(".nested-fields")).toBeVisible()
 
@@ -66,5 +70,26 @@ describe "Association", ->
         it "should hide the add fields link", ->
           expect($("a.add_fields[data-associations=#{@model_name}s]")).toBeHidden()
 
-      it "the table row should contain the collected fields as cells", ->
-        expect($(@table_row)).toContain ("td.produit_name")
+        describe "when association is bebes", ->
+
+          xit "should prepare malformation and pathologies modals"
+
+      describe "clicking the destroy link", ->
+        beforeEach ->
+          $("#destroy_#{@plural_name_and_id}").click()
+
+        it "should open a modal to confirm destruction", ->
+          expect($("#association_destroy")).toBeVisible()
+
+        describe "clicking the destroy button", ->
+          beforeEach ->
+            $("#confirm-destruction}").click()
+
+          it "should remove the table row", ->
+            expect(@table).not.toContain @table_row
+
+          it "should mark the associated model for destroy", ->
+            expect($("input[type=hidden]").val()).toEqual("1")
+
+          it "should close the modal", ->
+            expect($(".modal")).toBeHidden()

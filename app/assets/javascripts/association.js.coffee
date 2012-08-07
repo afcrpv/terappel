@@ -66,23 +66,24 @@ _actionsCell = ($model_row, plural_name_and_id) ->
   $modify_link = $("<a href='#' id='modify_#{plural_name_and_id}' class='modify_link' title='Modifier cette #{model_name}'><img alt='M' src='/assets/icons/edit.png'></a>")
   $modify_link.one 'click', (e) ->
     e.preventDefault()
-    # clicking the link toggles the div.nested-fields containing the related model form
+    # toggle the div.nested-fields containing the related model form
     $related_fieldset.slideToggle()
     hide_add_field_link("#{model_name}s")
 
-    ###hide_add_field_link(model_name+"s")
     if model_name is "bebes"
-      for association in ["malformation", "pathologie"]
-        $link = $("a.show_#{association}_tree:visible")
-        $link.complete_modal_for_association(association)###
+      $("a.show_#{association}_tree:visible").complete_modal_for_association(association) for association in ["malformation", "pathologie"]
 
-  $destroy_link = $("<a href='#' id='destroy_#{plural_name_and_id}' class='destroy_link' title='Détruire cette #{model_name}'><img alt='X' src='/assets/icons/destroy.png'></a>")
-  ###$destroy_link.bind 'click', (event) ->
+  $destroy_link = $("<a href='#association_destroy' id='destroy_#{plural_name_and_id}' class='destroy_link' data-toggle='modal' title='Détruire cette #{model_name}'><img alt='X' src='/assets/icons/destroy.png'></a>")
+
+  $("#association_destroy").on 'click', '#confirm-destruction', (event) ->
     event.preventDefault()
-    # clicking the link removes the parent tr from the DOM
-    $node.remove()
-    # and marks the corresponding model for destroy assigning the _destroy input value to 1
-    $related_fieldset.find("input[type=hidden]").val("1")###
+
+    # remove the model row from the DOM
+    $model_row.remove()
+    # marks the corresponding model for destroy assigning the _destroy input value to 1
+    $related_fieldset.find("input[type=hidden]").val("1")
+    # and close the modal
+    $(this).closest(".modal").modal('hide')
 
   $modify_link.appendTo($cell)
   $destroy_link.appendTo($cell)
@@ -117,10 +118,10 @@ jQuery ->
     $target = $("#expositions_summary tbody")
     validate_field(event, this, $start_point, $target, expo_values, "expositions")
 
-  #### BEBES ####
   # prefill summary tables for expos and bebes
-  prefill_summary_table("expositions")
+  prefill_summary_table(model) for model in ["expositions", "bebes"]
 
+  #### BEBES ####
   for association in ["malformation", "pathologie"]
     do (association) ->
       $(".#{association}s_tree").attach_jstree(association)
@@ -131,8 +132,6 @@ jQuery ->
         $tokens.attach_jquery_tokeninput("/#{association}s.json")
 
         $("select[id$=#{association}]").check_show_association_tokens(association)
-
-        prefill_summary_table("bebes")
 
         $attach = $('#bebes')
         $attach.bind 'insertion-callback', ->
