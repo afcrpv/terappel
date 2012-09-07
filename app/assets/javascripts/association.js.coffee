@@ -416,6 +416,3 @@ jQuery.fn.attach_jstree = (association) ->
       $modal = $(this).parents(".modal")
       $modal.modal('hide')
       $tokeninput.tokenInput("add", obj) for obj in checked_nodes_objs
-
-showNextif = (condition, element, next) ->
-  if condition then $(next).show() else $(next).hide()

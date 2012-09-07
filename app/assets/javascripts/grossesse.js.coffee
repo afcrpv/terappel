@@ -69,17 +69,3 @@ $.fn.calculateGrossesse = ->
       else
         $("#grossesse_date_messages").
           html("<span class='calc_error'>Calcul des dates de grossesse impossible, date appel vide</span>")
-
- window.addDays = (objDate, days) ->
-  strSep = "/"
-  # add days to date object
-  objDate.setDate(objDate.getDate() + days)
-  # parse string for the modified date object
-  arrDate = []
-  gg = objDate.getDate()
-  gg = if gg.toString().length is 2 then gg else "0" + gg
-  mm = objDate.getMonth() + 1
-  mm = if mm.toString().length is 2 then mm else "0" + mm
-  aaaa = objDate.getFullYear()
-  arrDate.push(gg, mm, aaaa)
-  arrDate.join(strSep)
