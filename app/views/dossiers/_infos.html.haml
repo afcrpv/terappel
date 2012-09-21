@@ -35,7 +35,11 @@
   = f.input :taille, wrapper: :append do
     = f.input_field :taille, class: "span1"
     %span.add-on cm
-  = f.input :imc, disabled: true, label: "IMC", input_html: {class: "span1"}
+  = f.input :imc, disabled: true, label: "IMC", wrapper: :append do
+    = f.input_field :imc, class: "span1"
+    %span.add-on
+      kg/m
+      %sup> 2
 
 = f.association :categoriesp, label: "C.S.P.", input_html: {class: "span6"}
 
@@ -49,7 +53,7 @@
   = f.input :antecedents_fam, label: "Antécédents familiaux", as: :select, collection: Dossier::ONI,
     input_html: {class: "span1"}
   = f.input :comm_antecedents_fam, label: "Préciser", wrapper_html: {style: "display: none;"},
-    input_html: {class: "span7", rows: "1"}
+    input_html: {class: "span6", rows: "1"}
 
 %table#grossesses_anterieures
   %tbody
