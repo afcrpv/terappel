@@ -47,11 +47,11 @@ jQuery ->
   for field in ["antecedents_perso", "antecedents_fam", "toxiques", "folique", "patho1t"]
     element = $("#dossier_#{field}")
     condition = element.val() is "0"
-    next = element.parents(".control-group").next()
+    next = if field is "antecedents_perso" or "antecedents_fam" then element.next() else element.parents(".control-group").next()
     showNextif condition, element, next
     element.on 'change', ->
       condition = $(this).val() is "0"
-      next = $(this).parents(".control-group").next()
+      next = if field is "antecedents_perso" or "antecedents_fam" then $(this).next() else $(this).parents(".control-group").next()
       showNextif(condition, $(this), next)
 
   # reminder to fill expositions if tabac/alcool/toxiques equals "Oui"

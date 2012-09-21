@@ -15,6 +15,15 @@ fr:
         role: "Rôle"
         centre_name: "Centre"
       dossier:
-        date_appel: "Date Appel"
+        date_appel: "Date d'appel"
         name: "Nom patiente"
-        code: "Numero Appel"
+        prenom: "Prénom"
+        date_naissance: "Date de naissance"
+        code: "N° d'appel"
+        antecedents_perso: "Antécédents personnels"
+        antecedents_fam: "Antécédents familiaux"
+        imc: "IMC"
+        categoriesp: "C.S.P."
+        expo_terato: "Témoin"
+        correspondant_nom: "Correspondant"
+        grsant: Nbr de grossesse(s) antérieure(s)

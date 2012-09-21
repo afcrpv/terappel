@@ -57,38 +57,37 @@ body.dossiers
       font-weight: bold
     .tab-content
       padding-top: 18px
-      border: 1px solid #DDDDDD
       border-top: 0
       +border-radius(0 0 5px 5px)
     input, select
-      margin-right: 5px
-    .input-append
-      input, select
-        margin-right: 0
-      .add-on, .btn
-        margin-left: -5px
-        margin-bottom: 0
+      margin-bottom: 0
+    .input-append, .input-prepend
+      margin-bottom: 0
+      //input, select
+        //margin-right: 0
+      //.add-on, .btn
+        //margin-left: -5px
+        //margin-bottom: 0
     .control-group
       margin-bottom: 5px
-      & > label
-        width: 170px
-    .controls
-      margin-left: 175px
-    .no-label
-      .controls
-        margin-left: 0
+      //& > label
+        //width: 170px
+    //.controls
+      //margin-left: 175px
+    //.no-label
+      //.controls
+        //margin-left: 0
     label
       font-weight: bold
-      &:after
-        content: " : "
-      &.error
-        margin-left: 1em
-        display: inline-block
-        color: #B94A48
-        max-width: 180px
-        vertical-align: top
-        &:after
-          content: ""
+      margin-bottom: 1px
+      //&.error
+        //margin-left: 1em
+        //display: inline-block
+        //color: #B94A48
+        //max-width: 180px
+        //vertical-align: top
+        //&:after
+          //content: ""
 
     .links, .expo_links
       margin-top: 5px
@@ -137,7 +136,6 @@ body.dossiers
       text-align: right
 
   a.create, a.update
-  a.create, a.update
     margin-left: 5px
 
   #antecedents
@@ -146,7 +144,6 @@ body.dossiers
       border-bottom: 1px solid black
 
   #grossesses_anterieures
-    margin-left: 160px
     th
       vertical-align: middle
       &:after
