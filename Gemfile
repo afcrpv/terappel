@@ -35,10 +35,10 @@ group :test, :development do
 end
 
 group :development do
-  gem 'heroku'
   gem 'pry'
   gem 'haml-rails'
   gem 'sextant'
+  gem 'terminal-notifier-guard'
 end
 
 group :test do
