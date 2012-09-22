@@ -35,8 +35,8 @@
   = f.input :taille, wrapper: :append do
     = f.input_field :taille, class: "span1"
     %span.add-on cm
-  = f.input :imc, disabled: true, label: "IMC", wrapper: :append do
-    = f.input_field :imc, class: "span1"
+  = f.input :imc, label: "IMC", wrapper: :append do
+    = f.input_field :imc, disabled: true, class: "span1"
     %span.add-on
       kg/m
       %sup> 2
