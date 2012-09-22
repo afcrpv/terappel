@@ -48,22 +48,20 @@
           %ul.nav.pull-right= render 'layouts/user_nav'
 
   #main_wrap
-    #header_wrap
+    #page_wrap
       .container
-        .row
-          %header#page_header
+        .row#page_header
+          %header
             .span8
               %h1#page_title
                 = yield(:title) if show_title?
                 = yield(:page_title)
             .span4
               - flash && flash.each do |key, value|
-                .alert.fade.in{:class => "alert-#{key}"}
+                .flash.alert.fade.in{:class => "alert-#{key}"}
                   %a.close{"data-dismiss" => "alert"} &times;
                   %strong= value
 
-    #page_wrap
-      .container
         = yield
 
     #footer_wrap
