@@ -29,8 +29,8 @@
   = f.input :taille, wrapper_html: {class: "span2"}, wrapper: :append do
     = f.input_field :taille, class: "span1"
     %span.add-on cm
-  = f.input :imc, disabled: true, wrapper_html: {class: "span2"}, wrapper: :append do
-    = f.input_field :imc, class: "span1"
+  = f.input :imc,  wrapper_html: {class: "span2"}, wrapper: :append do
+    = f.input_field :imc, disabled: true, class: "span1"
     %span.add-on
       kg/m
       %sup> 2
