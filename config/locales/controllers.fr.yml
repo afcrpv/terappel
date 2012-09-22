@@ -14,9 +14,9 @@ fr:
     edit: "Modification correspondant: %{id}"
     update: "Modification correspondant: %{id}"
   flash:
-    create: "%{resource} %{id} créé(e) avec succès."
-    update: "%{resource} %{id} mis(e) à jour avec succès."
-    destroy: "%{resource} %{id} détruit(e) avec succès."
+    create: "Le %{resource} %{id} a été créé."
+    update: "Le %{resource} %{id} a été mis à jour."
+    destroy: "Le %{resource} %{id} a été détruit."
   shared:
     action_links:
       show: "Détails"
