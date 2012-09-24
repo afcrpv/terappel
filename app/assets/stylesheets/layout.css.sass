@@ -7,11 +7,34 @@ table#dossiers
     vertical-align: middle
 
 /* Top bar */
-.navbar-search
-  .btn
-    margin-top: 0
-.navbar-text strong
-  color: white
+.topbar-search
+  position: relative
+  margin-right: 10px
+  margin-top: 7px
+  .search-query
+    -moz-transition: all 0.2s ease-in-out 0s
+    background: lighten($navbarBackgroundHighlight, 10%)
+    +border-radius(15px)
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) inset
+    border: 0 none
+    margin-bottom: 0
+    padding: 4px 14px 2px 12px
+    position: absolute
+    top: 0
+    right: 0
+    z-index: 2
+    font-size: 14px
+    line-height: 1
+    &:focus
+      background: #fff
+  .search-icon
+    cursor: pointer
+    position: absolute
+    top: 5px
+    right: 8px
+    z-index: 3
+    .icon-search
+      opacity: 0.6
 
 /* wrappers */
 $mainWrapDelta: 0.06
@@ -52,11 +75,11 @@ $mainWrapDelta: 0.06
   .row
     padding: 5px 0
     margin-left: 2px
-    border: 1px solid #fe10ff
+    border: 1px solid $tableBorder
     &:nth-child(odd)
-      background-color: #f3daff
+      background-color: $tableBackgroundAccent
     &:nth-child(even)
-      background-color: #fff
+      background-color: $tableBackground
 
   dl.dates
     margin-top: 0
