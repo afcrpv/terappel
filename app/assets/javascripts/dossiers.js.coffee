@@ -10,9 +10,8 @@ jQuery ->
   $(".combobox").combobox()
 
   # disable submit with enter key
-  $("form.saisie").keypress (e) ->
+  $("form.saisie input[type='text']").keypress (e) ->
     return false if e.which is 13
-    #TODO: maybe replace "enter" key code with "tab"
 
   # bootstrap form tabs
   $(".nav-tabs a:first").tab('show')
