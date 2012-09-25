@@ -28,8 +28,7 @@ class Dossier < ActiveRecord::Base
   friendly_id :code
 
   # validations
-  validates_presence_of :code, :name, :date_appel, :centre_id, :user_id
-  #TODO: add more required field
+  validates_presence_of :code, :name, :date_appel, :centre_id, :user_id, :expo_terato
 
   #associations
   belongs_to :centre

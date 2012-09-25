@@ -1,8 +1,8 @@
 .row
-  = f.input :code, wrapper_html: {class: "span2"}, input_html: {class: "span2"}
-  = f.input :date_appel, as: :string, wrapper_html: {class: "span2"}, input_html: {autofocus: true, "data-value" => date_appel, class: "dateITA dateNotFuture span2"}
+  = f.input :code, wrapper_html: {class: "span2"}, input_html: {class: "input-small"}
+  = f.input :date_appel, as: :string, wrapper_html: {class: "span2"}, input_html: {class: "input-small dateITA dateNotFuture", autofocus: true, "data-value" => date_appel}
   = f.association :motif, wrapper_html: {class: "span6"}, input_html: {class: "span6 combobox"}
-  = f.input :expo_terato, as: :select, collection: Dossier::ONI, wrapper_html: {class: "span1"}, input_html: {class: "span1"}
+  = f.input :expo_terato, as: :select, collection: Dossier::ONI, wrapper_html: {class: "span2"}, input_html: {class: "input-mini"}
 
 = f.input :correspondant_nom, wrapper: :append, wrapper_html: {id: "dossier_correspondant_id_field"} do
   = f.input :correspondant_id, as: :hidden
