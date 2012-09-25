@@ -15,7 +15,9 @@
     #evol.tab-pane.fade.in= render "evolution", f: f
     #bebes.tab-pane.fade.in= render "bebes", f: f
 
-  = f.input :commentaire, label: "Commentaire du dossier", input_html: {class: "span9", rows: 2}
+  %hr
+
+  = f.input :commentaire, label: "Commentaire du dossier", input_html: {class: "span11", rows: 2}
 
   .form-actions
     = button_tag type: :submit, disable_with: (save_and_continue = "Enregistrer et continuer"), name: "_continue", class: "btn btn-success" do
