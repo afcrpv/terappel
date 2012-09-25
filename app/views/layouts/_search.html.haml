@@ -1,9 +1,7 @@
-= form_tag @dossier_for_search, method: :get, class: "navbar-search form-search pull-left" do
+= form_tag @dossier_for_search, method: :get, class: "topbar-search" do
   = hidden_field_tag params[:codedossier]
-  .input-append
-    = autocomplete_field_tag "codedossier", '', home_autocomplete_dossier_code_path,
-      required: true,
-      placeholder: "N° Appel",
-      class: "span2 search-query"
-    = button_tag type: :submit, class: "btn btn-primary" do
-      %i.icon-white.icon-search
+  = autocomplete_field_tag "codedossier", '', home_autocomplete_dossier_code_path,
+    placeholder: "N° Dossier",
+    class: "input-small search-query"
+  %span.search-icon
+    %i.icon-search

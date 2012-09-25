@@ -46,30 +46,98 @@ body.dossiers
         width: 54px
       a
         margin: 5px
-  .tab-content
-    min-height: 400px
-    margin-bottom: 10px
 
-  form
-    #tabs
-      margin-bottom: 0
-    .nav-tabs > li > a, .nav-pills > li > a
-      font-weight: bold
-    .tab-content
-      padding-top: 18px
-      border: 1px solid #DDDDDD
-      border-top: 0
-      +border-radius(0 0 5px 5px)
-    input, select
-      margin-right: 5px
-    .input-append
+  // tweak for twitter bootstrap typeahead looks
+  .ui-widget
+    font-family: inherit
+    font-size: inherit
+  .ui-autocomplete
+    position: absolute
+    top: 100%
+    left: 0
+    z-index: 1000
+    float: left
+    display: none
+    min-width: 160px
+    _width: 160px
+    padding: 4px 0
+    margin: 2px 0 0 0
+    list-style: none
+    background-color: #ffffff
+    border-color: #ccc
+    border-color: rgba(0, 0, 0, 0.2)
+    border-style: solid
+    border-width: 1px
+    -webkit-border-radius: 5px
+    -moz-border-radius: 5px
+    border-radius: 5px
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2)
+    -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2)
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2)
+    -webkit-background-clip: padding-box
+    -moz-background-clip: padding
+    background-clip: padding-box
+    *border-right-width: 2px
+    *border-bottom-width: 2px
+
+    .ui-menu-item > a.ui-corner-all
+      display: block
+      padding: 3px 15px
+      clear: both
+      font-weight: normal
+      line-height: 18px
+      color: #555555
+      white-space: nowrap
+
+      &.ui-state-hover, &.ui-state-active
+        color: #ffffff
+        text-decoration: none
+        background-color: $linkColor
+        border-radius: 0px
+        -webkit-border-radius: 0px
+        -moz-border-radius: 0px
+        background-image: none
+
+  .ui-autocomplete.scroll
+    max-height: 200px
+    overflow-y: auto
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden
+    /* add padding to account for vertical scrollbar */
+    padding-right: 20px
+
+  /* IE 6 doesn't support max-height
+   * we use height instead, but this forces the menu to always be this tall
+   */
+  * html .ui-autocomplete.scroll
+    height: 200px
+
+  .ui-combobox
+    position: relative
+    display: inline-block
+
+  .ui-combobox-toggle
+    position: absolute
+    top: 0
+    bottom: 0
+    margin-left: -1px
+    padding: 0
+    /* adjust styles for IE 6/7 */
+    *height: 1.7em
+    *top: 0.1em
+
+  .ui-combobox-input
+    margin: 0
+    padding: 0.3em
+
+  form.form-horizontal
+    .input-append, .input-prepend
       input, select
         margin-right: 0
       .add-on, .btn
         margin-left: -5px
         margin-bottom: 0
     .control-group
-      margin-bottom: 5px
       & > label
         width: 170px
     .controls
@@ -78,9 +146,6 @@ body.dossiers
       .controls
         margin-left: 0
     label
-      font-weight: bold
-      &:after
-        content: " : "
       &.error
         margin-left: 1em
         display: inline-block
@@ -89,6 +154,27 @@ body.dossiers
         vertical-align: top
         &:after
           content: ""
+
+  form.form-vertical
+    #tabs
+      margin-bottom: 0
+    .nav-tabs > li > a, .nav-pills > li > a
+      font-weight: bold
+    .tab-content
+      min-height: 400px
+      margin-bottom: 10px
+      padding-top: 18px
+      +border-radius(0 0 5px 5px)
+    input, select
+      margin-bottom: 0
+    .input-append, .input-prepend
+      margin-bottom: 0
+
+    .control-group
+      margin-bottom: 5px
+    label
+      font-weight: bold
+      margin-bottom: 1px
 
     .links, .expo_links
       margin-top: 5px
@@ -137,7 +223,6 @@ body.dossiers
       text-align: right
 
   a.create, a.update
-  a.create, a.update
     margin-left: 5px
 
   #antecedents
@@ -146,7 +231,6 @@ body.dossiers
       border-bottom: 1px solid black
 
   #grossesses_anterieures
-    margin-left: 160px
     th
       vertical-align: middle
       &:after

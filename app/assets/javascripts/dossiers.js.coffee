@@ -5,14 +5,20 @@
 jQuery ->
   initDossiersDatatable()
   initDossierDialog()
+  initComboboxAutocomplete()
+
+  $(".combobox").combobox()
 
   # disable submit with enter key
-  $("form.saisie").keypress (e) ->
+  $("form.saisie input[type='text']").keypress (e) ->
     return false if e.which is 13
-    #TODO: maybe replace "enter" key code with "tab"
 
   # bootstrap form tabs
   $(".nav-tabs a:first").tab('show')
+
+  $("#codedossier").on "keyup", ->
+    value = $(this).val()
+    $(this).val(value.toUpperCase())
 
   $("#dossier_code").on "blur", ->
     value = $(this).val()
@@ -47,11 +53,11 @@ jQuery ->
   for field in ["antecedents_perso", "antecedents_fam", "toxiques", "folique", "patho1t"]
     element = $("#dossier_#{field}")
     condition = element.val() is "0"
-    next = element.parents(".control-group").next()
+    next = if field is "antecedents_perso" or "antecedents_fam" then element.next() else element.parents(".control-group").next()
     showNextif condition, element, next
     element.on 'change', ->
       condition = $(this).val() is "0"
-      next = $(this).parents(".control-group").next()
+      next = if field is "antecedents_perso" or "antecedents_fam" then $(this).next() else $(this).parents(".control-group").next()
       showNextif(condition, $(this), next)
 
   # reminder to fill expositions if tabac/alcool/toxiques equals "Oui"

@@ -1,61 +1,33 @@
-//http://colorschemedesigner.com/#3U51TeB--NiIu essayer
-$black: #000
-$oldgrayDarker: #222
-$oldgrayDark: #333
-$oldgray: #555
-$oldgrayLight: #999
-$oldgrayLighter:#eee
-$gray: #D8005F
-$grayDark: #A2285E
-$grayDarker: #8C003D
-$grayLight: #EB3B88
-$grayLighter: #EB6AA3
-$white: #fff
-$linkColor: #8506A9
-$headingsColor: $grayDarker
-$btnInverseBackground: $oldgray
-$btnInverseBackgroundHighlight: $oldgrayDarker
-$inputBorderRadius: 5px
-$inputDisabledBackground: $oldgrayLighter
-$formActionsBackground: #f5f5f5
-$placeholderText: $grayLighter
-$navbarLinkColor: $grayLighter
-$navbarBackground: $grayDarker
-$navbarBackgroundHighlight: $grayDark
-$navbarBrandColor: $navbarLinkColor
-$navbarLinkBackgroundActive: $navbarBackground
-$navbarLinkBackgroundHover: transparent
-$navbarLinkColorHover: $white
-$navbarLinkColorActive: $navbarLinkColorHover
-$navbarSearchBackground: $grayLighter
-$navbarSearchBackgroundFocus: $white
-$navbarSearchBorder: darken($navbarSearchBackground, 30%)
-$navbarSearchPlaceholderColor: lighten($grayLighter, 25%)
-$navbarText: $grayLight
-$heroUnitBackground: $grayLighter
-$heroUnitHeadingColor: inherit
-$heroUnitLeadColor: inherit
+//http://colorschemedesigner.com/#3Q51MgDBRw0xB0MgPN
+//Primary Color:
+$p1: #4C60A6
+$p2: #5E688F
+$p3: #22357C
+$p4: #95A5E0
+$p5: #AAB6E0
+//Secondary Color A:
+$sa1: #7B68C1	
+$sa2: #695F91
+$sa3: #35227D
+$sa4: #A595E1
+$sa5: #B6ABE1
+//Secondary Color B:
+$sb1: #5D95B6
+$sb2: #567689
+$sb3: #1E5677
+$sb4: #8DBFDC
+$sb5: #A3C7DC
+//
+
+$linkColor: #4C60A6
+$navbarBackgroundHighlight: #A3C7DC
+$navbarBrandColor: #1E5676
+$navbarLinkColor: #567689
+$navbarLinkColorActive: darken($navbarLinkColor, 25%)
+$navbarLinkColorHover: darken($navbarLinkColor, 15%)
+$tableBackgroundAccent: lighten($sa5, 15%)
+$tableBorder: $sa5
+
+$sansFontFamily: 'Istok Web', 'Helvetica Neue', Helvetica, Arial, sans-serif
 @import "bootstrap"
 @import "bootstrap-responsive"
-
-//custom .add-on color
-.input-prepend .add-on, .input-append .add-on
-  background-color: $oldgrayLighter
-
-select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input
-  color: $oldgrayDarker
-
-.nav-tabs > li > a
-  &:hover
-    border-color: $oldgrayLighter $oldgrayLighter #ddd
-
-.nav > li > a:hover
-  background-color: $oldgrayLighter
-
-.pagination .active a
-  color: $oldgrayLight
-
-.pagination .disabled span,
-.pagination .disabled a,
-.pagination .disabled a:hover
-  color: $oldgrayLight

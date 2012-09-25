@@ -1,6 +1,8 @@
 $ = jQuery
 
 $ ->
+  $(".topbar-search .search-icon").click ->
+    $(".topbar-search").submit() if $(".search-query").val()
   $(".alert-message").alert()
   $("[rel=tooltip]").tooltip
     delay:
