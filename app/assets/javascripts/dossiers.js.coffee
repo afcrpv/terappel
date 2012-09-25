@@ -10,8 +10,9 @@ jQuery ->
   $(".combobox").combobox()
 
   # disable submit with enter key
-  $("form.saisie input[type='text']").keypress (e) ->
-    return false if e.which is 13
+  for type in ["text", "number"]
+    $("form.saisie input[type='#{type}']").keypress (e) ->
+      return false if e.which is 13
 
   # bootstrap form tabs
   $(".nav-tabs a:first").tab('show')
@@ -31,8 +32,6 @@ jQuery ->
   $("form.saisie").validate()
 
   $("#dossier_code").mask("aa9999999")
-  $("#dossier_age_grossesse").mask("?99")
-  $("#dossier_terme").mask("?99")
 
   dates_grossesse_fields = []
   dates_grossesse_fields.push($("#dossier_date_#{field_name}")) for field_name in ["appel", "dernieres_regles", "debut_grossesse", "accouchement_prevu", "reelle_accouchement", "naissance", "recueil_evol"]
