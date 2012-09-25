@@ -5,6 +5,9 @@
 jQuery ->
   initDossiersDatatable()
   initDossierDialog()
+  initComboboxAutocomplete()
+
+  $(".combobox").combobox()
 
   # disable submit with enter key
   $("form.saisie").keypress (e) ->

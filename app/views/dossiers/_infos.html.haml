@@ -1,11 +1,12 @@
 .row
   = f.input :code, wrapper_html: {class: "span2"}, input_html: {class: "span2"}
   = f.input :date_appel, as: :string, wrapper_html: {class: "span2"}, input_html: {autofocus: true, "data-value" => date_appel, class: "dateITA dateNotFuture span2"}
-  = f.association :motif, wrapper_html: {class: "span6"}, input_html: {class: "span6"}
+  = f.association :motif, wrapper_html: {class: "span6"}, input_html: {class: "span6 combobox"}
   = f.input :expo_terato, as: :select, collection: Dossier::ONI, wrapper_html: {class: "span1"}, input_html: {class: "span1"}
 
-= f.input :correspondant_nom, as: :autocomplete, url: autocomplete_correspondant_fullname_dossiers_path, wrapper: :append, wrapper_html: {id: "dossier_correspondant_id_field"} do
-  = f.input_field :correspondant_nom, class: "span6", id_element: "#dossier_correspondant_id"
+= f.input :correspondant_nom, wrapper: :append, wrapper_html: {id: "dossier_correspondant_id_field"} do
+  = f.input :correspondant_id, as: :hidden
+  = f.input_field :correspondant_nom, class: "span6", id_element: "#dossier_correspondant_id", "data-autocomplete" => autocomplete_correspondant_fullname_dossiers_path
   - if can?(:create, Correspondant)
     = button_tag "#", data: {link: new_correspondant_path(modal: true)}, class: "btn create" do
       %i.icon-plus
@@ -14,7 +15,6 @@
     = button_tag "#", data: {link: edit_correspondant_path(modal: true, id: "__ID__")}, class: "btn update" do
       %i.icon-pencil
       Voir/modifier
-  = f.input :correspondant_id, as: :hidden
 
 .row
   = f.input :name, wrapper_html: {class: "span2"}, input_html: {class: "span2"}
