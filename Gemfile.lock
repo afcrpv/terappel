@@ -1,4 +1,10 @@
 GIT
+  remote: git://github.com/bcardarella/client_side_validations.git
+  revision: 1920020365657d4819c2c5a9c2c01af67fbf6bbd
+  specs:
+    client_side_validations (3.2.0.beta.6)
+
+GIT
   remote: git://github.com/bradphelan/jasminerice.git
   revision: ee4681169096fb15913b90cf15832e6b15e15a22
   specs:
@@ -320,6 +326,7 @@ DEPENDENCIES
   bootstrap-sass (~> 2.1.0.0)
   cancan
   capybara
+  client_side_validations!
   cocoon
   coffee-filter
   coffee-rails (~> 3.2.2)
