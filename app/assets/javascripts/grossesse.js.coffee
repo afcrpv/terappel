@@ -45,6 +45,11 @@ class @Grossesse
       sa = getSA(date, date_appel)
       return sa
 
+$.fn.resetDates = ->
+  @each ->
+    $(this).click ->
+      $(this).prev().val("")
+
 $.fn.calculateGrossesse = ->
   @each ->
     $(this).blur ->
