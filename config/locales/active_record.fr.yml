@@ -27,3 +27,7 @@ fr:
         expo_terato: "Témoin"
         correspondant_nom: "Correspondant"
         grsant: Nbr de grossesse(s) antérieure(s)
+        date_dernieres_regles: "DDR"
+        date_debut_grossesse: "Date  de debut de grossesse"
+        date_accouchement_prevu: "Date prévue d'accouchement"
+        age_grossesse: "Age grossesse lors de l'appel (SA)"
