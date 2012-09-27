@@ -22,19 +22,6 @@ jQuery ->
     value = $(this).val()
     $(this).val(value.toUpperCase())
 
-  #### Validators and masks
-  #$.validator.setDefaults
-    #debug: false
-    #focusCleanup: true
-    #highlight: (element, errorClass, validClass) ->
-     #$(element).parents(".control-group")
-                    #.addClass(errorClass)
-    #unhighlight: (element, errorClass, validClass) ->
-     #$(element).parents(".control-group")
-                    #.removeClass(errorClass)
-
-  #$("form.saisie").validate()
-
   $("#dossier_code").mask("aa9999999")
 
   dates_grossesse_fields = []
