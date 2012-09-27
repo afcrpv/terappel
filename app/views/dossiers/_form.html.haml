@@ -1,4 +1,4 @@
-= simple_form_for dossier, html: { class: "form-vertical saisie"} do |f|
+= simple_form_for dossier, validate: true, html: { class: "form-vertical saisie"} do |f|
   = f.error_notification if f.error_notification
 
   %ul.nav.nav-tabs#tabs

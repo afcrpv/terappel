@@ -26,17 +26,17 @@ jQuery ->
     $(this).val(value.toUpperCase())
 
   #### Validators and masks
-  $.validator.setDefaults
-    debug: false
-    focusCleanup: true
-    highlight: (element, errorClass, validClass) ->
-     $(element).parents(".control-group")
-                    .addClass(errorClass)
-    unhighlight: (element, errorClass, validClass) ->
-     $(element).parents(".control-group")
-                    .removeClass(errorClass)
+  #$.validator.setDefaults
+    #debug: false
+    #focusCleanup: true
+    #highlight: (element, errorClass, validClass) ->
+     #$(element).parents(".control-group")
+                    #.addClass(errorClass)
+    #unhighlight: (element, errorClass, validClass) ->
+     #$(element).parents(".control-group")
+                    #.removeClass(errorClass)
 
-  $("form.saisie").validate()
+  #$("form.saisie").validate()
 
   $("#dossier_code").mask("aa9999999")
 
@@ -95,6 +95,7 @@ jQuery ->
       $("#dossier_age").val(getYears(date_naissance, date_appel))
 
   $(".calc_dates_grossesse").calculateGrossesse()
+  $(".clear_date").resetDates()
 
   #exposition dates calculations
   $("form").on 'click', ".calendar", (e) ->
