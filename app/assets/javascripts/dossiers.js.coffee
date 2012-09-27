@@ -88,6 +88,7 @@ jQuery ->
   $(".clear_date").resetDates()
 
   #exposition dates calculations
+  $(".date_expo").hide()
   $("form").on 'click', ".calendar", (e) ->
     e.preventDefault()
     sa_field = $(this).prev()
