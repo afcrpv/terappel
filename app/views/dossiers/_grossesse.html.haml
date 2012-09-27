@@ -1,31 +1,29 @@
 .row
-  = f.input :date_dernieres_regles, as: :string, wrapper_html: {class: "span4"}, input_html: {class: "input-small dateITA dateNotFuture calc_dates_grossesse", "data-value" => date_dernieres_regles}
-  = f.input :date_debut_grossesse, as: :string, wrapper_html: {class: "span4"}, input_html: {class: "input-small dateITA dateNotFuture calc_dates_grossesse", "data-value" => date_debut_grossesse}
-  = f.input :date_accouchement_prevu, as: :string, wrapper_html: {class: "span4"}, input_html: {class: "input-small dateITA calc_dates_grossesse", "data-value" => date_accouchement_prevu}
+  = f.input :date_dernieres_regles, wrapper: :append, wrapper_html: {class: "span3"} do
+    = f.input_field :date_dernieres_regles, as: :string, class: "input-small dateITA dateNotFuture calc_dates_grossesse", "data-value" => date_dernieres_regles
+    = button_tag "#", tabIndex: "-1", type: :button, class: "btn clear_date" do
+      %i.icon-remove
+  = f.input :date_debut_grossesse, wrapper: :append, wrapper_html: {class: "span3"} do
+    = f.input_field :date_debut_grossesse, as: :string, class: "input-small dateITA dateNotFuture calc_dates_grossesse", "data-value" => date_debut_grossesse
+    = button_tag "#", tabIndex: "-1", type: :button, class: "btn clear_date" do
+      %i.icon-remove
+  = f.input :date_accouchement_prevu, wrapper: :append, wrapper_html: {class: "span3"} do
+    = f.input_field :date_accouchement_prevu, as: :string, class: "input-small dateITA calc_dates_grossesse", "data-value" => date_accouchement_prevu
+    = button_tag "#", tabIndex: "-1", type: :button, class: "btn clear_date" do
+      %i.icon-remove
+  = f.input :age_grossesse, wrapper_html: {class: "span3"}, input_html: {class: "input-mini"}
+
 .row
-  = f.input :age_grossesse, wrapper_html: {class: "span4"}, input_html: {class: "input-mini"}
-  .span8#grossesse_date_messages
+  .span12#grossesse_date_messages
 
-.larger-labels
-  .inline-inputs
-    = f.input :tabac, as: :select, collection: Dossier::TABAC, input_html: {class: "span3"}
-    %span.message{style: "display: none;"} N'oubliez pas de saisir "TABAC" dans l'onglet Exposition
+%hr
 
-  .inline-inputs
-    = f.input :alcool, as: :select, collection: Dossier::ALCOOL, input_html: {class: "span3"}
-    %span.message{style: "display: none;"} N'oubliez pas de saisir "ALCOOL" dans l'onglet Exposition
+.row
+  = f.input :tabac, as: :select, collection: Dossier::TABAC, wrapper_html: {class: "span4"}, input_html: {class: "span3 combobox"}, hint: "N'oubliez pas de saisir 'TABAC' dans l'onglet Exposition"
+  = f.input :alcool, as: :select, collection: Dossier::ALCOOL, wrapper_html: {class: "span4"}, input_html: {class: "span3 combobox"}, hint: "N'oubliez pas de saisir 'ALCOOL' dans l'onglet Exposition"
+  = f.input :toxiques, as: :select, collection: Dossier::ONI, wrapper_html: {class: "span4"}, input_html: {class: "input-mini"}, hint: "N'oubliez pas de saisir 'toxiques' dans l'onglet Exposition"
 
-  .inline-inputs
-    = f.input :toxiques, as: :select, collection: Dossier::ONI, input_html: {class: "span1"}
-    %span.message{style: "display: none;"} N'oubliez pas de saisir "toxiques" dans l'onglet Exposition
-
-  = f.input :ass_med_proc, label: "Assistance médicale à la procréation", collection: Dossier::ONI, input_html: {class: "span1"}
-
-  .inline-inputs
-    = f.input :folique, label: "Acide folique avant la grossesse", as: :select, collection: Dossier::ONI, input_html: {class: "span1"}
-    %span.message{style: "display: none;"} Préciser éventuellement le dosage dans le commentaire
-
-  .inline-inputs
-    = f.input :patho1t, label: "Pathologie(s) au premier trimestre", as: :select, collection: Dossier::ONI, input_html: {class: "span1"}
-    %span.message{style: "display: none;"} Préciser la ou les pathologies dans le commentaire
-
+.row
+  = f.input :folique, label: "Acide folique avant la grossesse", as: :select, collection: Dossier::ONI, wrapper_html: {class: "span4"}, input_html: {class: "input-mini"}, hint: "Préciser éventuellement le dosage dans le commentaire"
+  = f.input :patho1t, label: "Pathologie(s) au premier trimestre", as: :select, collection: Dossier::ONI, wrapper_html: {class: "span4"}, input_html: {class: "input-mini"}, hint: "Préciser la ou les pathologies dans le commentaire"
+  = f.input :ass_med_proc, label: "Assistance médicale à la procréation", collection: Dossier::ONI, wrapper_html: {class: "span4"}, input_html: {class: "input-mini"}
