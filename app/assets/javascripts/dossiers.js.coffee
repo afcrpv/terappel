@@ -88,6 +88,7 @@ jQuery ->
   $(".clear_date").resetDates()
 
   $(".calendar").expo_termes_calc()
+  $(".duree_calc").duree_expo_calc()
 
   #### Evolution ####
   $accouchement_div = $("#accouchement")
