@@ -5,6 +5,7 @@ window.initComboboxAutocomplete = function() {
         self = this,
         select = this.element.hide(),
         width_class = select.attr("class").match(/(span\d)+/)[0],
+        id = select.attr("id")
         selected = select.children( ":selected" ),
         value = selected.val() ? selected.text() : "",
         wrapper = this.wrapper = $( "<div>" )
@@ -13,6 +14,7 @@ window.initComboboxAutocomplete = function() {
 
       input = $( "<input>" )
         .attr("type", "text")
+        .attr("id", id)
         .appendTo( wrapper )
         .val( value )
         .addClass( width_class )

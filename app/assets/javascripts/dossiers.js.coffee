@@ -67,24 +67,30 @@ jQuery ->
       showNextif(condition, $(this), next)
 
   # reminder to fill expositions if tabac/alcool/toxiques equals "Oui"
-  $tabac_element = $("#dossier_tabac")
+  $tabac_element = $("select#dossier_tabac")
+  $tabac_message = $tabac_element.nextAll(".help-block").hide()
   tabac = $tabac_element.val()
   tabac_condition = tabac and tabac in ["1", "2", "3"]
-  showNextif tabac_condition, $tabac_element, $tabac_element.parents(".control-group").next()
-  $tabac_element.on 'change', ->
-    tabac = $(this).val()
-    condition = tabac and tabac in ["1", "2", "3"]
-    next = $(this).parents(".control-group").next()
+  showNextif tabac_condition, $tabac_element, $tabac_message
+  $("input#dossier_tabac").bind 'autocompleteselect', (event, ui) ->
+    tabac_values = ["0 à 5 cig/j", "5 à 10 cig/j", "Sup. à 10 cig/j"]
+    tabac = ui.item.value
+    condition = tabac and tabac in tabac_values
+    console.log condition
+    console.log this
+    next = $(this).parent().nextAll(".help-block")
     showNextif condition, $(this), next
 
-  $alcool_element = $("#dossier_alcool")
+  $alcool_element = $("select#dossier_alcool")
+  $alcool_message = $alcool_element.nextAll(".help-block").hide()
   alcool = $alcool_element.val()
   alcool_condition = alcool and alcool in ["1", "2"]
-  showNextif alcool_condition, $alcool_element, $alcool_element.parents(".control-group").next()
-  $alcool_element.on 'change', ->
-    alcool = $(this).val()
-    condition = alcool and alcool in ["1", "2"]
-    next = $(this).parents(".control-group").next()
+  showNextif alcool_condition, $alcool_element, $alcool_message
+  $("input#dossier_alcool").bind 'autocompleteselect', (event, ui) ->
+    alcool_values = ["Occasionnel (<= 2 verres/j)", "Fréquent (> 2 verres/j)"]
+    alcool = ui.item.value
+    condition = alcool and alcool in alcool_values
+    next = $(this).parent().nextAll(".help-block").hide()
     showNextif condition, $(this), next
 
   # calculateur dates
