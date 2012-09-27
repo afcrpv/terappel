@@ -17,11 +17,11 @@
         .controls.controls-row
           .input-append
             = f.text_field :de, class: "de input-mini", placeholder: "De"
-            = button_tag class: "btn calendar" do
+            = button_tag type: :button, class: "btn calendar" do
               %i.icon-calendar
             = f.text_field :de_date, class: "input-small date_expo"
             = f.text_field :a, class: "input-mini duree", placeholder: "à"
-            = button_tag class: "btn calendar" do
+            = button_tag type: :button, class: "btn calendar" do
               %i.icon-calendar
             = f.text_field :a_date, class: "input-small date_expo"
             = f.text_field :duree, class: "input-mini", placeholder: "durée"
@@ -31,11 +31,11 @@
         .controls.controls-row
           .input-append
             = f.text_field :de2, class: "de input-mini", placeholder: "De"
-            = button_tag class: "btn calendar" do
+            = button_tag type: :button, class: "btn calendar" do
               %i.icon-calendar
             = f.text_field :de2_date, class: "input-small date_expo"
             = f.text_field :a2, class: "input-mini duree", placeholder: "à"
-            = button_tag class: "btn calendar" do
+            = button_tag type: :button, class: "btn calendar" do
               %i.icon-calendar
             = f.text_field :a2_date, class: "input-small date_expo"
             = f.text_field :duree2, class: "input-mini", placeholder: "durée"
