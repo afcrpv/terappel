@@ -24,6 +24,6 @@
   = f.input :toxiques, as: :select, collection: Dossier::ONI, wrapper_html: {class: "span4"}, input_html: {class: "input-mini"}, hint: "N'oubliez pas de saisir 'toxiques' dans l'onglet Exposition"
 
 .row
-  = f.input :folique, label: "Acide folique avant la grossesse", as: :select, collection: Dossier::ONI, wrapper_html: {class: "span4"}, input_html: {class: "input-mini"}, hint: "Préciser éventuellement le dosage dans le commentaire"
-  = f.input :patho1t, label: "Pathologie(s) au premier trimestre", as: :select, collection: Dossier::ONI, wrapper_html: {class: "span4"}, input_html: {class: "input-mini"}, hint: "Préciser la ou les pathologies dans le commentaire"
-  = f.input :ass_med_proc, label: "Assistance médicale à la procréation", collection: Dossier::ONI, wrapper_html: {class: "span4"}, input_html: {class: "input-mini"}
+  = f.input :folique, as: :select, collection: Dossier::ONI, wrapper_html: {class: "span4"}, input_html: {class: "input-mini"}, hint: "Préciser éventuellement le dosage dans le commentaire"
+  = f.input :patho1t, as: :select, collection: Dossier::ONI, wrapper_html: {class: "span4"}, input_html: {class: "input-mini"}, hint: "Préciser la ou les pathologies dans le commentaire"
+  = f.input :ass_med_proc, collection: Dossier::ONI, wrapper_html: {class: "span4"}, input_html: {class: "input-mini"}
