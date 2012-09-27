@@ -9,6 +9,11 @@ $ ->
       hide: 100
   $(".dropdown-toggle").dropdown()
 
+window.disableSubmitWithEnter = ->
+  for type in ["text", "number"]
+    $("form.saisie input[type='#{type}']").keypress (e) ->
+      return false if e.which is 13
+
 window.showNextif = (condition, element, next) ->
   if condition then $(next).show() else $(next).hide()
 

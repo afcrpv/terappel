@@ -6,13 +6,10 @@ jQuery ->
   initDossiersDatatable()
   initDossierDialog()
   initComboboxAutocomplete()
+  disableSubmitWithEnter()
 
   $(".combobox").combobox()
 
-  # disable submit with enter key
-  for type in ["text", "number"]
-    $("form.saisie input[type='#{type}']").keypress (e) ->
-      return false if e.which is 13
 
   # bootstrap form tabs
   $(".nav-tabs a:first").tab('show')
