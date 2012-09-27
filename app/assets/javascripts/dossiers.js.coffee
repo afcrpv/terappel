@@ -87,29 +87,7 @@ jQuery ->
   $(".calc_dates_grossesse").calculateGrossesse()
   $(".clear_date").resetDates()
 
-  #exposition dates calculations
-  $(".date_expo").hide()
-  $("form").on 'click', ".calendar", (e) ->
-    e.preventDefault()
-    sa_field = $(this).prev()
-    date_field = $(this).next()
-    date_field.mask("99/99/9999")
-    date_field.toggle()
-    date_field.focus()
-    date_field.one 'blur', ->
-      date_expo = parse_fr_date($(this).val())
-      ddr = parse_fr_date($('#dossier_date_dernieres_regles').val())
-      if !isNaN(date_expo.getTime()) and !isNaN(ddr.getTime())
-        sa_field.val(getSA(ddr, date_expo))
-        console.log $(this)
-        $(this).toggle()
-
-  $("form").on 'blur', ".duree", (e)  ->
-    de = $(this).parent().prev().find(".de").val()
-    de2 = $(this).val()
-    result = de2 - de
-    $(this).parents(".control-group").next().find("input").val(de2 - de) if !isNaN(result) and result > 0
-
+  $(".calendar").expo_termes_calc()
 
   #### Evolution ####
   $accouchement_div = $("#accouchement")

@@ -126,7 +126,7 @@ jQuery ->
     $attach.bind 'insertion-callback', ->
       hide_add_field_link("expositions")
       $(".nested-fields").filter(":visible").find(".combobox").combobox()
-      $(".date_expo").hide()
+      $(".calendar").expo_termes_calc()
       disableSubmitWithEnter()
     $attach.bind 'removal-callback', -> show_add_field_link("expositions")
 

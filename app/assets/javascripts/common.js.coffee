@@ -9,6 +9,34 @@ $ ->
       hide: 100
   $(".dropdown-toggle").dropdown()
 
+$.fn.expo_termes_calc = ->
+  $(".date_expo").hide()
+  @each ->
+    $(this).click (e) ->
+      console.log "calendar clicked"
+      e.preventDefault()
+      sa_field = $(this).prev()
+      date_field = $(this).next()
+      console.log date_field
+      date_field.mask("99/99/9999")
+      date_field.toggle()
+      date_field.focus()
+      date_field.one 'blur', ->
+        date_expo = parse_fr_date($(this).val())
+        ddr = parse_fr_date($('#dossier_date_dernieres_regles').val())
+        if !isNaN(date_expo.getTime()) and !isNaN(ddr.getTime())
+          console.log sa_field
+          sa_field.val(getSA(ddr, date_expo))
+          console.log $(this)
+          $(this).toggle()
+
+  $("form").on 'blur', ".duree", (e)  ->
+    de = $(this).parent().prev().find(".de").val()
+    de2 = $(this).val()
+    result = de2 - de
+    $(this).parents(".control-group").next().find("input").val(de2 - de) if !isNaN(result) and result > 0
+
+
 window.disableSubmitWithEnter = ->
   for type in ["text", "number"]
     $("form.saisie input[type='#{type}']").keypress (e) ->
