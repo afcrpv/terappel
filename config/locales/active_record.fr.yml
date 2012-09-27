@@ -34,3 +34,6 @@ fr:
         folique: "Acide folique avant la grossesse"
         patho1t: "Pathologie(s) au premier trimestre"
         ass_med_proc: "Assistance médicale à la procréation"
+      exposition:
+        expo_type: "Type"
+        expo_nature: "Nature"
