@@ -4,6 +4,7 @@ window.initComboboxAutocomplete = function() {
       var input,
         self = this,
         select = this.element.hide(),
+        width_class = select.attr("class").match(/(span\d)+/)[0],
         selected = select.children( ":selected" ),
         value = selected.val() ? selected.text() : "",
         wrapper = this.wrapper = $( "<div>" )
@@ -14,7 +15,7 @@ window.initComboboxAutocomplete = function() {
         .attr("type", "text")
         .appendTo( wrapper )
         .val( value )
-        .addClass( "span5" )
+        .addClass( width_class )
         .autocomplete({
           delay: 0,
           minLength: 0,
