@@ -37,3 +37,11 @@ fr:
       exposition:
         expo_type: "Type"
         expo_nature: "Nature"
+        produit_name: "Exposition"
+        indication_name: "Indication"
+        voie: "Voie d'exposition"
+        dose: "Posologie"
+        de: "Période Expo (en SA)"
+        de2: "Reprise ttt"
+        expo_terme: "Terme d'exposition"
+        medpres: "Prescription"
