@@ -8,6 +8,10 @@ body.dossiers
   .block-message
     margin: 9px 0
 
+  .date_expo
+    display: inline
+    float: none
+
   table.fields_summary
     width: 100%
     font-size: 12px
@@ -92,8 +96,8 @@ body.dossiers
         -moz-border-radius: 0px
         background-image: none
 
-  .ui-autocomplete.scroll
-    max-height: 200px
+  .ui-autocomplete
+    max-height: 240px
     overflow-y: auto
     /* prevent horizontal scrollbar */
     overflow-x: hidden
@@ -103,8 +107,8 @@ body.dossiers
   /* IE 6 doesn't support max-height
    * we use height instead, but this forces the menu to always be this tall
    */
-  * html .ui-autocomplete.scroll
-    height: 200px
+  * html .ui-autocomplete
+    height: 240px
 
   form.form-horizontal
     .input-append, .input-prepend

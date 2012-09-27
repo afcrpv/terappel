@@ -123,7 +123,11 @@ $.widget "terappel.validateAssociation"
 jQuery ->
   $("#tabs li a[href='#expositions']").bind 'click', ->
     $attach = $("#expositions")
-    $attach.bind 'insertion-callback', -> hide_add_field_link("expositions")
+    $attach.bind 'insertion-callback', ->
+      hide_add_field_link("expositions")
+      $(".nested-fields").filter(":visible").find(".combobox").combobox()
+      $(".date_expo").hide()
+      disableSubmitWithEnter()
     $attach.bind 'removal-callback', -> show_add_field_link("expositions")
 
   # assign validate expo to related button
