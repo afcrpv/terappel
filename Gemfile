@@ -72,4 +72,3 @@ gem 'client_side_validations', github: 'bcardarella/client_side_validations'
 gem 'rails_admin', github: "sferik/rails_admin"
 gem 'csv_builder'
 gem 'coffee-filter'
-gem 'will_paginate'
