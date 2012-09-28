@@ -8,6 +8,6 @@ class Malformation < ActiveRecord::Base
   has_and_belongs_to_many :bebes
 
   def libelle_and_id
-    return {"id" => id, "libelle" => libelle}
+    return {"id" => id, "text" => libelle}
   end
 end

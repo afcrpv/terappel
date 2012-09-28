@@ -2,7 +2,7 @@ class MalformationsController < ApplicationController
   def index
     @malformations = Malformation.where("LOWER(libelle) like ?", "%#{params[:q]}%").limit(10)
     respond_to do |format|
-      format.json { render :json => @malformations }
+      format.json { render :json => @malformations.map(&:libelle_and_id) }
     end
   end
 

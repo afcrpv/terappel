@@ -161,17 +161,19 @@ jQuery ->
         $tokens = $("textarea.#{association}_tokens")
         $tokens.attach_jquery_tokeninput("/#{association}s.json")
 
-        init_select2_for_bebes(association)
+        for field in $(".#{association}_tokens")
+          $(field).attach_select2 "/#{association}s.json"
 
-        $("select[id$=#{association}]").check_show_association_tokens(association)
+        #$("select[id$=#{association}]").check_show_association_tokens(association)
 
         $attach = $('#bebes')
         $attach.bind 'insertion-callback', ->
           hide_add_field_link("bebes")
-          init_select2_for_bebes(association)
+          for field in $(".#{association}_tokens")
+            $(field).attach_select2 "/#{association}s.json"
 
           # when the nested field is inserted check if the association trees buttons need to be shown
-          $("select[id$=_#{association}]").last().check_show_association_tokens(association)
+          #$("select[id$=_#{association}]").last().check_show_association_tokens(association)
 
           # attach the jquery tokeninput to the bebe nested fields insertion callback
           $("textarea.#{association}_tokens").last().attach_jquery_tokeninput("/#{association}s.json")
@@ -198,9 +200,19 @@ jQuery ->
     $target = $("#bebes_summary tbody")
     validate_field(event, this, $start_point, $target, bebe_values, "bebes")
 
-init_select2_for_bebes = (association) ->
-  for select in $(".#{association}_tokens select")
-    $(select).select2()
+$.fn.attach_select2 = (url) ->
+  this.select2
+    multiple: true
+    width: "80%"
+    ajax:
+      url: url
+      dataType: "json"
+      data: (term, page) ->
+        q: term
+        page_limit: 10
+      results: (data, page) ->
+        return {results: data}
+
   $('.select2-search-field input').css('width', '100%')
 
 show_add_field_link = (association) ->
