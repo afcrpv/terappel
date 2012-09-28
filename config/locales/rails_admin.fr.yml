@@ -1,12 +1,12 @@
 fr:
-  home:
-    name: Accueil
   views:
     pagination:
       previous: "&laquo; Préc."
       next: "Suiv. &raquo;"
       truncate: "…"
   admin:
+    home:
+      name: Retour à l'Accueil
     dashboard:
       pagename: "Administration"
     misc:
