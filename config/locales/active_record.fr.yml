@@ -51,3 +51,10 @@ fr:
         de2: "Reprise ttt"
         expo_terme: "Terme d'exposition"
         medpres: "Prescription"
+      bebe:
+        age: "Age de l'enfant lors du dernier examen"
+        pc: "Périmètre crânien"
+        apgar1: "Apgar 1'"
+        apgar5: "Apgar 5'"
+        malformation_tokens: "Liste malformations"
+        pathologie_tokens: "Liste pathologies"

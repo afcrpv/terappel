@@ -1,7 +1,7 @@
 .nested-fields
   .row
     = f.input :sexe, as: :radio_buttons, collection: Bebe::SEXE, wrapper_html: {class: "span2"}
-    = f.input :age, wrapper: :append, label: "Age de l'enfant lors du dernier examen", wrapper_html: {class: "span3"} do
+    = f.input :age, wrapper: :append, wrapper_html: {class: "span3"} do
       = f.input_field :age, class: "input-mini"
       %span.add-on semaines
     = f.input :poids, wrapper: :append, wrapper_html: {class: "span2"} do
@@ -10,16 +10,12 @@
     = f.input :taille, wrapper: :append, wrapper_html: {class: "span2"} do
       = f.input_field :taille, class: "input-mini"
       %span.add-on cm
-    = f.input :pc, wrapper: :append, label: "Périmètre crânien", wrapper_html: {class: "span2"} do
+    = f.input :pc, wrapper: :append, wrapper_html: {class: "span2"} do
       = f.input_field :pc, class: "input-mini"
       %span.add-on cm
   .row
-    = f.input :apgar1, label: "Apgar", wrapper: :append, wrapper_html: {class: "span2"}  do
-      = f.input_field :apgar1, class: "input-mini"
-      %span.add-on 1'
-    = f.input :apgar5, label: "Apgar", wrapper: :append, wrapper_html: {class: "span2"}  do
-      = f.input_field :apgar5, class: "input-mini"
-      %span.add-on 5'
+    = f.input :apgar1, wrapper_html: {class: "span2"}, input_html: {class: "input-mini"}
+    = f.input :apgar5, wrapper_html: {class: "span2"}, input_html: {class: "input-mini"}
   .row
     = f.input :malformation, as: :select, collection: ["Oui", "Non", "NSP"], wrapper_html: {class: "span2"}, input_html: {class: "span1"}
     = f.input :malformation_tokens, as: :text, wrapper_html: {class: "span7 malformation_tokens"}, input_html: {"data-pre" => f.object.malformations.map(&:libelle_and_id).to_json, class: "malformation_tokens"}
