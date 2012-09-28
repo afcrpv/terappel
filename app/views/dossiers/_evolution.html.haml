@@ -1,21 +1,10 @@
-= f.input :path_mat, label: "Pathologie maternelle", collection: Dossier::ONI, input_html: {class: "span1"}
+.row
+  = f.input :path_mat, collection: Dossier::ONI, wrapper_html: {class: "span3"}, input_html: {class: "input-mini"}
+  = f.input :evolution, collection: Dossier::EVOLUTION, wrapper_html: {class: "span9"}, input_html: {class: "input-small"},
+    hint: "Compléter le champ malformation si un examen anatomo-pathologique interprétable a été effectué"
 
-.control-group.inline-inputs
-  = f.label :evolution, "Evolution de la grossesse"
-  .controls
-    = f.collection_select :evolution, Dossier::EVOLUTION, :last, :first, {include_blank: true}, {class: "span1"}
-    %span.help-inline Compléter le champ malformation si un examen anatomo-pathologique interprétable a été effectué
-
-
-.naissance{style: "display: none;"}
-  = f.input :modaccouch, label: "Modalité accouchement", collection: Dossier::MODACCOUCH, input_html: {class: "span2"}
-
-  .control-group.inline-inputs
-    = f.label "Terme (SA)"
-    .controls
-      = f.text_field :terme, class: "span1"
-      = f.label :date_reelle_accouchement, "Date"
-      = f.text_field :date_reelle_accouchement, "data-value" => date_reelle_accouchement, class: "dateITA dateAPvsRA span2"
-
-.grossesse_non_poursuivie{style: "display: none;"}
-  = f.input :date_recueil_evol, as: :string, input_html: {data: {value: date_recueil_evol}, class: "dateITA span2"}
+.row.issue
+  = f.input :modaccouch, collection: Dossier::MODACCOUCH, wrapper_html: {class: "span3"}, input_html: {class: "span2"}
+  = f.input :terme, wrapper_html: {class: "span3"}, input_html: {class: "input-mini"}
+  = f.input :date_reelle_accouchement, as: :string, wrapper_html: {class: "span3"}, input_html: {data: {value: date_reelle_accouchement}, class: "input-small"}
+  = f.input :date_recueil_evol, as: :string, wrapper_html: {class: "span3"}, input_html: {data: {value: date_recueil_evol}, class: "input-small"}

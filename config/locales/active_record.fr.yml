@@ -34,6 +34,12 @@ fr:
         folique: "Acide folique avant la grossesse"
         patho1t: "Pathologie(s) au premier trimestre"
         ass_med_proc: "Assistance médicale à la procréation"
+        path_mat: "Pathologie maternelle"
+        evolution: "Issue de la grossesse"
+        modaccouch: "Modalité accouchement"
+        terme: "Terme (SA)"
+        date_reelle_accouchement: "Date"
+        date_recueil_evol: "Date de recueil de l'évolution"
       exposition:
         expo_type: "Type"
         expo_nature: "Nature"
