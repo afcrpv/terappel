@@ -161,11 +161,26 @@ jQuery ->
         $tokens = $("textarea.#{association}_tokens")
         $tokens.attach_jquery_tokeninput("/#{association}s.json")
 
+        for select in $(".malformation_tokens select")
+          $(select).chosen
+            no_result_text: "Aucun résultat"
+
+        for select in $(".pathologie_tokens select")
+          $(select).chosen
+            no_result_text: "Aucun résultat"
+
         $("select[id$=#{association}]").check_show_association_tokens(association)
 
         $attach = $('#bebes')
         $attach.bind 'insertion-callback', ->
           hide_add_field_link("bebes")
+          for select in $(".malformation_tokens select")
+            $(select).chosen
+              no_result_text: "Aucun résultat"
+
+          for select in $(".pathologie_tokens select")
+            $(select).chosen
+              no_result_text: "Aucun résultat"
 
           # when the nested field is inserted check if the association trees buttons need to be shown
           $("select[id$=_#{association}]").last().check_show_association_tokens(association)

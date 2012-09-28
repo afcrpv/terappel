@@ -18,10 +18,10 @@
     = f.input :apgar5, wrapper_html: {class: "span2"}, input_html: {class: "input-mini"}
   .row
     = f.input :malformation, as: :select, collection: ["Oui", "Non", "NSP"], wrapper_html: {class: "span2"}, input_html: {class: "span1"}
-    = f.association :malformations, collection: Malformation.order(:libelle), label_method: :libelle, wrapper_html: {class: "span7 malformation_tokens"}, input_html: {"data-pre" => f.object.malformations.map(&:libelle_and_id).to_json, class: "span7"}
+    = f.association :malformations, collection: Malformation.order(:libelle), label_method: :libelle, wrapper_html: {class: "span7 malformation_tokens"}, input_html: {data: {placeholder: "Choisir les malformations"}, class: "span7"}
   .row
     = f.input :pathologie, as: :select, collection: ["Oui", "Non", "NSP"], wrapper_html: {class: "span2"}, input_html: {class: "span1"}
-    = f.association :pathologies, collection: Pathologie.order(:libelle), label_method: :libelle, wrapper_html: {class: "span7 pathologie_tokens"}, input_html: {"data-pre" => f.object.pathologies.map(&:libelle_and_id).to_json, class: "span7"}
+    = f.association :pathologies, collection: Pathologie.order(:libelle), label_method: :libelle, wrapper_html: {class: "span7 pathologie_tokens"}, input_html: {data: {placeholder: "Choisir les pathologies"}, class: "span7"}
   .field_links
     = link_to "#", class: "btn btn-success btn-small validate_bebe" do
       %i.icon-ok.icon-white
