@@ -51,31 +51,15 @@ jQuery ->
       showNextif(condition, $(this), next)
 
   # reminder to fill expositions if tabac/alcool/toxiques equals "Oui"
-  $tabac_element = $("select#dossier_tabac")
-  $tabac_message = $tabac_element.nextAll(".help-block").hide()
-  tabac = $tabac_element.val()
-  tabac_condition = tabac and tabac in ["1", "2", "3"]
-  showNextif tabac_condition, $tabac_element, $tabac_message
-  $("input#dossier_tabac").bind 'autocompleteselect', (event, ui) ->
-    tabac_values = ["0 à 5 cig/j", "5 à 10 cig/j", "Sup. à 10 cig/j"]
-    tabac = ui.item.value
-    condition = tabac and tabac in tabac_values
-    console.log condition
-    console.log this
-    next = $(this).parent().nextAll(".help-block")
-    showNextif condition, $(this), next
+  $tabac_input = $("input#dossier_tabac")
+  tabac_values = ["0 à 5 cig/j", "5 à 10 cig/j", "Sup. à 10 cig/j"]
+  show_or_hide_hint_for_toxics($tabac_input, $tabac_input.val(), tabac_values)
+  $tabac_input.bind 'autocompleteselect', (event, ui) -> show_or_hide_hint_for_toxics($(this), ui.item.value, tabac_values)
 
-  $alcool_element = $("select#dossier_alcool")
-  $alcool_message = $alcool_element.nextAll(".help-block").hide()
-  alcool = $alcool_element.val()
-  alcool_condition = alcool and alcool in ["1", "2"]
-  showNextif alcool_condition, $alcool_element, $alcool_message
-  $("input#dossier_alcool").bind 'autocompleteselect', (event, ui) ->
-    alcool_values = ["Occasionnel (<= 2 verres/j)", "Fréquent (> 2 verres/j)"]
-    alcool = ui.item.value
-    condition = alcool and alcool in alcool_values
-    next = $(this).parent().nextAll(".help-block").hide()
-    showNextif condition, $(this), next
+  $alcool_input = $("input#dossier_alcool")
+  alcool_values = ["Occasionnel (<= 2 verres/j)", "Fréquent (> 2 verres/j)"]
+  show_or_hide_hint_for_toxics($alcool_input, $alcool_input.val(), alcool_values)
+  $alcool_input.bind 'autocompleteselect', (event, ui) -> show_or_hide_hint_for_toxics($(this), ui.item.value, alcool_values)
 
   # calculateur dates
   $("#dossier_date_naissance").on 'blur', ->
@@ -91,19 +75,8 @@ jQuery ->
   $(".duree_calc").duree_expo_calc()
 
   #### Evolution ####
-  $accouchement_div = $("#accouchement")
-  $evolution_element = $("#dossier_evolution")
-  evolution = $evolution_element.val()
-
-  showNextif evolution and evolution in ["2", "3", "4", "5"], $evolution_element
-
-  $accouchement_div.show() if evolution and evolution is "6"
-
-  $evolution_element.on 'change', ->
-    evolution = $(this).val()
-    showNextif evolution and evolution in ["2", "3", "4", "5"], $(this)
-    condition = evolution is "6"
-    if condition then $accouchement_div.show() else $accouchement_div.hide()
+  show_or_hide_issue_elements($("input#dossier_evolution"), $("input#dossier_evolution").val())
+  $("input#dossier_evolution").bind 'autocompleteselect', (event, ui) -> show_or_hide_issue_elements($(this), ui.item.value)
 
   #### Correspondant ####
   if $("#correspondant_modal").length
