@@ -15,6 +15,7 @@ group :assets do
   gem "jquery-ui-rails"
   gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
   gem 'compass-rails'
+  gem 'chosen-rails'
 end
 
 gem 'jquery-rails'
