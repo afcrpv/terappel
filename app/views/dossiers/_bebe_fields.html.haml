@@ -1,36 +1,31 @@
 .nested-fields
-  = f.input :sexe, as: :radio_buttons, collection: Bebe::SEXE, item_wrapper_class: "inline"
-  .inline-inputs
-    = f.input :poids, wrapper: :append do
-      = f.input_field :poids, class: "span1"
+  .row
+    = f.input :sexe, as: :radio_buttons, collection: Bebe::SEXE, wrapper_html: {class: "span2"}
+    = f.input :age, wrapper: :append, label: "Age de l'enfant lors du dernier examen", wrapper_html: {class: "span3"} do
+      = f.input_field :age, class: "input-mini"
+      %span.add-on semaines
+    = f.input :poids, wrapper: :append, wrapper_html: {class: "span2"} do
+      = f.input_field :poids, class: "input-mini"
       %span.add-on g
-    = f.input :taille, wrapper: :append do
-      = f.input_field :taille, class: "span1"
+    = f.input :taille, wrapper: :append, wrapper_html: {class: "span2"} do
+      = f.input_field :taille, class: "input-mini"
       %span.add-on cm
-    = f.input :pc, wrapper: :append, label: "Périmètre crânien" do
-      = f.input_field :pc, class: "span1"
+    = f.input :pc, wrapper: :append, label: "Périmètre crânien", wrapper_html: {class: "span2"} do
+      = f.input_field :pc, class: "input-mini"
       %span.add-on cm
-  .inline-inputs
-    = f.input :apgar1, label: "Apgar", wrapper: :append do
-      = f.input_field :apgar1, class: "span1"
+  .row
+    = f.input :apgar1, label: "Apgar", wrapper: :append, wrapper_html: {class: "span2"}  do
+      = f.input_field :apgar1, class: "input-mini"
       %span.add-on 1'
-    = f.input :apgar5, label: "Apgar", wrapper: :append do
-      = f.input_field :apgar5, class: "span1"
+    = f.input :apgar5, label: "Apgar", wrapper: :append, wrapper_html: {class: "span2"}  do
+      = f.input_field :apgar5, class: "input-mini"
       %span.add-on 5'
-  = f.input :malformation, label: "Malformation", as: :select, collection: ["Oui", "Non", "NSP"],
-    input_html: {class: "span1"}
-  .control-group.inline-inputs.malformation_tokens
-    = f.label :malformation_tokens, "Malformations"
-    .controls
-      = f.text_area :malformation_tokens, "data-pre" => f.object.malformations.map(&:libelle_and_id).to_json, class: "malformation_tokens"
-  = f.input :pathologie, label: "Pathologie", as: :select, collection: ["Oui", "Non", "NSP"], input_html: {class: "span1"}
-  .control-group.inline-inputs.pathologie_tokens
-    = f.label :pathologie_tokens, "Pathologies"
-    .controls
-      = f.text_area :pathologie_tokens, "data-pre" => f.object.pathologies.map(&:libelle_and_id).to_json, class: "pathologie_tokens"
-  = f.input :age, wrapper: :append, label: "Age de l'enfant lors du dernier examen" do
-    = f.input_field :age, class: "span1"
-    %span.add-on semaines
+  .row
+    = f.input :malformation, as: :select, collection: ["Oui", "Non", "NSP"], wrapper_html: {class: "span2"}, input_html: {class: "span1"}
+    = f.input :malformation_tokens, as: :text, wrapper_html: {class: "span7 malformation_tokens"}, input_html: {"data-pre" => f.object.malformations.map(&:libelle_and_id).to_json, class: "malformation_tokens"}
+  .row
+    = f.input :pathologie, as: :select, collection: ["Oui", "Non", "NSP"], wrapper_html: {class: "span2"}, input_html: {class: "span1"}
+    = f.input :pathologie_tokens, as: :text, wrapper_html: {class: "span7 pathologie_tokens"}, input_html: {"data-pre" => f.object.pathologies.map(&:libelle_and_id).to_json, class: "pathologie_tokens"}
   .field_links
     = link_to "#", class: "btn btn-success btn-small validate_bebe" do
       %i.icon-ok.icon-white
