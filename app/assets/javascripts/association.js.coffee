@@ -164,7 +164,7 @@ jQuery ->
         for field in $(".#{association}_tokens")
           $(field).attach_select2 "/#{association}s.json"
 
-        #$("select[id$=#{association}]").check_show_association_tokens(association)
+        $("select[id$=#{association}]").check_show_association_tokens(association)
 
         $attach = $('#bebes')
         $attach.bind 'insertion-callback', ->
@@ -173,7 +173,7 @@ jQuery ->
             $(field).attach_select2 "/#{association}s.json"
 
           # when the nested field is inserted check if the association trees buttons need to be shown
-          #$("select[id$=_#{association}]").last().check_show_association_tokens(association)
+          $("select[id$=_#{association}]").last().check_show_association_tokens(association)
 
           # attach the jquery tokeninput to the bebe nested fields insertion callback
           $("textarea.#{association}_tokens").last().attach_jquery_tokeninput("/#{association}s.json")
@@ -202,6 +202,12 @@ jQuery ->
 
 $.fn.attach_select2 = (url) ->
   this.select2
+    initSelection : (element, callback) ->
+      preload = $(element).data("load")
+      console.log preload
+      #data.push({id: preload.id, text: preload.text}) for value in element.val().split(",")
+      #callback(data)
+
     multiple: true
     width: "80%"
     ajax:
@@ -226,16 +232,18 @@ humanizePluralizeFormat = (string) ->
     match.toUpperCase()
   return string.replace(/^[a-z]{1}/, myToUpper) + "s"
 
-jQuery.fn.check_show_association_tokens = (association) ->
-  $tokens = $(this.closest("div.select").next(".#{association}_tokens"))
+$.fn.check_show_association_tokens = (association) ->
   $select = this
-
+  $tokens = $($select.nextAll(".#{association}_tokens"))
   # make tokens visible when association field is == "Oui"
-  check_selected_option($select, $tokens)
+  condition = $select.val() is "Oui"
+  showNextif condition, $select, $tokens
 
   # ... or changes to oui
-  this.change ->
-    check_selected_option($(this), $tokens)
+  $select.on "change", ->
+    condition = $(this).val() is "Oui"
+    next = $(this).nextAll(".#{association}_tokens")
+    showNextif condition, $(this), next
 
 check_selected_option = ($select_elements, $tokens) ->
   selected_options = []

@@ -23,7 +23,7 @@
           = f.label field.to_sym
           .controls.controls-row
             = f.collection_select field.to_sym, Dossier::ONI, :first, :first, {include_blank: true}, class: "input-mini"
-            = f.hidden_field "#{field}_ids".to_sym, class: "input-xlarge malformation_tokens", data: {placeholder: "Choisir les malformations"}
+            = f.hidden_field "#{field}_tokens".to_sym, class: "input-xlarge #{field}_tokens", data: {load: f.object.send("#{field}s").map(&:libelle_and_id).to_json, placeholder: "Choisir les #{field}s"}
 
   .field_links
     = link_to "#", class: "btn btn-success btn-small validate_bebe" do
