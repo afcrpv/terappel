@@ -161,22 +161,14 @@ jQuery ->
         $tokens = $("textarea.#{association}_tokens")
         $tokens.attach_jquery_tokeninput("/#{association}s.json")
 
-        for select in $(".malformation_tokens select")
-          $(select).select2()
-        for select in $(".pathologie_tokens select")
-          $(select).select2()
-        $('.select2-search-field input').css('width', '100%')
+        init_select2_for_bebes(association)
 
         $("select[id$=#{association}]").check_show_association_tokens(association)
 
         $attach = $('#bebes')
         $attach.bind 'insertion-callback', ->
           hide_add_field_link("bebes")
-          for select in $(".malformation_tokens select")
-            $(select).select2()
-          for select in $(".pathologie_tokens select")
-            $(select).select2()
-          $('.select2-search-field input').css('width', '100%')
+          init_select2_for_bebes(association)
 
           # when the nested field is inserted check if the association trees buttons need to be shown
           $("select[id$=_#{association}]").last().check_show_association_tokens(association)
@@ -205,6 +197,11 @@ jQuery ->
     ]
     $target = $("#bebes_summary tbody")
     validate_field(event, this, $start_point, $target, bebe_values, "bebes")
+
+init_select2_for_bebes = (association) ->
+  for select in $(".#{association}_tokens select")
+    $(select).select2()
+  $('.select2-search-field input').css('width', '100%')
 
 show_add_field_link = (association) ->
   $("a.add_fields[data-associations=#{association}]").show()
