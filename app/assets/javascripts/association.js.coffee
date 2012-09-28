@@ -233,6 +233,7 @@ jQuery.fn.attach_jquery_tokeninput = (url) ->
     this.tokenInput(url,
       propertyToSearch: "libelle"
       theme: "facebook"
+      hintText: "Rentrez votre terme de recherche"
       noResultsText: "Aucun résultat"
       searchingText: "Recherche en cours..."
       preventDuplicates: true
