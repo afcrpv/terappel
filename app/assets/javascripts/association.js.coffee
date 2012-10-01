@@ -202,13 +202,10 @@ jQuery ->
 
 $.fn.attach_select2 = (url) ->
   this.select2
-    initSelection : (element, callback) ->
-      preload = $(element).data("load")
-      console.log preload
-      #data.push({id: preload.id, text: preload.text}) for value in element.val().split(",")
-      #callback(data)
-
     multiple: true
+    initSelection : (element, callback) ->
+      preload = element.data("load")
+      callback(preload)
     width: "80%"
     ajax:
       url: url
@@ -430,7 +427,7 @@ jQuery.fn.attach_jstree = (association) ->
       override_ui: true
       two_state: true
   )
-  .bind "check_node.jstree uncheck_node.jstree", (event, data) ->
+  .bind "check_node.jstree uncheck_node.jstree", ->
     # assign the following to check/uncheck node events
     nodes = $(this).jstree("get_checked")
     checked_nodes_objs = []
