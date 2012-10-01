@@ -154,12 +154,9 @@ jQuery ->
   #### BEBES ####
   for association in ["malformation", "pathologie"]
     do (association) ->
-      $(".#{association}s_tree").attach_jstree(association)
 
       # when clicking on #bebes tab link
       $("#tabs li a[href='#bebes']").bind 'click', ->
-        $tokens = $("textarea.#{association}_tokens")
-        $tokens.attach_jquery_tokeninput("/#{association}s.json")
 
         for field in $(".#{association}_tokens")
           $(field).attach_select2 "/#{association}s.json"
@@ -172,15 +169,9 @@ jQuery ->
           for field in $(".#{association}_tokens")
             $(field).attach_select2 "/#{association}s.json"
 
-          # when the nested field is inserted check if the association trees buttons need to be shown
           $("select[id$=_#{association}]").last().check_show_association_tokens(association)
-
-          # attach the jquery tokeninput to the bebe nested fields insertion callback
-          $("textarea.#{association}_tokens").last().attach_jquery_tokeninput("/#{association}s.json")
-
-          $(".#{association}s_tree").last().attach_jstree(association)
           $("a.show_#{association}_tree:visible").complete_modal_for_association(association)
-        $attach.bind 'removal-callback', ->
+        .bind 'removal-callback', ->
           show_add_field_link("bebes")
 
   # assign validate bebe to related button
@@ -252,17 +243,6 @@ check_selected_option = ($select_elements, $tokens) ->
     if selected_option
       check = if selected_option is "Oui" then true else false
     if check then $token.show() else $token.hide()
-
-jQuery.fn.attach_jquery_tokeninput = (url) ->
-  unless this.prev('.token-input-list-facebook').length
-    this.tokenInput(url,
-      propertyToSearch: "libelle"
-      theme: "facebook"
-      hintText: "Rentrez votre terme de recherche"
-      noResultsText: "Aucun résultat"
-      searchingText: "Recherche en cours..."
-      preventDuplicates: true
-    )
 
 validate_field = (event, button, $start_point, $target, values, model) ->
   $this = $(button)
@@ -407,11 +387,17 @@ jQuery.fn.complete_modal_for_association = (association) ->
   field = this.prevAll("input")
   bebe_id = field.attr("id").match(/[0-9]+/).join()
   association_modal_id = "#{association}_bebe_#{bebe_id}_modal"
-  $modal = this.parent().nextAll(".modal.#{association}")
+  $modal = $(".modal##{association}")
+  console.log $modal
   this.attr("data-controls-modal", association_modal_id)
-  $modal.attr("id", association_modal_id)
+  $modal.attr("data-bebe-id", bebe_id)
+  $modal.find(".#{association}s_container").html("")
+  $(".#{association}s_tree").attach_jstree(association, bebe_id)
 
-jQuery.fn.attach_jstree = (association) ->
+jQuery.fn.attach_jstree = (association, bebe_id) ->
+  $select2_input = $("input#dossier_bebes_attributes_#{bebe_id}_#{association}_tokens")
+  existing_items_ids = $select2_input.val()
+  #console.log "bebe ##{bebe_id} preloading #{association} ids: #{existing_items_ids}"
   this.bind "loaded.jstree", (event, data) ->
     console.log "tree##{$(this).attr('class')} is loaded"
   .jstree(
@@ -431,19 +417,20 @@ jQuery.fn.attach_jstree = (association) ->
     # assign the following to check/uncheck node events
     nodes = $(this).jstree("get_checked")
     checked_nodes_objs = []
-    checked_nodes_objs.push {id: $(node).attr("id"), libelle: $(node).attr("libelle")} for node in nodes
-    names = []
-    names.push(obj.libelle) for obj in checked_nodes_objs
+    checked_nodes_objs.push {id: $(node).attr("id"), text: $(node).attr("libelle")} for node in nodes
     html = []
     html.push "<ul>"
-    html.push "<li>#{name}</li>" for name in names
+    for obj in checked_nodes_objs
+      html.push "<li>#{obj.text}</li>"
     html.push "</ul>"
     # create a list with associations checked nodes
     $(this).parent().next().find(".#{association}s_container").html(html.join(""))
     $(this).parent().next().find("a").bind "click", (event) ->
       # assign action to add checked associations to be persisted in db
       event.preventDefault()
-      $tokeninput = $(this).parents('body').find(".nested-fields:visible").find("textarea[id$=#{association}_tokens]")
+      $tokeninput = $(this).parents('body').find(".nested-fields:visible").find("input.#{association}_tokens")
       $modal = $(this).parents(".modal")
       $modal.modal('hide')
-      $tokeninput.tokenInput("add", obj) for obj in checked_nodes_objs
+      new_data = $tokeninput.select2("data")
+      new_data.push obj for obj in checked_nodes_objs
+      $tokeninput.select2("data", new_data)
