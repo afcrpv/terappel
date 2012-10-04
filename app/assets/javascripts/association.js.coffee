@@ -158,16 +158,14 @@ jQuery ->
       # when clicking on #bebes tab link
       $("#tabs li a[href='#bebes']").bind 'click', ->
 
-        for field in $(".#{association}_tokens")
-          $(field).attach_select2 association, "/#{association}s.json"
+        $(".#{association}_tokens").attach_select2 association, "/#{association}s.json"
 
         $("select[id$=#{association}]").check_show_association_tokens(association)
 
         $attach = $('#bebes')
         $attach.bind 'insertion-callback', ->
           hide_add_field_link("bebes")
-          for field in $(".#{association}_tokens")
-            $(field).attach_select2 association, "/#{association}s.json"
+          $(".#{association}_tokens").attach_select2 association, "/#{association}s.json"
 
           $("select[id$=_#{association}]").last().check_show_association_tokens(association)
           $("a.show_#{association}_tree:visible").complete_modal_for_association(association)
@@ -230,28 +228,18 @@ humanizePluralizeFormat = (string) ->
   return string.replace(/^[a-z]{1}/, myToUpper) + "s"
 
 $.fn.check_show_association_tokens = (association) ->
-  $select = this
-  $tokens = $($select.nextAll(".#{association}_tokens"))
-  # make tokens visible when association field is == "Oui"
-  condition = $select.val() is "Oui"
-  showNextif condition, $select, $tokens
+  @each ->
+    $select = $(this)
+    $tokens = $($select.nextAll(".#{association}_tokens"))
+    # make tokens visible when association field is == "Oui"
+    condition = $select.val() is "Oui"
+    showNextif condition, $select, $tokens
 
-  # ... or changes to oui
-  $select.on "change", ->
-    condition = $(this).val() is "Oui"
-    next = $(this).nextAll(".#{association}_tokens")
-    showNextif condition, $(this), next
-
-check_selected_option = ($select_elements, $tokens) ->
-  selected_options = []
-  selected_options.push $($select).find('option:selected').val() for $select in $select_elements
-
-  # check if selected option is not empty
-  for selected_option,i in selected_options
-    $token = $($tokens[i])
-    if selected_option
-      check = if selected_option is "Oui" then true else false
-    if check then $token.show() else $token.hide()
+    # ... or changes to oui
+    $select.on "change", ->
+      condition = $(this).val() is "Oui"
+      next = $(this).nextAll(".#{association}_tokens")
+      showNextif condition, $(this), next
 
 validate_field = (event, button, $start_point, $target, values, model) ->
   $this = $(button)
