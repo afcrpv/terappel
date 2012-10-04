@@ -159,7 +159,7 @@ jQuery ->
       $("#tabs li a[href='#bebes']").bind 'click', ->
 
         for field in $(".#{association}_tokens")
-          $(field).attach_select2 "/#{association}s.json"
+          $(field).attach_select2 association, "/#{association}s.json"
 
         $("select[id$=#{association}]").check_show_association_tokens(association)
 
@@ -167,7 +167,7 @@ jQuery ->
         $attach.bind 'insertion-callback', ->
           hide_add_field_link("bebes")
           for field in $(".#{association}_tokens")
-            $(field).attach_select2 "/#{association}s.json"
+            $(field).attach_select2 association, "/#{association}s.json"
 
           $("select[id$=_#{association}]").last().check_show_association_tokens(association)
           $("a.show_#{association}_tree:visible").complete_modal_for_association(association)
@@ -191,8 +191,8 @@ jQuery ->
     $target = $("#bebes_summary tbody")
     validate_field(event, this, $start_point, $target, bebe_values, "bebes")
 
-$.fn.attach_select2 = (url) ->
-  this.select2
+$.fn.attach_select2 = (association, url) ->
+  @select2
     multiple: true
     initSelection : (element, callback) ->
       preload = element.data("load")
@@ -206,6 +206,15 @@ $.fn.attach_select2 = (url) ->
         page_limit: 10
       results: (data, page) ->
         return {results: data}
+  @on "change", (e) =>
+    console.log e.val
+    $.ajax
+      url: "/#{association}s/ancestors.json"
+      dataType: 'json'
+      data: {id: e.val[0]}
+      success: (data) =>
+        initial_ancestors = @data("initial-ancestors")
+        @data("initial-ancestors", initial_ancestors.concat data)
 
   $('.select2-search-field input').css('width', '100%')
 
@@ -367,8 +376,7 @@ cell_for_action_links = ($node, model_id, model) ->
     hide_add_field_link(model)
     if model is "bebes"
       for association in ["malformation", "pathologie"]
-        $link = $("a.show_#{association}_tree:visible")
-        $link.complete_modal_for_association(association)
+        $("a.show_#{association}_tree:visible").complete_modal_for_association(association)
 
   $destroy_link = $("<a href='#' id='destroy_#{model}_#{model_id}' title='Détruire cette exposition'><img alt='X' src='/assets/icons/destroy.png'></a>")
   $destroy_link.bind 'click', (event) ->
@@ -384,35 +392,35 @@ cell_for_action_links = ($node, model_id, model) ->
   $cell.appendTo($node)
 
 jQuery.fn.complete_modal_for_association = (association) ->
-  field = this.prevAll("input")
-  bebe_id = field.attr("id").match(/[0-9]+/).join()
-  association_modal_id = "#{association}_bebe_#{bebe_id}_modal"
-  $modal = $(".modal##{association}")
-  console.log $modal
-  this.attr("data-controls-modal", association_modal_id)
-  $modal.attr("data-bebe-id", bebe_id)
-  $modal.find(".#{association}s_container").html("")
-  $(".#{association}s_tree").attach_jstree(association, bebe_id)
+  @on 'click', =>
+    field = @prevAll("input")
+    bebe_id = field.attr("id").match(/[0-9]+/).join()
+    association_modal_id = "#{association}_bebe_#{bebe_id}_modal"
+    $modal = $(".modal##{association}")
+    @attr("data-controls-modal", association_modal_id)
+    $modal.attr("data-bebe-id", bebe_id)
+    $modal.find(".#{association}s_container").html("")
+    $(".#{association}s_tree").attach_jstree(association, bebe_id)
 
 jQuery.fn.attach_jstree = (association, bebe_id) ->
   $select2_input = $("input#dossier_bebes_attributes_#{bebe_id}_#{association}_tokens")
-  existing_items_ids = $select2_input.val()
-  #console.log "bebe ##{bebe_id} preloading #{association} ids: #{existing_items_ids}"
-  this.bind "loaded.jstree", (event, data) ->
-    console.log "tree##{$(this).attr('class')} is loaded"
-  .jstree(
-    "json_data" :
-      "ajax" :
-        "url" : "/#{association}s/tree.json"
-        "data" : (node) ->
-          return { parent_id : if node.attr then node.attr("id") else 0}
+  @jstree
+    json_data:
+      ajax:
+        url: "/#{association}s/tree.json"
+        data: (node) -> return {parent_id: if node.attr then node.attr("id") else 0}
     plugins: ["themes", "json_data", "ui", "checkbox"]
+    core:
+      initially_open: $select2_input.data("initial-ancestors")
     themes:
       theme: 'apple'
     checkbox:
       override_ui: true
       two_state: true
-  )
+    ui:
+      initially_select: $select2_input.val().split(",")
+  .bind "loaded.jstree", (event, data) ->
+    console.log "tree##{$(this).attr('class')} is loaded"
   .bind "check_node.jstree uncheck_node.jstree", ->
     # assign the following to check/uncheck node events
     nodes = $(this).jstree("get_checked")
@@ -431,6 +439,13 @@ jQuery.fn.attach_jstree = (association, bebe_id) ->
       $tokeninput = $(this).parents('body').find(".nested-fields:visible").find("input.#{association}_tokens")
       $modal = $(this).parents(".modal")
       $modal.modal('hide')
-      new_data = $tokeninput.select2("data")
-      new_data.push obj for obj in checked_nodes_objs
-      $tokeninput.select2("data", new_data)
+      $tokeninput.select2("data", checked_nodes_objs)
+      # add parent nodes to initially open nodes
+      for node in checked_nodes_objs
+        $.ajax
+          url: "/#{association}s/ancestors.json"
+          dataType: 'json'
+          data: {id: node.id}
+          success: (data) ->
+            initial_ancestors = $select2_input.data("initial-ancestors")
+            $select2_input.data("initial-ancestors", initial_ancestors.concat data)

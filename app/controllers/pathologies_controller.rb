@@ -6,6 +6,15 @@ class PathologiesController < ApplicationController
     end
   end
 
+  def ancestors
+    respond_to do |format|
+      format.json do
+        ancestors_list = Pathologie.find(params[:id]).ancestor_ids.map {|id| "#{id}"}
+        render json: ancestors_list
+      end
+    end
+  end
+
   def tree
     respond_to do |format|
       format.html
