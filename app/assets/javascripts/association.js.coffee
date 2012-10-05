@@ -191,6 +191,7 @@ jQuery ->
 
 $.fn.attach_select2 = (association, url) ->
   @select2
+    minimumInputLength: 3
     multiple: true
     initSelection : (element, callback) ->
       preload = element.data("load")
@@ -205,7 +206,6 @@ $.fn.attach_select2 = (association, url) ->
       results: (data, page) ->
         return {results: data}
   @on "change", (e) =>
-    console.log e.val
     $.ajax
       url: "/#{association}s/ancestors.json"
       dataType: 'json'

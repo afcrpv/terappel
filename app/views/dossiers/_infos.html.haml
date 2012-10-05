@@ -1,7 +1,7 @@
 .row
   = f.input :code, wrapper_html: {class: "span2"}, input_html: {class: "input-small"}
   = f.input :date_appel, as: :string, wrapper_html: {class: "span2"}, input_html: {class: "input-small dateITA dateNotFuture", autofocus: true, "data-value" => date_appel}
-  = f.association :motif, wrapper_html: {class: "span6"}, input_html: {class: "span5 combobox"}
+  = f.association :motif, wrapper_html: {class: "span6"}, input_html: {class: "input-xxlarge combobox"}
   = f.input :expo_terato, as: :select, collection: Dossier::ONI, wrapper_html: {class: "span2"}, input_html: {class: "input-mini"}
 
 = f.input :correspondant_nom, wrapper: :append, wrapper_html: {id: "dossier_correspondant_id_field"} do
@@ -34,7 +34,7 @@
     %span.add-on
       kg/m
       %sup> 2
-  = f.association :categoriesp, wrapper_html: {class: "span5"}, input_html: {class: "span5 combobox"}
+  = f.association :categoriesp, wrapper_html: {class: "span5"}, input_html: {class: "input-xlarge combobox"}
 
 .row
   - %w(perso fam).each do |field|

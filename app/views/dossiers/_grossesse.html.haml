@@ -19,8 +19,8 @@
 %hr
 
 .row
-  = f.input :tabac, as: :select, collection: Dossier::TABAC, wrapper_html: {class: "span4"}, input_html: {class: "span3 combobox"}, hint: "N'oubliez pas de saisir 'TABAC' dans l'onglet Exposition"
-  = f.input :alcool, as: :select, collection: Dossier::ALCOOL, wrapper_html: {class: "span4"}, input_html: {class: "span3 combobox"}, hint: "N'oubliez pas de saisir 'ALCOOL' dans l'onglet Exposition"
+  = f.input :tabac, as: :select, collection: Dossier::TABAC, wrapper_html: {class: "span4"}, input_html: {class: "input-large combobox"}, hint: "N'oubliez pas de saisir 'TABAC' dans l'onglet Exposition"
+  = f.input :alcool, as: :select, collection: Dossier::ALCOOL, wrapper_html: {class: "span4"}, input_html: {class: "input-large combobox"}, hint: "N'oubliez pas de saisir 'ALCOOL' dans l'onglet Exposition"
   = f.input :toxiques, as: :select, collection: Dossier::ONI, wrapper_html: {class: "span4"}, input_html: {class: "input-mini"}, hint: "N'oubliez pas de saisir 'toxiques' dans l'onglet Exposition"
 
 .row

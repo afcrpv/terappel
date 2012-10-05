@@ -9,7 +9,6 @@ $ ->
       hide: 100
   $(".dropdown-toggle").dropdown()
 
-  $.fn.select2.defaults.minimumInputLength = 3
   $.fn.select2.defaults.allowClear = true
   $.fn.select2.defaults.formatNoMatches = -> "Aucun résultat"
   $.fn.select2.defaults.formatInputTooShort = (input, min) -> "Saisir au moins #{min - input.length} charactères"
@@ -17,7 +16,7 @@ $ ->
   $.fn.select2.defaults.width = "element"
 
 window.show_or_hide_hint_for_toxics = ($toxic_element, toxic_value, values_to_compare) ->
-  $toxic_message = $toxic_element.parent().nextAll(".help-block").hide()
+  $toxic_message = $toxic_element.next(".help-block").hide()
   toxic_condition = toxic_value and toxic_value in values_to_compare
   showNextif toxic_condition, $toxic_element, $toxic_message
 
