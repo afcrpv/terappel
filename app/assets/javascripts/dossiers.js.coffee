@@ -75,8 +75,8 @@ jQuery ->
   $(".duree_calc").duree_expo_calc()
 
   #### Evolution ####
-  show_or_hide_issue_elements($("input#dossier_evolution"), $("input#dossier_evolution").val())
-  $("input#dossier_evolution").bind 'autocompleteselect', (event, ui) -> show_or_hide_issue_elements($(this), ui.item.value)
+  show_or_hide_issue_elements($("#dossier_evolution"), $("#dossier_evolution").val())
+  $("#dossier_evolution").on 'change', (event) -> show_or_hide_issue_elements($(this), event.val)
 
   #### Correspondant ####
   if $("#correspondant_modal").length

@@ -1,10 +1,10 @@
 .row
   = f.input :path_mat, collection: Dossier::ONI, wrapper_html: {class: "span3"}, input_html: {class: "input-mini"}
-  = f.input :evolution, collection: Dossier::EVOLUTION, wrapper_html: {class: "span9"}, input_html: {class: "span1 combobox"},
+  = f.input :evolution, collection: Dossier::EVOLUTION, wrapper_html: {class: "span9"}, input_html: {class: "input-small combobox"},
     hint: "Compléter le champ malformation si un examen anatomo-pathologique interprétable a été effectué"
 
 .row.issue
-  = f.input :modaccouch, collection: Dossier::MODACCOUCH, wrapper_html: {class: "span3", id: "modaccouch"}, input_html: {class: "span2 combobox"}
+  = f.input :modaccouch, collection: Dossier::MODACCOUCH, wrapper_html: {class: "span3", id: "modaccouch"}, input_html: {class: "input-medium combobox"}
   = f.input :terme, wrapper_html: {class: "span3"}, input_html: {class: "input-mini"}
   = f.input :date_reelle_accouchement, as: :string, wrapper_html: {class: "span3", id: "date_reelle_accouchement"}, input_html: {data: {value: date_reelle_accouchement}, class: "input-small"}
   = f.input :date_recueil_evol, as: :string, wrapper_html: {class: "span3", id: "date_recueil_evol"}, input_html: {data: {value: date_recueil_evol}, class: "input-small"}
