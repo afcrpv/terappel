@@ -146,10 +146,9 @@ jQuery ->
       $start_point.find("input[id$='_a2']").val()
     ]
     $target = $("#expositions_summary tbody")
-    validate_field(event, this, $start_point, $target, expo_values, "expositions")
+    validate_field(this, $start_point, $target, expo_values, "expositions")
 
-  # prefill summary tables for expos and bebes
-  prefill_summary_table(model) for model in ["expositions", "bebes"]
+  prefill_summary_table("expositions")
 
   #### BEBES ####
   for association in ["malformation", "pathologie"]
@@ -159,6 +158,7 @@ jQuery ->
       $("#tabs li a[href='#bebes']").bind 'click', ->
 
         $(".#{association}_tokens").attach_select2 association, "/#{association}s.json"
+        prefill_summary_table("bebes")
 
         $("select[id$=#{association}]").check_show_association_tokens(association)
 
@@ -187,7 +187,7 @@ jQuery ->
       $start_point.find("select[name*='pathologie'] option").filter(":selected").text()
     ]
     $target = $("#bebes_summary tbody")
-    validate_field(event, this, $start_point, $target, bebe_values, "bebes")
+    validate_field(this, $start_point, $target, bebe_values, "bebes")
 
 $.fn.attach_select2 = (association, url) ->
   @select2
@@ -241,9 +241,8 @@ $.fn.check_show_association_tokens = (association) ->
       next = $(this).nextAll(".#{association}_tokens")
       showNextif condition, $(this), next
 
-validate_field = (event, button, $start_point, $target, values, model) ->
+validate_field = (button, $start_point, $target, values, model) ->
   $this = $(button)
-  event.preventDefault() # prevent default event behavior
 
   # also get the unique id of the model
   model_id = $start_point.find("select").filter(":first").attr("name").match(/[0-9]+/).join()
@@ -334,8 +333,7 @@ prepare_malf_and_path_columns = ($related_field, $model_row, association) ->
   td_position = if association is "malformation" then 2 else 1
 
   #gather paraphs using $related_field
-  paraphs = $related_field.find("div.#{association}_tokens ul p")
-
+  paraphs = $($related_field.find("div.#{association}_tokens ul div"))
   # create a ul parent element
   html = "<ul>"
   # iterate the paraphs array and create html li from each text property
