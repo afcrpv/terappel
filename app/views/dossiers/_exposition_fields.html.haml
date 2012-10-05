@@ -1,12 +1,12 @@
 .nested-fields
   .row
-    = f.association :expo_type, wrapper_html: {class: "span5"}, input_html: {class: "input-xlarge combobox"}
-    = f.association :expo_nature, wrapper_html: {class: "span5"}, input_html: {class: "input-xlarge combobox"}
+    = f.association :expo_type, wrapper_html: {class: "span5"}, input_html: {class: "input-xlarge combobox", data: {placeholder: "Choisir le type d'exposition"}}
+    = f.association :expo_nature, wrapper_html: {class: "span5"}, input_html: {class: "input-xlarge combobox", data: {placeholder: "Choisir la nature de l'exposition"}}
   .row
     = f.input :produit_name, as: :autocomplete, url: autocomplete_produit_name_dossiers_path, wrapper_html: {class: "span5"}, input_html: {class: "span5"}
     = f.input :indication_name, as: :autocomplete, url: autocomplete_indication_name_dossiers_path, wrapper_html: {class: "span5"}, input_html: {class: "span5"}
   .row
-    = f.association :voie, wrapper_html: {class: "span3"}, input_html: {class: "input-small combobox"}
+    = f.association :voie, wrapper_html: {class: "span3"}, input_html: {class: "input-medium combobox", data: {placeholder: "Choisir..."}}
     = f.input :dose, wrapper_html: {class: "span3"}, input_html: {class: "span2"}, hint: "par exemple en mg/j"
     = f.input :medpres, as: :select, collection: Dossier::ONI, wrapper_html: {class: "span5"}, input_html: {class: "input-mini"}, hint: "à remplir en cas de demande d'aide à la prescription"
 
@@ -40,7 +40,7 @@
             = f.text_field :a2_date, class: "input-small date_expo"
             = f.text_field :duree2, class: "input-mini duree", placeholder: "durée"
 
-  = f.association :expo_terme, input_html: {class: "input-medium combobox"}
+  = f.association :expo_terme, input_html: {class: "input-medium combobox", data: {placeholder: "Choisir..."}}
 
   .field_links
     = link_to "#", class: "btn btn-small btn-success validate_expo" do

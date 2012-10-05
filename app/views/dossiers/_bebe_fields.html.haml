@@ -24,14 +24,10 @@
           .controls.controls-row
             = f.collection_select field.to_sym, Dossier::ONI, :first, :first, {include_blank: true}, class: "input-mini"
             = f.hidden_field "#{field}_tokens".to_sym, class: "input-xlarge #{field}_tokens", value: (items = f.object.send("#{field}s")).map(&:id).join(","), data: {load: (items.map(&:libelle_and_id).to_json), "initial-ancestors" => field.classify.constantize.find(items.map(&:id)).map(&:ancestor_ids).flatten.uniq}, placeholder: "Choisir les #{field}s"
+            = link_to "##{field}", class: "btn show_#{field}_tree", title: "Arbre #{field.capitalize.pluralize}", "data-toggle" => "modal" do
+              %i.icon-list
 
   .field_links
-    = link_to "#malformation", class: "btn show_malformation_tree", "data-toggle" => "modal" do
-      %i.icon-list
-      Arbre Malformations
-    = link_to "#pathologie", class: "btn show_pathologie_tree", "data-toggle" => "modal" do
-      %i.icon-list
-      Arbre Pathologies
     = link_to "#", class: "btn btn-success btn-small validate_bebe" do
       %i.icon-ok.icon-white
       Valider
