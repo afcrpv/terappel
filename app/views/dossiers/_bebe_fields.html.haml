@@ -1,6 +1,6 @@
 .nested-fields
   .row
-    = f.input :sexe, as: :radio_buttons, collection: Bebe::SEXE, wrapper_html: {class: "span2"}
+    = f.input :sexe, collection: Bebe::SEXE, wrapper_html: {class: "span2"}, input_html: {class: "input-small combobox"}
     = f.input :age, wrapper: :append, wrapper_html: {class: "span3"} do
       = f.input_field :age, class: "input-mini"
       %span.add-on semaines

@@ -177,7 +177,7 @@ jQuery ->
     $start_point = $(this).closest(".nested-fields")
     # collect sexe, poids, taille, pc, apgar1, apgar5, malformation, pathologie fields values
     bebe_values = [
-      $start_point.find("input[id*='sexe']").filter(":checked").val()
+      $start_point.find("select[id*='sexe']").val()
       $start_point.find("input[id$='_poids']").val()
       $start_point.find("input[id$='_taille']").val()
       $start_point.find("input[id$='_pc']").val()
@@ -288,7 +288,7 @@ collect_values_to_copy = ($start_point, model) ->
     ]
   else
     values = [
-      $start_point.find("input[id*='sexe']").filter(":checked").val()
+      $start_point.find("select[id*='sexe']").val()
       $start_point.find("input[id$='_poids']").val()
       $start_point.find("input[id$='_taille']").val()
       $start_point.find("input[id$='_pc']").val()
