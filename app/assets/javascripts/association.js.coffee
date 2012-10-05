@@ -249,10 +249,13 @@ validate_field = (button, $start_point, $target, values, model) ->
 
   # don't do anything if fields to copy are all blank
   if values.join("") isnt ""
-    append_to_summary(values, $target, model_id, model)
-    # toggle visibility of closest parent div.nested-fields
-    $start_point.slideToggle()
-    show_add_field_link(model)
+    ok_to_validate = true
+    ok_to_validate = if model is "expositions" and values[0] isnt "" then true else false
+    if ok_to_validate
+      append_to_summary(values, $target, model_id, model)
+      # toggle visibility of closest parent div.nested-fields
+      $start_point.slideToggle()
+      show_add_field_link(model)
 
 prefill_summary_table = (model) ->
   $target = $("##{model} tbody")
