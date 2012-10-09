@@ -229,12 +229,14 @@ $.fn.check_show_association_tokens = (association) ->
     # make tokens visible when association field is == "Oui"
     condition = $select.val() is "Oui"
     showNextif condition, $select, $tokens
+    showNextif condition, $select, $select.nextAll(".btn")
 
     # ... or changes to oui
     $select.on "change", ->
       condition = $(this).val() is "Oui"
       next = $(this).nextAll(".#{association}_tokens")
       showNextif condition, $(this), next
+      showNextif condition, $(this), $(this).nextAll(".btn")
 
 validate_field = (button, $start_point, $target, values, model) ->
   $this = $(button)

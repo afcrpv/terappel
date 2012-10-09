@@ -1,4 +1,4 @@
-.nested-fields{style: "position: relative; overflow-y: hidden;"}
+.nested-fields
   .row
     = f.association :expo_type, wrapper_html: {class: "span5"}, input_html: {class: "input-xlarge combobox", data: {placeholder: "Choisir le type d'exposition"}}
     = f.association :expo_nature, wrapper_html: {class: "span5"}, input_html: {class: "input-xlarge combobox", data: {placeholder: "Choisir la nature de l'exposition"}}
@@ -43,7 +43,7 @@
   .row
     = f.association :expo_terme, wrapper_html: {class: "span6"}, input_html: {class: "input-medium combobox", data: {placeholder: "Choisir..."}}
 
-  .field_links{style: "position: absolute; top: 10px; right: 10px;"}
+  .field_links
     = link_to "#", class: "btn btn-small validate_expo" do
       %i.icon-chevron-up
       Fermer
