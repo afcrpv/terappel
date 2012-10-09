@@ -124,12 +124,10 @@ jQuery ->
   $("#tabs li a[href='#expositions']").bind 'click', ->
     $attach = $("#expositions")
     $attach.bind 'insertion-callback', ->
-      hide_add_field_link("expositions")
-      $(".nested-fields").filter(":visible").find(".combobox").combobox()
+      $(".nested-fields").filter(":visible").find(".combobox").select2()
       $(".calendar").expo_termes_calc()
       $(".duree_calc").duree_expo_calc()
       disableSubmitWithEnter()
-    $attach.bind 'removal-callback', -> show_add_field_link("expositions")
 
   # assign validate expo to related button
   $("form").on 'click', ".validate_expo", (event) ->
@@ -164,13 +162,10 @@ jQuery ->
 
         $attach = $('#bebes')
         $attach.bind 'insertion-callback', ->
-          hide_add_field_link("bebes")
           $(".#{association}_tokens").attach_select2 association, "/#{association}s.json"
 
           $("select[id$=_#{association}]").last().check_show_association_tokens(association)
           $("a.show_#{association}_tree:visible").complete_modal_for_association(association)
-        .bind 'removal-callback', ->
-          show_add_field_link("bebes")
 
   # assign validate bebe to related button
   $(".validate_bebe").live 'click', (event) ->
@@ -211,7 +206,7 @@ $.fn.attach_select2 = (association, url) ->
       dataType: 'json'
       data: {id: e.val[0]}
       success: (data) =>
-        initial_ancestors = @data("initial-ancestors")
+        initial_ancestors = if (original_data = @data("initial-ancestors")) then original_data else []
         @data("initial-ancestors", initial_ancestors.concat data)
 
   $('.select2-search-field input').css('width', '100%')
@@ -247,15 +242,10 @@ validate_field = (button, $start_point, $target, values, model) ->
   # also get the unique id of the model
   model_id = $start_point.find("select").filter(":first").attr("name").match(/[0-9]+/).join()
 
-  # don't do anything if fields to copy are all blank
-  if values.join("") isnt ""
-    ok_to_validate = true
-    ok_to_validate = if model is "expositions" and values[0] isnt "" then true else false
-    if ok_to_validate
-      append_to_summary(values, $target, model_id, model)
-      # toggle visibility of closest parent div.nested-fields
-      $start_point.slideToggle()
-      show_add_field_link(model)
+  append_to_summary(values, $target, model_id, model)
+  # toggle visibility of closest parent div.nested-fields
+  $start_point.slideToggle()
+  show_add_field_link(model)
 
 prefill_summary_table = (model) ->
   $target = $("##{model} tbody")
@@ -362,7 +352,6 @@ cell_for_action_links = ($node, model_id, model) ->
     # clicking the link toggles the div.nested-fields containing the related model form
     $related_fieldset.slideToggle()
 
-    hide_add_field_link(model)
     if model is "bebes"
       for association in ["malformation", "pathologie"]
         $("a.show_#{association}_tree:visible").complete_modal_for_association(association)

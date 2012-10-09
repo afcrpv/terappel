@@ -1,19 +1,19 @@
 .nested-fields
   .row
-    = f.input :sexe, collection: Bebe::SEXE, wrapper_html: {class: "span2"}, input_html: {class: "input-small combobox"}
     = f.input :age, wrapper: :append, wrapper_html: {class: "span3"} do
       = f.input_field :age, class: "input-mini"
       %span.add-on semaines
+    = f.input :sexe, collection: Bebe::SEXE, wrapper_html: {class: "span2"}, input_html: {class: "input-small combobox"}
     = f.input :poids, wrapper: :append, wrapper_html: {class: "span2"} do
       = f.input_field :poids, class: "input-mini"
       %span.add-on g
-    = f.input :taille, wrapper: :append, wrapper_html: {class: "span2"} do
+  .row
+    = f.input :taille, wrapper: :append, wrapper_html: {class: "span3"} do
       = f.input_field :taille, class: "input-mini"
       %span.add-on cm
     = f.input :pc, wrapper: :append, wrapper_html: {class: "span2"} do
       = f.input_field :pc, class: "input-mini"
       %span.add-on cm
-  .row
     = f.input :apgar1, wrapper_html: {class: "span1"}, input_html: {class: "input-mini"}
     = f.input :apgar5, wrapper_html: {class: "span1"}, input_html: {class: "input-mini"}
   .row
@@ -28,9 +28,9 @@
               %i.icon-list
 
   .field_links
-    = link_to "#", class: "btn btn-success btn-small validate_bebe" do
-      %i.icon-ok.icon-white
-      Valider
+    = link_to "#", class: "btn btn-small validate_bebe" do
+      %i.icon-chevron-up
+      Fermer
     = link_to_remove_association f, class: "btn btn-danger btn-small" do
-      %i.icon-trash.icon-white
-      Supprimer
+      %i.icon-remove.icon-white
+      Annuler

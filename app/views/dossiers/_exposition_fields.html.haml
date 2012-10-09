@@ -1,4 +1,4 @@
-.nested-fields
+.nested-fields{style: "position: relative; overflow-y: hidden;"}
   .row
     = f.association :expo_type, wrapper_html: {class: "span5"}, input_html: {class: "input-xlarge combobox", data: {placeholder: "Choisir le type d'exposition"}}
     = f.association :expo_nature, wrapper_html: {class: "span5"}, input_html: {class: "input-xlarge combobox", data: {placeholder: "Choisir la nature de l'exposition"}}
@@ -40,12 +40,13 @@
             = f.text_field :a2_date, class: "input-small date_expo"
             = f.text_field :duree2, class: "input-mini duree", placeholder: "durée"
 
-  = f.association :expo_terme, input_html: {class: "input-medium combobox", data: {placeholder: "Choisir..."}}
+  .row
+    = f.association :expo_terme, wrapper_html: {class: "span6"}, input_html: {class: "input-medium combobox", data: {placeholder: "Choisir..."}}
 
-  .field_links
-    = link_to "#", class: "btn btn-small btn-success validate_expo" do
-      %i.icon-ok.icon-white
-      Valider
+  .field_links{style: "position: absolute; top: 10px; right: 10px;"}
+    = link_to "#", class: "btn btn-small validate_expo" do
+      %i.icon-chevron-up
+      Fermer
     = link_to_remove_association f, class: "btn btn-danger btn-small" do
-      %i.icon-trash.icon-white
-      Supprimer
+      %i.icon-remove.icon-white
+      Annuler
