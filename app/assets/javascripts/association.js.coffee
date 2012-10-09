@@ -348,7 +348,9 @@ cell_for_action_links = ($node, model_id, model) ->
   $cell = $("<td />")
   $related_fieldset = $node.parents().find(".nested-fields").has("input[id*='_#{model}_attributes_#{model_id}']")
 
-  $modify_link = $("<a href='#' id='modify_#{model}_#{model_id}' class='modify_link' title='Modifier cette exposition'><img alt='M' src='/assets/icons/edit.png'></a>")
+  singular_model = model.replace(/s$/, "")
+  modify_title = "'Modifier #{singular_model}'"
+  $modify_link = $("<a href='#' id='modify_#{model}_#{model_id}' class='modify_link' title=#{modify_title}><i class='icon-pencil'></i><span style='display:none;'>#{modify_title}</span></a>")
   $modify_link.bind 'click', (event) ->
     event.preventDefault()
     # clicking the link toggles the div.nested-fields containing the related model form
@@ -358,13 +360,14 @@ cell_for_action_links = ($node, model_id, model) ->
       for association in ["malformation", "pathologie"]
         $("a.show_#{association}_tree:visible").complete_modal_for_association(association)
 
-  $destroy_link = $("<a href='#' id='destroy_#{model}_#{model_id}' title='Détruire cette exposition'><img alt='X' src='/assets/icons/destroy.png'></a>")
+  destroy_title = "'Détruire #{singular_model}'"
+  $destroy_link = $("<a href='#' id='destroy_#{model}_#{model_id}' title=#{destroy_title}><i class='icon-trash'></i><span style='display:none;'>#{destroy_title}</span></a>")
   $destroy_link.bind 'click', (event) ->
     event.preventDefault()
     # clicking the link removes the parent tr from the DOM
     $node.remove()
     # and marks the corresponding model for destroy assigning the _destroy input value to 1
-    $related_fieldset.find("input[type=hidden]").val("1")
+    $related_fieldset.find("input[id$=destroy]").val("1")
 
   $modify_link.appendTo($cell)
   $destroy_link.appendTo($cell)
