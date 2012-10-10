@@ -11,10 +11,8 @@
 //= require dataTables/jquery.dataTables
 //= require dataTables/jquery.dataTables.bootstrap
 //= require cocoon
-//= require autocomplete-rails
 //= require rails.validations
 //= require jquery.maskedinput
-//= require jquery.tokeninput
 //= require select2
 //= require common
 //= require jstree

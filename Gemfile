@@ -59,7 +59,6 @@ gem "devise"
 gem 'cancan'
 gem "friendly_id", "~> 4.0.1"
 gem 'formtastic'
-gem 'rails3-jquery-autocomplete'
 gem 'draper'
 gem "ransack"
 gem "thin"
