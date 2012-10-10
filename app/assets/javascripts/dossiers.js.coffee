@@ -79,6 +79,8 @@ jQuery ->
   $("#dossier_evolution").on 'change', (event) -> show_or_hide_issue_elements($(this), event.val)
 
   #### Correspondant ####
+  $("#dossier_correspondant_id").attach_correspondant_select2()
+
   if $("#correspondant_modal").length
     $("#dossier_correspondant_id_field .btn").hide()
   else
@@ -94,13 +96,28 @@ jQuery ->
   correspondant_id = $("#dossier_correspondant_id").val()
   activateCorrespondantEdit(correspondant_id) if correspondant_id
 
-  $correspondant_autocomplete = $("#dossier_correspondant_nom")
-  # activate edit correspondant when correspondant autocomplete item is selected
-  $correspondant_autocomplete.bind "railsAutocomplete.select", (e, data) ->
-    correspondant_id = data.item.id
-    activateCorrespondantEdit(correspondant_id) if correspondant_id
+# functions & jQuery plugins
 
-# functions
+$.fn.attach_correspondant_select2 = () ->
+  @select2
+    minimumInputLength: 3
+    width: "100%"
+    initSelection : (element, callback) ->
+      preload = element.data("load")
+      callback(preload)
+    ajax:
+      url: "/dossiers/correspondants.json"
+      dataType: "json"
+      data: (term, page) ->
+        q: term
+        page_limit: 10
+      results: (data, page) ->
+        return {results: data}
+  @on "change", (e) =>
+    if e.val then activateCorrespondantEdit(e.val) else $(".update").hide()
+
+  $('.select2-search-field input').css('width', '100%')
+
 zero_grossesse_fields = ->
   fields = []
   fields.push($("#dossier_#{field_name}")) for field_name in ["fcs", "geu", "miu", "ivg", "img", "nai"]

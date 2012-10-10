@@ -1,7 +1,4 @@
-#encoding: utf-8
 class DossiersController < AuthorizedController
-  autocomplete :produit, :name, full: true, limit: 20
-  autocomplete :indication, :name, full: true, limit: 20
   before_filter :find_centre
   before_filter :decorated_dossier, :only => :show
   load_and_authorize_resource :dossier
@@ -22,15 +19,12 @@ class DossiersController < AuthorizedController
     end
   end
 
-  def autocomplete_correspondant_fullname
-    term = params[:term]
-    if term && term.present?
-      items = Correspondant.where(centre_id: @centre.id).
-        where("LOWER(nom) like ?", term.downcase + "%").limit(20).order(:nom)
-    else
-      items = {}
+  def correspondants
+    @correspondants = Correspondant.where(centre_id: @centre.id).
+      where("LOWER(nom) like ?", "%#{params[:q]}%")
+    respond_to do |format|
+      format.json { render :json => @correspondants.map(&:fullname_and_id) }
     end
-    render json: json_for_autocomplete(items, :fullname)
   end
 
   def index

@@ -19,6 +19,10 @@ class Correspondant < ActiveRecord::Base
     fullname
   end
 
+  def fullname_and_id
+    {id: id, text: fullname}
+  end
+
   private
 
   def assign_fullname
