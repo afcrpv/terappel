@@ -8,6 +8,20 @@ class DossiersController < AuthorizedController
 
   helper_method :date_appel, :date_reelle_accouchement, :date_dernieres_regles, :date_debut_grossesse, :date_accouchement_prevu, :evolutions, :date_naissance, :date_recueil_evol
 
+  def produits
+    @produits = Produit.where("LOWER(name) like ?", "%#{params[:q]}%")
+    respond_to do |format|
+      format.json { render :json => @produits.map(&:name_and_id) }
+    end
+  end
+
+  def indications
+    @indications = Indication.where("LOWER(name) like ?", "%#{params[:q]}%")
+    respond_to do |format|
+      format.json { render :json => @indications.map(&:name_and_id) }
+    end
+  end
+
   def autocomplete_correspondant_fullname
     term = params[:term]
     if term && term.present?

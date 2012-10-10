@@ -3,8 +3,13 @@
     = f.association :expo_type, wrapper_html: {class: "span5"}, input_html: {class: "input-xlarge combobox", data: {placeholder: "Choisir le type d'exposition"}}
     = f.association :expo_nature, wrapper_html: {class: "span5"}, input_html: {class: "input-xlarge combobox", data: {placeholder: "Choisir la nature de l'exposition"}}
   .row
-    = f.input :produit_name, as: :autocomplete, url: autocomplete_produit_name_dossiers_path, wrapper_html: {class: "span5"}, input_html: {class: "span5"}
-    = f.input :indication_name, as: :autocomplete, url: autocomplete_indication_name_dossiers_path, wrapper_html: {class: "span5"}, input_html: {class: "span5"}
+    - %w(produit indication).each do |field|
+      - article = field == "produit" ? "un" : "une"
+      .span5
+        .control-group
+          = f.label field.to_sym
+          .controls
+            = f.hidden_field "#{field}_id".to_sym, class: "input-xxlarge #{field}_autocomplete", data: {load: f.object.send(field).try(:name_and_id), placeholder: "Saisir #{article} #{field}"}
   .row
     = f.association :voie, wrapper_html: {class: "span3"}, input_html: {class: "input-medium combobox", data: {placeholder: "Choisir..."}}
     = f.input :dose, wrapper_html: {class: "span3"}, input_html: {class: "span2"}, hint: "par exemple en mg/j"

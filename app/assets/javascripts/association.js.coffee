@@ -122,9 +122,13 @@ $.widget "terappel.validateAssociation"
 
 jQuery ->
   $("#tabs li a[href='#expositions']").bind 'click', ->
+    for association in ["produit", "indication"]
+      $(".#{association}_autocomplete").attach_expositions_select2 "/dossiers/#{association}s.json"
     $attach = $("#expositions")
     $attach.bind 'insertion-callback', ->
       $(".nested-fields").filter(":visible").find(".combobox").select2()
+      for association in ["produit", "indication"]
+        $(".#{association}_autocomplete").attach_expositions_select2 "/dossiers/#{association}s.json"
       $(".calendar").expo_termes_calc()
       $(".duree_calc").duree_expo_calc()
       disableSubmitWithEnter()
@@ -134,9 +138,9 @@ jQuery ->
     $start_point = $(this).closest(".nested-fields")
     # collect produit, expo_terme, indication, dose, de, a, de2, a2 fields values
     expo_values = [
-      $start_point.find("input[id$='produit_name']").val()
+      $start_point.find("input[id$='produit_id']").data("load").text
       $start_point.find("select[name*='expo_terme'] option").filter(":selected").text()
-      $start_point.find("input[id$='indication_name']").val()
+      $start_point.find("input[id$='indication_id']").data("load").text
       $start_point.find("input[id$='_dose']").val()
       $start_point.find("input[id$='_de']").val()
       $start_point.find("input[id$='_a']").val()
@@ -155,14 +159,14 @@ jQuery ->
       # when clicking on #bebes tab link
       $("#tabs li a[href='#bebes']").bind 'click', ->
 
-        $(".#{association}_tokens").attach_select2 association, "/#{association}s.json"
+        $(".#{association}_tokens").attach_bebes_select2 association, "/#{association}s.json"
         prefill_summary_table("bebes")
 
         $("select[id$=#{association}]").check_show_association_tokens(association)
 
         $attach = $('#bebes')
         $attach.bind 'insertion-callback', ->
-          $(".#{association}_tokens").attach_select2 association, "/#{association}s.json"
+          $(".#{association}_tokens").attach_bebes_select2 association, "/#{association}s.json"
 
           $("select[id$=_#{association}]").last().check_show_association_tokens(association)
           $("a.show_#{association}_tree:visible").complete_modal_for_association(association)
@@ -184,7 +188,7 @@ jQuery ->
     $target = $("#bebes_summary tbody")
     validate_field(this, $start_point, $target, bebe_values, "bebes")
 
-$.fn.attach_select2 = (association, url) ->
+$.fn.attach_bebes_select2 = (association, url) ->
   @select2
     minimumInputLength: 3
     multiple: true
@@ -208,6 +212,24 @@ $.fn.attach_select2 = (association, url) ->
       success: (data) =>
         initial_ancestors = if (original_data = @data("initial-ancestors")) then original_data else []
         @data("initial-ancestors", initial_ancestors.concat data)
+
+  $('.select2-search-field input').css('width', '100%')
+
+$.fn.attach_expositions_select2 = (url) ->
+  @select2
+    minimumInputLength: 3
+    width: "80%"
+    initSelection : (element, callback) ->
+      preload = element.data("load")
+      callback(preload)
+    ajax:
+      url: url
+      dataType: "json"
+      data: (term, page) ->
+        q: term
+        page_limit: 10
+      results: (data, page) ->
+        return {results: data}
 
   $('.select2-search-field input').css('width', '100%')
 
@@ -272,9 +294,9 @@ collect_values_to_copy = ($start_point, model) ->
   # damn ugly... but i'm outta ideas for now, need a bit of oo to not do like this
   if model == "expositions"
     values = [
-      $start_point.find("input[id$='produit_name']").val()
+      $start_point.find("input[id$='produit_id']").data("load").text
       $start_point.find("select[name*='expo_terme'] option").filter(":selected").text()
-      $start_point.find("input[id$='indication_name']").val()
+      $start_point.find("input[id$='indication_id']").data("load").text
       $start_point.find("input[id$='_dose']").val()
       $start_point.find("input[id$='_de']").val()
       $start_point.find("input[id$='_a']").val()
