@@ -12,9 +12,10 @@ jQuery ->
   # bootstrap form tabs
   $(".nav-tabs a:first").tab('show')
 
-  $("#dossier_code").on "blur", ->
-    value = $(this).val()
-    $(this).val(value.toUpperCase())
+  for field in ["code", "name"]
+    $("#dossier_#{field}").on "blur", ->
+      value = $(this).val()
+      $(this).val(value.toUpperCase())
 
   $("#dossier_code").mask("aa9999999")
 
