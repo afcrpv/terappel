@@ -11,7 +11,7 @@ group :assets do
   gem 'sass-rails', "  ~> 3.2.5"
   gem 'coffee-rails', "~> 3.2.2"
   gem 'uglifier', '>=1.0.3'
-  gem 'bootstrap-sass', "~> 2.1.0.0"
+  gem 'bootstrap-sass', github: "thomas-mcdonald/bootstrap-sass"
   gem "jquery-ui-rails"
   gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
   gem 'compass-rails'
