@@ -67,4 +67,8 @@ class Dossier < ActiveRecord::Base
       produits.map(&:name).to_sentence
     end
   end
+
+  def code_and_id
+    {id: id, text: code}
+  end
 end

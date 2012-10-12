@@ -15,6 +15,13 @@ $ ->
   $.fn.select2.defaults.formatSearching = -> "Recherche en cours..."
   $.fn.select2.defaults.width = "element"
 
+  $("#codedossier").typeahead
+    source: (query, process) ->
+      $.get "/home/dossiers.json", {q: query}, (data) =>
+        process(item.text for item in data)
+    items: 10
+    minLength: 2
+
 window.show_or_hide_hint_for_toxics = ($toxic_element, toxic_value, values_to_compare) ->
   $toxic_message = $toxic_element.next(".help-block").hide()
   toxic_condition = toxic_value and toxic_value in values_to_compare

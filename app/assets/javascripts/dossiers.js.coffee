@@ -5,18 +5,12 @@
 jQuery ->
   initDossiersDatatable()
   initDossierDialog()
-  initComboboxAutocomplete()
   disableSubmitWithEnter()
 
   $(".combobox").select2()
 
-
   # bootstrap form tabs
   $(".nav-tabs a:first").tab('show')
-
-  $("#codedossier").on "keyup", ->
-    value = $(this).val()
-    $(this).val(value.toUpperCase())
 
   $("#dossier_code").on "blur", ->
     value = $(this).val()
