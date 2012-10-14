@@ -66,9 +66,6 @@ jQuery ->
   $(".calc_dates_grossesse").calculateGrossesse()
   $(".clear_date").resetDates()
 
-  $(".calendar").expo_termes_calc()
-  $(".duree_calc").duree_expo_calc()
-
   #### Evolution ####
   show_or_hide_issue_elements($("#dossier_evolution"), $("#dossier_evolution").val())
   $("#dossier_evolution").on 'change', (event) -> show_or_hide_issue_elements($(this), event.val)

@@ -22,6 +22,32 @@ $ ->
     items: 10
     minLength: 2
 
+$.fn.expo_termes_calc = ->
+  $(".date_expo").hide()
+  @each ->
+    $(this).on 'click', (e) ->
+      e.preventDefault()
+      sa_field = $(this).prev()
+      date_field = $(this).next()
+      date_field.mask("99/99/9999")
+      date_field.toggle()
+      date_field.focus()
+      date_field.one 'blur', ->
+        date_expo = parse_fr_date($(this).val())
+        ddr = parse_fr_date($('#dossier_date_dernieres_regles').val())
+        if !isNaN(date_expo.getTime()) and !isNaN(ddr.getTime())
+          sa_field.val(getSA(ddr, date_expo))
+          $(this).toggle()
+
+$.fn.duree_expo_calc = ->
+  @each ->
+    $(this).blur (e) ->
+      e.preventDefault()
+      de = $(this).prevAll(".de").val()
+      a = $(this).val()
+      result = a - de
+      $(this).nextAll(".duree").val(a - de) if !isNaN(result) and result > 0
+
 window.show_or_hide_hint_for_toxics = ($toxic_element, toxic_value, values_to_compare) ->
   $toxic_message = $toxic_element.next(".help-block").hide()
   toxic_condition = toxic_value and toxic_value in values_to_compare
@@ -45,33 +71,6 @@ window.show_or_hide_issue_elements = ($evolution_element, evolution_value) ->
       $("##{field}").hide()
   else
     $hint.hide()
-
-$.fn.expo_termes_calc = ->
-  $(".date_expo").hide()
-  @each ->
-    $(this).click (e) ->
-      e.preventDefault()
-      sa_field = $(this).prev()
-      date_field = $(this).next()
-      date_field.mask("99/99/9999")
-      date_field.toggle()
-      date_field.focus()
-      date_field.one 'blur', ->
-        date_expo = parse_fr_date($(this).val())
-        ddr = parse_fr_date($('#dossier_date_dernieres_regles').val())
-        if !isNaN(date_expo.getTime()) and !isNaN(ddr.getTime())
-          sa_field.val(getSA(ddr, date_expo))
-          $(this).toggle()
-
-$.fn.duree_expo_calc = ->
-  @each ->
-    $(this).blur (e) ->
-      e.preventDefault()
-      de = $(this).prevAll(".de").val()
-      a = $(this).val()
-      result = a - de
-      $(this).nextAll(".duree").val(a - de) if !isNaN(result) and result > 0
-
 
 window.disableSubmitWithEnter = ->
   for type in ["text", "number"]

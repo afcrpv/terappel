@@ -57,8 +57,8 @@ $.widget "terappel.validateAssociation"
   _getFieldsValues: ($start_point) ->
     fields_and_values = {}
 
-    for field in $start_point.find("input, select")
-      name = $(field).attr('name').replace(/\w+\[\w+\]\[\d+\]\[(\w+)\]/, '$1')
+    for field in $start_point.find("input:visible, select")
+      name = $(field).attr('id').replace(/dossier_\w+?_\w+?_\d+?_(\w+)$/, '$1')
       fields_and_values[name] = $(field).val()
 
     selected_attributes = {}
@@ -121,54 +121,42 @@ $.widget "terappel.validateAssociation"
         .text(value)
 
 jQuery ->
-  for association in ["produit", "indication"]
-    do (association) ->
+  $("#tabs li a[href='#expositions']").bind 'click', ->
+    for association in ["produit", "indication"]
+      $(".#{association}_autocomplete").attach_expositions_select2(association, "/dossiers/#{association}s.json")
 
-      $("#tabs li a[href='#expositions']").bind 'click', ->
+    prefill_summary_table("expositions")
+    $(".calendar").expo_termes_calc()
+    $(".duree_calc").duree_expo_calc()
+    $(".validate_expo").validate_exposition()
 
+    $("#expositions").bind 'cocoon:after-insert', ->
+      for association in ["produit", "indication"]
         $(".#{association}_autocomplete").attach_expositions_select2(association, "/dossiers/#{association}s.json")
-        prefill_summary_table("expositions")
-
-        $attach = $("#expositions")
-        $attach.bind 'cocoon:after-insert', ->
-          $(".#{association}_autocomplete").attach_expositions_select2(association, "/dossiers/#{association}s.json")
-
-          $(".calendar").expo_termes_calc()
-          $(".duree_calc").duree_expo_calc()
-          disableSubmitWithEnter()
-
-  $("#expositions").bind 'cocoon:after-insert', ->
-    $(".validate_expo").last().validate_exposition()
-    $(select).select2() for select in $(".combobox").filter(":visible")
-
-  # assign validate expo to related button
-  $(".validate_expo").validate_exposition()
+      $(".validate_expo").last().validate_exposition()
+      $(select).select2() for select in $(".combobox").filter(":visible")
+      $(".calendar").expo_termes_calc()
+      $(".duree_calc").duree_expo_calc()
+      disableSubmitWithEnter()
 
   #### BEBES ####
-  for association in ["malformation", "pathologie"]
-    do (association) ->
+  $("#tabs li a[href='#bebes']").bind 'click', ->
 
-      # when clicking on #bebes tab link
-      $("#tabs li a[href='#bebes']").bind 'click', ->
+    for association in ["malformation", "pathologie"]
+      $(".#{association}_tokens").attach_bebes_select2 association, "/#{association}s.json"
+      $("select[id$=#{association}]").check_show_association_tokens(association)
 
+    prefill_summary_table("bebes")
+    $(".validate_bebe").validate_bebe()
+
+    $('#bebes').bind 'cocoon:after-insert', ->
+      for association in ["malformation", "pathologie"]
         $(".#{association}_tokens").attach_bebes_select2 association, "/#{association}s.json"
-        prefill_summary_table("bebes")
-
-        $("select[id$=#{association}]").check_show_association_tokens(association)
-
-        $attach = $('#bebes')
-        $attach.bind 'cocoon:after-insert', ->
-          $(".#{association}_tokens").attach_bebes_select2 association, "/#{association}s.json"
-          $("select[id$=_#{association}]").last().check_show_association_tokens(association)
-          $("a.show_#{association}_tree:visible").complete_modal_for_association(association)
-          disableSubmitWithEnter()
-
-  $("#bebes").bind 'cocoon:after-insert', ->
-    $(".validate_bebe").last().validate_bebe()
-    $(select).select2() for select in $(".combobox").filter(":visible")
-
-  # assign validate bebe to related button
-  $(".validate_bebe").validate_bebe()
+        $("select[id$=_#{association}]").last().check_show_association_tokens(association)
+        $("a.show_#{association}_tree:visible").complete_modal_for_association(association)
+      $(".validate_bebe").last().validate_bebe()
+      $(select).select2() for select in $(".combobox").filter(":visible")
+      disableSubmitWithEnter()
 
 $.fn.validate_bebe = ->
   @each ->
