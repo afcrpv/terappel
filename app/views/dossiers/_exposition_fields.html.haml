@@ -52,6 +52,6 @@
     = link_to "#", class: "btn btn-small validate_expo" do
       %i.icon-chevron-up
       Fermer
-    = link_to_remove_association f, class: "btn btn-danger btn-small" do
+    = link_to_remove_association f, class: "btn btn-danger btn-small", data: {confirm: "Confirmer la suppression ?"} do
       %i.icon-remove.icon-white
       Annuler
