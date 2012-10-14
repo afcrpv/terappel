@@ -67,8 +67,9 @@ gem "cocoon"
 gem 'newrelic_rpm'
 gem 'ancestry'
 gem 'jstree-rails', github: "tristanm/jstree-rails"
-gem 'simple_form', github: "plataformatec/simple_form"
+gem 'simple_form'
 gem 'client_side_validations', github: 'bcardarella/client_side_validations'
+gem 'client_side_validations-simple_form'
 gem 'rails_admin', github: "sferik/rails_admin"
 gem 'csv_builder'
 gem 'coffee-filter'

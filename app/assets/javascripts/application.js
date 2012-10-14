@@ -12,6 +12,7 @@
 //= require dataTables/jquery.dataTables.bootstrap
 //= require cocoon
 //= require rails.validations
+//= require rails.validations.simple_form
 //= require jquery.maskedinput
 //= require select2
 //= require common
