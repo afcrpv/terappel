@@ -1,0 +1,9 @@
+.modal.hide{id: "#{model}_destroy", style: "display: none;"}
+  .modal-header
+    %button{type: "button", class: "close", "data-dismiss" => "modal"} x
+    %h3 Destruction 
+  .modal-body
+    %p Cette opération est irreversible, veuillez confirmer.
+  .modal-footer
+    = link_to "Annuler", "#", class: "btn", "data-dismiss" => "modal"
+    = link_to "Détruire", "#", class: "btn btn-danger", id: "confirm-destruction"

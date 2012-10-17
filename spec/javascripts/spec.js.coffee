@@ -3,6 +3,7 @@
 #= require jquery.ui.widget
 #= require bootstrap
 #= require bmi
+#= require select2
 #= require common
 #= require grossesse
 #= require association

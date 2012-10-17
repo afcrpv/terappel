@@ -32,6 +32,7 @@ describe "Association", ->
         $(".validate_expo").validateAssociation(
           modelName: @model_name
           selectedFields: ["produit_name"]
+          requiredFields: ["produit_name"]
         ).click()
 
       it "should not add a table row", ->
@@ -46,6 +47,7 @@ describe "Association", ->
         $(".validate_expo").validateAssociation(
           modelName: @model_name
           selectedFields: ["produit_name", "indication"]
+          requiredFields: ["produit_name"]
         ).click()
 
       it "should hide the association fields group", ->
@@ -85,7 +87,7 @@ describe "Association", ->
           $("#destroy_#{@plural_name_and_id}").click()
 
         it "should open a modal to confirm destruction", ->
-          expect($("#association_destroy")).toBeVisible()
+          expect($("##{@model_name}_destroy")).toBeVisible()
 
         describe "clicking the destroy button", ->
           beforeEach ->

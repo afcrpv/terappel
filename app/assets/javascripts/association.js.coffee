@@ -1,42 +1,45 @@
 class @Association
-  constructor: (name, attributes) ->
+  constructor: (name, attributes, required_attributes) ->
     @name = name
     @attributes = attributes
+    @required_attributes = required_attributes
 
 $.widget "terappel.validateAssociation"
   options:
     modelName: null
     modelId: null
     selectedFields: []
+    requiredFields: []
 
   _create: ->
-    @_bindActions(@options.modelName, @options.selectedFields)
+    @_bindActions(@options.modelName, @options.selectedFields, @options.requiredFields)
 
   pluralNameAndId: ->
     "#{@options.modelName}s_#{@options.modelId}"
 
   _bindActions: (model_name, selected_fields) ->
     $start_point = @element.closest(".nested-fields")
-    @options.modelId = model_id = $start_point.find("input").filter(":first").attr("name").match(/[0-9]+/).join()
+    @options.modelId = model_id = $start_point.find("input[id]").filter(":first").attr("id").match(/[0-9]+/).join()
     plural_name_and_id = @pluralNameAndId()
 
     @element.on 'click', (e) =>
       e.preventDefault()
 
-      association = new Association(model_name, @_getFieldsValues($start_point))
-      values = for key, value of association.attributes
+      association = new Association(model_name, @_getFieldsValues($start_point, @options.selectedFields), @_getFieldsValues($start_point, @options.requiredFields))
+      required_fields_values = for key, value of association.required_attributes
         value
 
       $target = $("##{model_name}s_summary")
 
-      # don't do anything if collected attributes values are all empty
-      if values.join("").length
+      console.log association
+      if required_fields_values.join("").length
         $model_row = @_getModelRow($target)
         @_actionsCell($model_row)
         @_fieldsCells($model_row, association.attributes)
         $start_point.hide()
       else
         @_emptyFieldsError()
+        # maybe use instead a confirm dialog to close start point anyway
 
   _getModelRow: ($target) ->
     plural_name_and_id = @pluralNameAndId()
@@ -50,21 +53,23 @@ $.widget "terappel.validateAssociation"
     return $model_row
 
   _emptyFieldsError: ->
+    $("p#exposition_message").remove()
     $('<p id="exposition_message">')
       .insertBefore(@element)
       .text("Vous devez remplir au moins un nom de produit")
 
-  _getFieldsValues: ($start_point) ->
+  _getFieldsValues: ($start_point, selectedFields) ->
     fields_and_values = {}
 
-    for field in $start_point.find("input:visible, select")
+    for field in $start_point.find("input[id], select[id]")
       name = $(field).attr('id').replace(/dossier_\w+?_\w+?_\d+?_(\w+)$/, '$1')
       fields_and_values[name] = $(field).val()
 
     selected_attributes = {}
-    for field in @options.selectedFields
+    for field in selectedFields
       selected_attributes[field] = fields_and_values[field]
 
+    console.log selected_attributes
     return selected_attributes
 
   _actionsCell: ($model_row) ->
@@ -86,9 +91,12 @@ $.widget "terappel.validateAssociation"
 
   _destroyLink: (model_name, $related_fieldset, $model_row) ->
     plural_name_and_id = @pluralNameAndId()
-    $destroy_link = $("<a href='#association_destroy' id='destroy_#{plural_name_and_id}' class='destroy_link' data-toggle='modal' title='Détruire cette #{model_name}'><img alt='X' src='/assets/icons/destroy.png'></a>")
+    destroy_title = "'Détruire #{model_name}'"
+    $destroy_link = $("<a href='##{model_name}_destroy' id='destroy_#{plural_name_and_id}' data-toggle='modal' title=#{destroy_title}><i class='icon-trash'></i><span style='display:none;'>#{destroy_title}</span></a>")
 
-    $("#association_destroy").on 'click', '#confirm-destruction', (event) ->
+    $modal = $("##{model_name}_destroy")
+    $($modal).find(".modal-header h3").text("Destruction #{model_name}")
+    $modal.on 'click', '#confirm-destruction', (event) ->
       event.preventDefault()
 
       # remove the model row from the DOM
@@ -96,13 +104,14 @@ $.widget "terappel.validateAssociation"
       # marks the corresponding model for destroy assigning the _destroy input value to 1
       $related_fieldset.find("input[type=hidden]").val("1")
       # and close the modal
-      $(@).closest(".modal").modal('hide')
+      $("##{model_name}_destroy").modal('hide')
 
     return $destroy_link
 
   _modifyLink: (model_name, $related_fieldset) ->
     plural_name_and_id = @pluralNameAndId()
-    $modify_link = $("<a href='#' id='modify_#{plural_name_and_id}' class='modify_link' title='Modifier cette #{model_name}'><img alt='M' src='/assets/icons/edit.png'></a>")
+    modify_title = "'Modifier #{model_name}'"
+    $modify_link = $("<a href='#' id='modify_#{plural_name_and_id}' class='modify_link' title=#{modify_title}><i class='icon-pencil'></i><span style='display:none;'>#{modify_title}</span></a>")
     $modify_link.one 'click', (e) ->
       e.preventDefault()
       # toggle the div.nested-fields containing the related model form
