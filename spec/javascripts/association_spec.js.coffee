@@ -83,10 +83,6 @@ describe "Association", ->
           $add_link = $("a.add_fields[data-associations=#{@model_name}s]")
           expect($add_link).toBeHidden()
 
-        describe "when association is bebes", ->
-
-          xit "should prepare malformation and pathologies modals"
-
       describe "clicking the destroy link", ->
         beforeEach ->
           $("#destroy_#{@plural_name_and_id}").click()

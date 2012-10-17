@@ -117,9 +117,6 @@ $.widget "terappel.validateAssociation"
       $related_fieldset.slideToggle()
       hide_add_field_link("#{model_name}s")
 
-      if model_name is "bebes"
-        $("a.show_#{association}_tree:visible").complete_modal_for_association(association) for association in ["malformation", "pathologie"]
-
       return $modify_link
 
   _fieldsCells: ($model_row, fields_and_values) ->
