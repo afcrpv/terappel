@@ -64,6 +64,10 @@ describe "Association", ->
         expect($(@table_row)).toContain ("td.produit_name")
         expect($(@table_row)).toContain ("td.indication")
 
+      it "should show the add fields link", ->
+        $add_link = $("a.add_fields[data-associations=#{@model_name}s]")
+        expect($add_link).toHaveCss({display: "inline-block"})
+
       describe "clicking the modify link", ->
         beforeEach ->
           $("#modify_#{@plural_name_and_id}").click()
@@ -76,7 +80,8 @@ describe "Association", ->
           expect($(".nested-fields")).toBeVisible()
 
         it "should hide the add fields link", ->
-          expect($("a.add_fields[data-associations=#{@model_name}s]")).toBeHidden()
+          $add_link = $("a.add_fields[data-associations=#{@model_name}s]")
+          expect($add_link).toBeHidden()
 
         describe "when association is bebes", ->
 

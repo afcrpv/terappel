@@ -31,12 +31,12 @@ $.widget "terappel.validateAssociation"
 
       $target = $("##{model_name}s_summary")
 
-      console.log association
       if required_fields_values.join("").length
         $model_row = @_getModelRow($target)
         @_actionsCell($model_row)
         @_fieldsCells($model_row, association.attributes)
         $start_point.hide()
+        show_add_field_link("#{model_name}s")
       else
         @_emptyFieldsError()
         # maybe use instead a confirm dialog to close start point anyway
@@ -69,7 +69,6 @@ $.widget "terappel.validateAssociation"
     for field in selectedFields
       selected_attributes[field] = fields_and_values[field]
 
-    console.log selected_attributes
     return selected_attributes
 
   _actionsCell: ($model_row) ->
