@@ -14,11 +14,11 @@ $.widget "terappel.prefillSummaryTable"
 
     start_points = $("##{@options.modelName} .nested-fields")
 
-    model_ids = collectModelId($(start_point)) for start_point in start_points
+    model_ids = for start_point in start_points
+      collectModelId($(start_point))
 
-    values_set = []
-    for start_point in start_points
-      values_set.push collect_values_to_copy($(start_point), @options.modelName)
+    values_set = for start_point in start_points
+      collect_values_to_copy($(start_point), @options.modelName)
 
     for values, i in values_set
       append_to_summary(values, $target, model_ids[i], @options.modelName)
@@ -83,8 +83,6 @@ modifyLink = (model_name, $related_fieldset, plural_name_and_id) ->
 
   return $modify_link
 
-
-
 $.widget "terappel.validateAssociation"
   options:
     modelName: null
@@ -147,7 +145,8 @@ $.widget "terappel.validateAssociation"
     for field in $start_point.find("input[id], select[id]")
       key = $(field).attr('id').replace(/dossier_\w+?_\w+?_\d+?_(\w+)$/, '$1')
       value = switch key
-        when "produit_id", "indication_id" then $(field).data("load").text
+        when "produit_id", "indication_id"
+          if (label = $(field).data("load")) then label.text else ""
         when "expo_terme_id", "malformation", "pahtologie"
           $(field).find("option").filter(":selected").text()
         else $(field).val()
