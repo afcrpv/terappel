@@ -4,6 +4,85 @@ class @Association
     @attributes = attributes
     @required_attributes = required_attributes
 
+$.widget "terappel.prefillSummaryTable"
+  options:
+    modelName: null
+
+  _create: ->
+    $('.nested-fields').hide()
+    $target = @element.find("tbody")
+
+    start_points = $("##{@options.modelName} .nested-fields")
+
+    model_ids = collectModelId($(start_point)) for start_point in start_points
+
+    values_set = []
+    for start_point in start_points
+      values_set.push collect_values_to_copy($(start_point), @options.modelName)
+
+    for values, i in values_set
+      append_to_summary(values, $target, model_ids[i], @options.modelName)
+
+window.collectModelId = ($start_point) ->
+  $start_point.find("input[id]").filter(":first").attr("id").match(/[0-9]+/).join()
+
+destroyModal = (model_name, plural_name_and_id) ->
+  $modal = $("<div class='modal hide' id='#{plural_name_and_id}_destroy' />")
+  $("<div class='modal-header' />")
+    .html("""
+          <button class="close" data-dismiss="modal" type="button">x</button>
+          <h3>Destruction #{model_name}</h3>
+          """)
+    .appendTo($modal)
+  $("<div class='modal-body' />")
+    .html("<p>Cette opération est irreversible, veuillez confirmer.</p></div>")
+    .appendTo($modal)
+  $("<div class='modal-footer' />")
+    .html("""
+          <a href="#" class="btn" data-dismiss="modal">Annuler</a>
+          <a href="#" class="btn btn-danger" id="confirm-destruction-#{plural_name_and_id}">Détruire</a>
+          """)
+    .appendTo($modal)
+
+  return $modal
+
+destroyLink = (model_name, $related_fieldset, $model_row, plural_name_and_id) ->
+  destroy_title = "'Détruire #{model_name}'"
+  $destroy_link = $("<a href='##{plural_name_and_id}_destroy' id='destroy_#{plural_name_and_id}' data-toggle='modal' title=#{destroy_title}><i class='icon-trash'></i><span style='display:none;'>#{destroy_title}</span></a>")
+
+  destroyModal(model_name, plural_name_and_id)
+    .appendTo("body")
+  $("#confirm-destruction-#{plural_name_and_id}").bind 'click', (event) ->
+    event.preventDefault()
+
+    # remove the model row from the DOM
+    target_row = $("tr##{plural_name_and_id}")
+    target_row.remove()
+    # check if target_row is an unsaved association
+    if target_row.hasClass("live")
+      $related_fieldset.remove()
+    else
+      # marks the corresponding model for destroy assigning the _destroy input value to 1
+      $related_fieldset.find("input[type=hidden]").val("1")
+    # and close the modal and destroy it
+    $("##{plural_name_and_id}_destroy").modal('hide').remove()
+
+  return $destroy_link
+
+modifyLink = (model_name, $related_fieldset, plural_name_and_id) ->
+  modify_title = "'Modifier #{model_name}'"
+  $modify_link = $("<a href='#' id='modify_#{plural_name_and_id}' class='modify_link' title=#{modify_title}><i class='icon-pencil'></i><span style='display:none;'>#{modify_title}</span></a>")
+  $modify_link.one 'click', (e) ->
+    e.preventDefault()
+    # toggle the div.nested-fields containing the related model form
+    $related_fieldset.slideToggle()
+    hide_add_field_link("#{model_name}s")
+    if model_name is "bebe"
+      for association in ["malformation", "pathologie"]
+        $("a.show_#{association}_tree:visible").complete_modal_for_association(association)
+
+  return $modify_link
+
 $.widget "terappel.validateAssociation"
   options:
     modelName: null
@@ -19,7 +98,7 @@ $.widget "terappel.validateAssociation"
 
   _bindActions: (model_name, selected_fields) ->
     $start_point = @element.closest(".nested-fields")
-    @options.modelId = model_id = $start_point.find("input[id]").filter(":first").attr("id").match(/[0-9]+/).join()
+    @options.modelId = model_id = collectModelId $($start_point)
     plural_name_and_id = @pluralNameAndId()
 
     @element.on 'click', (e) =>
@@ -43,11 +122,11 @@ $.widget "terappel.validateAssociation"
 
   _getModelRow: ($target) ->
     plural_name_and_id = @pluralNameAndId()
-    #check if we need to replace an existing or create a new row
+    #check if we need to replace an existing
     if ($model_row = $target.find("tbody tr##{plural_name_and_id}")).length
       $model_row.empty()
-    else
-      ($model_row = $("<tr id='#{plural_name_and_id}' />")).
+    else # or create a new row
+      ($model_row = $("<tr id='#{plural_name_and_id}' class='live' />")).
         appendTo($target.find("tbody"))
 
     return $model_row
@@ -81,43 +160,12 @@ $.widget "terappel.validateAssociation"
       .find(".nested-fields")
       .has("input[id*='_#{model_name}s_attributes_#{model_id}']")
 
-    @_modifyLink(model_name, $related_fieldset)
+    modifyLink(model_name, $related_fieldset, plural_name_and_id)
       .appendTo($cell)
-    @_destroyLink(model_name, $related_fieldset, $model_row)
+    destroyLink(model_name, $related_fieldset, $model_row, plural_name_and_id, true)
       .appendTo($cell)
 
     $cell.appendTo($model_row)
-
-  _destroyLink: (model_name, $related_fieldset, $model_row) ->
-    plural_name_and_id = @pluralNameAndId()
-    destroy_title = "'Détruire #{model_name}'"
-    $destroy_link = $("<a href='##{model_name}_destroy' id='destroy_#{plural_name_and_id}' data-toggle='modal' title=#{destroy_title}><i class='icon-trash'></i><span style='display:none;'>#{destroy_title}</span></a>")
-
-    $modal = $("##{model_name}_destroy")
-    $($modal).find(".modal-header h3").text("Destruction #{model_name}")
-    $modal.on 'click', '#confirm-destruction', (event) ->
-      event.preventDefault()
-
-      # remove the model row from the DOM
-      $model_row.remove()
-      # marks the corresponding model for destroy assigning the _destroy input value to 1
-      $related_fieldset.find("input[type=hidden]").val("1")
-      # and close the modal
-      $("##{model_name}_destroy").modal('hide')
-
-    return $destroy_link
-
-  _modifyLink: (model_name, $related_fieldset) ->
-    plural_name_and_id = @pluralNameAndId()
-    modify_title = "'Modifier #{model_name}'"
-    $modify_link = $("<a href='#' id='modify_#{plural_name_and_id}' class='modify_link' title=#{modify_title}><i class='icon-pencil'></i><span style='display:none;'>#{modify_title}</span></a>")
-    $modify_link.one 'click', (e) ->
-      e.preventDefault()
-      # toggle the div.nested-fields containing the related model form
-      $related_fieldset.slideToggle()
-      hide_add_field_link("#{model_name}s")
-
-      return $modify_link
 
   _fieldsCells: ($model_row, fields_and_values) ->
     for key, value of fields_and_values
@@ -265,7 +313,7 @@ validate_field = (button, $start_point, $target, values, model) ->
   # also get the unique id of the model
   model_id = $start_point.find("select").filter(":first").attr("name").match(/[0-9]+/).join()
 
-  append_to_summary(values, $target, model_id, model)
+  append_to_summary(values, $target, model_id, model, true)
   # toggle visibility of closest parent div.nested-fields
   $start_point.slideToggle()
   show_add_field_link(model)
@@ -315,13 +363,14 @@ collect_values_to_copy = ($start_point, model) ->
     ]
   return values
 
-append_to_summary = (fields, $target, model_id, model) ->
+append_to_summary = (fields, $target, model_id, model, live=false) ->
+  row_class = if live then "live" else ""
   # check whether a row with id equal to collected model id exists
   if $target.find("tr##{model}_#{model_id}").length isnt 0
     $model_row = $target.find("tr##{model}_#{model_id}")
     $model_row.empty()
-  else
-    $model_row = $("<tr id='#{model}_#{model_id}' />")
+  else # create a new row
+    $model_row = $("<tr id='#{model}_#{model_id}' class='#{row_class}' />")
     # append the new row to the tbody
     $model_row.appendTo($target)
 
@@ -370,25 +419,9 @@ cell_for_action_links = ($node, model_id, model) ->
   $related_fieldset = $node.parents().find(".nested-fields").has("input[id*='_#{model}_attributes_#{model_id}']")
 
   singular_model = model.replace(/s$/, "")
-  modify_title = "'Modifier #{singular_model}'"
-  $modify_link = $("<a href='#' id='modify_#{model}_#{model_id}' class='modify_link' title=#{modify_title}><i class='icon-pencil'></i><span style='display:none;'>#{modify_title}</span></a>")
-  $modify_link.bind 'click', (event) ->
-    event.preventDefault()
-    # clicking the link toggles the div.nested-fields containing the related model form
-    $related_fieldset.slideToggle()
-
-    if model is "bebes"
-      for association in ["malformation", "pathologie"]
-        $("a.show_#{association}_tree:visible").complete_modal_for_association(association)
-
-  destroy_title = "'Détruire #{singular_model}'"
-  $destroy_link = $("<a href='#' id='destroy_#{model}_#{model_id}' title=#{destroy_title}><i class='icon-trash'></i><span style='display:none;'>#{destroy_title}</span></a>")
-  $destroy_link.bind 'click', (event) ->
-    event.preventDefault()
-    # clicking the link removes the parent tr from the DOM
-    $node.remove()
-    # and marks the corresponding model for destroy assigning the _destroy input value to 1
-    $related_fieldset.find("input[id$=destroy]").val("1")
+  plural_name_and_id = "#{model}_#{model_id}"
+  $modify_link = modifyLink(singular_model, $related_fieldset, plural_name_and_id)
+  $destroy_link = destroyLink(singular_model, $related_fieldset, $node, plural_name_and_id)
 
   $modify_link.appendTo($cell)
   $destroy_link.appendTo($cell)

@@ -1,13 +1,4 @@
 %form
-  %input#dossier_poids{:type => "text"}/
-  %input#dossier_taille{:type => "text"}/
-  %input#dossier_imc{:type => "text"}/
-  %input#dossier_date_appel{:type => "text"}/
-  %input#dossier_age_grossesse{:type => "text"}/
-  %input#dossier_date_dernieres_regles{:type => "text"}/
-  %input#dossier_date_debut_grossesse{:type => "text"}/
-  %input#dossier_date_accouchement_prevu{:type => "text"}/
-  #grossesse_date_messages
   #expositions
     %table#expositions_summary.fields_summary
       %thead
@@ -25,10 +16,10 @@
     .nested-fields
       .control-group
         .controls
-          %input#dossier_expositions_attributes_0_produit_name{type: "text", name: "dossier[expositions_attributes][0][produit_name]"}
+          %input#dossier_expositions_attributes_0_produit_id{type: "text", name: "dossier[expositions_attributes][0][produit_name]", data: {load: '{"id":1, "text":"ACICLOVIR"}'}}
       .control-group
         .controls
-          %input#dossier_expositions_attributes_0_indication{type: "text", name: "dossier[expositions_attributes][0][indication]"}
+          %input#dossier_expositions_attributes_0_indication_id{type: "text", name: "dossier[expositions_attributes][0][indication]", data: {load: '{"id":1, "text":"HERPES"}'}}
       .field_links
         %a.validate_expo{href: "#"}
         %input#dossier_expositions_attributes_0__destroy{type:"hidden", name: "dossier[expositions_attributes][0][_destroy]"}
