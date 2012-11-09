@@ -141,8 +141,16 @@ $.widget "terappel.validateAssociation"
     fields_and_values = {}
 
     for field in $start_point.find("input[id], select[id]")
-      name = $(field).attr('id').replace(/dossier_\w+?_\w+?_\d+?_(\w+)$/, '$1')
-      fields_and_values[name] = $(field).val()
+      key = $(field).attr('id').replace(/dossier_\w+?_\w+?_\d+?_(\w+)$/, '$1')
+      value = ""
+      if key in ["produit_id", "indication_id"]
+        value = $(field).data("load").text
+      else if key is "expo_terme_id"
+        value = $(field).find("option").filter(":selected").text()
+      else
+        value = $(field).val()
+
+      fields_and_values[key] = value
 
     selected_attributes = {}
     for field in selectedFields
@@ -181,12 +189,36 @@ jQuery ->
     prefill_summary_table("expositions")
     $(".calendar").expo_termes_calc()
     $(".duree_calc").duree_expo_calc()
-    $(".validate_expo").validate_exposition()
+    $(".validate_expo").validateAssociation
+      modelName: "exposition"
+      selectedFields: [
+        "produit_id"
+        "expo_terme_id"
+        "indication_id"
+        "dose"
+        "de"
+        "a"
+        "de2"
+        "a2"
+      ]
+      requiredFields: ["produit_id"]
 
     $("#expositions").bind 'cocoon:after-insert', ->
       for association in ["produit", "indication"]
         $(".#{association}_autocomplete").attach_expositions_select2(association, "/dossiers/#{association}s.json")
-      $(".validate_expo").last().validate_exposition()
+      $(".validate_expo").last().validateAssociation
+        modelName: "exposition"
+        selectedFields: [
+          "produit_id"
+          "expo_terme_id"
+          "indication_id"
+          "dose"
+          "de"
+          "a"
+          "de2"
+          "a2"
+        ]
+        requiredFields: ["produit_id"]
       $(select).select2() for select in $(".combobox").filter(":visible")
       $(".calendar").expo_termes_calc()
       $(".duree_calc").duree_expo_calc()
