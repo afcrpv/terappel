@@ -114,11 +114,11 @@ $.widget "terappel.validateAssociation"
         $model_row = @_getModelRow($target)
         @_actionsCell($model_row)
         @_fieldsCells($model_row, association.attributes)
+        @_prepareMalfPathCells($model_row) if model_name is "bebe"
         $start_point.hide()
         show_add_field_link("#{model_name}s")
       else
         @_emptyFieldsError()
-        # maybe use instead a confirm dialog to close start point anyway
 
   _getModelRow: ($target) ->
     plural_name_and_id = @pluralNameAndId()
@@ -132,23 +132,23 @@ $.widget "terappel.validateAssociation"
     return $model_row
 
   _emptyFieldsError: ->
-    $("p#exposition_message").remove()
-    $('<p id="exposition_message">')
+    required_field_list = @options.requiredFields.join(", ")
+    model_name = @options.modelName
+    $("p##{model_name}_message").remove()
+    $("<p id='#{model_name}_message'>")
       .insertBefore(@element)
-      .text("Vous devez remplir au moins un nom de produit")
+      .text("Vous devez remplir : #{required_field_list}")
 
   _getFieldsValues: ($start_point, selectedFields) ->
     fields_and_values = {}
 
     for field in $start_point.find("input[id], select[id]")
       key = $(field).attr('id').replace(/dossier_\w+?_\w+?_\d+?_(\w+)$/, '$1')
-      value = ""
-      if key in ["produit_id", "indication_id"]
-        value = $(field).data("load").text
-      else if key is "expo_terme_id"
-        value = $(field).find("option").filter(":selected").text()
-      else
-        value = $(field).val()
+      value = switch key
+        when "produit_id", "indication_id" then $(field).data("load").text
+        when "expo_terme_id", "malformation", "pahtologie"
+          $(field).find("option").filter(":selected").text()
+        else $(field).val()
 
       fields_and_values[key] = value
 
@@ -158,16 +158,20 @@ $.widget "terappel.validateAssociation"
 
     return selected_attributes
 
-  _actionsCell: ($model_row) ->
-    plural_name_and_id = @pluralNameAndId()
+  _getRelatedFieldset: ($model_row) ->
     model_name = @options.modelName
     model_id = @options.modelId
-    $cell = $("<td />")
-    $related_fieldset = $model_row
+    $model_row
       .parents()
       .find(".nested-fields")
       .has("input[id*='_#{model_name}s_attributes_#{model_id}']")
 
+  _actionsCell: ($model_row) ->
+    plural_name_and_id = @pluralNameAndId()
+    model_name = @options.modelName
+    $related_fieldset = @_getRelatedFieldset($model_row)
+
+    $cell = $("<td />")
     modifyLink(model_name, $related_fieldset, plural_name_and_id)
       .appendTo($cell)
     destroyLink(model_name, $related_fieldset, $model_row, plural_name_and_id, true)
@@ -177,9 +181,12 @@ $.widget "terappel.validateAssociation"
 
   _fieldsCells: ($model_row, fields_and_values) ->
     for key, value of fields_and_values
-      cell = $("<td class=\"#{key}\">")
-      cell.appendTo($model_row)
-        .text(value)
+      cell_content = if value is "Oui" then "<a href='#' class='btn btn-danger' >#{value}</a>" else value
+      $model_row.append("<td class=\"#{key}\">#{cell_content}</td")
+
+  _prepareMalfPathCells: ($model_row) ->
+    $related_fieldset = @_getRelatedFieldset($model_row)
+    prepare_malf_and_path_columns($related_fieldset, $model_row, association) for association in ["malformation", "pathologie"]
 
 jQuery ->
   $("#tabs li a[href='#expositions']").bind 'click', ->
@@ -219,6 +226,7 @@ jQuery ->
           "a2"
         ]
         requiredFields: ["produit_id"]
+
       $(select).select2() for select in $(".combobox").filter(":visible")
       $(".calendar").expo_termes_calc()
       $(".duree_calc").duree_expo_calc()
@@ -232,34 +240,45 @@ jQuery ->
       $("select[id$=#{association}]").check_show_association_tokens(association)
 
     prefill_summary_table("bebes")
-    $(".validate_bebe").validate_bebe()
+    $(".validate_bebe").validateAssociation
+      modelName: "bebe"
+      selectedFields: [
+        "sexe"
+        "poids"
+        "taille"
+        "pc"
+        "apgar1"
+        "apgar5"
+        "malformation"
+        "pathologie"
+      ]
+      requiredFields: [
+        "sexe"
+      ]
 
     $('#bebes').bind 'cocoon:after-insert', ->
       for association in ["malformation", "pathologie"]
         $(".#{association}_tokens").attach_bebes_select2 association, "/#{association}s.json"
         $("select[id$=_#{association}]").last().check_show_association_tokens(association)
         $("a.show_#{association}_tree:visible").complete_modal_for_association(association)
-      $(".validate_bebe").last().validate_bebe()
+      $(".validate_bebe").last().validateAssociation
+        modelName: "bebe"
+        selectedFields: [
+          "sexe"
+          "poids"
+          "taille"
+          "pc"
+          "apgar1"
+          "apgar5"
+          "malformation"
+          "pathologie"
+        ]
+        requiredFields: [
+          "sexe"
+        ]
+
       $(select).select2() for select in $(".combobox").filter(":visible")
       disableSubmitWithEnter()
-
-$.fn.validate_bebe = ->
-  @each ->
-    $(this).on 'click', (event) =>
-      $start_point = $(this).closest(".nested-fields")
-      # collect sexe, poids, taille, pc, apgar1, apgar5, malformation, pathologie fields values
-      bebe_values = collect_values_to_copy($start_point, "bebes")
-      $target = $("#bebes_summary tbody")
-      validate_field(this, $start_point, $target, bebe_values, "bebes")
-
-$.fn.validate_exposition = ->
-  @each ->
-    $(this).on 'click', (event) =>
-      $start_point = $(this).closest(".nested-fields")
-      # collect produit, expo_terme, indication, dose, de, a, de2, a2 fields values
-      expo_values = collect_values_to_copy($start_point, "expositions")
-      $target = $("#expositions_summary tbody")
-      validate_field(this, $start_point, $target, expo_values, "expositions")
 
 $.fn.attach_bebes_select2 = (association, url) ->
   @select2
