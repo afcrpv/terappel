@@ -23,7 +23,7 @@ $.widget "terappel.prefillSummaryTable"
     for values, i in values_set
       append_to_summary(values, $target, model_ids[i], @options.modelName)
 
-window.collectModelId = ($start_point) ->
+collectModelId = ($start_point) ->
   $start_point.find("input[id]").filter(":first").attr("id").match(/[0-9]+/).join()
 
 destroyModal = (model_name, plural_name_and_id) ->
@@ -82,6 +82,8 @@ modifyLink = (model_name, $related_fieldset, plural_name_and_id) ->
         $("a.show_#{association}_tree:visible").complete_modal_for_association(association)
 
   return $modify_link
+
+
 
 $.widget "terappel.validateAssociation"
   options:
@@ -193,7 +195,8 @@ jQuery ->
     for association in ["produit", "indication"]
       $(".#{association}_autocomplete").attach_expositions_select2(association, "/dossiers/#{association}s.json")
 
-    prefill_summary_table("expositions")
+    $("table#expositions_summary").prefillSummaryTable
+      modelName: "expositions"
     $(".calendar").expo_termes_calc()
     $(".duree_calc").duree_expo_calc()
     $(".validate_expo").validateAssociation
@@ -239,7 +242,8 @@ jQuery ->
       $(".#{association}_tokens").attach_bebes_select2 association, "/#{association}s.json"
       $("select[id$=#{association}]").check_show_association_tokens(association)
 
-    prefill_summary_table("bebes")
+    $("table#bebes_summary").prefillSummaryTable
+      modelName: "bebes"
     $(".validate_bebe").validateAssociation
       modelName: "bebe"
       selectedFields: [
@@ -357,36 +361,6 @@ $.fn.check_show_association_tokens = (association) ->
       next = $(this).nextAll(".#{association}_tokens")
       showNextif condition, $(this), next
       showNextif condition, $(this), $(this).nextAll(".btn")
-
-validate_field = (button, $start_point, $target, values, model) ->
-  $this = $(button)
-
-  # also get the unique id of the model
-  model_id = $start_point.find("select").filter(":first").attr("name").match(/[0-9]+/).join()
-
-  append_to_summary(values, $target, model_id, model, true)
-  # toggle visibility of closest parent div.nested-fields
-  $start_point.slideToggle()
-  show_add_field_link(model)
-
-prefill_summary_table = (model) ->
-  $target = $("##{model} tbody")
-  $('.nested-fields').hide()
-
-  start_points = $("##{model} .nested-fields")
-
-  model_ids = []
-  model_ids.push(collect_field_id($(start_point))) for start_point in start_points
-
-  values_set = []
-  for start_point in start_points
-    values_set.push collect_values_to_copy($(start_point), model)
-
-  append_to_summary(values, $target, model_ids[i], model) for values, i in values_set
-
-collect_field_id = ($start_point) ->
-  $field = $start_point.find("select").filter(":first")
-  field_id = $field.attr("name").match(/[0-9]+/).join()
 
 collect_values_to_copy = ($start_point, model) ->
   # damn ugly... but i'm outta ideas for now, need a bit of oo to not do like this

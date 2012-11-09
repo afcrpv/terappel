@@ -41,7 +41,7 @@ describe "Association", ->
           expect(@table).not.toContain @table_row
 
         it "should show an error message", ->
-          expect($("#exposition_message")).toHaveText("Vous devez remplir au moins un nom de produit")
+          expect($("#exposition_message")).toHaveText("Vous devez remplir : produit_name")
 
       describe "when at least 1 field is filled", ->
         beforeEach ->
