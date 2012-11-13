@@ -8,7 +8,7 @@
   %td= dossier.malformation
   %td= dossier.pathologie
   %td
-    = link_to "#", id: dossier.id, class: "btn btn-small opener", title: "Aperçu du dossier #{dossier.code}" do
+    = link_to "#dossier_#{dossier.id}_modal", role: "button", class: "btn btn-small", title: "Aperçu du dossier #{dossier.code}", "data-toggle" => "modal" do
       %i.icon-eye-open
     = link_to dossier_path(dossier), class: "btn btn-small", title: "Détails du dossier #{dossier.code}" do
       %i.icon-info-sign

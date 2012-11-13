@@ -4,7 +4,6 @@
 
 jQuery ->
   initDossiersDatatable()
-  initDossierDialog()
   disableSubmitWithEnter()
 
   $(".combobox").select2()

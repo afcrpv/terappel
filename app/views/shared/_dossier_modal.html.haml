@@ -1,75 +1,84 @@
-%div{id: "dossier_#{dossier.id}_modal", class: "dialog", "data-show" => can?(:read, dossier) ? dossier_url(dossier) : nil, "data-edit" => can?(:update, dossier) ? edit_dossier_url(dossier) : nil, "data-title" => "Aperçu du dossier #{dossier.code}#{' - ' + dossier.centre_name if Rails.env.development?}" }
-  .my-table
-    .row
-      .span4
-        %span.libelle Date Appel
-        = dossier.date_appel
-      .span4
-        %span.libelle Motif
-        = dossier.motif_name
-      .span3
-        %span.libelle Témoin
-        = dossier.expo_terato
-    .row
-      .span4
-        %span.libelle Patiente
-        = dossier.patiente
-      .span4
-        %span.libelle Age
-        = dossier.age
-    .row
-      .span4
-        %span.libelle Age grossesse lors appel
-        = dossier.age_grossesse
-      .span4
-        %span.libelle Début grossesse
-        = dossier.date_debut_grossesse
-      .span3
-        %span.libelle Accouchement prévu
-        = dossier.date_accouchement_prevu
-    .row
-      .span12
-        %span.libelle Exposition
-        = dossier.produits_names
-    .row
-      .span4
-        %span.libelle Tabac
-        = dossier.tabac
-      .span4
-        %span.libelle Alcool
-        = dossier.alcool
-      .span3
-        %span.libelle Autres toxiques
-        = dossier.toxiques
-    .row
-      .span4
-        %span.libelle Evolution
-        = dossier.evolution
-      .span4
-        %span.libelle Terme
-        = dossier.terme
+- modal_id = "dossier_#{dossier.id}_modal"
+- modal_label = modal_id + "Label"
+%div.modal.hide.fade{id: modal_id , tabIndex: "-1", "aria-labelledby" => modal_label, "aria-hidden" => "true"}
+  .modal-header
+    %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+    %h3{id: modal_label} Aperçu du dossier #{dossier.code}#{' - ' + dossier.centre_name if Rails.env.development?}
+  .modal-body
+    .my-table
+      .row
+        .span4
+          %span.libelle Date Appel
+          = dossier.date_appel
+        .span4
+          %span.libelle Motif
+          = dossier.motif_name
+        .span3
+          %span.libelle Témoin
+          = dossier.expo_terato
+      .row
+        .span4
+          %span.libelle Patiente
+          = dossier.patiente
+        .span4
+          %span.libelle Age
+          = dossier.age
+      .row
+        .span4
+          %span.libelle Age grossesse lors appel
+          = dossier.age_grossesse
+        .span4
+          %span.libelle Début grossesse
+          = dossier.date_debut_grossesse
+        .span3
+          %span.libelle Accouchement prévu
+          = dossier.date_accouchement_prevu
+      .row
+        .span12
+          %span.libelle Exposition
+          = dossier.produits_names
+      .row
+        .span4
+          %span.libelle Tabac
+          = dossier.tabac
+        .span4
+          %span.libelle Alcool
+          = dossier.alcool
+        .span3
+          %span.libelle Autres toxiques
+          = dossier.toxiques
+      .row
+        .span4
+          %span.libelle Evolution
+          = dossier.evolution
+        .span4
+          %span.libelle Terme
+          = dossier.terme
 
-    - if dossier.bebes.any?
-      - dossier.bebes.each_with_index do |bebe, index|
-        .row
-          .span1
-            %span.libelle
-              Bébé&nbsp;
-              = index + 1 if dossier.bebes.many?
-          .span10
-            %strong P
-            = bebe.poids
-            g
-            %strong T
-            = bebe.taille
-            cm
-            %strong Apgar
-            = bebe.apgar1 rescue 'NC'
-            = '-'
-            = bebe.apgar5 rescue 'NC'
-        .row
-          .span10.offset1
-            %strong MALFORMATION
-            = bebe.malformation
-            %strong PATHOLOGIE
-            = bebe.pathologie
+      - if dossier.bebes.any?
+        - dossier.bebes.each_with_index do |bebe, index|
+          .row
+            .span1
+              %span.libelle
+                Bébé&nbsp;
+                = index + 1 if dossier.bebes.many?
+            .span3
+              %strong P
+              = bebe.poids
+              g
+              %strong T
+              = bebe.taille
+              cm
+              %strong Apgar
+              = bebe.apgar1 rescue 'NC'
+              = '-'
+              = bebe.apgar5 rescue 'NC'
+            .span3
+              %strong MALFORMATION
+              = bebe.malformation
+              %strong PATHOLOGIE
+              = bebe.pathologie
+  .modal-footer
+    %button.btn{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} Fermer l'aperçu
+    = link_to "Modifier ce dossier", edit_dossier_url(dossier), class: "btn btn-info" if can?(:update, dossier)
+    = link_to "Détails du dossier", dossier_url(dossier), class: "btn btn-primary" if can?(:read, dossier)
