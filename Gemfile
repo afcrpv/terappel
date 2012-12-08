@@ -64,7 +64,7 @@ gem "ransack"
 gem "thin"
 gem "cocoon"
 
-gem 'newrelic_rpm'
+gem 'newrelic_rpm', "~> 3.5.3.25"
 gem 'ancestry'
 gem 'jstree-rails', github: "tristanm/jstree-rails"
 gem 'simple_form'
