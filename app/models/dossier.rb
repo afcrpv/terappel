@@ -24,11 +24,8 @@ class Dossier < ActiveRecord::Base
   # writers
   attr_writer :correspondant_nom
 
-  extend FriendlyId
-  friendly_id :code
-
   # validations
-  validates_presence_of :code, :name, :date_appel, :centre_id, :user_id, :expo_terato
+  validates_presence_of :code, :name, :date_appel, :centre_id, :user_id, :expo_terato, :a_relancer
 
   #associations
   belongs_to :centre
@@ -50,6 +47,10 @@ class Dossier < ActiveRecord::Base
   delegate :username, :to => :user, :allow_nil => true
   delegate :fullname, :to => :correspondant, :prefix => true, :allow_nil => true
   delegate :ville, to: :correspondant, prefix: true, allow_nil: true
+
+  def to_param
+    code
+  end
 
   def localized_dateappel
     I18n.l(date_appel) if date_appel
