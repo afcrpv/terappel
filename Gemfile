@@ -1,24 +1,39 @@
 source 'http://rubygems.org'
+ruby "2.0.0"
+# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'rails', '4.0.0.rc1'
 
-gem 'rails', '3.2.8'
+gem 'pg'
 
-# Bundle edge Rails instead:
-# gem 'rails',     :git => 'git://github.com/rails/rails.git'
+gem 'sass-rails', "  ~> 4.0.0.rc1"
+gem 'uglifier', '>= 1.3.0'
+gem 'coffee-rails', "~> 4.0.0"
 
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem 'sass-rails', "  ~> 3.2.5"
-  gem 'coffee-rails', "~> 3.2.2"
-  gem 'uglifier', '>=1.0.3'
-  gem 'bootstrap-sass', github: "thomas-mcdonald/bootstrap-sass"
-  gem "jquery-ui-rails"
-  gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
-  gem 'compass-rails'
-  gem 'select2-rails', github: "adamico/select2-rails"
-end
+gem 'bootstrap-sass', github: "thomas-mcdonald/bootstrap-sass"
 
 gem 'jquery-rails'
+
+# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
+gem 'turbolinks'
+
+# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+#gem 'jbuilder', '~> 1.0.1'
+
+group :doc do
+  # bundle exec rake doc:rails generates the API under doc/api.
+  gem 'sdoc', require: false
+end
+
+gem "jquery-ui-rails"
+#gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
+gem 'compass-rails'
+gem 'select2-rails', github: "argerim/select2-rails"
+
+# gems to help with the transition to rails 4
+gem 'protected_attributes'
+gem 'rails-observers'
+gem 'actionpack-page_caching'
+gem 'actionpack-action_caching'
 
 # Use unicorn as the web server
 # gem 'unicorn'
@@ -26,50 +41,59 @@ gem 'jquery-rails'
 # Deploy with Capistrano
 # gem 'capistrano'
 
+# To use ActiveModel has_secure_password
+# gem 'bcrypt-ruby', '~> 3.0.0'
+
 # To use debugger
-# gem 'ruby-debug19', :require => 'ruby-debug'
+# gem 'debugger'
+
+# Heroku gems
+gem 'rails_log_stdout',           github: 'heroku/rails_log_stdout'
+gem 'rails3_serve_static_assets', github: 'heroku/rails3_serve_static_assets'
+gem 'newrelic_rpm'
+gem 'unicorn'
+gem 'foreman'
+
+gem "devise", github: "plataformatec/devise", branch: "rails4"
+gem 'simple_form', github: "tubaxenor/simple_form", branch: "patch-1"
+gem "ancestry", github: "stefankroes/ancestry"
+gem "cancan", github: "ryanb/cancan"
+gem "rolify", github: "EppO/rolify"
+gem "cocoon", github: "nathanvda/cocoon"
+#gem "friendly_id", "~> 4.0.1"
+#gem 'draper'
+#gem "ransack"
+
+gem 'jstree-rails', github: "tristanm/jstree-rails"
+#gem 'client_side_validations', github: 'bcardarella/client_side_validations'
+#gem 'client_side_validations-simple_form'
+#gem 'rails_admin', github: "sferik/rails_admin"
+gem 'csv_builder'
 
 group :test, :development do
-  gem "rspec-rails", "~> 2.6"
+  gem "rspec-rails"
   gem 'jasminerice', github: "bradphelan/jasminerice"
   gem 'guard-jasmine'
+  gem "poltergeist", github: "jonleighton/poltergeist"
 end
 
 group :development do
-  gem 'pry'
+  gem 'pry-rails'
+  gem "quiet_assets", ">= 1.0.1"
+  gem 'rb-fsevent', :require => false
+  gem 'terminal-notifier-guard'
   gem 'haml-rails'
-  gem 'sextant'
   gem 'terminal-notifier-guard'
 end
 
 group :test do
   gem 'factory_girl_rails'
-  gem 'spork', '~> 0.9.0.rc'
   gem 'capybara'
+  gem "database_cleaner", github: "bmabey/database_cleaner", tag: "v1.0.0.RC1"
+  gem "guard-rspec", "~> 2.1.0"
+  gem "simplecov", :require => false
+  gem "zeus"
   gem 'cucumber-rails', require: false
-  gem 'pickle'
   gem 'launchy'    # So you can do Then show me the page
-  gem 'database_cleaner'
   gem 'simplecov', :require => false
-  gem 'mocha'
 end
-
-gem 'pg'
-gem "devise"
-gem 'cancan'
-gem "friendly_id", "~> 4.0.1"
-gem 'formtastic'
-gem 'draper'
-gem "ransack"
-gem "thin"
-gem "cocoon"
-
-gem 'newrelic_rpm', "~> 3.5.3.25"
-gem 'ancestry'
-gem 'jstree-rails', github: "tristanm/jstree-rails"
-gem 'simple_form'
-gem 'client_side_validations', github: 'bcardarella/client_side_validations'
-gem 'client_side_validations-simple_form'
-gem 'rails_admin', github: "sferik/rails_admin"
-gem 'csv_builder'
-gem 'coffee-filter'
