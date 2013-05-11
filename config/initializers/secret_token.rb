@@ -1,7 +1,12 @@
 # Be sure to restart your server when you modify this file.
 
-# Your secret key for verifying the integrity of signed cookies.
+# Your secret key is used for verifying the integrity of signed cookies.
 # If you change this key, all old signed cookies will become invalid!
+
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-Terappel::Application.config.secret_token = 'ce7611ea8379fbd7940e3a2373aa6952a59e0624e1d5fb4891bbbac4bf728606fb847a9e55fd115be9842b1a22983432351d0f3c2f67dfab9379fd78ef17c277'
+# You can use `rake secret` to generate a secure secret key.
+
+# Make sure your secret_key_base is kept private
+# if you're sharing your code publicly.
+Terappel::Application.config.secret_key_base = 'a40c208f451e0b31b0d55d1dcc9eff2c24188ec3cedc5fba0c682a804c70ac6f63844b34e37c6bece962f5ab0249d8a022bdcc9bd8c0a9b76e0d67757226a3a9'
