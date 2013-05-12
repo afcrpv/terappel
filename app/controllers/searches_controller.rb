@@ -41,6 +41,10 @@ class SearchesController < ApplicationController
 
   private
 
+  def search_attributes
+    params.require(:search).permit :centre_id, :min_date_appel, :max_date_appel, :motif_id, :expo_nature_id, :expo_type_id, :indication_id, :expo_terme_id, :evolution, :malformation, :pathologie, :indication_name, :produit_id, :produit_name
+  end
+
   def min_date_appel
     @min_date_appel = params[:id] && @search.min_date_appel ? l(@search.min_date_appel) : l(Dossier.minimum(:date_appel))
   end

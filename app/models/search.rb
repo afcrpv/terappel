@@ -1,6 +1,4 @@
 class Search < ActiveRecord::Base
-  attr_accessible :centre_id, :min_date_appel, :max_date_appel, :motif_id, :expo_nature_id, :expo_type_id, :indication_id, :expo_terme_id, :evolution, :malformation, :pathologie, :indication_name, :produit_id, :produit_name
-
   attr_writer :indication_name, :produit_name
 
   def find_dossiers
