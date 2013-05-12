@@ -1,7 +1,6 @@
 # encoding: UTF-8
-
-class CorrespondantsController < AuthorizedController
-  before_filter :find_centre
+class CorrespondantsController < ApplicationController
+  before_action :find_centre
   load_and_authorize_resource :correspondant
 
   helper_method :form_title
@@ -53,6 +52,10 @@ class CorrespondantsController < AuthorizedController
   end
 
   private
+
+  def correspondant_params
+    params.require(:correspondant).permit :specialite_id, :qualite_id, :formule_id, :centre_id, :nom, :adresse, :cp, :ville, :telephone, :fax, :poste, :email, :fullname
+  end
 
   def find_centre
     @centre = current_user.centre
