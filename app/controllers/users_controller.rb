@@ -1,7 +1,15 @@
-class UsersController < AuthorizedController
-  before_filter :find_centre
-  before_filter :decorated_user, :only => :show
-  load_and_authorize_resource :user
+class Admin::UsersController < ApplicationController
+  before_action :set_user, only: [:approve, :show, :edit, :update, :destroy]
+  authorize_resource
+
+  def index
+    @users = params[:approved] ? User.where(approved: false) : User.all
+  end
+
+  def approve
+    @user.approve!
+    redirect_to admin_users_url, notice: "Utilisateur '#{@user.email}' approuvé avec succès."
+  end
 
   def show
   end
@@ -10,28 +18,30 @@ class UsersController < AuthorizedController
   end
 
   def update
-    if params[:user][:password].blank?
-      [:password, :password_confirmation, :current_password].map do |param|
-        params[:user].delete(param)
-      end
-    else
-      @user.errors[:base] << "Le mot de passe est incorrect" unless @user.valid_password?(params[:user][:current_password])
-    end
-
-    if @user.errors[:base].empty? && @user.update_attributes(params[:user])
-      redirect_with_flash(@user, root_path)
+    if @user.update_with_password(user_params)
+      redirect_to admin_users_url, notice: "L'utilisateur #{@user.email} a été modifié avec succès."
     else
       render :edit
     end
   end
 
-  private
-
-  def decorated_user
-    @user = UserDecorator.find(params[:id])
+  def destroy
+    @user.destroy
+    redirect_to admin_users_url
   end
 
-  def find_centre
-    @centre = current_user.centre
+  private
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def user_params
+    if current_user.admin?
+      params.require(:user).permit(:username, :email, :password, :password_confirmation, :current_password, :approved, :centre_id, :role)
+    else
+      params.require(:user).permit(:username, :email, :password, :password_confirmation, :current_password)
+    end
   end
 end
