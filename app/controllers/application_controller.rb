@@ -1,5 +1,13 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery
+  # Prevent CSRF attacks by raising an exception.
+  # For APIs, you may want to use :null_session instead.
+  protect_from_forgery with: :exception
+  check_authorization unless: :devise_controller?
+
+  rescue_from CanCan::AccessDenied do |exception|
+    Rails.logger.debug "Access denied on #{exception.action} #{exception.subject.inspect}"
+    redirect_to root_url, alert: exception.message
+  end
 
   before_filter :find_dossier_for_search
 
