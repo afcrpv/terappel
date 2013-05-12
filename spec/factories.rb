@@ -6,6 +6,14 @@ FactoryGirl.define do
     password_confirmation { |user| user.password}
     centre
 
+    factory :centre_user do
+      role "centre_user"
+    end
+
+    factory :centre_admin do
+      role "centre_admin"
+    end
+
     factory :admin do
       sequence(:username) { |n| "admin#{n}"}
       email { |admin| "#{admin.username}@example.com".downcase}
