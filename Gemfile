@@ -10,6 +10,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', "~> 4.0.0"
 
 gem 'bootstrap-sass', github: "thomas-mcdonald/bootstrap-sass"
+gem "compass-rails", github: "milgner/compass-rails", branch: "rails4"
 
 gem 'jquery-rails'
 
@@ -26,14 +27,7 @@ end
 
 gem "jquery-ui-rails"
 #gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
-gem 'compass-rails'
 gem 'select2-rails', github: "argerim/select2-rails"
-
-# gems to help with the transition to rails 4
-gem 'protected_attributes'
-gem 'rails-observers'
-gem 'actionpack-page_caching'
-gem 'actionpack-action_caching'
 
 # Use unicorn as the web server
 # gem 'unicorn'
