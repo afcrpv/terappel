@@ -1,9 +1,8 @@
 Terappel::Application.routes.draw do
-
   devise_for :users
   as :user do
-    get "/login", :to => "devise/sessions#new"
-    get "/logout", :to=> "devise/sessions#destroy"
+    get "login", to: "devise/sessions#new"
+    get "logout", to: "devise/sessions#destroy"
   end
 
   #mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
@@ -13,21 +12,21 @@ Terappel::Application.routes.draw do
 
   resources :searches
   resources :dossiers do
-    get :autocomplete_correspondant_fullname, :on => :collection
-    get :produits, :on => :collection
-    get :indications, :on => :collection
-    get :correspondants, :on => :collection
+    get :autocomplete_correspondant_fullname, on: :collection
+    get :produits, on: :collection
+    get :indications, on: :collection
+    get :correspondants, on: :collection
   end
-  resources :users, :only => [:show, :edit, :update]
+  resources :users, only: [:show, :edit, :update]
 
-  resources :malformations, :only => :index
-  resources :pathologies, :only => :index
-  match 'malformations/tree' => 'malformations#tree'
-  match 'malformations/ancestors' => 'malformations#ancestors'
-  match 'pathologies/tree' => 'pathologies#tree'
-  match 'pathologies/ancestors' => 'pathologies#ancestors'
+  resources :malformations, only: :index
+  resources :pathologies, only: :index
+  get "malformations/tree", to: 'malformations#tree'
+  get "malformations/ancestors", to: 'malformations#ancestors'
+  get "pathologies/tree", to: 'pathologies#tree'
+  get "pathologies/ancestors", to: 'pathologies#ancestors'
 
-  resources :correspondants, :only => [:show, :new, :create, :edit, :update]
+  resources :correspondants, only: [:show, :new, :create, :edit, :update]
 
-  root :to => "home#index"
+  root to: "home#index"
 end
