@@ -1,9 +1,6 @@
 class Pathologie < ActiveRecord::Base
   has_ancestry
-  attr_accessible :libelle, :libabr, :level, :ancestry, :parent_id, :codeterme, :codetermepere
-
-  validates_presence_of :libelle
-  validates_uniqueness_of :libelle
+  validates :libelle, presence: true, uniqueness: true
 
   has_and_belongs_to_many :bebes
 

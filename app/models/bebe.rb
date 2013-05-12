@@ -1,7 +1,5 @@
 #encoding: utf-8
 class Bebe < ActiveRecord::Base
-  attr_accessible :malformation, :pathologie, :sexe, :poids, :apgar1, :apgar5, :pc, :taille, :malformation_tokens, :pathologie_tokens, :age
-
   attr_reader :malformation_tokens, :pathologie_tokens
 
   has_and_belongs_to_many :malformations
