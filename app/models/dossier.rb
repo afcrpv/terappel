@@ -1,17 +1,5 @@
 #encoding: utf-8
 class Dossier < ActiveRecord::Base
-  #accessible attributes
-  attr_accessible :date_appel, :centre_id, :user_id, :code,
-    :correspondant_id, :a_relancer, :relance_counter,
-    :correspondant_nom,
-    :categoriesp_id, :motif_id, :modaccouch,
-    :date_dernieres_regles, :date_reelle_accouchement, :date_accouchement_prevu, :date_debut_grossesse, :date_recueil_evol,
-    :name, :prenom, :age, :antecedents_perso, :antecedents_fam, :ass_med_proc, :expo_terato,
-    :tabac, :alcool, :fcs, :geu, :miu, :ivg, :img, :nai, :grsant, :age_grossesse,
-    :terme, :path_mat,
-    :comm_antecedents_perso, :comm_antecedents_fam, :comm_evol, :comm_expo, :commentaire,
-    :expositions_attributes, :bebes_attributes, :toxiques, :date_naissance, :poids, :taille, :folique, :patho1t, :evolution, :imc
-
   # Constants
   ONI = [["Oui", "0"], ["Non", "1"], ["NSP", "2"]]
   TABAC = [["Non", "0"], ["0 à 5 cig/j", "1"], ["5 à 10 cig/j", "2"], ["Sup. à 10 cig/j", "3"], ["NSP", "4"]]
@@ -25,7 +13,7 @@ class Dossier < ActiveRecord::Base
   attr_writer :correspondant_nom
 
   # validations
-  validates_presence_of :code, :name, :date_appel, :centre_id, :user_id, :expo_terato, :a_relancer
+  validates_presence_of :code, :name, :date_appel, :centre_id, :expo_terato, :a_relancer
 
   #associations
   belongs_to :centre

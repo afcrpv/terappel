@@ -21,6 +21,8 @@ FactoryGirl.define do
   factory :dossier do
     sequence(:code) { |n| "dossier#{n}"}
     sequence(:name) { |n| "name#{n}"}
+    expo_terato "Oui"
+    a_relancer 1
     date_appel Time.now.to_date
     centre
     user
@@ -31,6 +33,11 @@ FactoryGirl.define do
     ville { centre.name.titleize }
     cp "69006"
     centre
+    specialite
+  end
+
+  factory :specialite do
+    name "généraliste"
   end
 
   factory :produit do

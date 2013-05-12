@@ -1,6 +1,4 @@
 class Correspondant < ActiveRecord::Base
-  attr_accessible :specialite_id, :qualite_id, :formule_id, :centre_id, :nom, :adresse, :cp, :ville, :telephone, :fax, :poste, :email, :fullname
-
   has_many :dossiers
   belongs_to :specialite
   belongs_to :qualite
@@ -12,7 +10,7 @@ class Correspondant < ActiveRecord::Base
   #callbacks
   after_create :assign_fullname
   before_update do
-    self.fullname = create_fullname
+    self.fullname = generate_fullname
   end
 
   def to_s
@@ -26,10 +24,10 @@ class Correspondant < ActiveRecord::Base
   private
 
   def assign_fullname
-    self.update_attribute(:fullname, create_fullname)
+    self.update_attribute(:fullname, generate_fullname)
   end
 
-  def create_fullname
-    [nom, specialite.name, cp, ville].join(" - ")
+  def generate_fullname
+    [nom, specialite.name, cp, ville].compact.join(" - ")
   end
 end
