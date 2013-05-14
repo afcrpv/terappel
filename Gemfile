@@ -48,7 +48,7 @@ gem 'newrelic_rpm'
 gem 'unicorn'
 gem 'foreman'
 
-gem "devise", github: "plataformatec/devise", branch: "rails4"
+gem "devise", github: "plataformatec/devise"
 gem 'simple_form', github: "plataformatec/simple_form"
 gem "ancestry", github: "stefankroes/ancestry"
 gem "cancan", github: "ollym/cancan", branch: "strong_parameters"
