@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::Unauthorized do |exception|
     Rails.logger.debug "Access denied on #{exception.action} #{exception.subject.inspect}"
-    redirect_to root_url, alert: exception.message
+    redirect_to login_url, alert: exception.message
   end
 
   before_filter :find_dossier_for_search
