@@ -1,11 +1,11 @@
 - title "Connexion"
 
 = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "form-horizontal"}) do |f|
-  = f.input :username, input_html: {class: "span4"}
+  = f.input :username, input_html: {class: "span4"}, required: false
   = f.input :password, input_html: {class: "span4"}
   - if devise_mapping.rememberable?
     = f.input :remember_me, as: :boolean
   .form-actions
-    = f.button :submit, "Connexion", disable_with: "Attendre...", class: "btn-success"
+    = f.button :submit, "Connexion", data: {disable_with: "Attendre..."}, class: "btn-success"
 
 = render "devise/shared/links"
