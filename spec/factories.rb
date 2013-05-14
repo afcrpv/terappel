@@ -9,10 +9,6 @@ FactoryGirl.define do
     factory :member do
       after(:create) {|user| user.approve!}
 
-      factory :centre_admin do
-        after(:create) {|user| user.add_role :centre_admin}
-      end
-
       factory :admin do
         sequence(:username) { |n| "admin#{n}"}
         email { |admin| "#{admin.username}@example.com".downcase}
