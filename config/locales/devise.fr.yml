@@ -1,131 +1,60 @@
 fr:
-  helpers:
-    submit:
-      create: Enregistrer
-      submit: Enregistrer ce %{model}
-      update: Enregistrer
-
-  simple_form:
-    "yes": 'Oui'
-    "no": 'Non'
-    required:
-      text: 'obligatoire'
-      mark: '*'
-      # You can uncomment the line below if you need to overwrite the whole required html.
-      # When using html, text and mark won't be used.
-      # html: '<abbr title="required">*</abbr>'
-    error_notification:
-      default_message: "Veuillez corriger les champs suivant :"
-    placeholders:
-      projet:
-        titre: acronyme et titre complet
-        but: thèse, mémoire, poster, publication, communication orale, cours...
-        responsable: encadrant
-        exploitant: personne qui exploitera les données
-        effet: SMQ, termes MedRA utilisés (PT, HLT, HLGT, SOC)
-        medicament: noms commerciaux, substances actives
-        contexte: bref rappel (données de la littérature scientifique, pathologie, domaine d'étude)
-        design: etude descriptive, cas-non cas, avant-après...
-        objectif: description de l'objectif principal
-        objectif_sec: description des objectifs secondaires le cas échéant
-        champs: lister les champs qui serviront à faire l'analyse (sexe, âge, antécédents, EIG, dates, narratif...)
-        criteres_inclusion: liste de critères d'inclusion
-        criteres_non_inclusion: liste de critères de non inclusion
-        retombees: retombées attendues de l'étude
-
-    labels:
-      defaults:
-        name: Nom
-        email: Email
-        password: Mot de passe
-        password_confirmation: Confirmer le mot de passe
-        current_password: Mot de passe actuel
-        first_name: Prénom
-        last_name: Nom
-        phone: Téléphone
-        title: Titre
-        organization: Organisation
-        street_address: Adresse
-        city: Ville
-        postal_code: Code postal
-        website: Site web
-        membership_level: Droits d'accès
-        required: Obligatoire ?
-        libelle: Libéllé
-        medicament: Médicament
-        medicament_id: Médicament
-      page:
-        name: Titre
-        content: Contenu
-        parent_id: Parent
-        published: Publiée ?
-      dossier:
-        code_bnpv: N° Cas BNPV
-        date_recueil: Date de recueil
-        evenement: Evènement
-        date_evenement: Date évènement
-        comm_evenement: Précisions sur l'évènement
-        gravite: Gravité
-        contraception_ant: Contraception(s) antérieure(s)
-        contraception_age: Age 1ère contraception
-        concomitants_pres: Autres médicaments en cours au moment de l’évènement
-        contraception_ci: Contre-indication d'une contraception oestroprogestative
-        contraception_apres: Contraception après l’évènement
-        contraception_quoi: "Préciser le contraceptif ou la forme :"
-        obesite: 1- Obesité
-        tabac: 2- Tabac
-        tabac_pa: "nombre PA :"
-        thrombose_perso: 3.1 Personnel
-        thrombose_perso_quoi: &perso "préciser type et date :"
-        thrombose_fam: 3.2 Familial
-        thrombose_fam_quoi: &fam "préciser type (+rang +âge) :"
-        cv_perso: 4.1 Personnel
-        cv_perso_quoi: *perso
-        cv_fam: 4.2 Familial
-        cv_fam_quoi: *fam
-        hta: 5- Hypertension
-        autoimmune: 6- Maladie auto-immune
-        autoimmune_quoi: "préciser :"
-        cancer: 7- Cancer évolutif
-        cancer_quoi: "préciser :"
-        hhc_perso: 8.1 Personnelle
-        hhc_fam: 8.2 Familiale
-        circonstance_chirurgie: intervention chirurgicale dans le mois précédent
-        circonstance_immobilisation: "immobilisation >3 jours"
-        circonstance_voyage: voyage de longue durée (>5h)
-        circonstance_autre: "autre, préciser :"
-        post_partum: "10- Post partum (< 3 semaines)"
-        anomalie_hemostase_perso_bilan: "11.1 Personnelle :"
-        anomalie_hemostase_perso_anomalie: "Anomalie :"
-        anomalie_hemostase_perso_anomalie_quoi: "préciser l'anomalie :"
-        anomalie_hemostase_perso_anomalie_nombre: "Nombre d'anomalie(s) :"
-        anomalie_hemostase_fam_bilan: "11.2 Familiale :"
-        anomalie_hemostase_fam_anomalie: "Anomalie :"
-        anomalie_hemostase_fam_anomalie_nombre: "Nombre d'anomalie(s) :"
-        anomalie_hemostase_fam_anomalie_quoi: "préciser l'anomalie (+rang) :"
-        migraine_perso: 12.1 Personnel
-        migraine_fam: 12.2 Familial
-        diabete: 13- Diabète
-        hyperglycemie: 14- Hyperglycémie
-        dyslipidemie: 15- Dyslipidémie
-        dyslipidemie_quoi: "préciser :"
-        illicites: "16- Consommation de cannabis, cocaïne, amphétamines..."
-        illicites_quoi: "préciser :"
-        autres_cv: "17- Autres facteurs de risque cardio-vasculaires mis en évidence après l’événement (foramen ovale perméable, troubles du rythme, etc.)"
-        autres_cv_quoi: "préciser :"
-      patient:
-        imc: IMC
-
-    # Labels and hints examples
-    # labels:
-    #   defaults:
-    #     password: 'Password'
-    #   user:
-    #     new:
-    #       email: 'E-mail to sign in.'
-    #     edit:
-    #       email: 'E-mail.'
-    # hints:
-    #   defaults:
-    #     username: 'User name to sign in.'
-    #     password: 'No special characters, please.'
+  devise:
+    confirmations:
+      confirmed: 'Votre compte a été confirmé avec succès, vous êtes maintenant connectés'
+      send_instructions: 'Vous allez recevoir un email contenant les instructions nécessaires à la confirmation de votre compte dans quelques minutes'
+      send_paranoid_instructions: 'Si votre adresse est dans notre base de données, vous allez recevoir un email contenant les instructions nécessaires à la confirmation de votre compte dans quelques minutes'
+    failure:
+      already_authenticated: "Déjà connecté."
+      inactive: "Votre compte n'est pas encore activé."
+      invalid: "Identifiant ou mot de passe incorrect."
+      invalid_token: "Jeton d'authentification incorrect."
+      locked: "Votre compte est verrouillé."
+      not_found_in_database: "Email ou mot de passe incorrect."
+      timeout: "Votre session est expirée, veuillez vous reconnecter pour continuer."
+      unauthenticated: "Vous devez vous connecter ou vous inscrire pour continuer."
+      unconfirmed: "Vous devez confirmer votre compte pour continuer."
+      not_approved: "Votre compte n'a pas encore été approuvé par l'administrateur."
+    mailer:
+      confirmation_instructions:
+        subject: "Instructions de confirmation"
+      reset_password_instructions:
+        subject: "Instructions pour changer le mot de passe"
+      unlock_instructions:
+        subject: "Instructions pour déverrouiller le compte"
+      confirmation_instructions:
+        subject: "Confirmation instructions"
+    passwords:
+      updated: "Votre mot de passe a été édité avec succès, vous êtes maintenant connectés"
+      no_token: "Vous ne pouvez pas accéder à cette page sans avoir reçu un email de changement de mot de passe. Si c'est le cas, vérier l'adresse web fournie dans l'email."
+      send_instructions: "Vous allez recevoir contenant les instructions de réinitialisation de mot de passe dans quelques minutes"
+      send_paranoid_instructions: "Si votre adresse est dans notre base de données, vous allez recevoir un email contenant les instructions nécessaires à la confirmation de votre compte dans quelques minutes"
+      updated: "Votre mot de passe a été changé avec succès. Vous êtes maintenant connecté."
+      updated_not_active: "Votre mot de passe a été changé avec succès."
+    registrations:
+      destroyed: "Au revoir! Votre compte a été annulé avec succès. Nous espérons vous revoir bientôt."
+      signed_up: "Bienvenue, vous êtes connectés avec succès"
+      signed_up_but_inactive: "Vous vous êtes connectés avec succès. Cependant, nous n'avons pas pu vous identifier car votre compte n'est pas encore actif."
+      signed_up_but_not_approved: "Vous êtes maintenant enregistrés, mais votre compte n'a pas encore été approuvé par l'administrateur."
+      signed_up_but_locked: "Vous vous êtes connectés avec succès. Cependant, nous n'avons pas pu vous identifier car votre compte est verrouillé."
+      signed_up_but_unconfirmed: "Un email contenant le lien pour confirmer votre compte a été envoyé à votre adresse. Veuillez l'ouvrir pour activer votre compte."
+      update_needs_confirmation: "Vous avez mis à jour votre compte, mais vous devez vérifier votre nouvelle adresse email. Vérifier votre boite email et ouvrez le lien de confirmation pour finaliser la confirmation du nouvel adresse email"
+      updated: "Vous avez mis à jour votre compte avec succès."
+    sessions:
+      signed_in: "Connecté."
+      signed_out: "Déconnecté."
+    unlocks:
+      send_instructions: "Vous allez recevoir contenant les instructions nécessaires au débloquage de votre compte dans quelques minutes"
+      unlocked: "Votre compte a été débloqué avec succès, vous êtes maintenant connectés."
+      send_paranoid_instructions: "Si votre adresse est dans notre base de données, vous allez recevoir un email contenant les instructions nécessaires à la confirmation de votre compte dans quelques minutes"
+  errors:
+    messages:
+      not_found: "n'a pas été trouvé(e)"
+      already_confirmed: "a déjà été confirmé(e)"
+      not_locked: "n'était pas verrouillé(e)"
+      not_saved:
+        one: "1 erreur a empéché ce %{resource} d'être sauvegardé:"
+        other: "%{count} erreurs ont empéché ce %{resource} d'être sauvegardé:"
+      confirmation_period_expired: "doit être confirmé avant %{period}, veuillez renouveller votre demande"
+      expired: "a expiré, veuillez renouveller votre demande"
+      not_locked: "n'était pas verrouillé"

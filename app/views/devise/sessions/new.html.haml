@@ -1,4 +1,4 @@
-- title t("devise.shared.sign_in")
+- title "Connexion"
 
 = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "form-horizontal"}) do |f|
   = f.input :email, input_html: {class: "span4"}
@@ -6,6 +6,6 @@
   - if devise_mapping.rememberable?
     = f.input :remember_me, as: :boolean
   .form-actions
-    = f.button :submit, t("devise.shared.sign_in"), disable_with: "Attendre...", class: "btn-success"
+    = f.button :submit, "Connexion", disable_with: "Attendre...", class: "btn-success"
 
 = render "devise/shared/links"
