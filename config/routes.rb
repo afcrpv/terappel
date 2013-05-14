@@ -18,7 +18,7 @@ Terappel::Application.routes.draw do
     get :indications, on: :collection
     get :correspondants, on: :collection
   end
-  resources :users, only: [:show, :edit, :update]
+  #resources :users, only: [:show, :edit, :update]
 
   resources :malformations, only: :index
   resources :pathologies, only: :index
