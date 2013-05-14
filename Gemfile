@@ -63,6 +63,7 @@ gem 'jstree-rails', github: "tristanm/jstree-rails"
 #gem 'client_side_validations-simple_form'
 #gem 'rails_admin', github: "sferik/rails_admin"
 gem 'csv_builder'
+gem 'haml-rails'
 
 group :test, :development do
   gem "rspec-rails"
@@ -76,7 +77,6 @@ group :development do
   gem "quiet_assets", ">= 1.0.1"
   gem 'rb-fsevent', :require => false
   gem 'terminal-notifier-guard'
-  gem 'haml-rails'
   gem 'terminal-notifier-guard'
 end
 
