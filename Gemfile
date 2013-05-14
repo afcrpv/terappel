@@ -66,7 +66,7 @@ gem 'csv_builder'
 
 group :test, :development do
   gem "rspec-rails"
-  gem 'jasminerice', github: "bradphelan/jasminerice"
+  gem "jasmine-rails", github: "irfn/jasmine-rails"
   gem 'guard-jasmine'
   gem "poltergeist", github: "jonleighton/poltergeist"
 end

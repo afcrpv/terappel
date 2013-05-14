@@ -2,12 +2,6 @@
 # More info at https://github.com/guard/guard#readme
 notification "terminal-notifier-guard"
 
-guard 'jasmine', port: 9292 do
-  watch(%r{spec/javascripts/spec\.(js\.coffee|js|coffee)$})         { "spec/javascripts" }
-  watch(%r{spec/javascripts/.+_spec\.(js\.coffee|js|coffee)$})
-  watch(%r{app/assets/javascripts/(.+?)\.(js\.coffee|js|coffee)$})  { |m| "spec/javascripts/#{m[1]}_spec.#{m[2]}" }
-end
-
 guard 'rspec', all_on_start: false, all_after_pass: false, zeus: true, parallel: true, bundler: false do
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }

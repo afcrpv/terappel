@@ -52,7 +52,9 @@ describe "Grossesse", ->
 
   describe "with its #calculateGrossesse jQuery plugin", ->
     beforeEach ->
-      loadFixtures "dossier_form"
+      $form = affix("form")
+      $form.affix("input#dossier_#{id}") for id in ["date_appel", "date_dernieres_regles", "date_debut_grossesse", "date_accouchement_prevu", "age_grossesse"]
+      $form.affix("#grossesse_date_messages")
       @date_dernieres_regles_field = $("#dossier_date_dernieres_regles")
       @date_debut_grossesse_field = $("#dossier_date_debut_grossesse")
       @date_accouchement_prevu_field = $("#dossier_date_accouchement_prevu")
