@@ -49,9 +49,9 @@ gem 'unicorn'
 gem 'foreman'
 
 gem "devise", github: "plataformatec/devise", branch: "rails4"
-gem 'simple_form', github: "tubaxenor/simple_form", branch: "patch-1"
+gem 'simple_form', github: "plataformatec/simple_form"
 gem "ancestry", github: "stefankroes/ancestry"
-gem "cancan", github: "ryanb/cancan"
+gem "cancan", github: "ollym/cancan", branch: "strong_parameters"
 gem "rolify", github: "EppO/rolify"
 gem "cocoon", github: "nathanvda/cocoon"
 #gem "friendly_id", "~> 4.0.1"

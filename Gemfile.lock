@@ -64,6 +64,13 @@ GIT
     cocoon (1.1.2)
 
 GIT
+  remote: git://github.com/ollym/cancan.git
+  revision: ce789afca267baeed3ccce776e6c1627703307e5
+  branch: strong_parameters
+  specs:
+    cancan (2.0.0.alpha)
+
+GIT
   remote: git://github.com/plataformatec/devise.git
   revision: 6b5988d756d780903bf8c9ccb3e2b3b724ccebe8
   branch: rails4
@@ -75,10 +82,12 @@ GIT
       warden (~> 1.2.1)
 
 GIT
-  remote: git://github.com/ryanb/cancan.git
-  revision: f2f40c7aac4a00a88651641129eaad71916c1c82
+  remote: git://github.com/plataformatec/simple_form.git
+  revision: 1ad1f9f895e69f91248fe96457bf6afa9bedb4dd
   specs:
-    cancan (1.6.10)
+    simple_form (3.0.0.rc)
+      actionpack (>= 4.0.0.rc1, < 4.1)
+      activemodel (>= 4.0.0.rc1, < 4.1)
 
 GIT
   remote: git://github.com/stefankroes/ancestry.git
@@ -100,15 +109,6 @@ GIT
   specs:
     jstree-rails (0.0.1)
       rails (>= 3.1)
-
-GIT
-  remote: git://github.com/tubaxenor/simple_form.git
-  revision: 6b8f45fc3f37826216a867b46a0cb5a479d2ebd1
-  branch: patch-1
-  specs:
-    simple_form (3.0.0.beta1)
-      actionpack (>= 4.0.0.beta, < 4.1)
-      activemodel (>= 4.0.0.beta, < 4.1)
 
 GEM
   remote: http://rubygems.org/
