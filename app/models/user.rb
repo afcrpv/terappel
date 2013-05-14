@@ -1,14 +1,9 @@
 class User < ActiveRecord::Base
+  rolify
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :lockable,
          :recoverable, :rememberable, :trackable, :validatable
-
-  ROLES = %w(centre_user centre_admin admin)
-
-  def role?(base_role)
-    ROLES.index(base_role.to_s) <= ROLES.index(role)
-  end
 
   belongs_to :centre
 
@@ -16,10 +11,10 @@ class User < ActiveRecord::Base
   validates :username, presence: true, uniqueness: true
   validates :centre_id, presence: true
 
-  delegate :name, :to => :centre, :prefix => true, :allow_nil => true
+  delegate :name, to: :centre, prefix: true, allow_nil: true
 
   def admin?
-    role == "admin"
+    has_role? :admin
   end
 
   def active_for_authentication?
