@@ -14,7 +14,7 @@ guard 'rspec', all_on_start: false, all_after_pass: false, zeus: true, parallel:
   watch(%r{^spec/support/(.+)\.rb$})                  { "spec" }
   watch('config/routes.rb')                           { "spec/routing" }
   watch('app/controllers/application_controller.rb')  { "spec/controllers" }
-  watch('app/models/ability.rb')                      { "spec/models"}
+  watch('app/models/ability.rb')                      { "spec/models/user_spec.rb"}
 
   # Capybara features specs
   watch(%r{^app/views/(.+)/.*\.(erb|haml)$})          { |m| "spec/features/#{m[1]}_spec.rb" }
