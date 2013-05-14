@@ -1,88 +1,131 @@
-#########################################################################################################
-# I18n French translation for Devise (http://github.com/plataformatec/devise)
-# I18n traduction française pour Devise
-#
-# Mise à jour par Yabo-concept http://www.yabo-concept.ch  pour refléter les dernières clés utilisées par devise
-# dans la branche "translated-views"
-# basé sur https://github.com/davidw/devise/blob/translated-views/config/locales/en.yml
-# 15.3.2011
-#########################################################################################################
-
-
 fr:
-  errors:
-    messages:
-      not_found: "n'a pas été trouvé(e)"
-      already_confirmed: "a déjà été confirmé(e)"
-      not_locked: "n'était pas verrouillé(e)"
-      not_saved:
-        one: "1 erreur a empéché ce %{resource} d'être sauvegardé:"
-        other: "%{count} erreurs ont empéché ce %{resource} d'être sauvegardé:"
-  devise:
-    shared:
-      sign_in: "Connexion"
-      sign_up: "S'enregistrer"
-      forgot_password: "Mot de passe oublié ?"
-      didnt_receive_confirmation_instructions?: "Vous n'avez pas reçu de courriel de confirmation ?"
-      didnt_receive_unlock_instructions?: "Vous n'avez pas reçu de courriel de déverrouillage de votre compte ?"
-      sign_in_with_omniauth: "Se connecter avec %{provider}"
-    failure:
-      unauthenticated: "Vous devez vous connecter ou vous inscrire pour continuer."
-      unconfirmed: "Vous devez confirmer votre compte pour continuer."
-      locked: "Votre compte est verrouillé."
-      invalid: "Identifiant ou mot de passe incorrect."
-      invalid_token: "Jeton d'authentification incorrect."
-      timeout: "Votre session est expirée, veuillez vous reconnecter pour continuer."
-      inactive: "Votre compte n'est pas encore activé."
-    sessions:
-      signed_in: "Connecté."
-      signed_out: "Déconnecté."
-    passwords:
-      change_your_password: "Changez votre mot de passe"
-      new_password: "Nouveau mot de passe"
-      confirm_new_password: "Confirmer le nouveau mot de passe"
-      change_my_password: "Changer mon mot de passe"
-      send_reset_password_instructions: "Envoyez moi les instructions de réinitialisation du mot de passe"
-      send_instructions: 'Vous allez recevoir contenant les instructions de réinitialisation de mot de passe dans quelques minutes'
-      updated: 'Votre mot de passe a été édité avec succès, vous êtes maintenant connectés'
-    confirmations:
-      resend_instructions: 'Ré-envoyer les instructions de confirmation'
-      send_instructions: 'Vous allez recevoir contenant les instructions nécessaires à la confirmation de votre compte dans quelques minutes'
-      confirmed: 'Votre compte a été confirmé avec succès, vous êtes maintenant connectés'
-    registrations:
-      signed_up: 'Bienvenue, vous êtes connectés avec succès'
-      edit: "Editer %{resourcename}"
-      leave_blank: "laissez vide si vous ne désirez pas le changer"
-      current_password_label: "Nous avons besoin de votre mot de passe actuel pour confirmer les changements"
-      update: 'Modifier'
-      unhappy: "Mécontent"
-      cancel_my_account: "Annuler mon compte"
-      confirm: "Etes vous sur?"
-      back: "Retour"
-      signed_up_but_inactive: "Vous vous êtes connectés avec succès. Cependant, nous n'avons pas pu vous identifier car votre compte est %{reason}."
-      updated: 'Votre compte a été modifié avec succès.'
-      destroyed: 'Au revoir! Votre compte a été annulé avec succès. Nous espérons vous revoir bientôt.'
-    unlocks:
-      resend_instructions: "Ré-envoyer les instructions de débloquage"
-      send_instructions: 'Vous allez recevoir contenant les instructions nécessaires au débloquage de votre compte dans quelques minutes'
-      unlocked: 'Votre compte a été débloqué avec succès, vous êtes maintenant connectés.'
-    omniauth_callbacks:
-      success: 'Authorisé avec succès avec votre compte %{kind} .'
-      failure: "Nous n'avons pas pu vous authoriser à %{kind} pour la raison suivante: '%{reason}'."
-    mailer:
-      hello: "Bienvenue %{email}!"
-      welcome: "Bienvenue %{email}!"
-      confirm: "Confirmer mon compte"
-      change: 'Changer mon mot de passe'
-      someone_requested: "Un changement de mot de passe a été demandé. Vous pouvez le faire en cliquant sur le lien ci-dessous."
-      please_ignore: "Si vous n'avez pas fait cette demande, veuillez ignorer cet email."
-      password_wont_change: "Votre mot de passe ne sera pas changé tant que vous n'aurez pas accédé au lien ci-dessus pour en créer un nouveau."
-      locked: "Votre compte a été bloqué à cause d'un nombre excessif de tentatives de connection."
-      click_to_unlock: "Cliquez sur le lien ci-dessous pour déverrouiller votre compte"
-      unlock: "Déverrouiller mon compte"
-      confirmation_instructions:
-        subject: "Instructions de confirmation"
-      reset_password_instructions:
-        subject: "Instructions pour changer le mot de passe"
-      unlock_instructions:
-        subject: "Instructions pour déverrouiller le compte"
+  helpers:
+    submit:
+      create: Enregistrer
+      submit: Enregistrer ce %{model}
+      update: Enregistrer
+
+  simple_form:
+    "yes": 'Oui'
+    "no": 'Non'
+    required:
+      text: 'obligatoire'
+      mark: '*'
+      # You can uncomment the line below if you need to overwrite the whole required html.
+      # When using html, text and mark won't be used.
+      # html: '<abbr title="required">*</abbr>'
+    error_notification:
+      default_message: "Veuillez corriger les champs suivant :"
+    placeholders:
+      projet:
+        titre: acronyme et titre complet
+        but: thèse, mémoire, poster, publication, communication orale, cours...
+        responsable: encadrant
+        exploitant: personne qui exploitera les données
+        effet: SMQ, termes MedRA utilisés (PT, HLT, HLGT, SOC)
+        medicament: noms commerciaux, substances actives
+        contexte: bref rappel (données de la littérature scientifique, pathologie, domaine d'étude)
+        design: etude descriptive, cas-non cas, avant-après...
+        objectif: description de l'objectif principal
+        objectif_sec: description des objectifs secondaires le cas échéant
+        champs: lister les champs qui serviront à faire l'analyse (sexe, âge, antécédents, EIG, dates, narratif...)
+        criteres_inclusion: liste de critères d'inclusion
+        criteres_non_inclusion: liste de critères de non inclusion
+        retombees: retombées attendues de l'étude
+
+    labels:
+      defaults:
+        name: Nom
+        email: Email
+        password: Mot de passe
+        password_confirmation: Confirmer le mot de passe
+        current_password: Mot de passe actuel
+        first_name: Prénom
+        last_name: Nom
+        phone: Téléphone
+        title: Titre
+        organization: Organisation
+        street_address: Adresse
+        city: Ville
+        postal_code: Code postal
+        website: Site web
+        membership_level: Droits d'accès
+        required: Obligatoire ?
+        libelle: Libéllé
+        medicament: Médicament
+        medicament_id: Médicament
+      page:
+        name: Titre
+        content: Contenu
+        parent_id: Parent
+        published: Publiée ?
+      dossier:
+        code_bnpv: N° Cas BNPV
+        date_recueil: Date de recueil
+        evenement: Evènement
+        date_evenement: Date évènement
+        comm_evenement: Précisions sur l'évènement
+        gravite: Gravité
+        contraception_ant: Contraception(s) antérieure(s)
+        contraception_age: Age 1ère contraception
+        concomitants_pres: Autres médicaments en cours au moment de l’évènement
+        contraception_ci: Contre-indication d'une contraception oestroprogestative
+        contraception_apres: Contraception après l’évènement
+        contraception_quoi: "Préciser le contraceptif ou la forme :"
+        obesite: 1- Obesité
+        tabac: 2- Tabac
+        tabac_pa: "nombre PA :"
+        thrombose_perso: 3.1 Personnel
+        thrombose_perso_quoi: &perso "préciser type et date :"
+        thrombose_fam: 3.2 Familial
+        thrombose_fam_quoi: &fam "préciser type (+rang +âge) :"
+        cv_perso: 4.1 Personnel
+        cv_perso_quoi: *perso
+        cv_fam: 4.2 Familial
+        cv_fam_quoi: *fam
+        hta: 5- Hypertension
+        autoimmune: 6- Maladie auto-immune
+        autoimmune_quoi: "préciser :"
+        cancer: 7- Cancer évolutif
+        cancer_quoi: "préciser :"
+        hhc_perso: 8.1 Personnelle
+        hhc_fam: 8.2 Familiale
+        circonstance_chirurgie: intervention chirurgicale dans le mois précédent
+        circonstance_immobilisation: "immobilisation >3 jours"
+        circonstance_voyage: voyage de longue durée (>5h)
+        circonstance_autre: "autre, préciser :"
+        post_partum: "10- Post partum (< 3 semaines)"
+        anomalie_hemostase_perso_bilan: "11.1 Personnelle :"
+        anomalie_hemostase_perso_anomalie: "Anomalie :"
+        anomalie_hemostase_perso_anomalie_quoi: "préciser l'anomalie :"
+        anomalie_hemostase_perso_anomalie_nombre: "Nombre d'anomalie(s) :"
+        anomalie_hemostase_fam_bilan: "11.2 Familiale :"
+        anomalie_hemostase_fam_anomalie: "Anomalie :"
+        anomalie_hemostase_fam_anomalie_nombre: "Nombre d'anomalie(s) :"
+        anomalie_hemostase_fam_anomalie_quoi: "préciser l'anomalie (+rang) :"
+        migraine_perso: 12.1 Personnel
+        migraine_fam: 12.2 Familial
+        diabete: 13- Diabète
+        hyperglycemie: 14- Hyperglycémie
+        dyslipidemie: 15- Dyslipidémie
+        dyslipidemie_quoi: "préciser :"
+        illicites: "16- Consommation de cannabis, cocaïne, amphétamines..."
+        illicites_quoi: "préciser :"
+        autres_cv: "17- Autres facteurs de risque cardio-vasculaires mis en évidence après l’événement (foramen ovale perméable, troubles du rythme, etc.)"
+        autres_cv_quoi: "préciser :"
+      patient:
+        imc: IMC
+
+    # Labels and hints examples
+    # labels:
+    #   defaults:
+    #     password: 'Password'
+    #   user:
+    #     new:
+    #       email: 'E-mail to sign in.'
+    #     edit:
+    #       email: 'E-mail.'
+    # hints:
+    #   defaults:
+    #     username: 'User name to sign in.'
+    #     password: 'No special characters, please.'
