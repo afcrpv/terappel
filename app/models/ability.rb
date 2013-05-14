@@ -2,49 +2,42 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    alias_action :update, :destroy, :to => :modify
+    if user
+      can :access, :home
+      can :update, :users, id: user.id
 
-    if user.role? :centre_user
-      can [:read, :update], user
-      cannot :destroy, user
+      can :create, :dossiers
+      can [:read, :update], :dossiers, centre_id: user.centre_id
+      cannot :destroy, :dossiers
 
-      can :manage, Dossier, :centre_id => user.centre_id
-      cannot :destroy, Dossier
+      can :access, :correspondants, centre_id: user.centre_id
+      cannot :destroy, :correspondants
 
-      can :manage, Correspondant, :centre_id => user.centre_id
-      cannot :destroy, Correspondant
+      can :read, [:produits, :malformations, :pathologies, :searches]
+      can [:create, :update], :searches
+      cannot :index, :searches
 
-      can :read, [Produit, Malformation, Pathologie, Search]
-      can :manage, [Bebe, Exposition, Search]
-      cannot :index, [Bebe, Exposition, Search]
-      cannot :destroy, Search
+      if user.admin?
+        can :access, :all
+        cannot :destroy, :users, id: user.id
+      end
     end
-    if user.role? :centre_admin
-      can :dashboard
-      can :access, :rails_admin
-      can :destroy, Dossier, :centre_id => user.centre_id
-      can :read, Centre
-      can :update, Centre, :id => user.centre_id
-      can :manage, User, :centre_id => user.centre_id
-      cannot :destroy, user
-      can :manage, Correspondant, :centre_id => user.centre_id
-    end
-    if user.role? :admin
-      can :manage, :all
-      cannot :destroy, user
-    end
-
-   # The first argument to `can` is the action you are giving the user permission to do.
-    # If you pass :manage it will apply to every action. Other common actions here are
-    # :read, :create, :update and :destroy.
+    # Define abilities for the passed in (current) user. For example:
     #
-    # The second argument is the resource the user can perform the action on. If you pass
-    # :all it will apply to every resource. Otherwise pass a Ruby class of the resource.
+    #   if user
+    #     can :access, :all
+    #   else
+    #     can :access, :home
+    #     can :create, [:users, :sessions]
+    #   end
     #
-    # The third argument is an optional hash of conditions to further filter the objects.
-    # For example, here the user can only update published articles.
+    # Here if there is a user he will be able to perform any action on any controller.
+    # If someone is not logged in he can only access the home, users, and sessions controllers.
     #
-    #   can :update, Article, :published => true
+    # The first argument to `can` is the action the user can perform. The second argument
+    # is the controller name they can perform that action on. You can pass :access and :all
+    # to represent any action and controller respectively. Passing an array to either of
+    # these will grant permission on each item in the array.
     #
     # See the wiki for details: https://github.com/ryanb/cancan/wiki/Defining-Abilities
   end

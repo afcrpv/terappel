@@ -1,8 +1,5 @@
 class DossiersController < ApplicationController
   before_filter :find_centre
-  before_action only: [:create, :update] do
-    params[:dossier] &&= dossier_params
-  end
   load_and_authorize_resource :dossier
 
   helper_method :date_appel, :date_reelle_accouchement, :date_dernieres_regles, :date_debut_grossesse, :date_accouchement_prevu, :evolutions, :date_naissance, :date_recueil_evol
