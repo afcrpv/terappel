@@ -8,7 +8,12 @@ require 'rspec/rails'
 require 'capybara/rspec'
 require 'capybara/rails'
 require 'capybara/poltergeist'
-Capybara.javascript_driver = :poltergeist
+Capybara.register_driver :poltergeist_debug do |app|
+  Capybara::Poltergeist::Driver.new(app, inspector: true)
+end
+
+# Capybara.javascript_driver = :poltergeist
+Capybara.javascript_driver = :poltergeist_debug
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -49,6 +54,7 @@ RSpec.configure do |config|
   config.include ActionView::TestCase::Behavior, example_group: {file_path: %r{spec/presenters}}
 
   config.include AuthMacros
+  config.include AutocompleteMacros
   config.include MailerMacros
   config.include FactoryGirl::Syntax::Methods
 
