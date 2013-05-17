@@ -3,7 +3,6 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 jQuery ->
-  initDossiersDatatable()
   disableSubmitWithEnter()
 
   $(".combobox").select2()
@@ -75,7 +74,8 @@ jQuery ->
   if $("#correspondant_modal").length
     $("#dossier_correspondant_id_field .btn").hide()
   else
-    $("#dossier_correspondant_id_field").remoteForm()
+    #TODO: use remote modal load from twitter bootstrap
+    #$("#dossier_correspondant_id_field").remoteForm()
 
   $new_correspondant_btn = $(".create")
   $edit_correspondant_btn = $(".update")

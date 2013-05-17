@@ -10,11 +10,9 @@
 //= require cocoon
 //= require jquery.maskedinput
 //= require select2
-//= require validations_bootstrap_fix
 //= require common
 //= require bmi
 //= require dossiers
 //= require grossesse
 //= require searches
 //= require jstree
-//= require ra.remote-form
