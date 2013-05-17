@@ -1,5 +1,6 @@
 class DossiersController < ApplicationController
-  before_filter :find_centre
+  before_action :set_centre
+  before_action :set_dossier, only: [:show, :edit]
   load_and_authorize_resource :dossier
 
   helper_method :date_appel, :date_reelle_accouchement, :date_dernieres_regles, :date_debut_grossesse, :date_accouchement_prevu, :evolutions, :date_naissance, :date_recueil_evol
@@ -27,11 +28,9 @@ class DossiersController < ApplicationController
   end
 
   def index
-    @dossiers = DossierDecorator.decorate(@dossiers)
   end
 
   def show
-    @dossier = DossierDecorator.find(@dossier.id)
   end
 
   def new
@@ -65,8 +64,12 @@ class DossiersController < ApplicationController
 
   private
 
-  def find_centre
+  def set_centre
     @centre = current_user.centre
+  end
+
+  def set_dossier
+    @dossier = Dossier.find_by_code(params[:id])
   end
 
   def decorated_dossier
