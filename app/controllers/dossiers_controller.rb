@@ -1,6 +1,6 @@
 class DossiersController < ApplicationController
   before_action :set_centre
-  before_action :set_dossier, only: [:show, :edit]
+  before_action :set_dossier, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource :dossier
 
   helper_method :date_appel, :date_reelle_accouchement, :date_dernieres_regles, :date_debut_grossesse, :date_accouchement_prevu, :evolutions, :date_naissance, :date_recueil_evol
