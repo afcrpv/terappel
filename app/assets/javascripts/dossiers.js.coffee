@@ -97,7 +97,7 @@ $.fn.attach_correspondant_select2 = () ->
       preload = element.data("load")
       callback(preload)
     ajax:
-      url: "/dossiers/correspondants.json"
+      url: @data("source")
       dataType: "json"
       data: (term, page) ->
         q: term

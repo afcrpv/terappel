@@ -19,14 +19,6 @@ class DossiersController < ApplicationController
     end
   end
 
-  def correspondants
-    @correspondants = Correspondant.where(centre_id: @centre.id).
-      where("LOWER(nom) like ?", "%#{params[:q]}%")
-    respond_to do |format|
-      format.json { render :json => @correspondants.map(&:fullname_and_id) }
-    end
-  end
-
   def index
   end
 

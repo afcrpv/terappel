@@ -5,6 +5,13 @@ class CorrespondantsController < ApplicationController
 
   helper_method :form_title
 
+  def index
+    @correspondants = @centre.correspondants.where("LOWER(nom) like ?", "%#{params[:q]}%")
+    respond_to do |format|
+      format.json { render json: @correspondants.map(&:fullname_and_id) }
+    end
+  end
+
   def show
   end
 

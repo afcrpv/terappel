@@ -24,4 +24,13 @@ feature "Dossiers saisie" do
       page.should have_content "Détails du dossier LY1111002"
     end
   end
+  context "correspondants" do
+    scenario "list for select2 is scoped by current user centre", focus: true do
+      corr = create(:correspondant, centre: user.centre)
+      other_corr = create(:correspondant, centre: create(:centre))
+      visit correspondants_url(format: :json)
+      page.should have_content corr.fullname
+      page.should_not have_content other_corr.fullname
+    end
+  end
 end

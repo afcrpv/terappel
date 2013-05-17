@@ -8,7 +8,7 @@
   .span6.control-group
     = f.label :correspondant_id
     .controls
-      = f.hidden_field :correspondant_id, class: "input-xxlarge", data: {placeholder: "Choisir un correspondant", load: f.object.correspondant.try(:fullname_and_id).to_json}
+      = f.hidden_field :correspondant_id, class: "input-xxlarge", data: {placeholder: "Choisir un correspondant", load: f.object.correspondant.try(:fullname_and_id).to_json, source: correspondants_url(format: :json)}
   .span6
     %label &nbsp;
     .btn-group

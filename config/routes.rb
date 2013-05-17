@@ -16,9 +16,9 @@ Terappel::Application.routes.draw do
     get :autocomplete_correspondant_fullname, on: :collection
     get :produits, on: :collection
     get :indications, on: :collection
-    get :correspondants, on: :collection
   end
-  #resources :users, only: [:show, :edit, :update]
+
+  resources :correspondants, only: :index
 
   resources :malformations, only: :index
   resources :pathologies, only: :index
