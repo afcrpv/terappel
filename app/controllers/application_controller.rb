@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
 
   def find_dossier_for_search
     if params[:codedossier]
-      @search = Dossier.find(params[:codedossier]) rescue nil
+      @search = Dossier.where(code: params[:codedossier]).first rescue nil
       if @search
         redirect_to dossier_path(@search)
       else
