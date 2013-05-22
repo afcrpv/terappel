@@ -2,7 +2,11 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
-jQuery ->
+$ = jQuery
+
+$ ->
+  $('body').on 'hidden', '.modal', ->
+    $(@).removeData('modal')
   disableSubmitWithEnter()
 
   $(".combobox").select2()
@@ -71,21 +75,17 @@ jQuery ->
   #### Correspondant ####
   $("#dossier_correspondant_id").attach_correspondant_select2()
 
-  if $("#correspondant_modal").length
-    $("#dossier_correspondant_id_field .btn").hide()
-  else
-    #TODO: use remote modal load from twitter bootstrap
-    #$("#dossier_correspondant_id_field").remoteForm()
+  $new_correspondant_btn = $(".corr_create")
+  $edit_correspondant_btn = $(".corr_update")
 
-  $new_correspondant_btn = $(".create")
-  $edit_correspondant_btn = $(".update")
-
-  # disactivate edit correspondant by default
+  # desactivate edit correspondant by default
   $edit_correspondant_btn.hide()
 
   # activate edit correspondant if dossier_correspondant_id is prefilled
   correspondant_id = $("#dossier_correspondant_id").val()
   activateCorrespondantEdit(correspondant_id) if correspondant_id
+
+  $("#dossier_correspondant_id_field").remoteCorrespondantForm()
 
 # functions & jQuery plugins
 
@@ -105,7 +105,7 @@ $.fn.attach_correspondant_select2 = () ->
       results: (data, page) ->
         return {results: data}
   @on "change", (e) =>
-    if e.val then activateCorrespondantEdit(e.val) else $(".update").hide()
+    if e.val then activateCorrespondantEdit(e.val) else $(".corr_update").hide()
 
   $('.select2-search-field input').css('width', '100%')
 
@@ -115,6 +115,90 @@ zero_grossesse_fields = ->
   field.val("0") for field in fields
 
 activateCorrespondantEdit = (correspondant_id) ->
-  $edit_correspondant_btn = $(".update")
-  $edit_correspondant_btn.attr("data-link", "/correspondants/#{correspondant_id}/edit")
+  $edit_correspondant_btn = $(".corr_update")
+  $edit_correspondant_btn.attr("href", "/correspondants/#{correspondant_id}/edit?modal=true")
   $edit_correspondant_btn.show()
+
+$.widget "terappel.remoteCorrespondantForm",
+  options:
+    action: null
+
+  _create: ->
+    dom_widget = @element
+    @element.find(".corr_create").unbind().bind "click", (e) =>
+      @_bindModalOpening e, $(e.target).attr("href")
+
+    @element.find(".corr_update").unbind().bind "click", (e) =>
+      if (value = $("#dossier_correspondant_id").val())
+        @_bindModalOpening e, $(e.target).attr("href").replace('__ID__', value)
+      else
+        e.preventDefault()
+
+  _bindModalOpening: (e, url) ->
+    e.preventDefault()
+    dialog = @_getModal()
+
+    setTimeout(=>
+      $.ajax
+        url: url
+        beforeSend: (xhr) ->
+          xhr.setRequestHeader "Accept", "text/javascript"
+        success: (data, status, xhr) =>
+          dialog.find(".modal-body").html(data)
+          @_bindFormEvents()
+        error: (xhr, status, error) ->
+          dialog.find(".modal-body").html(xhr.responseText)
+        dataType: "text"
+      , 200)
+
+  _bindFormEvents: ->
+    dialog = @_getModal()
+    form = dialog.find("form")
+    saveButtonText = "Enregistrer"
+    dialog.find('.form-actions').remove()
+
+    form.attr("data-remote", true)
+    dialog.find('#modal-label').text form.data('title')
+    dialog.find(".save-action").unbind().click(->
+      form.submit()
+      return false
+    ).html(saveButtonText)
+
+    form.bind "ajax:complete", (e, xhr, status) =>
+      if status is "error"
+        dialog.find(".modal-body").html xhr.responseText
+        @_bindFormEvents()
+      else
+        json = $.parseJSON xhr.responseText
+        correspondant_label = json.label
+        correspondant_id = json.id
+        $edit_correspondant_btn = $(".corr_update")
+        $edit_correspondant_btn.attr("href", "/correspondants/#{correspondant_id}/edit")
+        $edit_correspondant_btn.show()
+        @element.find("#dossier_correspondant_id").select2("data", {id: correspondant_id, text: correspondant_label})
+        @_trigger("success")
+        dialog.modal("hide")
+
+  _getModal: ->
+    unless @dialog
+      @dialog = $('<div id="correspondant_modal" class="modal fade" role="dialog", aria-labelledby="modal-label" aria-hidden="true">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3 id="modal-label">...<h3>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <a href="#" class="btn btn-primary save-action">...</a>
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Fermer</>
+          </div>
+        </div>')
+        .modal(
+          keyboard: true
+          backdrop: true
+          show: true
+        ).on "hidden", =>
+          @dialog.remove()
+          @dialog = null
+    return @dialog

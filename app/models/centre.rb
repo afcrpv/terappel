@@ -1,6 +1,7 @@
 class Centre < ActiveRecord::Base
   has_many :users
   has_many :dossiers
+  has_many :correspondants
   validates :name, uniqueness: true, presence: true
 
   include Slug
