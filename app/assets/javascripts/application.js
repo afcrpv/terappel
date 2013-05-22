@@ -6,13 +6,15 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.ui.core
+//= require jquery.ui.widget
 //= require bootstrap
 //= require cocoon
 //= require jquery.maskedinput
 //= require select2
+//= require jstree
 //= require common
+//= require grossesse
 //= require bmi
 //= require dossiers
-//= require grossesse
 //= require searches
-//= require jstree

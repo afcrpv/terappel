@@ -6,6 +6,7 @@ gem 'rails', '4.0.0.rc1'
 gem 'pg'
 
 gem 'sass-rails', "  ~> 4.0.0.rc1"
+gem 'jquery-ui-sass-rails'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', "~> 4.0.0"
 
@@ -51,7 +52,7 @@ gem 'foreman'
 gem "devise", github: "plataformatec/devise"
 gem 'simple_form', github: "plataformatec/simple_form"
 gem "ancestry", github: "stefankroes/ancestry"
-gem "cancan", github: "ollym/cancan", branch: "strong_parameters"
+gem "cancan", github: "ncri/cancan", branch: "2.0"
 gem "rolify", github: "EppO/rolify"
 gem "cocoon", github: "nathanvda/cocoon"
 #gem "friendly_id", "~> 4.0.1"
