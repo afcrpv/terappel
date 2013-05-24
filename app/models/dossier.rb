@@ -9,8 +9,6 @@ class Dossier < ActiveRecord::Base
 
   # readers
   attr_reader :imc
-  # writers
-  attr_writer :correspondant_nom
 
   # validations
   validates_presence_of :code, :name, :date_appel, :centre_id, :expo_terato, :a_relancer
@@ -19,22 +17,21 @@ class Dossier < ActiveRecord::Base
   belongs_to :centre
   belongs_to :user
   belongs_to :motif
-  belongs_to :correspondant
+  belongs_to :demandeur
+  belongs_to :relance
   belongs_to :categoriesp
 
   has_many :produits, through: :expositions
-  has_many :expositions, :dependent => :destroy
-  accepts_nested_attributes_for :expositions, :reject_if => :all_blank, :allow_destroy => true
-  has_many :bebes, :dependent => :destroy
-  accepts_nested_attributes_for :bebes, :reject_if => :all_blank, :allow_destroy => true
+  has_many :expositions, dependent: :destroy
+  accepts_nested_attributes_for :expositions, reject_if: :all_blank, allow_destroy: true
+  has_many :bebes, dependent: :destroy
+  accepts_nested_attributes_for :bebes, reject_if: :all_blank, allow_destroy: true
 
   #delegations
-  delegate :name, :code, :to => :centre, :prefix => true
-  delegate :name, :code, :to => :motif, :prefix => true, allow_nil: true
-  delegate :name, :to => :categoriesp, :prefix => true, allow_nil: true
-  delegate :username, :to => :user, :allow_nil => true
-  delegate :fullname, :to => :correspondant, :prefix => true, :allow_nil => true
-  delegate :ville, to: :correspondant, prefix: true, allow_nil: true
+  delegate :name, :code, to: :centre, prefix: true
+  delegate :name, :code, to: :motif, prefix: true, allow_nil: true
+  delegate :name, to: :categoriesp, prefix: true, allow_nil: true
+  delegate :username, to: :user, allow_nil: true
 
   def to_param
     code
@@ -45,10 +42,6 @@ class Dossier < ActiveRecord::Base
   end
   def patiente_fullname
     [self.try(:name).upcase, self.try(:prenom)].join(" ")
-  end
-
-  def correspondant_nom
-    self.try(:correspondant_fullname)
   end
 
   def produits_names
