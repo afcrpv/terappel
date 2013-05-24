@@ -11,6 +11,12 @@ $ ->
 
   $(".combobox").select2()
 
+  # relance
+  $("#dossier_a_relancer").on "change", ->
+    $("#relance").modal("show") if @value is "Oui"
+
+  $(".copy-correspondant").on "click", ->
+
   # bootstrap form tabs
   $(".nav-tabs a:first").tab('show')
 
@@ -73,23 +79,17 @@ $ ->
   $("#dossier_evolution").on 'change', (event) -> show_or_hide_issue_elements($(this), event.val)
 
   #### Correspondant ####
-  $("#dossier_correspondant_id").attach_correspondant_select2()
+  for name in ["demandeur", "relance"]
+    $("#dossier_#{name}_id").attach_correspondant_select2(name)
+    $("#dossier_#{name}_id_field").remoteCorrespondantForm
+      typeCorrespondant: name
 
-  $new_correspondant_btn = $(".corr_create")
-  $edit_correspondant_btn = $(".corr_update")
-
-  # desactivate edit correspondant by default
-  $edit_correspondant_btn.hide()
-
-  # activate edit correspondant if dossier_correspondant_id is prefilled
-  correspondant_id = $("#dossier_correspondant_id").val()
-  activateCorrespondantEdit(correspondant_id) if correspondant_id
-
-  $("#dossier_correspondant_id_field").remoteCorrespondantForm()
+    correspondant_id = $("#dossier_#{name}_id").val()
+    activateCorrespondantEdit(correspondant_id, name)
 
 # functions & jQuery plugins
 
-$.fn.attach_correspondant_select2 = () ->
+$.fn.attach_correspondant_select2 = (name) ->
   @select2
     minimumInputLength: 3
     width: "100%"
@@ -105,7 +105,7 @@ $.fn.attach_correspondant_select2 = () ->
       results: (data, page) ->
         return {results: data}
   @on "change", (e) =>
-    if e.val then activateCorrespondantEdit(e.val) else $(".corr_update").hide()
+    if e.val then activateCorrespondantEdit(e.val, name) else $("#dossier_#{name}_id_field .corr_update").hide()
 
   $('.select2-search-field input').css('width', '100%')
 
@@ -114,14 +114,14 @@ zero_grossesse_fields = ->
   fields.push($("#dossier_#{field_name}")) for field_name in ["fcs", "geu", "miu", "ivg", "img", "nai"]
   field.val("0") for field in fields
 
-activateCorrespondantEdit = (correspondant_id) ->
-  $edit_correspondant_btn = $(".corr_update")
+activateCorrespondantEdit = (correspondant_id, name) ->
+  $edit_correspondant_btn = $("#dossier_#{name}_id_field .corr_update")
   $edit_correspondant_btn.attr("href", "/correspondants/#{correspondant_id}/edit?modal=true")
-  $edit_correspondant_btn.show()
+  if correspondant_id then $edit_correspondant_btn.show() else $edit_correspondant_btn.hide()
 
 $.widget "terappel.remoteCorrespondantForm",
   options:
-    action: null
+    typeCorrespondant: null
 
   _create: ->
     dom_widget = @element
@@ -129,7 +129,7 @@ $.widget "terappel.remoteCorrespondantForm",
       @_bindModalOpening e, $(e.target).attr("href")
 
     @element.find(".corr_update").unbind().bind "click", (e) =>
-      if (value = $("#dossier_correspondant_id").val())
+      if (value = $("#dossier_#{@options["typeCorrespondant"]}_id").val())
         @_bindModalOpening e, $(e.target).attr("href").replace('__ID__', value)
       else
         e.preventDefault()
@@ -172,10 +172,10 @@ $.widget "terappel.remoteCorrespondantForm",
         json = $.parseJSON xhr.responseText
         correspondant_label = json.label
         correspondant_id = json.id
-        $edit_correspondant_btn = $(".corr_update")
+        $edit_correspondant_btn = $("#dossier_#{@options["typeCorrespondant"]}_id .corr_update")
         $edit_correspondant_btn.attr("href", "/correspondants/#{correspondant_id}/edit")
         $edit_correspondant_btn.show()
-        @element.find("#dossier_correspondant_id").select2("data", {id: correspondant_id, text: correspondant_label})
+        @element.find("#dossier_#{@options["typeCorrespondant"]}_id").select2("data", {id: correspondant_id, text: correspondant_label})
         @_trigger("success")
         dialog.modal("hide")
 

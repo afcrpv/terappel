@@ -33,11 +33,42 @@ feature "Dossiers saisie" do
       page.should have_content corr.fullname
       page.should_not have_content other_corr.fullname
     end
-    scenario "can be created/updated from dossier form", js: true, focus: true do
+    %w(demandeur relance).each do |name|
+      scenario "#{name} can be created/updated from dossier form", js: true do
+        visit new_dossier_path
+        within "#dossier_#{name}_id_field" do
+          click_link "Ajout"
+        end
+        sleep 2
+        page.should have_content "Nouveau correspondant"
+        fill_in "correspondant_nom", with: "test test"
+        select "spec1", from: "Spécialité"
+        fill_in "Ville", with: "Lyon"
+        fill_in "Code Postal", with: "69005"
+        within ".modal-footer" do
+          click_link "Enregistrer"
+        end
+        sleep 2
+        within "#dossier_#{name}_id_field" do
+          page.should have_content "test test - spec1 - 69005 - Lyon"
+          click_link "Voir/modifier"
+        end
+        sleep 2
+        within ".modal" do
+          page.should have_content "test test - spec1 - 69005 - Lyon"
+        end
+        fill_in "correspondant_nom", with: "test1 test"
+        within ".modal-footer" do
+          click_link "Enregistrer"
+        end
+        sleep 2
+        page.should have_content "test1 test - spec1 - 69005 - Lyon"
+      end
+    end
+    scenario "can copy assigned correspondant to corr à relancer", js: true, focus: true do
       visit new_dossier_path
       click_link "Ajout"
       sleep 2
-      page.should have_content "Nouveau correspondant"
       fill_in "correspondant_nom", with: "test test"
       select "spec1", from: "Spécialité"
       fill_in "Ville", with: "Lyon"
@@ -46,18 +77,11 @@ feature "Dossiers saisie" do
         click_link "Enregistrer"
       end
       sleep 2
-      page.should have_content "test test - spec1 - 69005 - Lyon"
-      click_link "Voir/modifier"
-      sleep 2
-      within ".modal" do
-        page.should have_content "test test - spec1 - 69005 - Lyon"
+      select "Oui", from: "Relance"
+      sleep 1
+      within "#relance" do
+        click_button "Oui"
       end
-      fill_in "correspondant_nom", with: "test1 test"
-      within ".modal-footer" do
-        click_link "Enregistrer"
-      end
-      sleep 2
-      page.should have_content "test1 test - spec1 - 69005 - Lyon"
     end
   end
 end

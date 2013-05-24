@@ -1,29 +1,64 @@
-.row
-  = f.input :code, wrapper_html: {class: "span2"}, input_html: {class: "input-small"}
-  = f.input :date_appel, as: :string, wrapper_html: {class: "span2"}, input_html: {class: "input-small dateITA dateNotFuture", autofocus: true, "data-value" => date_appel}
-  = f.association :motif, wrapper_html: {class: "span6"}, input_html: {class: "input-xxlarge combobox", data: {placeholder: "Choisir un motif d'appel"}}
-  = f.input :expo_terato, as: :select, collection: Dossier::ONI, wrapper_html: {class: "span2"}, input_html: {class: "input-mini"}
-
-.row#dossier_correspondant_id_field
-  .span6.control-group
-    = f.label :correspondant_id
-    .controls
-      = f.hidden_field :correspondant_id, class: "input-xxlarge", data: {placeholder: "Choisir un correspondant", load: f.object.correspondant.try(:fullname_and_id).to_json, source: correspondants_url(format: :json)}
+.row-fluid
+  .span2
+    = f.input :code, input_html: {class: "input-small"}
+  .span2
+    = f.input :date_appel, as: :string, input_html: {class: "input-small dateITA dateNotFuture",
+      autofocus: true, "data-value" => date_appel}
   .span6
+    = f.association :motif, input_html: {class: "input-xxlarge combobox", data: {placeholder: "Choisir un motif d'appel"}}
+  .span2
+    = f.input :expo_terato, as: :select, collection: Dossier::ONI, input_html: {class: "input-mini"}
+
+.row-fluid#dossier_demandeur_id_field
+  .span6
+    .control-group
+      = f.label :demandeur_id
+      .controls
+        = f.hidden_field :demandeur_id, class: "input-xxlarge", data: {placeholder: "Choisir un correspondant",
+          load: f.object.demandeur.try(:fullname_and_id).to_json, source: correspondants_url(format: :json)}
+  .span4
     %label &nbsp;
     .btn-group
       = link_to content_tag(:i, nil, class: "icon-plus") + "Ajout", new_correspondant_path(modal: true),
         data: {target: "#correspondant_modal", toggle: "modal"}, title: "Nouveau correspondant", class: "btn corr_create"
-      = link_to content_tag(:i, nil, class: "icon-pencil") + "Voir/modifier", edit_correspondant_path(id: "__ID__", modal: true),
-        data: {target: "#correspondant_modal", toggle: "modal"}, title: "Modifier correspondant", class: "btn corr_update"
+      = link_to content_tag(:i, nil, class: "icon-pencil") + "Voir/modifier",
+        edit_correspondant_path(id: "__ID__", modal: true), data: {target: "#correspondant_modal", toggle: "modal"},
+        title: "Modifier correspondant", class: "btn corr_update"
+  .span2
+    = f.input :a_relancer, collection: %w(Oui Non), input_html: {class: "input-mini"}
+    #relance.modal.hide.fade{tabindex: "-1", role: "dialog", aria: {labelledby: "relance-modal", hidden: "true"}}
+      .modal-header
+        %button.close{type: "button", data: {dismiss: "modal"}, aria: {hidden: "true"}} &times;
+        %h3#relance-modal Relance
+      .modal-body
+        %p Le correspondant est-il le même que la personne à relancer ?
+      .modal-footer
+        %button.btn.btn-primary.copy-correspondant{data: {dismiss: "modal"}} Oui
+        %button.btn{data: {dismiss: "modal"}} Non
 
-.row
+.row-fluid#dossier_relance_id_field
+  .span6
+    .control-group
+      = f.label :relance_id
+      .controls
+        = f.hidden_field :relance_id, class: "input-xxlarge", data: {placeholder: "Choisir une personne",
+          load: f.object.relance.try(:fullname_and_id).to_json, source: correspondants_url(format: :json)}
+  .span4
+    %label &nbsp;
+    .btn-group
+      = link_to content_tag(:i, nil, class: "icon-plus") + "Ajout", new_correspondant_path(modal: true),
+        data: {target: "#correspondant_modal", toggle: "modal"}, title: "Nouveau correspondant", class: "btn corr_create"
+      = link_to content_tag(:i, nil, class: "icon-pencil") + "Voir/modifier",
+        edit_correspondant_path(id: "__ID__", modal: true), data: {target: "#correspondant_modal", toggle: "modal"},
+        title: "Modifier correspondant", class: "btn corr_update"
+
+.row-fluid
   = f.input :name, wrapper_html: {class: "span2"}, input_html: {class: "span2"}
   = f.input :prenom, wrapper_html: {class: "span2"}, input_html: {class: "span2"}
   = f.input :date_naissance, as: :string, wrapper_html: {class: "span2"}, input_html: {class: "input-small dateITA dateNotFuture", "data-value" => date_naissance}
   = f.input :age, wrapper_html: {class: "span1"}, input_html: {class: "input-mini"}
 
-.row
+.row-fluid
   = f.input :poids, wrapper_html: {class: "span2"}, wrapper: :append do
     = f.input_field :poids, class: "input-mini"
     %span.add-on kg
@@ -37,7 +72,7 @@
       %sup> 2
   = f.association :categoriesp, wrapper_html: {class: "span5"}, input_html: {class: "input-xlarge combobox", data: {placeholder: "Choisir une C.S.P."}}
 
-.row
+.row-fluid
   - %w(perso fam).each do |field|
     .span6
       .control-group

@@ -12,5 +12,5 @@
   = f.input :telephone, label: "Téléphone"
   = f.input :fax
   .form-actions
-    = f.button :submit, disable_with: "Attendre...", class: "btn-success"
+    = f.button :submit, data: {disable_with: "Attendre..."}, class: "btn-success"
     = button_tag "Annuler", type: :submit, class: "btn btn-danger"
