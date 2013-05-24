@@ -29,9 +29,9 @@ class DossierPresenter < BasePresenter
     end
   end
 
-  def correspondant
-    handle_none dossier.correspondant do
-      dossier.correspondant
+  def demandeur
+    handle_none dossier.demandeur do
+      dossier.demandeur
     end
   end
 
