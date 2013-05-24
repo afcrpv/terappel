@@ -13,9 +13,10 @@ Terappel::Application.routes.draw do
 
   resources :searches
   resources :dossiers do
-    get :autocomplete_correspondant_fullname, on: :collection
-    get :produits, on: :collection
-    get :indications, on: :collection
+    collection do
+      get :produits
+      get :indications
+    end
   end
 
   resources :correspondants, only: :index
