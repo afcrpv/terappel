@@ -1,4 +1,7 @@
 class DossiersController < ApplicationController
+  respond_to :html
+  respond_to :json, only: [:produits, :indications]
+
   before_action :set_centre
   before_action :set_dossier, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource :dossier
@@ -7,51 +10,59 @@ class DossiersController < ApplicationController
 
   def produits
     @produits = params[:produit_id] ? Produit.where(id: params[:produit_id]) : Produit.search_by_name(params[:q])
-    respond_to do |format|
-      format.json { render :json => @produits.map(&:name_and_id) }
-    end
+    respond_with @produits.map(&:name_and_id)
   end
 
   def indications
     @indications = params[:indication_id] ? Indication.where(id: params[:indication_id]) : Indication.search_by_name(params[:q])
-    respond_to do |format|
-      format.json { render :json => @indications.map(&:name_and_id) }
-    end
+    respond_with @indications.map(&:name_and_id)
   end
 
   def index
+    respond_with @dossiers
   end
 
   def show
+    respond_with @dossier
   end
 
   def new
     @dossier = Dossier.new(code: params[:code], centre_id: current_user.centre_id)
+    respond_with @dossier
   end
 
   def create
     @dossier = Dossier.new(dossier_params)
-    if @dossier.save
-      redirect_on_success
+    if params[:_continue]
+      location = edit_dossier_path(@dossier)
+    elsif params[:_add_another]
+      location = new_dossier_path
     else
-      render :new
+      location = @dossier
     end
+    respond_with @dossier, location: location
   end
 
   def edit
+    respond_with @dossier
   end
 
   def update
-    if @dossier.update(dossier_params)
-      redirect_on_success
+    flash[:notice] = "Dossier #{@dossier.code} mis à jour avec succès." if @dossier.update(dossier_params)
+    if params[:_continue]
+      location = edit_dossier_path(@dossier)
+    elsif params[:_add_another]
+      location = new_dossier_path
     else
-      render :edit
+      location = @dossier
     end
+    respond_with @dossier, location: location
   end
 
   def destroy
     @dossier.destroy
-    redirect_with_flash(@dossier, dossiers_path)
+    flash[:notice] = "Dossier #{@dossier.code} détruit avec succès."
+    respond_with @dossier, location: dossiers_path
   end
 
   private
@@ -62,10 +73,6 @@ class DossiersController < ApplicationController
 
   def set_dossier
     @dossier = Dossier.find_by_code(params[:id])
-  end
-
-  def decorated_dossier
-    @dossier = DossierDecorator.find(params[:id])
   end
 
   def date_appel
@@ -98,16 +105,6 @@ class DossiersController < ApplicationController
 
   def evolutions
     @evolutions = Evolution.all
-  end
-
-  def redirect_on_success
-    if params[:_continue]
-      redirect_with_flash @dossier, edit_dossier_path(@dossier)
-    elsif params[:_add_another]
-      redirect_with_flash @dossier, new_dossier_path
-    else
-      redirect_with_flash @dossier
-    end
   end
 
   def dossier_params
