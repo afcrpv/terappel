@@ -67,7 +67,9 @@ feature "Dossiers saisie" do
     end
     scenario "can copy assigned correspondant to corr à relancer", js: true, focus: true do
       visit new_dossier_path
-      click_link "Ajout"
+      within "#dossier_demandeur_id_field" do
+        click_link "Ajout"
+      end
       sleep 2
       fill_in "correspondant_nom", with: "test test"
       select "spec1", from: "Spécialité"
@@ -81,6 +83,9 @@ feature "Dossiers saisie" do
       sleep 1
       within "#relance" do
         click_button "Oui"
+      end
+      within "#dossier_relance_id_field" do
+        page.should have_content "test test - spec1 - 69005 - Lyon"
       end
     end
   end

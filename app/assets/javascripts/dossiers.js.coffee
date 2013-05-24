@@ -11,12 +11,6 @@ $ ->
 
   $(".combobox").select2()
 
-  # relance
-  $("#dossier_a_relancer").on "change", ->
-    $("#relance").modal("show") if @value is "Oui"
-
-  $(".copy-correspondant").on "click", ->
-
   # bootstrap form tabs
   $(".nav-tabs a:first").tab('show')
 
@@ -86,6 +80,16 @@ $ ->
 
     correspondant_id = $("#dossier_#{name}_id").val()
     activateCorrespondantEdit(correspondant_id, name)
+
+  # relance
+  $("#dossier_a_relancer").on "change", ->
+    $("#relance").modal("show") if @value is "Oui"
+
+  $(".copy-correspondant").on "click", ->
+    demandeur = $("#dossier_demandeur_id").select2("data")
+    $relance = $("#dossier_relance_id")
+    $relance.select2("data", {id: demandeur["id"], text: demandeur["text"]})
+    activateCorrespondantEdit($relance.val(), "relance")
 
 # functions & jQuery plugins
 
@@ -175,7 +179,8 @@ $.widget "terappel.remoteCorrespondantForm",
         $edit_correspondant_btn = $("#dossier_#{@options["typeCorrespondant"]}_id .corr_update")
         $edit_correspondant_btn.attr("href", "/correspondants/#{correspondant_id}/edit")
         $edit_correspondant_btn.show()
-        @element.find("#dossier_#{@options["typeCorrespondant"]}_id").select2("data", {id: correspondant_id, text: correspondant_label})
+        $select = @element.find("#dossier_#{@options["typeCorrespondant"]}_id")
+        $select.select2("data", {id: correspondant_id, text: correspondant_label})
         @_trigger("success")
         dialog.modal("hide")
 
