@@ -7,11 +7,9 @@ class Dossier < ActiveRecord::Base
   MODACCOUCH = [["V-b spontanée", "0"], ["V-b instrumentale", "1"], ["Césarienne", "2"], ["Inconnue", "3"]]
   EVOLUTION = [["GEU", 1], ["FCS", 2], ["IVG", 3], ["IMG", 4], ["MIU", 5], ["NAI", 6], ["INC", 7], ["GNC", 8]]
 
-  # readers
-  attr_reader :imc
-
   # validations
-  validates_presence_of :code, :name, :date_appel, :centre_id, :expo_terato, :a_relancer
+  validates_presence_of :name, :date_appel, :centre_id, :expo_terato, :a_relancer
+  validates :code, uniqueness: true, presence: true
 
   #associations
   belongs_to :centre

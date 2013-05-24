@@ -53,24 +53,32 @@
         title: "Modifier correspondant", class: "btn corr_update"
 
 .row-fluid
-  = f.input :name, wrapper_html: {class: "span2"}, input_html: {class: "span2"}
-  = f.input :prenom, wrapper_html: {class: "span2"}, input_html: {class: "span2"}
-  = f.input :date_naissance, as: :string, wrapper_html: {class: "span2"}, input_html: {class: "input-small dateITA dateNotFuture", "data-value" => date_naissance}
-  = f.input :age, wrapper_html: {class: "span1"}, input_html: {class: "input-mini"}
+  .span2
+    = f.input :name, input_html: {class: "span10"}
+  .span2
+    = f.input :prenom, input_html: {class: "span10"}
+  .span2
+    = f.input :date_naissance, as: :string, input_html: {class: "span10 dateITA dateNotFuture", data: {value: date_naissance}}
+  .span1
+    = f.input :age, input_html: {class: "span10"}
 
 .row-fluid
-  = f.input :poids, wrapper_html: {class: "span2"}, wrapper: :append do
-    = f.input_field :poids, class: "input-mini"
-    %span.add-on kg
-  = f.input :taille, wrapper_html: {class: "span2"}, wrapper: :append do
-    = f.input_field :taille, class: "input-mini"
-    %span.add-on cm
-  = f.input :imc,  wrapper_html: {class: "span2"}, wrapper: :append do
-    = f.input_field :imc, disabled: true, class: "input-mini"
-    %span.add-on
-      kg/m
-      %sup> 2
-  = f.association :categoriesp, wrapper_html: {class: "span5"}, input_html: {class: "input-xlarge combobox", data: {placeholder: "Choisir une C.S.P."}}
+  .span2
+    = f.input :poids, wrapper: :append do
+      = f.input_field :poids, class: "span4"
+      %span.add-on kg
+  .span2
+    = f.input :taille, wrapper: :append do
+      = f.input_field :taille, class: "span4"
+      %span.add-on cm
+  .span2
+    = f.input :imc, wrapper: :append do
+      = f.input_field :imc, class: "span4"
+      %span.add-on
+        kg/m
+        %sup> 2
+  .span5
+    = f.association :categoriesp, input_html: {class: "span10 combobox", data: {placeholder: "Choisir une C.S.P."}}
 
 .row-fluid
   - %w(perso fam).each do |field|

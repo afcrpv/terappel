@@ -30,7 +30,7 @@ $ ->
     date_field.val(value) if value
 
   # calc imc
-  $("#dossier_#{field}").calculateBMI() for field in ["taille", "poids"]
+  $("#dossier_#{field}").calculateBMI("#dossier_imc") for field in ["taille", "poids"]
 
   #### Grossesse
   $("#dossier_grsant").on 'blur', ->
@@ -82,6 +82,8 @@ $ ->
     activateCorrespondantEdit(correspondant_id, name)
 
   # relance
+  showNextif $("#dossier_relance_id").val()?, $("#dossier_relance_id"), $("#dossier_relance_id_field")
+
   $("#dossier_a_relancer").on "change", ->
     $("#relance").modal("show") if @value is "Oui"
 
