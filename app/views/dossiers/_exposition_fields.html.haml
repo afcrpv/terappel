@@ -9,7 +9,7 @@
         .control-group
           = f.label field.to_sym
           .controls
-            = f.hidden_field "#{field}_id".to_sym, class: "input-xxlarge #{field}_autocomplete", data: {load: f.object.send(field).try(:name_and_id), placeholder: "Saisir #{article} #{field}"}
+            = f.hidden_field :"#{field}_id", class: "input-xxlarge #{field}_autocomplete", data: {load: f.object.send(field).try(:name_and_id), placeholder: "Saisir #{article} #{field}"}
   .row-fluid
     = f.association :voie, wrapper_html: {class: "span3"}, input_html: {class: "input-medium combobox", data: {placeholder: "Choisir..."}}
     = f.input :dose, wrapper_html: {class: "span3"}, input_html: {class: "span2"}, hint: "par exemple en mg/j"
