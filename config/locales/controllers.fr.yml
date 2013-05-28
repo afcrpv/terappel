@@ -13,10 +13,6 @@ fr:
     create: "Nouveau Correspondant"
     edit: "Modification correspondant: %{id}"
     update: "Modification correspondant: %{id}"
-  flash:
-    create: "Le %{resource} %{id} a été créé."
-    update: "Le %{resource} %{id} a été mis à jour."
-    destroy: "Le %{resource} %{id} a été détruit."
   shared:
     action_links:
       show: "Détails"
