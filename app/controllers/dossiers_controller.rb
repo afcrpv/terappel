@@ -126,8 +126,10 @@ class DossiersController < ApplicationController
   end
 
   def dossier_params
-    params.require(:dossier).permit(:date_appel, :centre_id, :user_id, :code, :demandeur_id, :relance_id, :a_relancer, :relance_counter, :correspondant_nom, :categoriesp_id,
+    params.require(:dossier).permit(:date_appel, :centre_id, :user_id, :code, :a_relancer, :relance_counter, :categoriesp_id,
       :motif_id, :modaccouch, :date_dernieres_regles, :date_reelle_accouchement, :date_accouchement_prevu, :date_debut_grossesse, :date_recueil_evol, :name, :prenom, :age, :antecedents_perso, :antecedents_fam, :ass_med_proc, :expo_terato, :tabac, :alcool, :fcs, :geu, :miu, :ivg, :img, :nai, :grsant, :age_grossesse, :terme, :path_mat, :comm_antecedents_perso, :comm_antecedents_fam, :comm_evol, :comm_expo, :commentaire, :toxiques, :date_naissance, :poids, :taille, :folique, :patho1t, :evolution, :imc,
+      demandeur_attributes: [:correspondant_id],
+      relance_attributes: [:correspondant_id],
       expositions_attributes: [:id, :expo_type_id, :expo_nature_id, :produit_id, :indication_id, :voie_id, :dose, :de, :de_date, :a, :a_date, :duree, :de2, :de2_date, :a2, :a2_date, :duree2, :expo_terme_id], bebes_attributes: [:id, :age, :sexe, :poids, :taille, :pc, :apgar1, :apgar5, :malformation, :pathologie, :malformation_tokens, :pathologie_tokens])
   end
 end

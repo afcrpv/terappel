@@ -7,6 +7,18 @@ class DossierPresenter < BasePresenter
     localize_date(dossier.date_recueil)
   end
 
+  def demandeur
+    handle_none dossier.demandeur do
+      dossier.demandeur.correspondant
+    end
+  end
+
+  def relance
+    handle_none dossier.relance do
+      dossier.relance.correspondant
+    end
+  end
+
   def poids
     handle_none dossier.poids do
       "#{dossier.poids} kg"
@@ -26,18 +38,6 @@ class DossierPresenter < BasePresenter
   def imc
     if dossier.poids && dossier.taille
       " (IMC : #{(dossier.poids / (dossier.taille/100.to_f)**2).round})"
-    end
-  end
-
-  def demandeur
-    handle_none dossier.demandeur do
-      dossier.demandeur
-    end
-  end
-
-  def relance
-    handle_none dossier.relance do
-      dossier.relance
     end
   end
 

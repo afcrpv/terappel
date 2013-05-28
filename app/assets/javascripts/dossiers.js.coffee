@@ -8,9 +8,10 @@ $ ->
   $('body').on 'hidden', '#dossier_modal', ->
     $(@).removeData('modal')
 
-  $('body').on 'click', 'show-dossier-modal', (ev) ->
+  $('body').on 'click', '.show-dossier-modal', (ev) ->
     ev.preventDefault()
     dossier_code = $(@).data('dossierCode')
+    console.log dossier_code
     dossier_edit_url = $(@).data('editUrl')
     dossier_print_url = $(@).data('printUrl')
     $($(@).attr('data-target') + " .code").html(dossier_code)

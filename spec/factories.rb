@@ -30,6 +30,18 @@ FactoryGirl.define do
     date_appel Time.now.to_date
     centre
     user
+    demandeur
+    factory :dossier_a_relancer do
+      relance
+    end
+  end
+
+  factory :demandeur do
+    correspondant
+  end
+
+  factory :relance do
+    correspondant
   end
 
   factory :correspondant do

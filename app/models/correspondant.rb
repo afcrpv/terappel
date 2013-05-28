@@ -4,6 +4,9 @@ class Correspondant < ActiveRecord::Base
   belongs_to :formule
   belongs_to :centre
 
+  has_many :demandeurs
+  has_many :relances
+
   validates_presence_of :nom
 
   #callbacks
