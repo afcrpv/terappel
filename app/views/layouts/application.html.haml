@@ -45,26 +45,26 @@
           = render 'layouts/user_nav'
           .pull-right= render 'layouts/search'
 
-  #main_wrap
+  #main_wrap{role: "main"}
     #page_wrap
-      .container
-        .row#page_header
+      .container-fluid
+        .row-fluid#page_header
           %header
             .span8
               %h1#page_title
                 = yield(:title) if show_title?
                 = yield(:page_title)
             .span4
-              - flash && flash.each do |key, value|
-                .flash.alert.fade.in{:class => "alert-#{key}"}
-                  %a.close{"data-dismiss" => "alert"} &times;
-                  %strong= value
+              - flash && flash.each do |name, msg|
+                .flash.alert.fade.in{:class => "alert-#{name}"}
+                  %a.close{"data-dismiss" => "alert", href: "#"} &times;
+                  %strong= msg
 
         = yield
 
     #footer_wrap
-      .container
+      .container-fluid
         %footer#page_footer
-          .row
+          .row-fluid
             .span4.offset8
               Copyright Terappel 2012
