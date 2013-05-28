@@ -1,10 +1,18 @@
 #encoding: utf-8
 class DossierPresenter < BasePresenter
   presents :dossier
-  delegate :code, :name, :motif_code, :motif_name, :categoriesp, :commentaire, to: :dossier
+  delegate :code, :name, :motif_code, :motif_name, :categoriesp, :a_relancer, to: :dossier
+
+  def commentaire(parse=true)
+    parse ? simple_format(dossier.commentaire) : dossier.commentaire
+  end
 
   def date_appel
     localize_date(dossier.date_recueil)
+  end
+
+  def date_recueil_evol
+    localize_date(dossier.date_recueil_evol)
   end
 
   def demandeur
@@ -139,17 +147,35 @@ class DossierPresenter < BasePresenter
     end
   end
 
-  def age
-    handle_none dossier.age do
-      dossier.age.to_s + " ans"
-    end
+  def patiente
+    dossier.patiente_fullname
   end
 
-  def patiente
-    handle_none dossier.patiente_fullname do
-      dossier.patiente_fullname
-    end
+  def patient_data
+    [age, poids_taille_imc].compact.join(", ")
   end
+
+  def age
+    value_with_unit dossier.age, "ans"
+  end
+
+  def poids
+    value_with_unit dossier.poids, "kg"
+  end
+
+  def taille
+    value_with_unit dossier.taille, "cm"
+  end
+
+  def imc
+    dossier.imc if dossier.imc
+  end
+
+  def poids_taille_imc
+    result = [poids, taille].join(" x ")
+    result << " (IMC #{imc})" if imc
+  end
+
 
   %w(appel dernieres_regles debut_grossesse accouchement_prevu reelle_accouchement recueil_evol).each do |date|
     method_name = "date_#{date}"
@@ -166,27 +192,17 @@ class DossierPresenter < BasePresenter
     end
   end
 
-  %w(expositions bebes).each do |name|
-    define_method "#{name}_table" do |fields|
-      association = dossier.send(name)
-      if association.any?
-        rows = []
-        association.each do |assoc|
-          cells = []
-          fields.each do |field|
-            value = assoc.send(field) || " - "
-            cells.push content_tag(:td, value.to_s)
-          end
-          rows.push content_tag(:tr, cells.join("\n").html_safe)
-        end
-        rows.join("\n").html_safe
-      end
-    end
-  end
-
   def expositions
     handle_none dossier.produits_names, "Aucune" do
       twipsy dossier.produits_names
+    end
+  end
+
+  private
+
+  def value_with_unit(value, unit)
+    if value.present?
+      "#{value} #{unit}"
     end
   end
 end
