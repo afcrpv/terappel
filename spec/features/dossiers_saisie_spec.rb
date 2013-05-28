@@ -59,6 +59,7 @@ feature "Dossiers saisie" do
       within ".modal-footer" do
         click_link "Enregistrer"
       end
+      sleep 3
       find("#dossier_demandeur_id_field").should have_content "test1 test - spec1 - 69005 - Lyon"
     end
 
@@ -105,7 +106,7 @@ feature "Dossiers saisie" do
         fill_in "Code Postal", with: "69005"
         within ".modal-footer" do
           click_link "Enregistrer"
-          sleep 2
+          sleep 4
         end
         find("#dossier_relance_id_field").should have_content "test testone - spec1 - 69005 - Lyon"
         find("#dossier_relance_id_field").find_link("Voir/modifier").click
