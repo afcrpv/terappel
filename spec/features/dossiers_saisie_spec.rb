@@ -22,7 +22,7 @@ feature "Dossiers saisie" do
       choose_autocomplete_result "LY1111002", "#codedossier"
       find_field("codedossier").value.should include("LY1111002")
       page.execute_script("$('.topbar-search').submit()")
-      page.should have_content "Détails du dossier LY1111002"
+      page.should have_content "Modification Dossier LY1111002"
     end
   end
 
@@ -37,13 +37,38 @@ feature "Dossiers saisie" do
       page.should have_content corr.fullname
       page.should_not have_content other_corr.fullname
     end
-    %w(demandeur relance).each do |name|
-      scenario "#{name} can be created/updated from dossier form", js: true, focus: true do
+
+    scenario "demandeur can be created/updated from dossier form", js: true do
+      visit new_dossier_path
+      within "#dossier_demandeur_id_field" do
+        click_link "Ajout"
+      end
+      find("#correspondant_modal").should have_content "Nouveau correspondant"
+      fill_in "correspondant_nom", with: "test test"
+      select "spec1", from: "Spécialité"
+      fill_in "Ville", with: "Lyon"
+      fill_in "Code Postal", with: "69005"
+      within ".modal-footer" do
+        click_link "Enregistrer"
+        sleep 2
+      end
+      find("#dossier_demandeur_id_field").should have_content "test test - spec1 - 69005 - Lyon"
+      find("#dossier_demandeur_id_field").find_link("Voir/modifier").click
+      find("#correspondant_modal").should have_content "test test - spec1 - 69005 - Lyon"
+      fill_in "correspondant_nom", with: "test1 test"
+      within ".modal-footer" do
+        click_link "Enregistrer"
+      end
+      find("#dossier_demandeur_id_field").should have_content "test1 test - spec1 - 69005 - Lyon"
+    end
+
+    context "for corr à relancer" do
+      background do
         visit new_dossier_path
-        within "#dossier_#{name}_id_field" do
+        within "#dossier_demandeur_id_field" do
           click_link "Ajout"
         end
-        find("#correspondant_modal").should have_content "Nouveau correspondant"
+        sleep 2
         fill_in "correspondant_nom", with: "test test"
         select "spec1", from: "Spécialité"
         fill_in "Ville", with: "Lyon"
@@ -51,37 +76,46 @@ feature "Dossiers saisie" do
         within ".modal-footer" do
           click_link "Enregistrer"
         end
-        find("#dossier_#{name}_id_field").should have_content "test test - spec1 - 69005 - Lyon"
-        find("#dossier_#{name}_id_field").find_link("Voir/modifier").click
-        find("#correspondant_modal").should have_content "test test - spec1 - 69005 - Lyon"
-        fill_in "correspondant_nom", with: "test1 test"
+        sleep 2
+        select "Oui", from: "Relance"
+        sleep 1
+      end
+
+      scenario "can copy assigned correspondant to corr à relancer", js: true do
+        within "#relance" do
+          click_button "Oui"
+        end
+        find("#dossier_relance_id_field").visible?.should be_true
+        within "#dossier_relance_id_field" do
+          page.should have_content "test test - spec1 - 69005 - Lyon"
+        end
+      end
+
+      scenario "can create new corr à relancer", js: true do
+        within "#relance" do
+          click_button "Non"
+        end
+        within "#dossier_relance_id_field" do
+          click_link "Ajout"
+        end
+        find("#correspondant_modal").should have_content "Nouveau correspondant"
+        fill_in "correspondant_nom", with: "test testone"
+        select "spec1", from: "Spécialité"
+        fill_in "Ville", with: "Lyon"
+        fill_in "Code Postal", with: "69005"
         within ".modal-footer" do
           click_link "Enregistrer"
+          sleep 2
         end
-        find("#dossier_#{name}_id_field").should have_content "test1 test - spec1 - 69005 - Lyon"
-      end
-    end
-    scenario "can copy assigned correspondant to corr à relancer", js: true do
-      visit new_dossier_path
-      within "#dossier_demandeur_id_field" do
-        click_link "Ajout"
-      end
-      sleep 2
-      fill_in "correspondant_nom", with: "test test"
-      select "spec1", from: "Spécialité"
-      fill_in "Ville", with: "Lyon"
-      fill_in "Code Postal", with: "69005"
-      within ".modal-footer" do
-        click_link "Enregistrer"
-      end
-      sleep 2
-      select "Oui", from: "Relance"
-      sleep 1
-      within "#relance" do
-        click_button "Oui"
-      end
-      within "#dossier_relance_id_field" do
-        page.should have_content "test test - spec1 - 69005 - Lyon"
+        find("#dossier_relance_id_field").should have_content "test testone - spec1 - 69005 - Lyon"
+        find("#dossier_relance_id_field").find_link("Voir/modifier").click
+        find("#correspondant_modal").should have_content "test testone - spec1 - 69005 - Lyon"
+        fill_in "correspondant_nom", with: "test1 testone"
+        within ".modal-footer" do
+          click_link "Enregistrer"
+          sleep 2
+        end
+        find("#dossier_relance_id_field").should have_content "test1 testone - spec1 - 69005 - Lyon"
       end
     end
   end

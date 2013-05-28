@@ -13,7 +13,7 @@
   = f.simple_fields_for :demandeur do |demandeur|
     .span6
       .control-group
-        = demandeur.label :correspondant_id
+        = demandeur.label :correspondant_id, "Correspondant initial"
         .controls
           = demandeur.hidden_field :correspondant_id, class: "input-xxlarge", data: {placeholder: "Choisir un correspondant",
             load: demandeur.object.correspondant.try(:fullname_and_id).to_json, source: correspondants_url(format: :json)}
@@ -44,7 +44,7 @@
   = f.simple_fields_for :relance do |relance|
     .span6
       .control-group
-        = relance.label :correspondant_id
+        = relance.label :correspondant_id, "Correspondant à relancer"
         .controls
           = relance.hidden_field :correspondant_id, class: "input-xxlarge", data: {placeholder: "Choisir une personne",
             load: relance.object.correspondant.try(:fullname_and_id).to_json, source: correspondants_url(format: :json)}

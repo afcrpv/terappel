@@ -5,8 +5,20 @@
 $ = jQuery
 
 $ ->
-  $('body').on 'hidden', '.modal', ->
+  $('body').on 'hidden', '#dossier_modal', ->
     $(@).removeData('modal')
+
+  $('body').on 'click', 'show-dossier-modal', (ev) ->
+    ev.preventDefault()
+    dossier_code = $(@).data('dossierCode')
+    dossier_edit_url = $(@).data('editUrl')
+    dossier_print_url = $(@).data('printUrl')
+    $($(@).attr('data-target') + " .code").html(dossier_code)
+    $($(@).attr('data-target') + " .edit-dossier").attr("href", dossier_edit_url)
+    $($(@).attr('data-target') + " .print-dossier").attr("href", dossier_print_url)
+    $($(@).attr('data-target') + " .modal-body").load $(@).attr('href'), ->
+      $($(@).attr('data-target')).modal('show')
+
   disableSubmitWithEnter()
 
   $(".combobox").select2()
@@ -74,24 +86,28 @@ $ ->
 
   #### Correspondant ####
   for name in ["demandeur", "relance"]
-    $("#dossier_#{name}_id").attach_correspondant_select2(name)
+    $("#dossier_#{name}_attributes_correspondant_id").attach_correspondant_select2(name)
     $("#dossier_#{name}_id_field").remoteCorrespondantForm
       typeCorrespondant: name
 
-    correspondant_id = $("#dossier_#{name}_id").val()
+    correspondant_id = $("#dossier_#{name}_attributes_correspondant_id").val()
     activateCorrespondantEdit(correspondant_id, name)
 
   # relance
-  showNextif $("#dossier_relance_id").val()?, $("#dossier_relance_id"), $("#dossier_relance_id_field")
+  showNextif ($("#dossier_relance_attributes_correspondant_id").val() isnt ""), $("#dossier_relance_attributes_correspondant_id"), $("#dossier_relance_id_field")
 
   $("#dossier_a_relancer").on "change", ->
     $("#relance").modal("show") if @value is "Oui"
 
+  $('body').on 'hidden', '#relance', ->
+    $("#dossier_relance_id_field").show()
+
   $(".copy-correspondant").on "click", ->
-    demandeur = $("#dossier_demandeur_id").select2("data")
-    $relance = $("#dossier_relance_id")
-    $relance.select2("data", {id: demandeur["id"], text: demandeur["text"]})
-    activateCorrespondantEdit($relance.val(), "relance")
+    demandeur = $("#dossier_demandeur_attributes_correspondant_id").select2("data")
+    if demandeur
+      $relance = $("#dossier_relance_attributes_correspondant_id")
+      $relance.select2("data", {id: demandeur["id"], text: demandeur["text"]})
+      activateCorrespondantEdit($relance.val(), "relance")
 
 # functions & jQuery plugins
 
@@ -135,7 +151,7 @@ $.widget "terappel.remoteCorrespondantForm",
       @_bindModalOpening e, $(e.target).attr("href")
 
     @element.find(".corr_update").unbind().bind "click", (e) =>
-      if (value = $("#dossier_#{@options["typeCorrespondant"]}_id").val())
+      if (value = $("#dossier_#{@options["typeCorrespondant"]}_attributes_correspondant_id").val())
         @_bindModalOpening e, $(e.target).attr("href").replace('__ID__', value)
       else
         e.preventDefault()
@@ -181,7 +197,7 @@ $.widget "terappel.remoteCorrespondantForm",
         $edit_correspondant_btn = $("#dossier_#{@options["typeCorrespondant"]}_id_field .corr_update")
         $edit_correspondant_btn.attr("href", "/correspondants/#{correspondant_id}/edit")
         $edit_correspondant_btn.show()
-        $select = @element.find("#dossier_#{@options["typeCorrespondant"]}_id")
+        $select = @element.find("#dossier_#{@options["typeCorrespondant"]}_attributes_correspondant_id")
         $select.select2("data", {id: correspondant_id, text: correspondant_label})
         @_trigger("success")
         dialog.modal("hide")
