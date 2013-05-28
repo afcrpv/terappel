@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130528112726) do
+ActiveRecord::Schema.define(version: 20130528120649) do
 
   create_table "active_admin_comments", force: true do |t|
     t.integer  "resource_id",   null: false
@@ -225,7 +225,7 @@ ActiveRecord::Schema.define(version: 20130528112726) do
     t.string   "path_mat"
     t.integer  "tabac"
     t.integer  "alcool"
-    t.integer  "a_relancer"
+    t.string   "a_relancer"
     t.integer  "fcs"
     t.integer  "geu"
     t.integer  "miu"
