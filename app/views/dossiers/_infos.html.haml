@@ -28,7 +28,7 @@
           title: "Modifier correspondant", class: "btn corr_update"
 
   .span2
-  = f.input :a_relancer, collection: %w(Oui Non), input_html: {class: "input-mini"}
+    = f.input :a_relancer, collection: %w(Oui Non), input_html: {class: "input-mini"}
 
   #relance.modal.hide.fade{tabindex: "-1", role: "dialog", aria: {labelledby: "relance-modal", hidden: "true"}}
     .modal-header
