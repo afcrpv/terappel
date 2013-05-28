@@ -39,7 +39,7 @@ fr:
         evolution: "Issue de la grossesse"
         modaccouch: "Modalité accouchement"
         terme: "Terme (SA)"
-        date_reelle_accouchement: "Date"
+        date_reelle_accouchement: "Date accouchement"
         date_recueil_evol: "Date de recueil de l'évolution"
       exposition:
         expo_type: "Type"
