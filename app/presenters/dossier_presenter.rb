@@ -1,7 +1,7 @@
 #encoding: utf-8
 class DossierPresenter < BasePresenter
   presents :dossier
-  delegate :motif_name, :categoriesp, :commentaire, to: :dossier
+  delegate :code, :name, :motif_code, :motif_name, :categoriesp, :commentaire, to: :dossier
 
   def date_appel
     localize_date(dossier.date_recueil)
@@ -32,6 +32,12 @@ class DossierPresenter < BasePresenter
   def demandeur
     handle_none dossier.demandeur do
       dossier.demandeur
+    end
+  end
+
+  def relance
+    handle_none dossier.relance do
+      dossier.relance
     end
   end
 
