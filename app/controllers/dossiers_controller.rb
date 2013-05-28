@@ -56,6 +56,8 @@ class DossiersController < ApplicationController
   end
 
   def edit
+    @dossier.build_demandeur
+    @dossier.build_relance
     respond_with @dossier
   end
 
