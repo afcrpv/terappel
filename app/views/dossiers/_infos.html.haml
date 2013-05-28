@@ -10,47 +10,52 @@
     = f.input :expo_terato, as: :select, collection: Dossier::ONI, input_html: {class: "input-mini"}
 
 .row-fluid#dossier_demandeur_id_field
-  .span6
-    .control-group
-      = f.label :demandeur_id
-      .controls
-        = f.hidden_field :demandeur_id, class: "input-xxlarge", data: {placeholder: "Choisir un correspondant",
-          load: f.object.demandeur.try(:fullname_and_id).to_json, source: correspondants_url(format: :json)}
-  .span4
-    %label &nbsp;
-    .btn-group
-      = link_to content_tag(:i, nil, class: "icon-plus") + "Ajout", new_correspondant_path(modal: true),
-        data: {target: "#correspondant_modal", toggle: "modal"}, title: "Nouveau correspondant", class: "btn corr_create"
-      = link_to content_tag(:i, nil, class: "icon-pencil") + "Voir/modifier",
-        edit_correspondant_path(id: "__ID__", modal: true), data: {target: "#correspondant_modal", toggle: "modal"},
-        title: "Modifier correspondant", class: "btn corr_update"
+  = f.simple_fields_for :demandeur do |demandeur|
+    .span6
+      .control-group
+        = demandeur.label :correspondant_id
+        .controls
+          = demandeur.hidden_field :correspondant_id, class: "input-xxlarge", data: {placeholder: "Choisir un correspondant",
+            load: demandeur.object.correspondant.try(:fullname_and_id).to_json, source: correspondants_url(format: :json)}
+
+    .span4
+      %label &nbsp;
+      .btn-group
+        = link_to content_tag(:i, nil, class: "icon-plus") + "Ajout", new_correspondant_path(modal: true),
+          data: {target: "#correspondant_modal", toggle: "modal"}, title: "Nouveau correspondant", class: "btn corr_create"
+        = link_to content_tag(:i, nil, class: "icon-pencil") + "Voir/modifier",
+          edit_correspondant_path(id: "__ID__", modal: true), data: {target: "#correspondant_modal", toggle: "modal"},
+          title: "Modifier correspondant", class: "btn corr_update"
+
   .span2
-    = f.input :a_relancer, collection: %w(Oui Non), input_html: {class: "input-mini"}
-    #relance.modal.hide.fade{tabindex: "-1", role: "dialog", aria: {labelledby: "relance-modal", hidden: "true"}}
-      .modal-header
-        %button.close{type: "button", data: {dismiss: "modal"}, aria: {hidden: "true"}} &times;
-        %h3#relance-modal Relance
-      .modal-body
-        %p Le correspondant est-il le même que la personne à relancer ?
-      .modal-footer
-        %button.btn.btn-primary.copy-correspondant{data: {dismiss: "modal"}} Oui
-        %button.btn{data: {dismiss: "modal"}} Non
+  = f.input :a_relancer, collection: %w(Oui Non), input_html: {class: "input-mini"}
+
+  #relance.modal.hide.fade{tabindex: "-1", role: "dialog", aria: {labelledby: "relance-modal", hidden: "true"}}
+    .modal-header
+      %button.close{type: "button", data: {dismiss: "modal"}, aria: {hidden: "true"}} &times;
+      %h3#relance-modal Relance
+    .modal-body
+      %p Le correspondant est-il le même que la personne à relancer ?
+    .modal-footer
+      %button.btn.btn-primary.copy-correspondant{data: {dismiss: "modal"}} Oui
+      %button.btn{data: {dismiss: "modal"}} Non
 
 .row-fluid#dossier_relance_id_field
-  .span6
-    .control-group
-      = f.label :relance_id
-      .controls
-        = f.hidden_field :relance_id, class: "input-xxlarge", data: {placeholder: "Choisir une personne",
-          load: f.object.relance.try(:fullname_and_id).to_json, source: correspondants_url(format: :json)}
-  .span4
-    %label &nbsp;
-    .btn-group
-      = link_to content_tag(:i, nil, class: "icon-plus") + "Ajout", new_correspondant_path(modal: true),
-        data: {target: "#correspondant_modal", toggle: "modal"}, title: "Nouveau correspondant", class: "btn corr_create"
-      = link_to content_tag(:i, nil, class: "icon-pencil") + "Voir/modifier",
-        edit_correspondant_path(id: "__ID__", modal: true), data: {target: "#correspondant_modal", toggle: "modal"},
-        title: "Modifier correspondant", class: "btn corr_update"
+  = f.simple_fields_for :relance do |relance|
+    .span6
+      .control-group
+        = relance.label :correspondant_id
+        .controls
+          = relance.hidden_field :correspondant_id, class: "input-xxlarge", data: {placeholder: "Choisir une personne",
+            load: relance.object.correspondant.try(:fullname_and_id).to_json, source: correspondants_url(format: :json)}
+    .span4
+      %label &nbsp;
+      .btn-group
+        = link_to content_tag(:i, nil, class: "icon-plus") + "Ajout", new_correspondant_path(modal: true),
+          data: {target: "#correspondant_modal", toggle: "modal"}, title: "Nouveau correspondant", class: "btn corr_create"
+        = link_to content_tag(:i, nil, class: "icon-pencil") + "Voir/modifier",
+          edit_correspondant_path(id: "__ID__", modal: true), data: {target: "#correspondant_modal", toggle: "modal"},
+          title: "Modifier correspondant", class: "btn corr_update"
 
 .row-fluid
   .span2

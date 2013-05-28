@@ -1,3 +1,4 @@
-class Relance < Correspondant
-  has_many :dossiers
+class Relance < ActiveRecord::Base
+  belongs_to :dossier
+  belongs_to :correspondant
 end

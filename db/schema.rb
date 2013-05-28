@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130524135150) do
+ActiveRecord::Schema.define(version: 20130528090225) do
 
   create_table "active_admin_comments", force: true do |t|
     t.integer  "resource_id",   null: false
@@ -191,6 +191,16 @@ ActiveRecord::Schema.define(version: 20130524135150) do
   add_index "correspondants", ["specialite_id"], name: "index_correspondants_on_specialite_id", using: :btree
   add_index "correspondants", ["ville"], name: "index_correspondants_on_ville", using: :btree
 
+  create_table "demandeurs", force: true do |t|
+    t.integer  "dossier_id"
+    t.integer  "correspondant_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "demandeurs", ["correspondant_id"], name: "index_demandeurs_on_correspondant_id", using: :btree
+  add_index "demandeurs", ["dossier_id"], name: "index_demandeurs_on_dossier_id", using: :btree
+
   create_table "dossiers", force: true do |t|
     t.date     "date_appel"
     t.string   "name"
@@ -200,7 +210,6 @@ ActiveRecord::Schema.define(version: 20130524135150) do
     t.integer  "centre_id"
     t.string   "code"
     t.integer  "evolution_id"
-    t.integer  "demandeur_id"
     t.integer  "categoriesp_id"
     t.integer  "motif_id"
     t.string   "modaccouch"
@@ -242,20 +251,17 @@ ActiveRecord::Schema.define(version: 20130524135150) do
     t.integer  "patho1t"
     t.integer  "evolution"
     t.date     "date_recueil_evol"
-    t.integer  "relance_id"
     t.integer  "imc"
   end
 
   add_index "dossiers", ["categoriesp_id"], name: "index_dossiers_on_categoriesp_id", using: :btree
   add_index "dossiers", ["code"], name: "index_dossiers_on_code", unique: true, using: :btree
   add_index "dossiers", ["date_appel"], name: "index_dossiers_on_date_appel", using: :btree
-  add_index "dossiers", ["demandeur_id"], name: "index_dossiers_on_demandeur_id", using: :btree
   add_index "dossiers", ["evolution_id"], name: "index_dossiers_on_evolution_id", using: :btree
   add_index "dossiers", ["expo_terato"], name: "index_dossiers_on_expo_terato", using: :btree
   add_index "dossiers", ["modaccouch"], name: "index_dossiers_on_mod_accouch_id", using: :btree
   add_index "dossiers", ["motif_id"], name: "index_dossiers_on_motif_id", using: :btree
   add_index "dossiers", ["name"], name: "index_dossiers_on_name", using: :btree
-  add_index "dossiers", ["relance_id"], name: "index_dossiers_on_relance_id", using: :btree
 
   create_table "editorials", force: true do |t|
     t.text     "titre"
@@ -393,6 +399,16 @@ ActiveRecord::Schema.define(version: 20130524135150) do
     t.integer "revue_id"
     t.integer "author_id"
   end
+
+  create_table "relances", force: true do |t|
+    t.integer  "dossier_id"
+    t.integer  "correspondant_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "relances", ["correspondant_id"], name: "index_relances_on_correspondant_id", using: :btree
+  add_index "relances", ["dossier_id"], name: "index_relances_on_dossier_id", using: :btree
 
   create_table "revues", force: true do |t|
     t.integer  "numero"

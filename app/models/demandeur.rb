@@ -1,3 +1,4 @@
-class Demandeur < Correspondant
-  has_many :dossiers
+class Demandeur < ActiveRecord::Base
+  belongs_to :dossier
+  belongs_to :correspondant
 end

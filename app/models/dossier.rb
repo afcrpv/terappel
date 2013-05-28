@@ -15,8 +15,10 @@ class Dossier < ActiveRecord::Base
   belongs_to :centre
   belongs_to :user
   belongs_to :motif
-  belongs_to :demandeur
-  belongs_to :relance
+  has_one :demandeur
+  accepts_nested_attributes_for :demandeur, reject_if: :all_blank
+  has_one :relance
+  accepts_nested_attributes_for :relance, reject_if: :all_blank
   belongs_to :categoriesp
 
   has_many :produits, through: :expositions

@@ -1,5 +1,6 @@
 class DossiersController < ApplicationController
   respond_to :html
+  respond_to :pdf, only: :show
   respond_to :json, only: [:produits, :indications]
 
   before_action :set_centre
@@ -23,11 +24,22 @@ class DossiersController < ApplicationController
   end
 
   def show
-    respond_with @dossier
+    respond_with @dossier do |format|
+      format.html {render layout: false}
+      format.pdf do
+        dossier = dossier_present(@dossier)
+        pdf = DossierPdf.new(dossier, view_context)
+        send_data pdf.render, filename: "dossier_#{dossier.code}.pdf",
+                              type: "application/pdf",
+                              disposition: "inline"
+      end
+    end
   end
 
   def new
     @dossier = Dossier.new(code: params[:code], centre_id: current_user.centre_id)
+    @dossier.build_demandeur
+    @dossier.build_relance
     respond_with @dossier
   end
 
@@ -66,6 +78,10 @@ class DossiersController < ApplicationController
   end
 
   private
+
+  def interpolation_options
+    { resource_name: "Le dossier #{@dossier.code}" }
+  end
 
   def set_centre
     @centre = current_user.centre
@@ -108,7 +124,7 @@ class DossiersController < ApplicationController
   end
 
   def dossier_params
-    params.require(:dossier).permit(:date_appel, :centre_id, :user_id, :code, :correspondant_id, :a_relancer, :relance_counter, :correspondant_nom, :categoriesp_id,
+    params.require(:dossier).permit(:date_appel, :centre_id, :user_id, :code, :demandeur_id, :relance_id, :a_relancer, :relance_counter, :correspondant_nom, :categoriesp_id,
       :motif_id, :modaccouch, :date_dernieres_regles, :date_reelle_accouchement, :date_accouchement_prevu, :date_debut_grossesse, :date_recueil_evol, :name, :prenom, :age, :antecedents_perso, :antecedents_fam, :ass_med_proc, :expo_terato, :tabac, :alcool, :fcs, :geu, :miu, :ivg, :img, :nai, :grsant, :age_grossesse, :terme, :path_mat, :comm_antecedents_perso, :comm_antecedents_fam, :comm_evol, :comm_expo, :commentaire, :toxiques, :date_naissance, :poids, :taille, :folique, :patho1t, :evolution, :imc,
       expositions_attributes: [:id, :expo_type_id, :expo_nature_id, :produit_id, :indication_id, :voie_id, :dose, :de, :de_date, :a, :a_date, :duree, :de2, :de2_date, :a2, :a2_date, :duree2, :expo_terme_id], bebes_attributes: [:id, :age, :sexe, :poids, :taille, :pc, :apgar1, :apgar5, :malformation, :pathologie, :malformation_tokens, :pathologie_tokens])
   end
