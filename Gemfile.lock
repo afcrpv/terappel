@@ -6,10 +6,10 @@ GIT
 
 GIT
   remote: git://github.com/argerim/select2-rails.git
-  revision: f63fcee53b24643a882b9c93a7e4639925c606d5
+  revision: 4b4ed77f9888522f966b652d3864c1657d380333
   specs:
-    select2-rails (3.3.2)
-      sass-rails (>= 3.2)
+    select2-rails (3.4.1)
+      sass-rails
       thor (~> 0.14)
 
 GIT
@@ -72,7 +72,7 @@ GIT
 
 GIT
   remote: git://github.com/plataformatec/devise.git
-  revision: 4e2cdc2d5b812c2df1a60a2510f149c84cae3cf9
+  revision: 486dc6588431494b98e523dcd1c4419a1e9bf028
   specs:
     devise (3.0.0.rc)
       bcrypt-ruby (~> 3.0)
@@ -82,7 +82,7 @@ GIT
 
 GIT
   remote: git://github.com/plataformatec/simple_form.git
-  revision: 1ad1f9f895e69f91248fe96457bf6afa9bedb4dd
+  revision: d75963307f3a9aa7884cff8d5ad228f65e94d343
   specs:
     simple_form (3.0.0.rc)
       actionpack (>= 4.0.0.rc1, < 4.1)
@@ -90,16 +90,16 @@ GIT
 
 GIT
   remote: git://github.com/stefankroes/ancestry.git
-  revision: 6d09564d31b6fe14b38c6d269471a20109da92c7
+  revision: e8a25365d692368cc53862f256a3946bf8620940
   specs:
-    ancestry (2.0.0.rc1)
+    ancestry (2.0.0)
       activerecord (>= 3.0.0)
 
 GIT
   remote: git://github.com/thomas-mcdonald/bootstrap-sass.git
-  revision: 0e70e17705d7de55c64f350f98801330ce5d46c4
+  revision: 41602a4c13ee344ba3d09236172878654dcff148
   specs:
-    bootstrap-sass (2.3.1.1)
+    bootstrap-sass (2.3.1.2)
       sass (~> 3.2)
 
 GIT
@@ -164,7 +164,7 @@ GEM
       sass (~> 3.1)
     csv_builder (2.1.1)
       actionpack (>= 3.0.0)
-    cucumber (1.3.1)
+    cucumber (1.3.2)
       builder (>= 2.1.2)
       diff-lcs (>= 1.1.3)
       gherkin (~> 2.12.0)
@@ -200,15 +200,16 @@ GEM
       lumberjack (>= 1.0.2)
       pry (>= 0.9.10)
       thor (>= 0.14.6)
-    guard-jasmine (1.15.1)
+    guard-jasmine (1.16.0)
       childprocess
       guard (>= 1.1.0)
       multi_json
       thor
+      tilt
     guard-rspec (2.1.2)
       guard (>= 1.1)
       rspec (~> 2.11)
-    haml (4.0.2)
+    haml (4.0.3)
       tilt
     haml-rails (0.4)
       actionpack (>= 3.1, < 4.1)
@@ -233,7 +234,7 @@ GEM
     kgio (2.8.0)
     launchy (2.3.0)
       addressable (~> 2.3)
-    listen (1.1.0)
+    listen (1.1.3)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
       rb-kqueue (>= 0.2)
@@ -244,7 +245,7 @@ GEM
     method_source (0.8.1)
     mime-types (1.23)
     minitest (4.7.4)
-    multi_json (1.7.3)
+    multi_json (1.7.4)
     newrelic_rpm (3.6.2.96)
     nokogiri (1.5.9)
     orm_adapter (0.4.0)
@@ -283,6 +284,7 @@ GEM
       ffi (>= 0.5.0)
     rdoc (3.12.2)
       json (~> 1.4)
+    responders (0.6.5)
     rspec (2.13.0)
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
@@ -291,7 +293,7 @@ GEM
     rspec-expectations (2.13.0)
       diff-lcs (>= 1.1.3, < 2.0)
     rspec-mocks (2.13.1)
-    rspec-rails (2.13.1)
+    rspec-rails (2.13.2)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       railties (>= 3.0)
@@ -311,8 +313,8 @@ GEM
       multi_json (~> 1.0)
       simplecov-html (~> 0.7.1)
     simplecov-html (0.7.1)
-    slop (3.4.4)
-    sprockets (2.9.3)
+    slop (3.4.5)
+    sprockets (2.10.0)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
@@ -332,7 +334,7 @@ GEM
     turbolinks (1.1.1)
       coffee-rails
     tzinfo (0.3.37)
-    uglifier (2.1.0)
+    uglifier (2.1.1)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
     unicorn (4.6.2)
@@ -381,6 +383,7 @@ DEPENDENCIES
   rails3_serve_static_assets!
   rails_log_stdout!
   rb-fsevent
+  responders
   rolify!
   rspec-rails
   sass-rails (~> 4.0.0.rc1)

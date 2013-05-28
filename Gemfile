@@ -65,6 +65,7 @@ gem 'jstree-rails', github: "tristanm/jstree-rails"
 #gem 'rails_admin', github: "sferik/rails_admin"
 gem 'csv_builder'
 gem 'haml-rails'
+gem 'responders'
 
 group :test, :development do
   gem "rspec-rails"
