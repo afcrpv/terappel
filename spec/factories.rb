@@ -25,9 +25,9 @@ FactoryGirl.define do
   factory :dossier do
     sequence(:code) { |n| "dossier#{n}"}
     sequence(:name) { |n| "name#{n}"}
-    expo_terato "Oui"
-    a_relancer 1
     date_appel Time.now.to_date
+    expo_terato "Oui"
+    a_relancer "Oui"
     centre
     user
     demandeur

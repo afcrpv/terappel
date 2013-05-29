@@ -1,7 +1,7 @@
 #encoding: utf-8
 class Dossier < ActiveRecord::Base
   # Constants
-  ONI = [["Oui", "0"], ["Non", "1"], ["NSP", "2"]]
+  ONI = %w(Oui Non NSP)
   TABAC = [["Non", "0"], ["0 à 5 cig/j", "1"], ["5 à 10 cig/j", "2"], ["Sup. à 10 cig/j", "3"], ["NSP", "4"]]
   ALCOOL = [["Non", "0"], ["Occasionnel (<= 2 verres/j)", "1"], ["Fréquent (> 2 verres/j)", "2"], ["NSP", "3"]]
   MODACCOUCH = [["V-b spontanée", "0"], ["V-b instrumentale", "1"], ["Césarienne", "2"], ["Inconnue", "3"]]

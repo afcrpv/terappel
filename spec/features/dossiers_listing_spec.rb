@@ -17,4 +17,20 @@ feature "Dossiers listing" do
     click_link "Modifier le dossier LY1111002"
     page.should have_content "Modification Dossier LY1111002"
   end
+
+  scenario "export dossiers to excel" do
+    pending "implement me!"
+  end
+
+  scenario "export dossiers to pdf" do
+    pending "implement me!"
+  end
+
+  scenario "access dossier pdf" do
+    pending "implement me!"
+  end
+
+  scenario "access dossier fiche dense" do
+    pending "implement me!"
+  end
 end

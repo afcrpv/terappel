@@ -3,6 +3,11 @@ class DossiersController < ApplicationController
   respond_to :pdf, only: :show
   respond_to :json, only: [:produits, :indications]
 
+  rescue_from CanCan::Unauthorized do |exception|
+    Rails.logger.debug "Access denied on #{exception.action} #{exception.subject.inspect}"
+    redirect_to dossiers_url, alert: "Vous ne pouvez pas modifier un dossier n'appartenant pas à votre CRPV !"# exception.message
+  end
+
   before_action :set_centre
   before_action :set_dossier, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource :dossier
@@ -40,17 +45,18 @@ class DossiersController < ApplicationController
     @dossier = Dossier.new(code: params[:code], centre_id: current_user.centre_id)
     @dossier.build_demandeur
     @dossier.build_relance
+
     respond_with @dossier
   end
 
   def create
-    @dossier = Dossier.new(dossier_params)
+    @dossier = Dossier.create(dossier_params)
     if params[:_continue]
       location = edit_dossier_path(@dossier)
     elsif params[:_add_another]
       location = new_dossier_path
     else
-      location = @dossier
+      location = dossiers_url
     end
     respond_with @dossier, location: location
   end
@@ -62,27 +68,27 @@ class DossiersController < ApplicationController
   end
 
   def update
-    flash[:notice] = "Dossier #{@dossier.code} mis à jour avec succès." if @dossier.update(dossier_params)
+    @dossier.update(dossier_params)
     if params[:_continue]
       location = edit_dossier_path(@dossier)
     elsif params[:_add_another]
       location = new_dossier_path
     else
-      location = @dossier
+      location = dossiers_url
     end
+    @dossier.update(dossier_params)
     respond_with @dossier, location: location
   end
 
   def destroy
     @dossier.destroy
-    flash[:notice] = "Dossier #{@dossier.code} détruit avec succès."
     respond_with @dossier, location: dossiers_path
   end
 
   private
 
   def interpolation_options
-    { resource_name: "Le dossier #{@dossier.code}" }
+    { resource_name: "Dossier #{@dossier.code}" }
   end
 
   def set_centre
