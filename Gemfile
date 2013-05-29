@@ -27,7 +27,6 @@ group :doc do
 end
 
 gem "jquery-ui-rails"
-#gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
 gem 'select2-rails', github: "argerim/select2-rails"
 
 # Use unicorn as the web server
@@ -55,14 +54,10 @@ gem "ancestry", github: "stefankroes/ancestry"
 gem "cancan", github: "ncri/cancan", branch: "2.0"
 gem "rolify", github: "EppO/rolify"
 gem "cocoon", github: "nathanvda/cocoon"
-#gem "friendly_id", "~> 4.0.1"
-#gem 'draper'
-#gem "ransack"
 
 gem 'jstree-rails', github: "tristanm/jstree-rails"
 #gem 'client_side_validations', github: 'bcardarella/client_side_validations'
 #gem 'client_side_validations-simple_form'
-#gem 'rails_admin', github: "sferik/rails_admin"
 gem 'csv_builder'
 gem 'haml-rails'
 gem 'responders'
