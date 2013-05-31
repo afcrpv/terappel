@@ -8,6 +8,11 @@ $ ->
   $('body').on 'hidden', '#dossier_modal', ->
     $(@).removeData('modal')
 
+  $("[data-field=dossier_#{field}]").focusFieldOnError() for field in ["name", "date_appel", "expo_terato", "a_relancer", "code"]
+  $("[data-field=dossier_expositions]").on "click", (e) ->
+    e.preventDefault()
+    $("#tabs a[href='#expositions']").tab("show")
+
   $('body').on 'click', '.show-dossier-modal', (ev) ->
     ev.preventDefault()
     dossier_code = $(@).data('dossierCode')
@@ -226,3 +231,15 @@ $.widget "terappel.remoteCorrespondantForm",
           @dialog.remove()
           @dialog = null
     return @dialog
+
+$.fn.focusFieldOnError = ->
+  @on "click", (e) ->
+    e.preventDefault()
+    field = $(@).data("field")
+    $info_tab = $("#tabs a[href='#infos']")
+    if $info_tab.parent().hasClass("active")
+      $("##{field}").focus()
+    else
+      $info_tab.tab("show")
+      $info_tab.on "shown", ->
+        $("##{field}").focus()

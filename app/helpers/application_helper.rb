@@ -13,8 +13,14 @@ module ApplicationHelper
       title = message.blank? ? "Des erreurs ont été trouvées, vérifiez :" : message
       contents << content_tag(:h4, title)
       errors = ActiveSupport::SafeBuffer.new
-      object.errors.full_messages.each do |error|
-        errors << content_tag(:li, error.html_safe)
+      object.errors.messages.each do |field, message|
+        if field == :base
+          link = link_to("Exposition", "#", data: {field: "dossier_expositions"})
+          errors << content_tag(:li, [message, "dans l'onglet", link].join(" ").html_safe)
+        else
+          link = link_to(object.class.human_attribute_name(field).html_safe, "#", data: {field: "#{object.class.name.downcase}_#{field}"})
+          errors << content_tag(:li, ["le champ", link, message].join(" ").html_safe)
+        end
       end
       contents << content_tag(:ul, errors)
     end
