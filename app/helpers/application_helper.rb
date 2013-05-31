@@ -6,6 +6,30 @@ module ApplicationHelper
     presenter
   end
 
+  def errors_for(object, message=nil)
+    unless object.errors.blank?
+      contents = <<EOF
+<div class="alert alert-error alert-block #{object.class.name.humanize.downcase}-errors">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+EOF
+      title = message.blank? ? "Des erreurs ont été trouvées, vérifiez :" : message
+      contents += <<EOF
+  <h4>#{title}</h4>
+  <ul>
+EOF
+      object.errors.full_messages.each do |error|
+        contents += <<EOF
+    <li>#{error}</li>
+EOF
+      end
+      contents += <<EOF
+  </ul>
+EOF
+      contents << "</div>"
+    end
+    contents.html_safe
+  end
+
   def actions(&block)
     content_tag :nav, class: "action_links" do
       content_tag :ul, &block
