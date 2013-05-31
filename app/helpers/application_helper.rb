@@ -8,26 +8,17 @@ module ApplicationHelper
 
   def errors_for(object, message=nil)
     unless object.errors.blank?
-      contents = <<EOF
-<div class="alert alert-error alert-block #{object.class.name.humanize.downcase}-errors">
-  <button type="button" class="close" data-dismiss="alert">&times;</button>
-EOF
+      contents = ActiveSupport::SafeBuffer.new
+      contents << content_tag(:button, "&times;".html_safe, type: "button", class: "close", data: {dismiss: "alert"})
       title = message.blank? ? "Des erreurs ont été trouvées, vérifiez :" : message
-      contents += <<EOF
-  <h4>#{title}</h4>
-  <ul>
-EOF
+      contents << content_tag(:h4, title)
+      errors = ActiveSupport::SafeBuffer.new
       object.errors.full_messages.each do |error|
-        contents += <<EOF
-    <li>#{error}</li>
-EOF
+        errors << content_tag(:li, error.html_safe)
       end
-      contents += <<EOF
-  </ul>
-EOF
-      contents << "</div>"
+      contents << content_tag(:ul, errors)
     end
-    contents.html_safe
+    content_tag :div, contents, class: "alert alert-error alert-block #{object.class.name.humanize.downcase}-errors"
   end
 
   def actions(&block)
