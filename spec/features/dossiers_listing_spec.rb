@@ -19,7 +19,8 @@ feature "Dossiers listing" do
   end
 
   scenario "export dossiers to excel" do
-    pending "implement me!"
+    visit dossiers_path(format: :xls)
+    page.should have_content("LY1111002")
   end
 
   scenario "export dossiers to pdf" do

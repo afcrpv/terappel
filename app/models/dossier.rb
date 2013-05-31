@@ -6,10 +6,12 @@ class Dossier < ActiveRecord::Base
   ALCOOL = [["Non", "0"], ["Occasionnel (<= 2 verres/j)", "1"], ["Fréquent (> 2 verres/j)", "2"], ["NSP", "3"]]
   MODACCOUCH = [["V-b spontanée", "0"], ["V-b instrumentale", "1"], ["Césarienne", "2"], ["Inconnue", "3"]]
   EVOLUTION = [["GEU", 1], ["FCS", 2], ["IVG", 3], ["IMG", 4], ["MIU", 5], ["NAI", 6], ["INC", 7], ["GNC", 8]]
+  COLUMNS_FOR_CSV = [:code, :date_appel, :motif_code, :produit1, :produit2, :evolution, :malformation, :pathologie ]
 
   # validations
   validates_presence_of :name, :date_appel, :centre_id, :expo_terato, :a_relancer
   validates :code, uniqueness: true, presence: true
+  validate :must_have_produits
 
   #associations
   belongs_to :centre
@@ -33,6 +35,8 @@ class Dossier < ActiveRecord::Base
   delegate :name, to: :categoriesp, prefix: true, allow_nil: true
   delegate :username, to: :user, allow_nil: true
 
+  # methods
+
   def to_param
     code
   end
@@ -52,5 +56,13 @@ class Dossier < ActiveRecord::Base
 
   def code_and_id
     {id: id, text: code}
+  end
+
+  private
+
+  def must_have_produits
+    if expositions.empty? or expositions.all? {|exposition| exposition.marked_for_destruction? }
+      errors.add(:base, "vous devez saisir au moins 1 produit")
+    end
   end
 end

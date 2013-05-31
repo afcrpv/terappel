@@ -1,6 +1,7 @@
 class DossiersController < ApplicationController
   respond_to :html
-  respond_to :pdf, only: :show
+  respond_to :pdf, only: [:show, :index]
+  respond_to :xls, only: [:show, :index]
   respond_to :json, only: [:produits, :indications]
 
   rescue_from CanCan::Unauthorized do |exception|

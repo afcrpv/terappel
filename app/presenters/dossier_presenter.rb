@@ -49,6 +49,14 @@ class DossierPresenter < BasePresenter
     end
   end
 
+  (1..3).each do |i|
+    define_method :"produit#{i}" do
+      handle_none dossier.expositions[i-1] do
+        dossier.expositions[i-1].produit
+      end
+    end
+  end
+
   %w(malformation pathologie).each do |mp|
     define_method mp do
       if dossier.bebes.any?

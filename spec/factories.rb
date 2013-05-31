@@ -31,9 +31,22 @@ FactoryGirl.define do
     centre
     user
     demandeur
+    ignore do
+      produits_count 1
+    end
+
+    before(:create) do |dossier, evaluator|
+      dossier.expositions = create_list(:exposition, evaluator.produits_count, dossier: dossier)
+    end
+
     factory :dossier_a_relancer do
       relance
     end
+  end
+
+  factory :exposition do
+    produit
+    dossier
   end
 
   factory :demandeur do
