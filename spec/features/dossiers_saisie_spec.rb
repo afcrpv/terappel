@@ -19,6 +19,7 @@ feature "Dossiers saisie" do
       click_link("Clickez ici pour le créer")
       page.find('#dossier_code').value.should == "LY1111001"
     end
+
     scenario "opens dossier when code exists", js: true, slow: true do
       fill_in "codedossier", with: "LY1111002"
       choose_autocomplete_result "LY1111002", "#codedossier"
@@ -26,6 +27,20 @@ feature "Dossiers saisie" do
       page.execute_script("$('.topbar-search').submit()")
       page.should have_content "Modification Dossier LY1111002"
     end
+  end
+
+  scenario "navigating form errors", focus: true, js: true do
+    visit new_dossier_path
+    click_button "Enregistrer et continuer"
+    within ".dossier-errors" do
+      click_link "Exposition"
+    end
+    find(".tab-pane#expositions").visible?.should be_true
+    within ".dossier-errors" do
+      click_link "Nom patiente"
+    end
+    find(".tab-pane#infos").visible?.should be_true
+    page.evaluate_script('document.activeElement.id').should == "dossier_name"
   end
 
   scenario "creation" do
@@ -47,7 +62,7 @@ feature "Dossiers saisie" do
     page.should_not have_content("BX1200001")
   end
 
-  scenario "forbid editing other centres dossiers", focus: true do
+  scenario "forbid editing other centres dossiers" do
     visit edit_dossier_path(other_dossier)
     page.should have_content "Vous ne pouvez pas modifier un dossier n'appartenant pas à votre CRPV !"
     current_path.should eq(dossiers_path)
