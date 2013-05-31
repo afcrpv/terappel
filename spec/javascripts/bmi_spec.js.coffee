@@ -7,7 +7,7 @@ describe "Bmi", ->
     expect(bmi.calculate()).toBe(18)
   describe "with its jquery plugin #calculateBMI", ->
     beforeEach ->
-      affix ("input#dossier_#{id}") for id in ["imc", "poids", "taille"]
+      affix("input#dossier_#{id}") for id in ["imc", "poids", "taille"]
       @imc_field = $("#dossier_imc")
       @weight_field = $("#dossier_poids")
       @size_field = $("#dossier_taille")
