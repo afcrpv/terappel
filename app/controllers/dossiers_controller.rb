@@ -26,16 +26,24 @@ class DossiersController < ApplicationController
   end
 
   def index
-    respond_with @dossiers
+    respond_with @dossiers do |format|
+      format.html
+      format.xls
+      format.pdf do
+        pdf = DossiersPdf.new(@dossiers, view_context)
+        send_data pdf.render, filename: "dossiers.pdf",
+                              type: "application/pdf",
+                              disposition: "inline"
+      end
+    end
   end
 
   def show
     respond_with @dossier do |format|
       format.html {render layout: false}
       format.pdf do
-        dossier = dossier_present(@dossier)
-        pdf = DossierPdf.new(dossier, view_context)
-        send_data pdf.render, filename: "dossier_#{dossier.code}.pdf",
+        pdf = DossierPdf.new(@dossier, view_context)
+        send_data pdf.render, filename: "dossier_#{@dossier.code}.pdf",
                               type: "application/pdf",
                               disposition: "inline"
       end
@@ -63,8 +71,8 @@ class DossiersController < ApplicationController
   end
 
   def edit
-    @dossier.build_demandeur
-    @dossier.build_relance
+    @dossier.build_demandeur unless @dossier.demandeur
+    @dossier.build_relance unless @dossier.relance
     respond_with @dossier
   end
 
