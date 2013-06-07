@@ -89,6 +89,16 @@ GIT
       activemodel (>= 4.0.0.rc1, < 4.1)
 
 GIT
+  remote: git://github.com/prawnpdf/prawn.git
+  revision: 8028ca0cd2aae8c72df9fc4bf16388948423bcb2
+  specs:
+    prawn (1.0.0.rc2)
+      afm
+      pdf-reader (~> 1.2)
+      ruby-rc4
+      ttfunk (~> 1.0.3)
+
+GIT
   remote: git://github.com/stefankroes/ancestry.git
   revision: e8a25365d692368cc53862f256a3946bf8620940
   specs:
@@ -112,6 +122,7 @@ GIT
 GEM
   remote: http://rubygems.org/
   specs:
+    Ascii85 (1.0.2)
     actionmailer (4.0.0.rc1)
       actionpack (= 4.0.0.rc1)
       mail (~> 2.5.3)
@@ -137,6 +148,7 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
     addressable (2.3.4)
+    afm (0.2.0)
     arel (4.0.0)
     atomic (1.1.9)
     bcrypt-ruby (3.0.1)
@@ -216,6 +228,7 @@ GEM
       activesupport (>= 3.1, < 4.1)
       haml (>= 3.1, < 4.1)
       railties (>= 3.1, < 4.1)
+    hashery (2.1.0)
     hike (1.2.2)
     http_parser.rb (0.5.3)
     i18n (0.6.4)
@@ -249,6 +262,12 @@ GEM
     newrelic_rpm (3.6.2.96)
     nokogiri (1.5.9)
     orm_adapter (0.4.0)
+    pdf-reader (1.3.3)
+      Ascii85 (~> 1.0.0)
+      afm (~> 0.2.0)
+      hashery (~> 2.0)
+      ruby-rc4
+      ttfunk
     pg (0.15.1)
     polyglot (0.3.3)
     pry (0.9.12.2)
@@ -300,6 +319,7 @@ GEM
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
       rspec-mocks (~> 2.13.0)
+    ruby-rc4 (0.1.5)
     sass (3.2.9)
     sass-rails (4.0.0.rc1)
       railties (>= 4.0.0.beta, < 5.0)
@@ -331,6 +351,7 @@ GEM
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
+    ttfunk (1.0.3)
     turbolinks (1.1.1)
       coffee-rails
     tzinfo (0.3.37)
@@ -377,6 +398,7 @@ DEPENDENCIES
   newrelic_rpm
   pg
   poltergeist!
+  prawn!
   pry-rails
   quiet_assets (>= 1.0.1)
   rails (= 4.0.0.rc1)

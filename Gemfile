@@ -61,6 +61,7 @@ gem 'jstree-rails', github: "tristanm/jstree-rails"
 gem 'csv_builder'
 gem 'haml-rails'
 gem 'responders'
+gem 'prawn', github: "prawnpdf/prawn"
 
 group :test, :development do
   gem "rspec-rails"
