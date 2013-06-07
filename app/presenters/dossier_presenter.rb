@@ -69,15 +69,14 @@ class DossierPresenter < BasePresenter
     end
   end
 
-
   %w(expo_terato ass_med_proc toxiques folique patho1t path_mat).each do |method|
     define_method method do
       handle_none dossier.send(method) do
-        hash = array_to_hash Dossier::ONI
-        hash[dossier.send(method)]
+        dossier.send(method)
       end
     end
   end
+
   %w(modaccouch evolution).each do |method|
     define_method method do
       hash = array_to_hash(Dossier.const_get(method.upcase))
@@ -149,7 +148,7 @@ class DossierPresenter < BasePresenter
       suffix = vice == "tabac" ? " cigarettes/j" : ""
       hash = array_to_hash(const)
       handle_none dossier.send(vice) do
-        suffix = "" if dossier.send(vice) == 0
+        suffix = "" if [0, 4].include? dossier.send(vice)
         hash[dossier.send(vice).to_s] + suffix
       end
     end
@@ -200,9 +199,9 @@ class DossierPresenter < BasePresenter
     end
   end
 
-  def expositions
+  def expositions(parse=true)
     handle_none dossier.produits_names, "Aucune" do
-      twipsy dossier.produits_names
+      parse ? twipsy(dossier.produits_names) : dossier.produits_names
     end
   end
 
