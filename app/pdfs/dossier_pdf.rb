@@ -2,6 +2,7 @@ class DossierPdf < Prawn::Document
   def initialize dossier, view
     super(top_margin: 30)
     @view = view
+    @dossier_object = dossier
     @dossier = view.present(dossier)
     header
 
@@ -9,7 +10,38 @@ class DossierPdf < Prawn::Document
     my_table correspondant, "Correspondant"
     my_table patiente, "Patiente"
     my_table grossesse, "Grossesse en cours"
-    #commentaire
+
+    table_heading "Expositions"
+    font_size 10 do
+      table expositions, position: :center do
+        cells.style do |cell|
+          cell.border_width = 0
+          cell.valign = :center
+        end
+        row(0).borders = [:bottom]
+        row(0).border_width = 1
+        row(0).font_style = :bold
+      end
+    end
+    move_down 10
+
+    my_table evolution, "Evolution"
+
+    table_heading "Nouveau(x) né(s)"
+    font_size 10 do
+      table bebes, position: :center do
+        cells.style do |cell|
+          cell.border_width = 0
+          cell.valign = :center
+        end
+        row(0).borders = [:bottom]
+        row(0).border_width = 1
+        row(0).font_style = :bold
+      end
+    end
+    move_down 10
+
+    commentaire
   end
 
   def header
@@ -23,10 +55,11 @@ class DossierPdf < Prawn::Document
     stroke_horizontal_rule
   end
 
-  def my_table(data, heading)
+  def my_table(data, heading, options={})
+    options = options.merge position: :center, width: 580 unless options.any?
     table_heading heading
     font_size 10 do
-      table data, position: :center, width: 580 do
+      table data, options do
         cells.style do |cell|
           cell.border_width = 0
           cell.valign = :center
@@ -64,76 +97,34 @@ class DossierPdf < Prawn::Document
     ]
   end
 
-  def atcds
-    [
-    ]
-  end
-
   def grossesse
-    [["Age grossesse lors appel : ", @dossier.age_grossesse, "Début grossesse", @dossier.date_debut_grossesse, "Accouchement prévu", @dossier.date_accouchement_prevu]]
-  end
-
-  def incrimines
-    data = []
-    @dossier.incrimines.each do |inc|
-      data << [{content: inc.medicament.to_s.titleize, colspan: 5}, {content: inc.full_indication, colspan: 4}, {content: inc.duree_ttt, colspan: 3}]
-    end
-    move_down 20
-    text "Médicaments en cause", size: 10, style: :bold
-    font_size(10) do
-      table data, position: :center, width: 560 do
-        cells.style do |cell|
-          cell.borders = [:top, :bottom]
-          cell.valign = :center
-        end
-      end
-    end
-  end
-
-  def contraception_apres_evenement
-    move_down 20
-    text "Contraception après l'évènement", size: 10, style: :bold
-    data = [
-      ["Contre-indication : ", @dossier.contraception_ci(false), "Reprise d'une contraception : ", @dossier.contraception_apres(false)]
+    [
+      ["Age grossesse lors appel :", @dossier.age_grossesse, "Début grossesse :", @dossier.date_debut_grossesse, "Accouchement prévu :", @dossier.date_accouchement_prevu],
+      ["Tabac :", @dossier.tabac, "Alcool :", @dossier.alcool, "Autres toxiques :", @dossier.toxiques],
+      ["Acide folique :", @dossier.folique, "Pathologie(s) T1 :", @dossier.patho1t, "AMP :", @dossier.ass_med_proc]
     ]
-    font_size(10) do
-      table data, position: :center, width: 560 do
-        cells.style do |cell|
-          cell.borders = [:top, :bottom]
-          cell.valign = :center
-          if cell.column.even?
-            cell.align = :right
-            cell.font_style = :bold
-          end
-        end
-      end
-    end
   end
 
-  def fdr
-    move_down 20
-    text "Facteurs de risque", size: 10, style: :bold
-    liste_fdr = [
-      {label: "Communs", value: @dossier.fdr_communs},
-      {label: "Veineux", value: @dossier.fdr_veineux},
-      {label: "Artériels", value: @dossier.fdr_arteriels},
+  def evolution
+    [
+      ["Date recueil :", @dossier.date_recueil_evol, "Evolution :", @dossier.evolution.to_s, "Terme :", @dossier.terme, "Date accouchement :", @dossier.date_reelle_accouchement]
     ]
-    data = []
-    liste_fdr.each do |item|
-      data << [item[:label] + " :", {content: item[:value], colspan: 5}]
+  end
+
+  def expositions
+    data = [["Produit", "Indication", "Posologie", "Terme"]]
+    @dossier_object.expositions.each do |expo|
+      data << [expo.produit.to_s, expo.indication.to_s, expo.expo_terme.to_s, expo.dose]
     end
-    font_size(10) do
-      table data, position: :center, width: 560 do
-        cells.style do |cell|
-          cell.borders = [:top, :bottom]
-          cell.valign = :center
-          if cell.column.even?
-            cell.align = :right
-            cell.font_style = :bold
-          end
-        end
-      end
+    data
+  end
+
+  def bebes
+    data = [["Age", "Sexe", "Poids", "Taille", "PC", "Apgar", "Malf", "Path"]]
+    @dossier_object.bebes.each do |bebe|
+      data << [bebe.age, bebe.sexe, bebe.poids, bebe.taille, bebe.pc, bebe.apgar, bebe.malformation, bebe.pathologie]
     end
+    data
   end
 
   def commentaire
