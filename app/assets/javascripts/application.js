@@ -16,6 +16,6 @@
 //= require common
 //= require grossesse
 //= require bmi
-//= require dossiers
 //= require association
+//= require dossiers
 //= require searches

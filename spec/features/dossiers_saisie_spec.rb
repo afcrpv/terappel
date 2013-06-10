@@ -5,14 +5,16 @@ feature "Dossiers saisie" do
   given(:centre)        {user.centre}
   given(:other_centre)  {create(:centre, name: "Bordeaux")}
   given(:other_dossier) {create(:dossier, code: "BX1200001", centre: other_centre)}
+  given(:produit)       {Produit.first}
 
   background do
     login user
     create(:specialite, name: "spec1")
+    create(:produit, name: "produit1")
   end
 
   context "dossier global search" do
-    scenario "allows creating dossiers when submitted code does not exist", js: true, slow: true do
+    scenario "allows creating dossiers when submitted code does not exist", js: true do
       fill_in "codedossier", with: "LY1111001"
       page.execute_script("$('.topbar-search').submit()")
       page.should have_content("Le dossier LY1111001 n'existe pas")
@@ -20,7 +22,7 @@ feature "Dossiers saisie" do
       page.find('#dossier_code').value.should == "LY1111001"
     end
 
-    scenario "opens dossier when code exists", js: true, slow: true do
+    scenario "opens dossier when code exists", js: true do
       fill_in "codedossier", with: "LY1111002"
       choose_autocomplete_result "LY1111002", "#codedossier"
       find_field("codedossier").value.should include("LY1111002")
@@ -29,9 +31,9 @@ feature "Dossiers saisie" do
     end
   end
 
-  scenario "navigating form errors", focus: true, js: true do
+  scenario "navigating form errors", js: true do
     visit new_dossier_path
-    click_button "Enregistrer et continuer"
+    page.should_not have_css(".dossier-errors")
     within ".dossier-errors" do
       click_link "Exposition"
     end
@@ -43,22 +45,32 @@ feature "Dossiers saisie" do
     page.evaluate_script('document.activeElement.id').should == "dossier_name"
   end
 
-  scenario "creation" do
+  scenario "creation", js: true do
     visit new_dossier_path
-    click_button "Enregistrer et continuer"
-    page.should have_content "erreurs"
-    fill_in "dossier_code", with: "LY1"
-    fill_in "dossier_date_appel", with: I18n.l(Date.today)
+    find_button("Enregistrer et continuer").trigger("click")
+    page.should have_css ".dossier-errors"
+    click_link "EXPOSITION"
+    within ".tab-pane#expositions" do
+      click_link "Ajouter une exposition"
+      find(".nested-fields").visible?.should be_true
+      page.execute_script(%|$(".select2-container:contains('Saisir un produit')").parent().find("input[name]").select2("data", {id: #{produit.id}, text: "#{produit.name}"})|)
+      find_link("Fermer").trigger("click")
+    end
+    within ".dossier-errors" do
+      find_link("Nom patiente").trigger("click")
+    end
+    fill_in "dossier_name", with: "Martin"
+    fill_in "dossier_code", with: "LY2013003"
+    fill_in "dossier_date_appel", with: "11/01/2012"
     select "Oui", from: "dossier_expo_terato"
     select "Oui", from: "dossier_a_relancer"
-    fill_in "dossier_name", with: "Martin"
-    click_button "Enregistrer et continuer"
-    page.should have_content "Dossier LY1, création effectuée avec succès."
+    find_button("Enregistrer et continuer").trigger("click")
+    page.should have_content "Dossier LY2013003, création effectuée avec succès."
     page.should have_css("form.simple_form")
     click_button "Enregistrer et fermer"
     Dossier.last.centre.should == centre
     current_path.should eq(dossiers_path)
-    page.should have_content "Dossier LY1, modification effectuée avec succès."
+    page.should have_content "Dossier LY2013003, modification effectuée avec succès."
     page.should_not have_content("BX1200001")
   end
 
