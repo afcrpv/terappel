@@ -9,10 +9,10 @@ feature "Dossiers listing" do
     create(:dossier, code: "LY2013001", centre: user.centre)
   end
 
-  scenario "each row has actions for print/show and edit dossier", js: true, slow: true do
+  scenario "each row has actions for print/show and edit dossier", js: true do
     visit dossiers_path
     click_link "Imprimer le dossier LY2013001"
-    find("#modal_label").should have_content "Aperçu du dossier LY2013001"
+    find("#modal_label").should have_content "Fiche dossier LY2013001"
     click_button "Fermer"
     click_link "Modifier le dossier LY2013001"
     page.should have_content "Modification Dossier LY2013001"
