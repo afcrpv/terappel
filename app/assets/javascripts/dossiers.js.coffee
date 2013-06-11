@@ -55,16 +55,25 @@ $ ->
     grsant = $(this).val()
     if grsant is "0" then zero_grossesse_fields()
 
-  for field in ["antecedents_perso", "antecedents_fam", "toxiques", "folique", "patho1t"]
+  for field in ["toxiques", "folique", "patho1t"]
     element = $("#dossier_#{field}")
     condition = element.val() is "Oui"
-    next = if field is "antecedents_perso" or "antecedents_fam" then element.parents(".row-fluid").find(".comm_atcds") else element.parents(".control-group").next()
+    next = element.parent().find(".help-block")
     showNextif condition, element, next
     element.on 'change', ->
       condition = $(this).val() is "Oui"
-      next = if field is "antecedents_perso" or "antecedents_fam" then $(this).parents(".row-fluid").find(".comm_atcds") else $(this).parents(".control-group").next()
-      console.log next
-      showNextif(condition, $(this), next)
+      next = $(this).parent().find(".help-block")
+      showNextif condition, $(this), next
+
+  for field in ["antecedents_perso", "antecedents_fam"]
+    element = $("#dossier_#{field}")
+    condition = element.val() is "Oui"
+    next = element.parents(".row-fluid").find(".comm_atcds")
+    showNextif condition, element, next
+    element.on 'change', ->
+      condition = $(this).val() is "Oui"
+      next = $(this).parents(".row-fluid").find(".comm_atcds")
+      showNextif condition, $(this), next
 
   # calculateur dates
   $("#dossier_date_naissance").on 'blur', ->
