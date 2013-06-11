@@ -1,16 +1,18 @@
 require "spec_helper"
 
 feature "Dossiers saisie" do
-  given(:user)          {create(:member)}
-  given(:centre)        {user.centre}
-  given(:other_centre)  {create(:centre, name: "Bordeaux")}
-  given(:other_dossier) {create(:dossier, code: "BX1200001", centre: other_centre)}
-  given(:produit)       {Produit.first}
+  given(:user)           {create(:member)}
+  given(:centre)         {user.centre}
+  given!(:dossier)       {create(:dossier, code: "LY2013001", centre: centre)}
+  given(:other_centre)   {create(:centre, name: "Bordeaux")}
+  given!(:other_dossier) {create(:dossier, code: "BX1200001", centre: other_centre)}
+  given!(:specialite)    {create(:specialite, name: "spec1")}
+  given!(:produit)       {create(:produit, name: "produit1")}
+  given!(:corr)          {create(:correspondant, centre: centre)}
+  given!(:other_corr)    {create(:correspondant, centre: other_centre)}
 
   background do
     login user
-    create(:specialite, name: "spec1")
-    create(:produit, name: "produit1")
   end
 
   context "dossier global search" do
@@ -23,12 +25,11 @@ feature "Dossiers saisie" do
     end
 
     scenario "opens dossier when code exists", js: true do
-      dossier = create(:dossier, code: "LY1111002", centre: centre)
-      fill_in "codedossier", with: "LY1111002"
-      choose_autocomplete_result "LY1111002", "#codedossier"
-      find_field("codedossier").value.should include("LY1111002")
+      fill_in "codedossier", with: "LY2013001"
+      choose_autocomplete_result "LY2013001", "#codedossier"
+      find_field("codedossier").value.should include("LY2013001")
       page.execute_script("$('.topbar-search').submit()")
-      page.should have_content "Modification Dossier LY1111002"
+      page.should have_content "Modification Dossier LY2013001"
     end
   end
 
@@ -83,20 +84,17 @@ feature "Dossiers saisie" do
   end
 
   scenario "update" do
-    dossier = create(:dossier, code: "LY1111002", centre: centre)
     visit edit_dossier_path(dossier)
     fill_in "dossier_name", with: ""
     click_button "Enregistrer et continuer"
     page.should have_content "erreurs"
     fill_in "dossier_name", with: "Martin"
     click_button "Enregistrer et fermer"
-    page.should have_content "Dossier LY1111002, modification effectuée avec succès."
+    page.should have_content "Dossier LY2013001, modification effectuée avec succès."
   end
 
   context "correspondants" do
     scenario "list for select2 is scoped by current user centre" do
-      corr = create(:correspondant, centre: user.centre)
-      other_corr = create(:correspondant, centre: create(:centre))
       visit correspondants_url(format: :json)
       page.should have_content corr.fullname
       page.should_not have_content other_corr.fullname
