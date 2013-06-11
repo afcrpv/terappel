@@ -30,7 +30,7 @@ feature "Dossiers listing" do
     page.response_headers["Content-Type"].should == "application/pdf"
   end
 
-  scenario "access dossier fiche dense", js: true, focus: true do
+  scenario "access dossier fiche dense", js: true do
     visit dossiers_path
     click_link "Imprimer le dossier"
     within ".modal" do
