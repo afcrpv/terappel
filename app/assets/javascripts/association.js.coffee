@@ -1,6 +1,7 @@
 $ = jQuery
 
 $ ->
+  ### EXPOSITIONS ###
   $("#tabs li a[href='#expositions']").bind 'click', ->
     for association in ["produit", "indication"]
       $(".#{association}_autocomplete").attach_expositions_select2(association, "/dossiers/#{association}s.json")
@@ -47,7 +48,6 @@ $ ->
 
   #### BEBES ####
   $("#tabs li a[href='#bebes']").bind 'click', ->
-
     for association in ["malformation", "pathologie"]
       $(".#{association}_tokens").attach_bebes_select2 association, "/#{association}s.json"
       $("select[id$=#{association}]").check_show_association_tokens(association)
@@ -100,8 +100,9 @@ class @Association
     @attributes = attributes
     @required_attributes = required_attributes
 
-collectModelId = ($start_point) ->
-  $start_point.find("input[id]").filter(":first").attr("id").match(/[0-9]+/).join()
+collectModelId = ($start_point, modelName) ->
+  field_type = if modelName is "bebe" then "input" else "select"
+  $start_point.find("#{field_type}[id]").filter(":first").attr("id").match(/[0-9]+/).join()
 
 destroyModal = (model_name, plural_name_and_id) ->
   $modal = $("<div class='modal hide' id='#{plural_name_and_id}_destroy' />")
@@ -152,6 +153,7 @@ modifyLink = (model_name, $related_fieldset, plural_name_and_id) ->
   $modify_link.one 'click', (e) ->
     e.preventDefault()
     # toggle the div.nested-fields containing the related model form
+    console.log $related_fieldset
     $related_fieldset.slideToggle()
     hide_add_field_link("#{model_name}s")
     if model_name is "bebe"
@@ -197,6 +199,8 @@ collect_values_to_copy = ($start_point, model) ->
 append_to_summary = (fields, $target, model_id, model, live=false) ->
   row_class = if live then "live" else ""
   # check whether a row with id equal to collected model id exists
+  existing_row = $target.find("tr##{model}_#{model_id}")
+  console.log existing_row
   if $target.find("tr##{model}_#{model_id}").length isnt 0
     $model_row = $target.find("tr##{model}_#{model_id}")
     $model_row.empty()
@@ -270,7 +274,7 @@ $.widget "terappel.prefillSummaryTable",
     start_points = $("##{@options.modelName} .nested-fields")
 
     model_ids = for start_point in start_points
-      collectModelId($(start_point))
+      collectModelId($(start_point), @options.modelName)
 
     values_set = for start_point in start_points
       collect_values_to_copy($(start_point), @options.modelName)
@@ -293,7 +297,7 @@ $.widget "terappel.validateAssociation",
 
   _bindActions: (model_name, selected_fields) ->
     $start_point = @element.closest(".nested-fields")
-    @options.modelId = model_id = collectModelId $($start_point)
+    @options.modelId = model_id = collectModelId $($start_point), @options.modelName
     plural_name_and_id = @pluralNameAndId()
 
     @element.on 'click', (e) =>
