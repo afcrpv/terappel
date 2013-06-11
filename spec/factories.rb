@@ -40,6 +40,7 @@ FactoryGirl.define do
     end
 
     factory :dossier_a_relancer do
+      a_relancer "Oui"
       relance
     end
   end

@@ -2,11 +2,10 @@ require "spec_helper"
 
 feature "Dossiers listing" do
   given(:user)          {create(:member)}
-  given(:dossier)       {Dossier.first}
+  given!(:dossier)      {create(:dossier_a_relancer, code: "LY2013001", centre: user.centre)}
 
   background do
     login user
-    create(:dossier, code: "LY2013001", centre: user.centre)
   end
 
   scenario "each row has actions for print/show and edit dossier", js: true do
@@ -33,7 +32,7 @@ feature "Dossiers listing" do
     page.response_headers["Content-Type"].should == "application/pdf"
   end
 
-  scenario "access dossier fiche dense", js: true do
+  scenario "access dossier fiche dense", js: true, focus: true do
     visit dossiers_path
     click_link "Imprimer le dossier"
     within ".modal" do
