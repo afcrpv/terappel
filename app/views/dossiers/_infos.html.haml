@@ -1,13 +1,13 @@
 .row-fluid
   .span2
-    = f.input :code, input_html: {class: "input-small"}
+    = f.input :code, input_html: {class: "span11"}
   .span2
-    = f.input :date_appel, as: :string, input_html: {class: "input-small dateITA dateNotFuture",
+    = f.input :date_appel, as: :string, input_html: {class: "span11 dateITA dateNotFuture",
       autofocus: true, "data-value" => date_appel}
   .span6
-    = f.association :motif, input_html: {class: "input-xxlarge combobox", data: {placeholder: "Choisir un motif d'appel"}}
+    = f.association :motif, input_html: {class: "span11"}
   .span2
-    = f.input :expo_terato, as: :select, collection: Dossier::ONI, input_html: {class: "input-mini"}
+    = f.input :expo_terato, as: :select, collection: Dossier::ONI, input_html: {class: "span6"}
 
 .row-fluid#dossier_demandeur_id_field
   = f.simple_fields_for :demandeur do |demandeur|
@@ -15,7 +15,7 @@
       .control-group
         = demandeur.label :correspondant_id, "Correspondant initial"
         .controls
-          = demandeur.hidden_field :correspondant_id, class: "input-xxlarge", data: {placeholder: "Choisir un correspondant",
+          = demandeur.hidden_field :correspondant_id, class: "span11", data: {placeholder: "Choisir un correspondant",
             load: demandeur.object.correspondant.try(:fullname_and_id).to_json, source: correspondants_url(format: :json)}
 
     .span4
@@ -28,7 +28,7 @@
           title: "Modifier correspondant", class: "btn corr_update"
 
   .span2
-    = f.input :a_relancer, collection: %w(Oui Non), input_html: {class: "input-mini"}
+    = f.input :a_relancer, collection: %w(Oui Non), input_html: {class: "span6"}
 
   #relance.modal.hide.fade{tabindex: "-1", role: "dialog", aria: {labelledby: "relance-modal", hidden: "true"}}
     .modal-header
@@ -46,7 +46,7 @@
       .control-group
         = relance.label :correspondant_id, "Correspondant à relancer"
         .controls
-          = relance.hidden_field :correspondant_id, class: "input-xxlarge", data: {placeholder: "Choisir une personne",
+          = relance.hidden_field :correspondant_id, class: "span11", data: {placeholder: "Choisir une personne",
             load: relance.object.correspondant.try(:fullname_and_id).to_json, source: correspondants_url(format: :json)}
     .span4
       %label &nbsp;
@@ -59,22 +59,22 @@
 
 .row-fluid
   .span2
-    = f.input :name, input_html: {class: "span10"}
+    = f.input :name, input_html: {class: "span11"}
   .span2
-    = f.input :prenom, input_html: {class: "span10"}
+    = f.input :prenom, input_html: {class: "span11"}
   .span2
-    = f.input :date_naissance, as: :string, input_html: {class: "span10 dateITA dateNotFuture", data: {value: date_naissance}}
+    = f.input :date_naissance, as: :string, input_html: {class: "span11 dateITA dateNotFuture", data: {value: date_naissance}}
   .span1
-    = f.input :age, input_html: {class: "span10"}
+    = f.input :age, input_html: {class: "span11"}
 
 .row-fluid
   .span2
     = f.input :poids, wrapper: :append do
-      = f.input_field :poids, class: "span4"
+      = f.input_field :poids, class: "span6"
       %span.add-on kg
   .span2
     = f.input :taille, wrapper: :append do
-      = f.input_field :taille, class: "span4"
+      = f.input_field :taille, class: "span6"
       %span.add-on cm
   .span2
     = f.input :imc, wrapper: :append do
@@ -83,7 +83,7 @@
         kg/m
         %sup> 2
   .span5
-    = f.association :categoriesp, input_html: {class: "span10 combobox", data: {placeholder: "Choisir une C.S.P."}}
+    = f.association :categoriesp, input_html: {class: "span11"}
 
 - %w(perso fam).each do |field|
   .row-fluid
