@@ -53,25 +53,6 @@ window.show_or_hide_hint_for_toxics = ($toxic_element, toxic_value, values_to_co
   toxic_condition = toxic_value and toxic_value in values_to_compare
   showNextif toxic_condition, $toxic_element, $toxic_message
 
-window.show_or_hide_issue_elements = ($evolution_element, evolution_value) ->
-  $hint = $evolution_element.next(".help-block")
-  if evolution_value and evolution_value in ["2", "3", "4", "5", "6"] then $(".issue").show() else $(".issue").hide()
-
-  if evolution_value is "6" # when evolution is NAI
-    # hide the hint inviting to add the malformation and the #date_recueil_evol div and show the #modaccouch and #date_reelle_accouchement divs
-    $hint.hide()
-    $("#date_recueil_evol").hide()
-    for field in ["modaccouch", "date_reelle_accouchement"]
-      $("##{field}").show()
-  else if evolution_value in ["2", "3", "4", "5"]# when evolution is FCS, IVG, IMG or MIU
-    # show the #date_recueil_evol div and the hint inviting to add the malformation
-    $hint.show()
-    $("#date_recueil_evol").show()
-    for field in ["modaccouch", "date_reelle_accouchement"]
-      $("##{field}").hide()
-  else
-    $hint.hide()
-
 window.disableSubmitWithEnter = ->
   for type in ["text", "number"]
     $("form.saisie input[type='#{type}']").keypress (e) ->
