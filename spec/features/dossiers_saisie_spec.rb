@@ -11,9 +11,7 @@ feature "Dossiers saisie" do
   given!(:corr)          {create(:correspondant, centre: centre)}
   given!(:other_corr)    {create(:correspondant, centre: other_centre)}
 
-  background do
-    login user
-  end
+  background {login user}
 
   context "dossier global search" do
     scenario "allows creating dossiers when submitted code does not exist", js: true do
@@ -100,7 +98,7 @@ feature "Dossiers saisie" do
       page.should_not have_content other_corr.fullname
     end
 
-    scenario "demandeur can be created/updated from dossier form", js: true, slow: true do
+    scenario "demandeur can be created/updated from dossier form", js: true do
       visit new_dossier_path
       within "#dossier_demandeur_id_field" do
         click_link "Ajout"
@@ -144,7 +142,7 @@ feature "Dossiers saisie" do
         sleep 1
       end
 
-      scenario "can copy assigned correspondant to corr à relancer", js: true, slow: true do
+      scenario "can copy assigned correspondant to corr à relancer", js: true do
         within "#relance" do
           click_button "Oui"
         end
@@ -154,7 +152,7 @@ feature "Dossiers saisie" do
         end
       end
 
-      scenario "can create new corr à relancer", js: true, slow: true do
+      scenario "can create new corr à relancer", js: true do
         within "#relance" do
           click_button "Non"
         end

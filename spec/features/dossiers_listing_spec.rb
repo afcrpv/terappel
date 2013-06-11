@@ -4,9 +4,7 @@ feature "Dossiers listing" do
   given(:user)          {create(:member)}
   given!(:dossier)      {create(:dossier_a_relancer, code: "LY2013001", centre: user.centre)}
 
-  background do
-    login user
-  end
+  background {login user}
 
   scenario "each row has actions for print/show and edit dossier", js: true do
     visit dossiers_path
