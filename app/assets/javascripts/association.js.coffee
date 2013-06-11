@@ -329,8 +329,8 @@ $.widget "terappel.validateAssociation",
   _emptyFieldsError: ->
     required_field_list = @options.requiredFields.join(", ")
     model_name = @options.modelName
-    $("p##{model_name}_message").remove()
-    $("<p id='#{model_name}_message'>")
+    $("##{model_name}_message").remove()
+    $("<div id='#{model_name}_message' class='alert alert-error'>")
       .insertBefore(@element)
       .text("Vous devez remplir : #{required_field_list}")
 
