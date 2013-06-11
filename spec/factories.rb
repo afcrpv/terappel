@@ -47,6 +47,8 @@ FactoryGirl.define do
 
   factory :exposition do
     produit
+    expo_terme
+    indication
     dossier
   end
 
