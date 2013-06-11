@@ -100,9 +100,8 @@ class @Association
     @attributes = attributes
     @required_attributes = required_attributes
 
-collectModelId = ($start_point, modelName) ->
-  field_type = if modelName is "bebe" then "input" else "select"
-  $start_point.find("#{field_type}[id]").filter(":first").attr("id").match(/[0-9]+/).join()
+collectModelId = ($start_point) ->
+  $start_point.find("[name]").filter(":first").attr("id").match(/[0-9]+/).join()
 
 destroyModal = (model_name, plural_name_and_id) ->
   $modal = $("<div class='modal hide' id='#{plural_name_and_id}_destroy' />")
@@ -274,7 +273,7 @@ $.widget "terappel.prefillSummaryTable",
     start_points = $("##{@options.modelName} .nested-fields")
 
     model_ids = for start_point in start_points
-      collectModelId($(start_point), @options.modelName)
+      collectModelId($(start_point))
 
     values_set = for start_point in start_points
       collect_values_to_copy($(start_point), @options.modelName)
@@ -297,7 +296,7 @@ $.widget "terappel.validateAssociation",
 
   _bindActions: (model_name, selected_fields) ->
     $start_point = @element.closest(".nested-fields")
-    @options.modelId = model_id = collectModelId $($start_point), @options.modelName
+    @options.modelId = model_id = collectModelId $($start_point)
     plural_name_and_id = @pluralNameAndId()
 
     @element.on 'click', (e) =>
