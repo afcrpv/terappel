@@ -55,7 +55,6 @@ feature "Dossiers saisie" do
       click_link "Ajouter une exposition"
       find(".nested-fields").visible?.should be_true
       select2 produit.id, produit.name, from: "Saisir un produit"
-      #page.execute_script(%|$(".select2-container:contains('Saisir un produit')").parent().find("input[name]").select2("data", {id: #{produit.id}, text: "#{produit.name}"})|)
       find_link("Fermer").trigger("click")
     end
     within ".dossier-errors" do
