@@ -52,7 +52,7 @@ RSpec.configure do |config|
   config.order = "random"
 
   config.include ActionView::TestCase::Behavior, example_group: {file_path: %r{spec/presenters}}
-
+  config.include Select2Macros
   config.include AuthMacros
   config.include AutocompleteMacros
   config.include MailerMacros
