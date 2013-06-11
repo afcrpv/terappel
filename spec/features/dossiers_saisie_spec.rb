@@ -23,6 +23,7 @@ feature "Dossiers saisie" do
     end
 
     scenario "opens dossier when code exists", js: true do
+      dossier = create(:dossier, code: "LY1111002", centre: centre)
       fill_in "codedossier", with: "LY1111002"
       choose_autocomplete_result "LY1111002", "#codedossier"
       find_field("codedossier").value.should include("LY1111002")
@@ -34,6 +35,7 @@ feature "Dossiers saisie" do
   scenario "navigating form errors", js: true do
     visit new_dossier_path
     page.should_not have_css(".dossier-errors")
+    click_button "Enregistrer et fermer"
     within ".dossier-errors" do
       click_link "Exposition"
     end
