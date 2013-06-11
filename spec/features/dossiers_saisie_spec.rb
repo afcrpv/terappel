@@ -54,7 +54,8 @@ feature "Dossiers saisie" do
     within ".tab-pane#expositions" do
       click_link "Ajouter une exposition"
       find(".nested-fields").visible?.should be_true
-      page.execute_script(%|$(".select2-container:contains('Saisir un produit')").parent().find("input[name]").select2("data", {id: #{produit.id}, text: "#{produit.name}"})|)
+      select2 produit.id, produit.name, from: "Saisir un produit"
+      #page.execute_script(%|$(".select2-container:contains('Saisir un produit')").parent().find("input[name]").select2("data", {id: #{produit.id}, text: "#{produit.name}"})|)
       find_link("Fermer").trigger("click")
     end
     within ".dossier-errors" do
@@ -155,6 +156,7 @@ feature "Dossiers saisie" do
       scenario "can create new corr à relancer", js: true do
         within "#relance" do
           click_button "Non"
+          sleep 4
         end
         within "#dossier_relance_id_field" do
           click_link "Ajout"
