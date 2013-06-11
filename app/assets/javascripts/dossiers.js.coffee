@@ -57,24 +57,14 @@ $ ->
 
   for field in ["antecedents_perso", "antecedents_fam", "toxiques", "folique", "patho1t"]
     element = $("#dossier_#{field}")
-    condition = element.val() is "0"
-    next = if field is "antecedents_perso" or "antecedents_fam" then element.next() else element.parents(".control-group").next()
+    condition = element.val() is "Oui"
+    next = if field is "antecedents_perso" or "antecedents_fam" then element.parents(".row-fluid").find(".comm_atcds") else element.parents(".control-group").next()
     showNextif condition, element, next
     element.on 'change', ->
-      condition = $(this).val() is "0"
-      next = if field is "antecedents_perso" or "antecedents_fam" then $(this).next() else $(this).parents(".control-group").next()
+      condition = $(this).val() is "Oui"
+      next = if field is "antecedents_perso" or "antecedents_fam" then $(this).parents(".row-fluid").find(".comm_atcds") else $(this).parents(".control-group").next()
+      console.log next
       showNextif(condition, $(this), next)
-
-  # reminder to fill expositions if tabac/alcool/toxiques equals "Oui"
-  $tabac_input = $("#dossier_tabac")
-  tabac_values = ["1", "2", "3"]#["0 à 5 cig/j", "5 à 10 cig/j", "Sup. à 10 cig/j"]
-  show_or_hide_hint_for_toxics($tabac_input, $tabac_input.val(), tabac_values)
-  $tabac_input.on 'change', (event) -> show_or_hide_hint_for_toxics($(this), event.val, tabac_values)
-
-  $alcool_input = $("#dossier_alcool")
-  alcool_values = ["1", "2"]#["Occasionnel (<= 2 verres/j)", "Fréquent (> 2 verres/j)"]
-  show_or_hide_hint_for_toxics($alcool_input, $alcool_input.val(), alcool_values)
-  $alcool_input.on 'change', (event) -> show_or_hide_hint_for_toxics($(this), event.val, alcool_values)
 
   # calculateur dates
   $("#dossier_date_naissance").on 'blur', ->

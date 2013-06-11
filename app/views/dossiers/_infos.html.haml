@@ -85,14 +85,12 @@
   .span5
     = f.association :categoriesp, input_html: {class: "span10 combobox", data: {placeholder: "Choisir une C.S.P."}}
 
-.row-fluid
-  - %w(perso fam).each do |field|
-    .span6
-      .control-group
-        = f.label "antecedents_#{field}"
-        .controls.controls-row
-          = f.collection_select "antecedents_#{field}", Dossier::ONI, :last, :first, {}, include_blank: true, class: "span1"
-          = f.text_area "comm_antecedents_#{field}", style: "display: none;", class: "span4", rows: "1"
+- %w(perso fam).each do |field|
+  .row-fluid
+    .span3
+      = f.input :"antecedents_#{field}", collection: Dossier::ONI, input_html: {class: "span4"}
+    .span9.comm_atcds
+      = f.input :"comm_antecedents_#{field}", label: "Préciser", input_html: {class: "span11", rows: "1"}
 
 %table#grossesses_anterieures
   %tbody
