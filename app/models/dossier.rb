@@ -2,10 +2,10 @@
 class Dossier < ActiveRecord::Base
   # Constants
   ONI = %w(Oui Non NSP)
-  TABAC = [["Non", "0"], ["0 à 5 cig/j", "1"], ["5 à 10 cig/j", "2"], ["Sup. à 10 cig/j", "3"], ["NSP", "4"]]
-  ALCOOL = [["Non", "0"], ["Occasionnel", "1"], ["Régulier", "2"], ["NSP", "3"]]
-  MODACCOUCH = [["V-b spontanée", "0"], ["V-b instrumentale", "1"], ["Césarienne", "2"], ["Inconnue", "3"]]
-  EVOLUTION = [["GEU", 1], ["FCS", 2], ["IVG", 3], ["IMG", 4], ["MIU", 5], ["NAI", 6], ["INC", 7], ["GNC", 8]]
+  TABAC = ["Non", "0 à 5 cig/j", "5 à 10 cig/j", "Sup. à 10 cig/j", "NSP"]
+  ALCOOL = ["Non", "Occasionnel", "Régulier", "NSP"]
+  MODACCOUCH = ["V-b spontanée", "V-b instrumentale", "Césarienne", "Inconnue"]
+  EVOLUTION = ["GEU", "FCS", "IVG", "IMG", "MIU", "NAI", "INC", "GNC"]
   COLUMNS_FOR_CSV = [:code, :date_appel, :motif_code, :produit1, :produit2, :evolution, :malformation, :pathologie ]
 
   # validations

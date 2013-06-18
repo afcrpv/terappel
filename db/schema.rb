@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130528120649) do
+ActiveRecord::Schema.define(version: 20130618095136) do
 
   create_table "active_admin_comments", force: true do |t|
     t.integer  "resource_id",   null: false
@@ -223,8 +223,8 @@ ActiveRecord::Schema.define(version: 20130528120649) do
     t.string   "ass_med_proc"
     t.string   "expo_terato"
     t.string   "path_mat"
-    t.integer  "tabac"
-    t.integer  "alcool"
+    t.string   "tabac"
+    t.string   "alcool"
     t.string   "a_relancer"
     t.integer  "fcs"
     t.integer  "geu"
@@ -248,7 +248,7 @@ ActiveRecord::Schema.define(version: 20130528120649) do
     t.integer  "taille"
     t.integer  "folique"
     t.integer  "patho1t"
-    t.integer  "evolution"
+    t.string   "evolution"
     t.date     "date_recueil_evol"
     t.integer  "imc"
   end
