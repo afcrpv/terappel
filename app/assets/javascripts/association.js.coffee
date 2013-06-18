@@ -345,7 +345,7 @@ $.widget "terappel.validateAssociation",
       value = switch key
         when "produit_id", "indication_id"
           if (label = $(field).data("load")) then label.text else ""
-        when "expo_terme_id", "malformation", "pahtologie"
+        when "expo_terme_id", "malformation", "pathologie"
           $(field).find("option").filter(":selected").text()
         else $(field).val()
 
