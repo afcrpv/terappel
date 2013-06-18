@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 ruby "2.0.0"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.0.rc1'
+gem 'rails', '4.0.0.rc2'
 
 gem 'pg'
 
@@ -81,6 +81,7 @@ end
 group :test do
   gem 'factory_girl_rails'
   gem 'capybara'
+  gem "selenium-webdriver"
   gem "database_cleaner", github: "bmabey/database_cleaner", tag: "v1.0.0.RC1"
   gem "guard-rspec", "~> 2.1.0"
   gem "simplecov", :require => false
