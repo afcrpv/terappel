@@ -2,6 +2,9 @@ class Produit < ActiveRecord::Base
   has_many :expositions, inverse_of: :produit
   has_many :dossiers, :through => :expositions
 
+  has_many :dcis, through: :compositions
+  has_many :compositions, dependent: :destroy
+
   default_scope {order(:name)}
 
   def self.search_by_name(string)

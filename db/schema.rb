@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130618095136) do
+ActiveRecord::Schema.define(version: 20130621140124) do
 
   create_table "active_admin_comments", force: true do |t|
     t.integer  "resource_id",   null: false
@@ -99,6 +99,21 @@ ActiveRecord::Schema.define(version: 20130618095136) do
     t.integer "categorie_id"
   end
 
+  create_table "atcs", force: true do |t|
+    t.string   "libelle"
+    t.string   "libabr"
+    t.integer  "level"
+    t.string   "ancestry"
+    t.integer  "parent_id"
+    t.integer  "codetermepere"
+    t.integer  "codeterme"
+    t.integer  "oldid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "atcs", ["ancestry"], name: "index_atcs_on_ancestry", using: :btree
+
   create_table "authors", force: true do |t|
     t.string   "nom"
     t.string   "prenom"
@@ -131,6 +146,7 @@ ActiveRecord::Schema.define(version: 20130618095136) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "age"
+    t.integer  "oldid"
   end
 
   create_table "bebes_malformations", id: false, force: true do |t|
@@ -166,6 +182,16 @@ ActiveRecord::Schema.define(version: 20130618095136) do
 
   add_index "centres", ["slug"], name: "index_centres_on_slug", unique: true, using: :btree
 
+  create_table "compositions", force: true do |t|
+    t.integer  "produit_id"
+    t.integer  "dci_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "compositions", ["dci_id"], name: "index_compositions_on_dci_id", using: :btree
+  add_index "compositions", ["produit_id"], name: "index_compositions_on_produit_id", using: :btree
+
   create_table "correspondants", force: true do |t|
     t.integer  "specialite_id"
     t.integer  "qualite_id"
@@ -189,6 +215,15 @@ ActiveRecord::Schema.define(version: 20130618095136) do
   add_index "correspondants", ["qualite_id"], name: "index_correspondants_on_qualite_id", using: :btree
   add_index "correspondants", ["specialite_id"], name: "index_correspondants_on_specialite_id", using: :btree
   add_index "correspondants", ["ville"], name: "index_correspondants_on_ville", using: :btree
+
+  create_table "dcis", force: true do |t|
+    t.string   "libelle"
+    t.integer  "oldid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "dcis", ["libelle"], name: "index_dcis_on_libelle", unique: true, using: :btree
 
   create_table "demandeurs", force: true do |t|
     t.integer  "dossier_id"
@@ -316,6 +351,7 @@ ActiveRecord::Schema.define(version: 20130618095136) do
     t.date     "de2_date"
     t.date     "a_date"
     t.date     "a2_date"
+    t.integer  "oldid"
   end
 
   create_table "formules", force: true do |t|
@@ -342,6 +378,7 @@ ActiveRecord::Schema.define(version: 20130618095136) do
     t.datetime "updated_at"
     t.integer  "codetermepere"
     t.integer  "codeterme"
+    t.integer  "oldid"
   end
 
   add_index "malformations", ["ancestry"], name: "index_malformations_on_ancestry", using: :btree
@@ -363,6 +400,7 @@ ActiveRecord::Schema.define(version: 20130618095136) do
     t.integer  "codeterme"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "oldid"
   end
 
   add_index "pathologies", ["ancestry"], name: "index_pathologies_on_ancestry", using: :btree
