@@ -7,7 +7,7 @@ class Bebe < ActiveRecord::Base
 
   belongs_to :dossier
 
-  SEXE = [["Masculin", "M"], ["Féminin", "F"], ["Inconnu", "I"], ["Indéterminé", nil]]
+  SEXE = [["Masculin", "M"], ["Féminin", "F"], ["Inconnu", "I"], ["Indéterminé", "Id"]]
 
   def apgar
     contents = []
