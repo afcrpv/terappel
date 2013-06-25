@@ -18,3 +18,6 @@ $ ->
     date_field.val(value) if value
 
   $(".row .actions a").addClass("btn")
+
+  for association in ["produit", "indication", "dci"]
+    $(".#{association}_autocomplete").attach_expositions_select2(association, "/dossiers/#{association}s.json")

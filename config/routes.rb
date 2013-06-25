@@ -16,6 +16,7 @@ Terappel::Application.routes.draw do
     collection do
       get :produits
       get :indications
+      get :dcis
     end
   end
 

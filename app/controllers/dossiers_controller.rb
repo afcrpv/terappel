@@ -2,7 +2,7 @@ class DossiersController < ApplicationController
   respond_to :html
   respond_to :pdf, only: [:show, :index]
   respond_to :xls, only: [:show, :index]
-  respond_to :json, only: [:produits, :indications]
+  respond_to :json, only: [:produits, :indications, :dcis]
 
   rescue_from CanCan::Unauthorized do |exception|
     Rails.logger.debug "Access denied on #{exception.action} #{exception.subject.inspect}"
@@ -23,6 +23,11 @@ class DossiersController < ApplicationController
   def indications
     @indications = params[:indication_id] ? Indication.where(id: params[:indication_id]) : Indication.search_by_name(params[:q])
     respond_with @indications.map(&:name_and_id)
+  end
+
+  def dcis
+    @dcis = params[:dci_id] ? Dci.where(id: params[:dci_id]) : Dci.search_by_name(params[:q])
+    respond_with @dcis.map(&:name_and_id)
   end
 
   def index
@@ -78,7 +83,6 @@ class DossiersController < ApplicationController
   end
 
   def update
-    @dossier.update(dossier_params)
     if params[:_continue]
       location = edit_dossier_path(@dossier)
     elsif params[:_add_another]
