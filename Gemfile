@@ -75,7 +75,7 @@ group :development do
   gem "quiet_assets", ">= 1.0.1"
   gem 'rb-fsevent', :require => false
   gem 'terminal-notifier-guard'
-  gem 'terminal-notifier-guard'
+  gem 'bullet'
 end
 
 group :test do

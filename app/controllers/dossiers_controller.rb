@@ -26,6 +26,7 @@ class DossiersController < ApplicationController
   end
 
   def index
+    @dossiers = @dossiers.includes([:motif, :bebes]).limit(10)
     respond_with @dossiers do |format|
       format.html
       format.xls
