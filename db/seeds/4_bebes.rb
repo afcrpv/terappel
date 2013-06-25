@@ -4,10 +4,30 @@ CSV.foreach("csv/bebes.csv", headers: true) do |row|
   oldid =  row['nappelsaisi'][0..1]+row['nbebe'].to_s
   puts "processing row##{oldid}"
   if (dossier = Dossier.where(code: row['nappelsaisi']).first)
+    malformation = case row['malforma']
+                   when "NSP"
+                     "NSP"
+                   when "O"
+                     "Oui"
+                   when "N"
+                     "Non"
+                   else
+                     nil
+                   end
+    pathologie = case row['patho']
+                   when "NSP"
+                     "NSP"
+                   when "O"
+                     "Oui"
+                   when "N"
+                     "Non"
+                   else
+                     nil
+                   end
     Bebe.find_or_create_by!(oldid: oldid,
                             dossier_id: dossier.id,
-                            malformation: row['malforma'],
-                            pathologie: row['patho'],
+                            malformation: malformation,
+                            pathologie: pathologie,
                             sexe: row['sexe'],
                             poids: row['poids'],
                             apgar1: row['apgar'],

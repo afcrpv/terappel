@@ -62,12 +62,9 @@ end
 puts "importing Exposition table from csv"
 CSV.foreach("csv/expositions.csv", headers: true) do |row|
   oldid = row['nexposition']
-  puts "processing row##{oldid}"
-  Exposition.find_or_create_by!(oldid: oldid,
-                                produit_id: row['nproduit'],
-                                dossier_id: row['nappelsaisi'],
+  puts "processing expo row##{oldid}"
+  expo = Exposition.find_or_initialize_by(oldid: oldid,
                                 expo_type_id: row['ntype'],
-                                indication_id: row['nindication'],
                                 expo_terme_id: row['nterme'],
                                 expo_nature_id: row['nnatexpo'],
                                 numord: row['numord'],
@@ -80,4 +77,8 @@ CSV.foreach("csv/expositions.csv", headers: true) do |row|
                                 a2: row['a2'],
                                 medpres: row['medpres']
                                )
+  expo.produit = Produit.where(oldid: row['nproduit']).first
+  expo.indication = Indication.where(oldid: row['nindication']).first
+  expo.dossier = Dossier.where(code: row['nappelsaisi']).first
+  expo.save
 end
