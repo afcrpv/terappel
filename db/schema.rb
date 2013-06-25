@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130621140124) do
+ActiveRecord::Schema.define(version: 20130624124056) do
 
   create_table "active_admin_comments", force: true do |t|
     t.integer  "resource_id",   null: false
@@ -182,6 +182,16 @@ ActiveRecord::Schema.define(version: 20130621140124) do
 
   add_index "centres", ["slug"], name: "index_centres_on_slug", unique: true, using: :btree
 
+  create_table "classifications", force: true do |t|
+    t.integer  "produit_id"
+    t.integer  "atc_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "classifications", ["atc_id"], name: "index_classifications_on_atc_id", using: :btree
+  add_index "classifications", ["produit_id"], name: "index_classifications_on_produit_id", using: :btree
+
   create_table "compositions", force: true do |t|
     t.integer  "produit_id"
     t.integer  "dci_id"
@@ -286,6 +296,8 @@ ActiveRecord::Schema.define(version: 20130621140124) do
     t.string   "evolution"
     t.date     "date_recueil_evol"
     t.integer  "imc"
+    t.integer  "nident"
+    t.integer  "nrelance"
   end
 
   add_index "dossiers", ["categoriesp_id"], name: "index_dossiers_on_categoriesp_id", using: :btree
