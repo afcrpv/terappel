@@ -1,7 +1,7 @@
 #encoding: utf-8
 class DossierPresenter < BasePresenter
   presents :dossier
-  delegate :code, :name, :motif_code, :motif_name, :categoriesp, :a_relancer, to: :dossier
+  delegate :code, :name, :motif_code, :motif_name, :categoriesp, :a_relancer, :evolution, :modaccouch, to: :dossier
 
   def commentaire(parse=true)
     parse ? simple_format(dossier.commentaire) : dossier.commentaire
@@ -60,7 +60,7 @@ class DossierPresenter < BasePresenter
   %w(malformation pathologie).each do |mp|
     define_method mp do
       if dossier.bebes.any?
-        ["Oui", "Non", "Ne sait pas"].each do |value|
+        Dossier::ONI.each do |value|
           if dossier.bebes.any? {|b| b.send(mp) == value}
             return value
           end
@@ -73,15 +73,6 @@ class DossierPresenter < BasePresenter
     define_method method do
       handle_none dossier.send(method) do
         dossier.send(method)
-      end
-    end
-  end
-
-  %w(modaccouch evolution).each do |method|
-    define_method method do
-      hash = array_to_hash(Dossier.const_get(method.upcase))
-      handle_none dossier.send(method) do
-        hash[dossier.send(method)]
       end
     end
   end
