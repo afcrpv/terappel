@@ -12,4 +12,4 @@ require 'csv'
   #puts "Loading db/seeds/#{file.split(File::SEPARATOR).last}"
   #load(file)
 #end
-load Rails.root.join('./db', 'seeds', '4_bebes.rb')
+load Rails.root.join('./db', 'seeds', '3_produits.rb')
