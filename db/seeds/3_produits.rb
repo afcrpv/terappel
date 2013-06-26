@@ -47,6 +47,7 @@ CSV.foreach("csv/classifications.csv", headers: true) do |row|
   classification = Classification.create
   classification.produit = Produit.where(oldid: row['nproduit']).first
   classification.atc = Atc.where(oldid: row['natc']).first
+  classification.save
 end
 
 # populate Dci/Produit join table
@@ -56,5 +57,6 @@ CSV.foreach("csv/compositions.csv", headers: true) do |row|
   compo = Composition.create
   compo.produit = Produit.where(oldid: row['nproduit']).first
   compo.dci = Dci.where(oldid: row['ndci']).first
+  compo.save
 end
 
