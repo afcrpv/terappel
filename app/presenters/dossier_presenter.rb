@@ -65,6 +65,7 @@ class DossierPresenter < BasePresenter
             return value
           end
         end
+        return "non spécifié" if dossier.bebes.any? {|b| b.send(mp) == nil}
       end
     end
   end

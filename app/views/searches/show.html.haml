@@ -1,7 +1,5 @@
 - title "Résultats de la recherche"
 
-= debug @dossiers.all.inspect if Rails.env.development?
-
 .row
   .span9
     .well.search-params
@@ -11,6 +9,9 @@
           %li
             %span.libelle= t('attributes.search.' + k)
             = v
+        %li
+          %span.libelle Résultats
+          = @dossiers.count
   .span3
     .actions
       = link_to edit_search_path(@search), class: "btn-primary" do

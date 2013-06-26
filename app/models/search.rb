@@ -15,8 +15,8 @@ class Search < ActiveRecord::Base
     dossiers = dossiers.joins(:expositions).where('expositions.produit_id' => produit_id) if produit_id.present?
     dossiers = dossiers.joins(expositions: {produit: :compositions}).where(compositions: {dci_id: dci_id}) if dci_id.present?
     dossiers = dossiers.where(evolution: evolution) if evolution.present?
-    dossiers = dossiers.where(malformation: malformation) if malformation.present?
-    dossiers = dossiers.where(pathologie: pathologie) if pathologie.present?
+    dossiers = dossiers.joins(:bebes).where(bebes: {malformation: malformation}) if malformation.present?
+    dossiers = dossiers.joins(:bebes).where(bebes: {pathologie: pathologie}) if pathologie.present?
     dossiers = dossiers.where("date_appel >= ?", min_date_appel) if min_date_appel.present?
     dossiers = dossiers.where("date_appel <= ?", max_date_appel) if max_date_appel.present?
     dossiers.uniq
