@@ -44,6 +44,7 @@ class Dossier < ActiveRecord::Base
   def localized_dateappel
     I18n.l(date_appel) if date_appel
   end
+
   def patiente_fullname
     [self.try(:name).upcase, self.try(:prenom)].join(" ")
   end
