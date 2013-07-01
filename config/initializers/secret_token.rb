@@ -10,7 +10,7 @@
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
 def find_secret_token
-  Rails.env.development? ? 'a40c208f451e0b31b0d55d1dcc9eff2c24188ec3cedc5fba0c682a804c70ac6f63844b34e37c6bece962f5ab0249d8a022bdcc9bd8c0a9b76e0d67757226a3a9' : ENV['APP_SECRET_TOKEN']
+  Rails.env.production? ? ENV['APP_SECRET_TOKEN'] : 'a40c208f451e0b31b0d55d1dcc9eff2c24188ec3cedc5fba0c682a804c70ac6f63844b34e37c6bece962f5ab0249d8a022bdcc9bd8c0a9b76e0d67757226a3a9'
 end
 
 Terappel::Application.config.secret_key_base = find_secret_token
