@@ -43,10 +43,17 @@ $.fn.duree_expo_calc = ->
   @each ->
     $(this).blur (e) ->
       e.preventDefault()
+      $(this).parents(".control-group").removeClass("error")
+      $(this).nextAll(".duree").parents(".controls").find("span.help-inline").remove()
       de = $(this).prevAll(".de").val()
       a = $(this).val()
       result = a - de
-      $(this).nextAll(".duree").val(a - de) if !isNaN(result) and result > 0
+      if !isNaN(result)
+        if result > 0
+          $(this).nextAll(".duree").val(a - de)
+        else
+          $(this).parents(".control-group").addClass("error")
+          $(this).nextAll(".duree").parents(".controls").append("<span class='help-inline'>Erreur</span>")
 
 window.show_or_hide_hint_for_toxics = ($toxic_element, toxic_value, values_to_compare) ->
   $toxic_message = $toxic_element.next(".help-block").hide()

@@ -19,34 +19,23 @@
       = f.input :dose, input_html: {class: "span6"}, hint: "par exemple en mg/j"
 
   .row-fluid
-    .span6
-      .control-group
-        = f.label :de
-        .controls.controls-row
-          .input-append
-            = f.text_field :de, class: "de input-mini", placeholder: "De"
-            = button_tag tabIndex: "-1", type: :button, class: "btn calendar" do
-              %i.icon-calendar
-            = f.text_field :de_date, class: "input-small date_expo"
-            = f.text_field :a, class: "input-mini duree_calc", placeholder: "à"
-            = button_tag tabIndex: "-1", type: :button, class: "btn calendar" do
-              %i.icon-calendar
-            = f.text_field :a_date, class: "input-small date_expo"
-            = f.text_field :duree, class: "input-mini duree", placeholder: "durée"
-    .span6
-      .control-group
-        = f.label :de2
-        .controls.controls-row
-          .input-append
-            = f.text_field :de2, class: "de input-mini", placeholder: "De"
-            = button_tag tabIndex: "-1", type: :button, class: "btn calendar" do
-              %i.icon-calendar
-            = f.text_field :de2_date, class: "input-small date_expo"
-            = f.text_field :a2, class: "input-mini duree_calc", placeholder: "à"
-            = button_tag tabIndex: "-1", type: :button, class: "btn calendar" do
-              %i.icon-calendar
-            = f.text_field :a2_date, class: "input-small date_expo"
-            = f.text_field :duree2, class: "input-mini duree", placeholder: "durée"
+    - [["periode_expo", ""], ["reprise_ttt", "2"]].each do |item|
+      - pexpo_class = item[0]
+      - suffix = item[1]
+      %div{class: "#{pexpo_class} span6"}
+        .control-group
+          = f.label :"de#{suffix}"
+          .controls.controls-row
+            .input-append
+              = f.text_field :"de#{suffix}", class: "de input-mini", placeholder: "De"
+              = button_tag tabIndex: "-1", type: :button, class: "btn calendar" do
+                %i.icon-calendar
+                = f.text_field :"de#{suffix}_date", class: "input-small date_expo"
+              = f.text_field :"a#{suffix}", class: "input-mini duree_calc", placeholder: "à"
+              = button_tag tabIndex: "-1", type: :button, class: "btn calendar" do
+                %i.icon-calendar
+                = f.text_field :"a#{suffix}_date", class: "input-small date_expo"
+              = f.text_field :"duree#{suffix}", class: "input-mini duree", placeholder: "durée"
 
   = f.association :expo_terme
 
