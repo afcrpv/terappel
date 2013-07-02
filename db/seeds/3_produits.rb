@@ -6,6 +6,13 @@ CSV.foreach("csv/indications.csv", headers: true) do |row|
 end
 
 # create Dcis
+# csv processing : look for doubles :
+# ary = []
+# CSV.foreach "csv/dcis.csv", headers: true do |row|
+#   ary << [row["ndci"], row["libelle"]]
+# end
+# ary.group_by {|e| e[1]}.select {|k,v| v.size > 1}.map(&:first)
+## then lookup both ndci in compositions.csv second column for orphaned dcis
 puts "importing Dci table from csv"
 CSV.foreach("csv/dcis.csv", headers: true) do |row|
   puts "processing row##{row['ndci']}"

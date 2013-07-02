@@ -199,6 +199,7 @@ CSV.foreach("csv/motifs.csv", headers: true) do |row|
 end
 
 # create Categoriesp
+# csv processing : add "NSP" in first row
 puts "importing Categoriesps table from csv"
 CSV.foreach("csv/categoriesps.csv", headers: true) do |row|
   puts "processing row##{row['ncategorie']}"

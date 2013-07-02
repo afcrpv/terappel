@@ -1,4 +1,5 @@
 # create Bebes
+# vim global for bebes vides :g/\d\{2},"\w\+",,,,,,,,/d
 puts "importing Bebe table from csv"
 CSV.foreach("csv/bebes.csv", headers: true) do |row|
   oldid =  row['nappelsaisi'][0..1]+row['nbebe'].to_s
