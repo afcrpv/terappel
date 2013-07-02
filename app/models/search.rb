@@ -15,7 +15,7 @@ class Search < ActiveRecord::Base
   end
 
   def find_dossiers
-    dossiers = Dossier.includes({expositions: :produit}, :centre, :motif, :produits, :bebes)
+    dossiers = Dossier.includes({expositions: [:produit, :indication, :expo_terme]}, :centre, :motif, :produits, :bebes)
     dossiers = dossiers.where(centre_id: centre_id) if centre_id.present?
     dossiers = dossiers.where(motif_id: motif_id) if motif_id.present?
     dossiers = dossiers.joins(:expositions).where('expositions.expo_nature_id' => expo_nature_id) if expo_nature_id

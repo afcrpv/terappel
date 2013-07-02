@@ -1,6 +1,10 @@
 class DossierDecorator < ApplicationDecorator
   delegate_all
 
+  def nbr_bebes
+    object.bebes.size
+  end
+
   def commentaire(parse=true)
     parse ? h.simple_format(object.commentaire) : object.commentaire
   end
@@ -52,6 +56,24 @@ class DossierDecorator < ApplicationDecorator
       handle_none object.expositions[i-1] do
         object.expositions[i-1].produit
       end
+    end
+  end
+
+  %w(sexe poids taille pc apgar1 apgar5).each do |name|
+    define_method name do
+      object.bebes.first.send(name) if object.bebes.any?
+    end
+  end
+
+  %w(indication expo_terme).each do |name|
+    define_method name do
+      object.expositions.first.send(name).try(:name)
+    end
+  end
+
+  %w(de a de2 a2 dose).each do |name|
+    define_method name do
+      object.expositions.first.send(name)
     end
   end
 

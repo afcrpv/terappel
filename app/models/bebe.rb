@@ -5,7 +5,7 @@ class Bebe < ActiveRecord::Base
   has_and_belongs_to_many :malformations
   has_and_belongs_to_many :pathologies
 
-  belongs_to :dossier
+  belongs_to :dossier, counter_cache: true
 
   SEXE = [["Masculin", "M"], ["Féminin", "F"], ["Inconnu", "I"], ["Indéterminé", "Id"]]
 
