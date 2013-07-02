@@ -27,7 +27,7 @@
 %hr
 
 - if @dossiers_count < 300
-  = render "dossiers/dossiers", dossiers: @dossiers
+  = render "dossiers/dossiers", dossiers: @decorated_dossiers
 - else
   .alert.alert-block
     %button.close{type: "button", data: {dismiss: "alert"}} &times;

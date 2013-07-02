@@ -19,10 +19,12 @@ class SearchesController < ApplicationController
   def show
     @filename = "Export_terappel_" + I18n.l(Date.today).gsub("/","_") + ".csv"
     @dossiers = @search.find_dossiers
+    @decorated_dossiers = @search.find_dossiers.decorate
     @dossiers_count = @dossiers.count
+
     respond_with @search do |format|
       format.html { render }
-      format.csv { send_data @dossiers.to_csv(col_sep: ";").encode('iso-8859-1', 'utf-8'), filename: @filename }
+      format.csv { send_data @decorated_dossiers.to_csv(col_sep: ";").encode('iso-8859-1', 'utf-8'), filename: @filename }
     end
   end
 

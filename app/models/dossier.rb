@@ -1,3 +1,4 @@
+require "csv"
 #encoding: utf-8
 class Dossier < ActiveRecord::Base
   # Constants
@@ -6,7 +7,6 @@ class Dossier < ActiveRecord::Base
   ALCOOL = ["Non", "Occasionnel", "Régulier", "NSP"]
   MODACCOUCH = ["V-b spontanée", "V-b instrumentale", "Césarienne", "Inconnue"]
   EVOLUTION = ["GEU", "FCS", "IVG", "IMG", "MIU", "NAI", "INC", "GNC"]
-  COLUMNS_FOR_CSV = [:code, :date_appel, :motif_code, :produit1, :produit2, :evolution, :malformation, :pathologie ]
 
   # validations
   validates_presence_of :name, :date_appel, :centre_id, :expo_terato, :a_relancer

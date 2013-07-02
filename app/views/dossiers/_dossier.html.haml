@@ -1,15 +1,14 @@
-- present dossier do |d|
-  %tr{id: "dossier#{dossier.code}"}
-    %td= d.code
-    %td= d.date_appel
-    %td= d.name
-    %td= d.motif_code
-    %td= d.expositions
-    %td= d.evolution
-    %td= d.malformation
-    %td= d.pathologie
-    %td
-      .btn-group
-        = link_to content_tag(:i, nil, class: "icon-print"), dossier_path(dossier),
-          data: {target: "#dossier_modal", toggle: "modal", dossier_code: dossier.code, edit_url: edit_dossier_path(dossier), print_url: dossier_path(dossier, format: :pdf)}, title: "Imprimer le dossier #{dossier.code}", class: "btn btn-small show-dossier-modal"
-        = link_to content_tag(:i, nil, class: "icon-pencil"), edit_dossier_path(dossier), title: "Modifier le dossier #{dossier.code}", class: "btn btn-small"
+%tr{id: "dossier#{dossier.code}"}
+  %td= dossier.code
+  %td= dossier.date_appel
+  %td= dossier.name
+  %td= dossier.motif_code
+  %td= dossier.expositions
+  %td= dossier.evolution
+  %td= dossier.malformation
+  %td= dossier.pathologie
+  %td
+    .btn-group
+      = link_to content_tag(:i, nil, class: "icon-print"), dossier_path(dossier),
+        data: {target: "#dossier_modal", toggle: "modal", dossier_code: dossier.code, edit_url: edit_dossier_path(dossier), print_url: dossier_path(dossier, format: :pdf)}, title: "Imprimer le dossier #{dossier.code}", class: "btn btn-small show-dossier-modal"
+      = link_to content_tag(:i, nil, class: "icon-pencil"), edit_dossier_path(dossier), title: "Modifier le dossier #{dossier.code}", class: "btn btn-small"

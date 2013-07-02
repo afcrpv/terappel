@@ -1,27 +1,12 @@
-class BasePresenter
-  def initialize(object, template)
-    @object = object
-    @template = template
-  end
-
-  def self.presents(name)
-    define_method(name) do
-      @object
-    end
-  end
-
+class ApplicationDecorator < Draper::Decorator
   def twipsy(value)
-    content_tag :a, truncate(value, length: 20),
+    h.content_tag :a, h.truncate(value, length: 20),
       href: "#", rel: "tooltip",
       "data-original-title" => value
   end
 
-  def method_missing(*args, &block)
-    @template.send(*args, &block)
-  end
-
   def localize_date(datefield)
-    l datefield
+    h.l datefield
   end
 
   def array_to_hash(a)

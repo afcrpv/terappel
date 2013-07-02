@@ -31,7 +31,8 @@ class DossiersController < ApplicationController
   end
 
   def index
-    @dossiers = @dossiers.includes([:motif, :bebes]).limit(10)
+    @dossiers = @dossiers.includes([:motif, :bebes, :produits]).limit(10)
+    @decorated_dossiers = @dossiers.decorate
     respond_with @dossiers do |format|
       format.html
       format.xls
@@ -45,6 +46,7 @@ class DossiersController < ApplicationController
   end
 
   def show
+    @decorated_dossier = @dossier.decorate
     respond_with @dossier do |format|
       format.html {render layout: false}
       format.pdf do
