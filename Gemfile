@@ -58,7 +58,6 @@ gem "cocoon", github: "nathanvda/cocoon"
 gem 'jstree-rails', github: "tristanm/jstree-rails"
 #gem 'client_side_validations', github: 'bcardarella/client_side_validations'
 #gem 'client_side_validations-simple_form'
-gem 'csv_builder'
 gem 'haml-rails'
 gem 'responders'
 gem 'prawn', github: "prawnpdf/prawn"
