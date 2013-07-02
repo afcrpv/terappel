@@ -18,10 +18,12 @@ class SearchesController < ApplicationController
 
   def show
     @filename = "Export_terappel_" + I18n.l(Date.today).gsub("/","_") + ".csv"
-    @csv_options = {col_sep: ";"}
     @dossiers = @search.find_dossiers
-    @dossiers_for_csv = @dossiers
-    respond_with @search
+    @dossiers_count = @dossiers.count
+    respond_with @search do |format|
+      format.html { render }
+      format.csv { send_data @dossiers.to_csv(col_sep: ";").encode('iso-8859-1', 'utf-8'), filename: @filename }
+    end
   end
 
   def edit
@@ -37,7 +39,7 @@ class SearchesController < ApplicationController
   private
 
   def search_params
-    params.require(:search).permit :centre_id, :min_date_appel, :max_date_appel, :motif_id, :expo_nature_id, :expo_type_id, :indication_id, :expo_terme_id, :evolution, :malformation, :pathologie, :produit_tokens, :dci_id
+    params.require(:search).permit :centre_id, :min_date_appel, :max_date_appel, :motif_id, :expo_nature_id, :expo_type_id, :indication_id, :expo_terme_id, :evolution, :malformation, :pathologie, :produit_tokens, :dci_tokens
   end
 
   def min_date_appel

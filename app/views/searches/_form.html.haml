@@ -9,11 +9,13 @@
   = f.input :expo_nature_id, collection: ExpoNature.all, label: "Nature expo"
   = f.input :expo_type_id, collection: ExpoType.all, label: "Type expo", input_html: {class: "span5"}
   = f.input :expo_terme_id, collection: ExpoTerme.all, label: "Termes expo"
-  .control-group
-    = f.label :produit_tokens, "Produits", class: "control-label"
-    .controls
-      = f.hidden_field :produit_tokens, class: "span8 produit_tokens", value: (items = f.object.send(:produits)).map(&:id).join(","), data: {load: items.map(&:name_and_id).to_json, placeholder: "Choisir les produits"}
-  - %w(dci indication).each do |field|
+  - %w(dci produit).each do |name|
+    .control-group
+      = f.label :"#{name}_tokens", name.pluralize.titleize, class: "control-label"
+      .controls
+        = f.hidden_field :"#{name}_tokens", class: "span8 #{name}_tokens", value: (items = f.object.send(:"#{name}s")).map(&:id).join(","), data: {load: items.map(&:name_and_id).to_json, placeholder: "Choisir les #{name}s"}
+
+  - %w(indication).each do |field|
     .control-group
       = f.label field.to_sym
       .controls

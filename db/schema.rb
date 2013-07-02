@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130702092654) do
+ActiveRecord::Schema.define(version: 20130702112948) do
 
   create_table "active_admin_comments", force: true do |t|
     t.integer  "resource_id",   null: false
@@ -234,6 +234,11 @@ ActiveRecord::Schema.define(version: 20130702092654) do
   end
 
   add_index "dcis", ["libelle"], name: "index_dcis_on_libelle", unique: true, using: :btree
+
+  create_table "dcis_searches", id: false, force: true do |t|
+    t.integer "dci_id"
+    t.integer "search_id"
+  end
 
   create_table "demandeurs", force: true do |t|
     t.integer  "dossier_id"

@@ -22,18 +22,19 @@ $ ->
   for association in ["produit", "indication", "dci"]
     $(".#{association}_autocomplete").attach_expositions_select2(association, "/dossiers/#{association}s.json")
 
-  $(".produit_tokens").select2
-    minimumInputLength: 3
-    multiple: true
-    initSelection : (element, callback) ->
-      preload = element.data("load")
-      callback(preload)
-    width: "75%"
-    ajax:
-      url: "/dossiers/produits.json"
-      dataType: "json"
-      data: (term, page) ->
-        q: term
-        page_limit: 10
-      results: (data, page) ->
-        return {results: data}
+  for name in ["dci", "produit"]
+    $(".#{name}_tokens").select2
+      minimumInputLength: 3
+      multiple: true
+      initSelection : (element, callback) ->
+        preload = element.data("load")
+        callback(preload)
+      width: "75%"
+      ajax:
+        url: "/dossiers/#{name}s.json"
+        dataType: "json"
+        data: (term, page) ->
+          q: term
+          page_limit: 10
+        results: (data, page) ->
+          return {results: data}
