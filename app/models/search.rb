@@ -1,8 +1,15 @@
 class Search < ActiveRecord::Base
-
   belongs_to :produit
   belongs_to :indication
   belongs_to :dci
+
+  has_and_belongs_to_many :produits
+
+  attr_reader :produit_tokens
+
+  def produit_tokens=(ids)
+    self.produit_ids = ids.split(",")
+  end
 
   def find_dossiers
     dossiers = Dossier.includes(:centre, :motif, :expositions, :produits, :bebes)
@@ -12,7 +19,7 @@ class Search < ActiveRecord::Base
     dossiers = dossiers.joins(:expositions).where('expositions.expo_type_id' => expo_type_id) if expo_type_id
     dossiers = dossiers.joins(:expositions).where('expositions.expo_terme_id' => expo_terme_id) if expo_terme_id
     dossiers = dossiers.joins(:expositions).where('expositions.indication_id' => indication_id) if indication_id
-    dossiers = dossiers.joins(:expositions).where('expositions.produit_id' => produit_id) if produit_id
+    dossiers = dossiers.joins(:expositions).where(expositions: {produit_id: [produit_ids]}) if produit_ids
     dossiers = dossiers.joins(expositions: {produit: :compositions}).where(compositions: {dci_id: dci_id}) if dci_id
     dossiers = dossiers.where(evolution: evolution) if evolution
     dossiers = dossiers.joins(:bebes).where(bebes: {malformation: malformation}) if malformation
@@ -27,7 +34,7 @@ class Search < ActiveRecord::Base
     result['centre'] = Centre.find(centre_id).name if centre_id
     result['date appel'] = "du " + I18n.l(min_date_appel) + " au " + I18n.l(max_date_appel)
     result['motif'] = Motif.find(motif_id).name if motif_id
-    result['exposition'] = Produit.find(produit_id).name if produit_id
+    result['produits'] = Produit.find(self.produit_ids).map(&:name).to_sentence(two_words_connector: " ou ", words_connector: " ou ", last_word_connector: " ou ") if produit_ids
     result['dci'] = Dci.find(dci_id).libelle if dci_id
     result['expo_nature'] = ExpoNature.find(expo_nature_id).name if expo_nature_id
     result['expo_type'] = ExpoType.find(expo_type_id).name if expo_type_id

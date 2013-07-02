@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130625133046) do
+ActiveRecord::Schema.define(version: 20130702092654) do
 
   create_table "active_admin_comments", force: true do |t|
     t.integer  "resource_id",   null: false
@@ -422,6 +422,11 @@ ActiveRecord::Schema.define(version: 20130625133046) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "oldid"
+  end
+
+  create_table "produits_searches", id: false, force: true do |t|
+    t.integer "produit_id"
+    t.integer "search_id"
   end
 
   create_table "qualites", force: true do |t|

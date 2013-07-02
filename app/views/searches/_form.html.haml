@@ -9,14 +9,17 @@
   = f.input :expo_nature_id, collection: ExpoNature.all, label: "Nature expo"
   = f.input :expo_type_id, collection: ExpoType.all, label: "Type expo", input_html: {class: "span5"}
   = f.input :expo_terme_id, collection: ExpoTerme.all, label: "Termes expo"
-  - %w(produit dci indication).each do |field|
-    - article = field == "produit" ? "un" : "une"
+  .control-group
+    = f.label :produit_tokens, "Produits", class: "control-label"
+    .controls
+      = f.hidden_field :produit_tokens, class: "span8 produit_tokens", value: (items = f.object.send(:produits)).map(&:id).join(","), data: {load: items.map(&:name_and_id).to_json, placeholder: "Choisir les produits"}
+  - %w(dci indication).each do |field|
     .control-group
       = f.label field.to_sym
       .controls
-        = f.hidden_field :"#{field}_id", class: "span5 #{field}_autocomplete", data: {load: f.object.send(field).try(:name_and_id), placeholder: "Saisir #{article} #{field}"}
+        = f.hidden_field :"#{field}_id", class: "span5 #{field}_autocomplete", data: {load: f.object.send(field).try(:name_and_id), placeholder: "Saisir une #{field}"}
   = f.input :malformation, label: "Malformations", as: :radio_buttons, collection: Dossier::ONI, item_wrapper_class: "inline"
   = f.input :pathologie, label: "Pathologies", as: :radio_buttons, collection: Dossier::ONI, item_wrapper_class: "inline"
   .actions
-    = f.button :submit, "Rechercher", disable_with: "Rechercher", class: "btn-primary"
+    = f.button :submit, "Rechercher", data: {disable_with: "Rechercher"}, class: "btn-primary"
     = button_tag "Effacer le formulaire", type: :reset, class: "btn btn-danger"

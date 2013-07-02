@@ -29,6 +29,7 @@ class SearchesController < ApplicationController
   end
 
   def update
+    flash[:notice] = nil
     @search.update(search_params)
     respond_with @search, location: @search
   end
@@ -36,7 +37,7 @@ class SearchesController < ApplicationController
   private
 
   def search_params
-    params.require(:search).permit :centre_id, :min_date_appel, :max_date_appel, :motif_id, :expo_nature_id, :expo_type_id, :indication_id, :expo_terme_id, :evolution, :malformation, :pathologie, :produit_id, :dci_id
+    params.require(:search).permit :centre_id, :min_date_appel, :max_date_appel, :motif_id, :expo_nature_id, :expo_type_id, :indication_id, :expo_terme_id, :evolution, :malformation, :pathologie, :produit_tokens, :dci_id
   end
 
   def min_date_appel
@@ -45,5 +46,9 @@ class SearchesController < ApplicationController
 
   def max_date_appel
     @max_date_appel = params[:id] && @search.max_date_appel ? l(@search.max_date_appel) : l(Dossier.maximum(:date_appel))
+  end
+
+  def interpolation_options
+    {resource_name: "Recherche"}
   end
 end
