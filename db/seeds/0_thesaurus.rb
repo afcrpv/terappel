@@ -1,4 +1,3 @@
-# create Centre
 #crpvs = Psych.load( <<EOY )
 #- name: Amiens
   #departements:
@@ -189,7 +188,10 @@
     #- "45"
 #EOY
 
-#Centre.find_or_create_by!(code: "LY", name: "Lyon")
+# create Centre
+%w(AM AN CF CN DJ GR LL LM LP LY MA MP PA PO RN SE ST TG TO).each do |code|
+  Centre.find_or_create_by!(code: code, name: code)
+end
 
 # create Motif
 puts "importing Motifs table from csv"

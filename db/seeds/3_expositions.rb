@@ -59,6 +59,8 @@ CSV.foreach("csv/compositions.csv", headers: true) do |row|
 end
 
 # create Expositions
+# csv processing : move lines with 2nd column empty to the top for analysis
+# :g/^\d\{7},,/m0
 puts "importing Exposition table from csv"
 CSV.foreach("csv/expositions.csv", headers: true) do |row|
   oldid = row['nexposition']

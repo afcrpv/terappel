@@ -3,8 +3,8 @@
 puts "importing Bebe table from csv"
 CSV.foreach("csv/bebes.csv", headers: true) do |row|
   oldid =  row['nappelsaisi'][0..1]+row['nbebe'].to_s
-  puts "processing row##{oldid}"
   if (dossier = Dossier.where(code: row['nappelsaisi']).first)
+    puts "processing bebe##{oldid}"
     malformation = case row['malforma']
                    when "NSP"
                      "NSP"
@@ -70,6 +70,9 @@ end
     oldid = row['nappelsaisi'][0..1]+row['nbebe'].to_s
     puts "processing row##{oldid}"
     bebe = Bebe.where(oldid: oldid).first
-    bebe.send(:"#{name.pluralize}") << klass.where(oldid: row["n#{name}"]).first
+    if bebe
+      puts "adding malformation to bebe##{oldid}"
+      bebe.send(:"#{name.pluralize}") << klass.where(oldid: row["n#{name}"]).first
+    end
   end
 end
