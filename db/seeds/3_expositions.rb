@@ -5,20 +5,21 @@ CSV.foreach("csv/indications.csv", headers: true) do |row|
   Indication.find_or_create_by!(oldid: row['nindication'], name: row['libelle'])
 end
 
-# create Dcis
+# create Dci
 puts "importing Dci table from csv"
 CSV.foreach("csv/dcis.csv", headers: true) do |row|
   puts "processing row##{row['ndci']}"
   Dci.find_or_create_by!(oldid: row['ndci'], libelle: row['libelle'])
 end
 
-# create Produits
+# create Produit
 puts "importing Produit table from csv"
 CSV.foreach("csv/produits.csv", headers: true) do |row|
   puts "processing row##{row['nproduit']}"
   Produit.find_or_create_by!(oldid: row['nproduit'], name: row['libelle'])
 end
 
+# create Atc
 puts "Importing atcs from csv"
 CSV.foreach("csv/atcs.csv", headers: true) do |row|
   oldid = row["natc"]
@@ -42,20 +43,22 @@ end
 
 # populate Atc/Produit join table
 puts "Importing Classification table from csv"
+Classification.destroy_all
 CSV.foreach("csv/classifications.csv", headers: true) do |row|
-  Classification.destroy_all
-  classification = Classification.create
+  classification = Classification.new
   classification.produit = Produit.where(oldid: row['nproduit']).first
   classification.atc = Atc.where(oldid: row['natc']).first
+  classification.save!
 end
 
 # populate Dci/Produit join table
 puts "Importing Composition table from csv"
+Composition.destroy_all
 CSV.foreach("csv/compositions.csv", headers: true) do |row|
-  Composition.destroy_all
-  compo = Composition.create
+  compo = Composition.new
   compo.produit = Produit.where(oldid: row['nproduit']).first
   compo.dci = Dci.where(oldid: row['ndci']).first
+  compo.save!
 end
 
 # create Expositions
@@ -65,22 +68,22 @@ puts "importing Exposition table from csv"
 CSV.foreach("csv/expositions.csv", headers: true) do |row|
   oldid = row['nexposition']
   puts "processing expo row##{oldid}"
-  expo = Exposition.find_or_initialize_by(oldid: oldid,
-                                expo_type_id: row['ntype'],
-                                expo_terme_id: row['nterme'],
-                                expo_nature_id: row['nnatexpo'],
-                                numord: row['numord'],
-                                duree: row['duree'],
-                                duree2: row['duree2'],
-                                dose: row['dose'],
-                                de: row['de'],
-                                a: row['a'],
-                                de2: row['de2'],
-                                a2: row['a2'],
-                                medpres: row['medpres']
-                               )
+  expo = Exposition.find_or_initialize_by(oldid: oldid)
+  expo.expo_type_id = row['ntype']
+  expo.expo_terme_id = row['nterme']
+  expo.expo_nature_id = row['nnatexpo']
+  expo.numord = row['numord']
+  expo.duree = row['duree']
+  expo.duree2 = row['duree2']
+  expo.dose = row['dose']
+  expo.de = row['de']
+  expo.a = row['a']
+  expo.de2 = row['de2']
+  expo.a2 = row['a2']
+  expo.medpres = row['medpres']
   expo.produit = Produit.where(oldid: row['nproduit']).first
   expo.indication = Indication.where(oldid: row['nindication']).first
+  expo.nappelsaisi = row['nappelsaisi']
   expo.dossier = Dossier.where(code: row['nappelsaisi']).first
-  expo.save
+  expo.save! if expo.produit
 end
