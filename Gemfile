@@ -42,8 +42,7 @@ gem 'select2-rails', github: "argerim/select2-rails"
 # gem 'debugger', group: [:development, :test]
 
 # Heroku gems
-gem 'rails_log_stdout',           github: 'heroku/rails_log_stdout'
-gem 'rails3_serve_static_assets', github: 'heroku/rails3_serve_static_assets'
+gem 'rails_12factor', group: :production
 gem 'newrelic_rpm'
 gem 'unicorn'
 gem 'foreman'
@@ -88,5 +87,4 @@ group :test do
   gem "zeus"
   gem 'cucumber-rails', require: false
   gem 'launchy'    # So you can do Then show me the page
-  gem 'simplecov', :require => false
 end
