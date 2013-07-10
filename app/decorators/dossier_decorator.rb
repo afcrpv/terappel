@@ -52,9 +52,20 @@ class DossierDecorator < ApplicationDecorator
   end
 
   (1..3).each do |i|
-    define_method :"produit#{i}" do
-      handle_none object.expositions[i-1] do
-        object.expositions[i-1].produit
+    define_method :"dose#{i}" do
+      exposition = object.expositions[i-1]
+      handle_none exposition do
+        exposition.send(:dose)
+      end
+    end
+    %w(produit indication expo_terme).each do |name|
+      define_method :"#{name}#{i}" do
+        exposition = object.expositions[i-1]
+        handle_none exposition do
+          handle_none exposition.send(:"#{name}") do
+            exposition.send(:"#{name}_name")
+          end
+        end
       end
     end
   end
