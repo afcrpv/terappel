@@ -36,4 +36,9 @@ Terappel::Application.configure do
     #  Bullet.growl = true
     Bullet.rails_logger = true
   end
+
+  #require "debugger"
+  #Debugger.start_remote
+  #Debugger.settings[:autoeval] = true
+  #puts "=> Debugger enabled"
 end
