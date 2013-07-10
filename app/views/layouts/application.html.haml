@@ -14,9 +14,9 @@
   %meta{:content => "width=device-width, initial-scale=1, maximum-scale=1", :name => "viewport"}/
 
   / CSS
-  = stylesheet_link_tag    "application"
+  = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
 
-  = javascript_include_tag "application"
+  = javascript_include_tag "application", "data-turbolinks-track" => true
   = csrf_meta_tags
   / Favicons
 
