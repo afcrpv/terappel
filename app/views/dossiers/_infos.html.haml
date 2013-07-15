@@ -96,12 +96,12 @@
   %tbody
     %tr
       %th{colspan: "5"}= t(:grsant, scope: "activerecord.attributes.dossier")
-      %td= f.text_field :grsant, class: "span1"
+      %td= f.input :grsant, label: false, input_html: {class: "span1 grsant_coherence"}
     %tr
       - [:fcs, :geu, :miu].each do |item|
         %th= item.to_s.upcase
-        %td= f.text_field item, class: "span1"
+        %td= f.input item, label: false, input_html: {class: "span1 grsant_coherence"}
     %tr
       - [:ivg, :img, :nai].each do |item|
         %th= item.to_s.upcase
-        %td= f.text_field item, class: "span1"
+        %td= f.input item, label: false, input_html: {class: "span1 grsant_coherence"}

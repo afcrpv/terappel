@@ -16,7 +16,6 @@ $ ->
   $('body').on 'click', '.show-dossier-modal', (ev) ->
     ev.preventDefault()
     dossier_code = $(@).data('dossierCode')
-    console.log dossier_code
     dossier_edit_url = $(@).data('editUrl')
     dossier_print_url = $(@).data('printUrl')
     $($(@).attr('data-target') + " .code").html(dossier_code)
@@ -51,9 +50,8 @@ $ ->
   $("#dossier_#{field}").calculateBMI("#dossier_imc") for field in ["taille", "poids"]
 
   #### Grossesse
-  $("#dossier_grsant").on 'blur', ->
-    grsant = $(this).val()
-    if grsant is "0" then zero_grossesse_fields()
+  $("#dossier_grsant").zeroGrossesseFields()
+  $("#grossesses_anterieures").find("input").checkGrsantCoherence()
 
   for field in ["toxiques", "folique", "patho1t"]
     element = $("#dossier_#{field}")
@@ -116,6 +114,44 @@ $ ->
 
 # functions & jQuery plugins
 
+$.fn.checkGrsantCoherence = ->
+  array = @
+  @each ->
+    $(this).blur ->
+      can_fire = true
+      empty_elements = []
+      for element in array
+        unless element.value
+          can_fire = false
+          empty_elements.push element
+
+      $("#dossier_grsant").next("span.help-inline").remove()
+      $message = $('<span class="help-inline" />')
+      if can_fire is true
+        entered_sum = $("#dossier_grsant").val()
+        expected_sum = 0
+        expected_sum += parseInt($("#dossier_#{field}").val()) for field in ["fcs", "geu", "miu", "ivg", "img", "nai"]
+        if parseInt(entered_sum) isnt expected_sum
+          $message.html("Saisie incorrecte, vérifiez la somme !")
+          message_class = "error"
+        else
+          $message.html("Saisie correcte.")
+          message_class = "success"
+        $(element).closest(".control-group").attr("class", "control-group #{message_class}") for element in array
+      else
+        $message.html("Saisie incomplète, veuillez saisir tous les champs !")
+        message_class = "warning"
+        $(element).closest(".control-group").attr("class", "control-group #{message_class}") for element in empty_elements
+        $(this).closest(".control-group").attr("class", "control-group success") if $(this).val()
+
+      $("#dossier_grsant").closest(".controls").append($message)
+      $("#dossier_grsant").closest(".control-group").attr("class", "control-group #{message_class}")
+
+$.fn.zeroGrossesseFields = ->
+  @on 'blur', ->
+    $("#dossier_#{field}").val("0") for field in ["fcs", "geu", "miu", "ivg", "img", "nai"] if $(this).val() is "0"
+    #think about skipping tabulations for all these zeroed fields
+
 $.fn.attach_correspondant_select2 = (name) ->
   @select2
     minimumInputLength: 3
@@ -135,11 +171,6 @@ $.fn.attach_correspondant_select2 = (name) ->
     if e.val then activateCorrespondantEdit(e.val, name) else $("#dossier_#{name}_id_field .corr_update").hide()
 
   $('.select2-search-field input').css('width', '100%')
-
-zero_grossesse_fields = ->
-  fields = []
-  fields.push($("#dossier_#{field_name}")) for field_name in ["fcs", "geu", "miu", "ivg", "img", "nai"]
-  field.val("0") for field in fields
 
 activateCorrespondantEdit = (correspondant_id, name) ->
   $edit_correspondant_btn = $("#dossier_#{name}_id_field .corr_update")
