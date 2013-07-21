@@ -26,7 +26,6 @@ group :doc do
   gem 'sdoc', require: false
 end
 
-gem "jquery-ui-rails"
 gem 'select2-rails', github: "argerim/select2-rails"
 
 # Use unicorn as the web server
@@ -75,6 +74,7 @@ group :development do
   gem 'rb-fsevent', :require => false
   gem 'terminal-notifier-guard'
   gem 'bullet'
+  gem "consistency_fail"
 end
 
 group :test do

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130702144529) do
+ActiveRecord::Schema.define(version: 20130721195518) do
 
   create_table "active_admin_comments", force: true do |t|
     t.integer  "resource_id",   null: false
@@ -180,6 +180,7 @@ ActiveRecord::Schema.define(version: 20130702144529) do
     t.string   "slug"
   end
 
+  add_index "centres", ["name"], name: "index_centres_on_name", unique: true, using: :btree
   add_index "centres", ["slug"], name: "index_centres_on_slug", unique: true, using: :btree
 
   create_table "classifications", force: true do |t|
@@ -248,7 +249,7 @@ ActiveRecord::Schema.define(version: 20130702144529) do
   end
 
   add_index "demandeurs", ["correspondant_id"], name: "index_demandeurs_on_correspondant_id", using: :btree
-  add_index "demandeurs", ["dossier_id"], name: "index_demandeurs_on_dossier_id", using: :btree
+  add_index "demandeurs", ["dossier_id"], name: "index_demandeurs_on_dossier_id", unique: true, using: :btree
 
   create_table "dossiers", force: true do |t|
     t.date     "date_appel"
@@ -400,6 +401,7 @@ ActiveRecord::Schema.define(version: 20130702144529) do
   end
 
   add_index "malformations", ["ancestry"], name: "index_malformations_on_ancestry", using: :btree
+  add_index "malformations", ["libelle"], name: "index_malformations_on_libelle", unique: true, using: :btree
 
   create_table "motifs", force: true do |t|
     t.string   "name"
@@ -422,6 +424,7 @@ ActiveRecord::Schema.define(version: 20130702144529) do
   end
 
   add_index "pathologies", ["ancestry"], name: "index_pathologies_on_ancestry", using: :btree
+  add_index "pathologies", ["libelle"], name: "index_pathologies_on_libelle", unique: true, using: :btree
 
   create_table "produits", force: true do |t|
     t.string   "name"
@@ -468,7 +471,7 @@ ActiveRecord::Schema.define(version: 20130702144529) do
   end
 
   add_index "relances", ["correspondant_id"], name: "index_relances_on_correspondant_id", using: :btree
-  add_index "relances", ["dossier_id"], name: "index_relances_on_dossier_id", using: :btree
+  add_index "relances", ["dossier_id"], name: "index_relances_on_dossier_id", unique: true, using: :btree
 
   create_table "revues", force: true do |t|
     t.integer  "numero"
@@ -539,6 +542,7 @@ ActiveRecord::Schema.define(version: 20130702144529) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
+  add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
   create_table "users_roles", id: false, force: true do |t|
     t.integer "user_id"
