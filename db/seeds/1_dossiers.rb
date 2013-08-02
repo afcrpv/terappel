@@ -6,11 +6,17 @@ EXPOTERATO = {
   "" => "NSP"
 }
 
+RELANCE = {
+  "N" => "Non",
+  "O" => "Oui"
+}
+
 puts "importing Dossier table from csv"
 CSV.foreach("csv/dossiers.csv", headers: true) do |row|
   puts "processing dossier##{row['nappelsaisi']}"
   name = row['nom'].blank? ? "INCONNU" : row['nom']
   expo_terato = row['expoterato'].blank? ? "NSP" : EXPOTERATO[row['expoterato']]
+  a_relancer = RELANCE[row['relance']]
   dossier = Dossier.find_or_initialize_by(code: row['nappelsaisi'])
   dossier.centre_id= Centre.where(code: row['nappelsaisi'][0..1]).first.id
   dossier.evolution= Dossier::EVOLUTION[row['ntypaccou'].to_i + 1]
@@ -26,7 +32,7 @@ CSV.foreach("csv/dossiers.csv", headers: true) do |row|
   dossier.age= row['age']
   dossier.antecedents_perso= Dossier::ONI[row['ap'].to_i]
   dossier.antecedents_fam= Dossier::ONI[row['af'].to_i]
-  dossier.a_relancer= row['relance']
+  dossier.a_relancer= a_relancer
   dossier.ass_med_proc= row['assmedproc']
   dossier.expo_terato= expo_terato
   dossier.fcs= row['fcs']
