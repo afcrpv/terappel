@@ -29,7 +29,12 @@ $ ->
   $(".combobox").select2()
 
   # bootstrap form tabs
-  $(".nav-tabs a:first").tab('show')
+  current_tab = $("input#dossier_current_tab").val()
+  $("#tabs a[href='##{current_tab}']").tab('show')
+
+  $("[data-toggle=pill]").on "click", (e) ->
+    href = "clicked #{@.href}"
+    $("input#dossier_current_tab").val(href.split("#")[1])
 
   for field in ["code", "name"]
     $("#dossier_#{field}").on "blur", ->

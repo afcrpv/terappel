@@ -1,6 +1,7 @@
-= simple_form_for dossier, validate: true, html: { class: "form-vertical saisie"} do |f|
+= simple_form_for dossier, validate: true, html: {class: "form-vertical saisie"} do |f|
   = errors_for dossier
   = f.input :centre_id, as: :hidden
+  = f.hidden_field :current_tab, value: params[:current_tab] || "infos"
 
   %ul.nav.nav-tabs#tabs
     %li= link_to "INFORMATIONS GÉNÉRALES", "#infos", data: {toggle: "pill"}

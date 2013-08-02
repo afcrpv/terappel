@@ -37,6 +37,8 @@ class Dossier < ActiveRecord::Base
 
   # methods
 
+  attr_accessor :current_tab
+
   def to_param
     code
   end

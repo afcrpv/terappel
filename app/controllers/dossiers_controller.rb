@@ -86,7 +86,7 @@ class DossiersController < ApplicationController
 
   def update
     if params[:_continue]
-      location = edit_dossier_path(@dossier)
+      location = edit_dossier_path(@dossier, current_tab: params[:dossier][:current_tab])
     elsif params[:_add_another]
       location = new_dossier_path
     else
@@ -148,7 +148,7 @@ class DossiersController < ApplicationController
   end
 
   def dossier_params
-    params.require(:dossier).permit(:date_appel, :centre_id, :user_id, :code, :a_relancer, :relance_counter, :categoriesp_id,
+    params.require(:dossier).permit(:date_appel, :centre_id, :user_id, :current_tab, :code, :a_relancer, :relance_counter, :categoriesp_id,
       :motif_id, :modaccouch, :date_dernieres_regles, :date_reelle_accouchement, :date_accouchement_prevu, :date_debut_grossesse, :date_recueil_evol, :name, :prenom, :age, :antecedents_perso, :antecedents_fam, :ass_med_proc, :expo_terato, :tabac, :alcool, :fcs, :geu, :miu, :ivg, :img, :nai, :grsant, :age_grossesse, :terme, :path_mat, :comm_antecedents_perso, :comm_antecedents_fam, :comm_evol, :comm_expo, :commentaire, :toxiques, :date_naissance, :poids, :taille, :folique, :patho1t, :evolution, :imc,
       demandeur_attributes: [:correspondant_id],
       relance_attributes: [:correspondant_id],
