@@ -85,6 +85,5 @@ group :test do
   gem "guard-rspec", "~> 2.1.0"
   gem "simplecov", :require => false
   gem "zeus"
-  gem 'cucumber-rails', require: false
   gem 'launchy'    # So you can do Then show me the page
 end
