@@ -1,3 +1,4 @@
+require "ored_list"
 class Produit < ActiveRecord::Base
   has_many :expositions, inverse_of: :produit
   has_many :dossiers, through: :expositions
