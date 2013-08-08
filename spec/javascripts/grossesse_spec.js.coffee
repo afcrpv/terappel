@@ -26,7 +26,8 @@ describe "Grossesse", ->
     describe "when dg is empty or invalid", ->
       describe "when ddr is present and valid", ->
         it "should calculate dap from ddr", ->
-          expect((grossesse = new Grossesse(@date_appel, @date_dernieres_regles, "")).get_date_accouchement_prevu())
+          expect((grossesse = new Grossesse(@date_appel, @date_dernieres_regles, ""))
+            .get_date_accouchement_prevu())
             .toEqual("10/10/2012")
       describe "when ddr is empty or invalid", ->
         it "should use the constructor argument dap date", ->
@@ -52,7 +53,9 @@ describe "Grossesse", ->
 
   describe "with its #calculateGrossesse jQuery plugin", ->
     beforeEach ->
-      loadFixtures "dossier_form"
+      $form = affix("form")
+      $form.affix("input#dossier_#{id}") for id in ["date_appel", "date_dernieres_regles", "date_debut_grossesse", "date_accouchement_prevu", "age_grossesse"]
+      $form.affix("#grossesse_date_messages")
       @date_dernieres_regles_field = $("#dossier_date_dernieres_regles")
       @date_debut_grossesse_field = $("#dossier_date_debut_grossesse")
       @date_accouchement_prevu_field = $("#dossier_date_accouchement_prevu")
@@ -155,6 +158,3 @@ describe "Grossesse", ->
           expect(@date_accouchement_prevu_field.val()).toBe("22/09/2012")
         it "should recalculate age grossesse", ->
           expect(@age_grossesse_field.val()).toBe("5")
-
-
-

@@ -7,7 +7,7 @@ describe "Bmi", ->
     expect(bmi.calculate()).toBe(18)
   describe "with its jquery plugin #calculateBMI", ->
     beforeEach ->
-      loadFixtures "dossier_form"
+      affix("input#dossier_#{id}") for id in ["imc", "poids", "taille"]
       @imc_field = $("#dossier_imc")
       @weight_field = $("#dossier_poids")
       @size_field = $("#dossier_taille")
@@ -16,10 +16,10 @@ describe "Bmi", ->
     afterEach ->
       @imc_field.val("")
     it "fills up bmi field when weight field lose focus", ->
-      @weight_field.calculateBMI()
+      @weight_field.calculateBMI("#dossier_imc")
       @weight_field.blur()
       expect(@imc_field.val()).toBe("18")
     it "fills up bmi field when size field lose focus", ->
-      @size_field.calculateBMI()
+      @size_field.calculateBMI("#dossier_imc")
       @size_field.blur()
       expect(@imc_field.val()).toBe("18")

@@ -1,5 +1,6 @@
 = simple_form_for correspondant, html: {class: "form-horizontal", data: {title: form_title}} do |f|
   = f.error_notification if f.error_notification
+  = f.input :centre_id, as: :hidden
   = f.association :formule
   = f.input :nom, label: "NOM et Prénom"
   = f.association :qualite, label: "Qualité"
@@ -10,7 +11,6 @@
   = f.input :email
   = f.input :telephone, label: "Téléphone"
   = f.input :fax
-  = f.input :centre_id, as: :hidden
   .form-actions
-    = f.button :submit, disable_with: "Attendre...", class: "btn-success", name: "_save"
-    = button_tag "Annuler", type: :submit, name: "_cancel", class: "btn btn-danger"
+    = f.button :submit, data: {disable_with: "Attendre..."}, class: "btn-success"
+    = button_tag "Annuler", type: :submit, class: "btn btn-danger"

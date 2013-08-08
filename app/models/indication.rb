@@ -1,7 +1,5 @@
 class Indication < ActiveRecord::Base
-  attr_accessible :name, :oldid
-
-  default_scope order(:name)
+  default_scope {order(:name)}
 
   def self.search_by_name(string)
     where("LOWER(name) like ?", "%#{string}%")

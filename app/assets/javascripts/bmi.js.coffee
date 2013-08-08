@@ -9,10 +9,13 @@ class @Bmi
     else
       0
 
-$.fn.calculateBMI = ->
+$.fn.calculateBMI = (result_container)->
   @each ->
     $(this).blur ->
       weight = $("#dossier_poids").val()
       size = $("#dossier_taille").val()
-      bmi = new Bmi(weight, size)
-      $("#dossier_imc").val(bmi.calculate())
+      if weight and size
+        bmi = new Bmi(weight, size)
+        $(result_container).val(bmi.calculate())
+      else
+        $(result_container).val("")

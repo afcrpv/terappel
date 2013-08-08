@@ -1,45 +1,48 @@
 class SearchesController < ApplicationController
+  respond_to :html
+  respond_to :csv, only: :show
+
   load_and_authorize_resource :search
 
   helper_method :min_date_appel, :max_date_appel
 
   def new
     @search = Search.new(centre_id: current_user.centre_id)
+    respond_with @search
   end
 
   def create
-    if @search.save
-      redirect_to @search
-    else
-      render :new
-    end
+    @search = Search.create(search_params)
+    respond_with @search, location: @search
   end
 
   def show
     @filename = "Export_terappel_" + I18n.l(Date.today).gsub("/","_") + ".csv"
-    @csv_options = {col_sep: ";"}
-    @search = SearchDecorator.find(params[:id])
-    dossiers = @search.find_dossiers
-    @dossiers = DossierDecorator.decorate(dossiers)
-    @dossiers_for_csv = DossierDecorator.decorate dossiers
-    respond_to do |format|
-      format.html
-      format.csv
+    @dossiers = @search.find_dossiers
+    @decorated_dossiers = @search.find_dossiers.decorate
+    @dossiers_count = @dossiers.count
+
+    respond_with @search do |format|
+      format.html { render }
+      format.csv { send_data @decorated_dossiers.to_csv(col_sep: ";").encode('iso-8859-1', 'utf-8'), filename: @filename }
     end
   end
 
   def edit
+    respond_with @search
   end
 
   def update
-    if @search.update_attributes(params[:search])
-      redirect_to @search
-    else
-      render :edit
-    end
+    flash[:notice] = nil
+    @search.update(search_params)
+    respond_with @search, location: @search
   end
 
   private
+
+  def search_params
+    params.require(:search).permit :centre_id, :min_date_appel, :max_date_appel, :motif_id, :expo_nature_id, :expo_type_id, :indication_id, :expo_terme_id, :evolution, :malformation, :pathologie, :produit_tokens, :dci_tokens
+  end
 
   def min_date_appel
     @min_date_appel = params[:id] && @search.min_date_appel ? l(@search.min_date_appel) : l(Dossier.minimum(:date_appel))
@@ -47,5 +50,9 @@ class SearchesController < ApplicationController
 
   def max_date_appel
     @max_date_appel = params[:id] && @search.max_date_appel ? l(@search.max_date_appel) : l(Dossier.maximum(:date_appel))
+  end
+
+  def interpolation_options
+    {resource_name: "Recherche"}
   end
 end

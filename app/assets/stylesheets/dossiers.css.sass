@@ -1,4 +1,26 @@
 body.dossiers
+  .modal.fade.in
+    width: 940px
+    left: 30%
+    top: 10%
+    .modal-body
+      max-height: 400px
+      overflow-x: hidden
+    .row-fluid
+      padding: 5px 0
+      margin-left: 2px
+      border: 1px solid $tableBorder
+      &:nth-child(odd)
+        background-color: $tableBackgroundAccent
+      &:nth-child(even)
+        background-color: $tableBackground
+
+  span.libelle
+    clear: left
+    font-weight: bold
+    &:after
+      content: " : "
+
   hr
     border-top-color:	#BBB
     border-right-color:	#111
@@ -169,8 +191,11 @@ body.dossiers
     .field_links
       border: 0
       position: absolute
-      top: 10px
+      bottom: 10px
       right: 10px
+      width: 200px
+      .validate_expo
+        float: right
 
     .nested-fields
       padding-top: 0.5em

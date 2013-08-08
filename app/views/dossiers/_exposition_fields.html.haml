@@ -1,54 +1,45 @@
 .nested-fields
-  .row
-    = f.association :expo_type, wrapper_html: {class: "span5"}, input_html: {class: "input-xlarge combobox", data: {placeholder: "Choisir le type d'exposition"}}
-    = f.association :expo_nature, wrapper_html: {class: "span5"}, input_html: {class: "input-xlarge combobox", data: {placeholder: "Choisir la nature de l'exposition"}}
-  .row
+  .row-fluid
+    .span6
+      = f.association :expo_type, input_html: {class: "span11"}
+    .span6
+      = f.association :expo_nature, input_html: {class: "span8"}
+  .row-fluid
     - %w(produit indication).each do |field|
       - article = field == "produit" ? "un" : "une"
-      .span5
+      .span6
         .control-group
           = f.label field.to_sym
           .controls
-            = f.hidden_field "#{field}_id".to_sym, class: "input-xxlarge #{field}_autocomplete", data: {load: f.object.send(field).try(:name_and_id), placeholder: "Saisir #{article} #{field}"}
-  .row
-    = f.association :voie, wrapper_html: {class: "span3"}, input_html: {class: "input-medium combobox", data: {placeholder: "Choisir..."}}
-    = f.input :dose, wrapper_html: {class: "span3"}, input_html: {class: "span2"}, hint: "par exemple en mg/j"
-    = f.input :medpres, as: :select, collection: Dossier::ONI, wrapper_html: {class: "span5"}, input_html: {class: "input-mini"}, hint: "à remplir en cas de demande d'aide à la prescription"
-
-  .row
-    .span5
-      .control-group
-        = f.label :de
-        .controls.controls-row
-          .input-append
-            = f.text_field :de, class: "de input-mini", placeholder: "De"
-            = button_tag tabIndex: "-1", type: :button, class: "btn calendar" do
-              %i.icon-calendar
-            = f.text_field :de_date, class: "input-small date_expo"
-            = f.text_field :a, class: "input-mini duree_calc", placeholder: "à"
-            = button_tag tabIndex: "-1", type: :button, class: "btn calendar" do
-              %i.icon-calendar
-            = f.text_field :a_date, class: "input-small date_expo"
-            = f.text_field :duree, class: "input-mini duree", placeholder: "durée"
+            = f.hidden_field :"#{field}_id", class: "span11 #{field}_autocomplete", data: {load: f.object.send(field).try(:name_and_id), placeholder: "Saisir #{article} #{field}"}
+  .row-fluid
     .span6
-      .control-group
-        = f.label :de2
-        .controls.controls-row
-          .input-append
-            = f.text_field :de2, class: "de input-mini", placeholder: "De"
-            = button_tag tabIndex: "-1", type: :button, class: "btn calendar" do
-              %i.icon-calendar
-            = f.text_field :de2_date, class: "input-small date_expo"
-            = f.text_field :a2, class: "input-mini duree_calc", placeholder: "à"
-            = button_tag tabIndex: "-1", type: :button, class: "btn calendar" do
-              %i.icon-calendar
-            = f.text_field :a2_date, class: "input-small date_expo"
-            = f.text_field :duree2, class: "input-mini duree", placeholder: "durée"
+      = f.association :voie, input_html: {class: "span4"}
+    .span6
+      = f.input :dose, input_html: {class: "span6"}, hint: "par exemple en mg/j"
 
-  .row
-    = f.association :expo_terme, wrapper_html: {class: "span6"}, input_html: {class: "input-medium combobox", data: {placeholder: "Choisir..."}}
+  .row-fluid
+    - [["periode_expo", ""], ["reprise_ttt", "2"]].each do |item|
+      - pexpo_class = item[0]
+      - suffix = item[1]
+      %div{class: "#{pexpo_class} span6"}
+        .control-group
+          = f.label :"de#{suffix}"
+          .controls.controls-row
+            .input-append
+              = f.text_field :"de#{suffix}", class: "de input-mini", placeholder: "De"
+              = button_tag tabIndex: "-1", type: :button, class: "btn calendar" do
+                %i.icon-calendar
+                = f.text_field :"de#{suffix}_date", class: "input-small date_expo"
+              = f.text_field :"a#{suffix}", class: "input-mini duree_calc", placeholder: "à"
+              = button_tag tabIndex: "-1", type: :button, class: "btn calendar" do
+                %i.icon-calendar
+                = f.text_field :"a#{suffix}_date", class: "input-small date_expo"
+              = f.text_field :"duree#{suffix}", class: "input-mini duree", placeholder: "durée"
+
+  = f.association :expo_terme
 
   .field_links
     = link_to "#", class: "btn btn-small validate_expo" do
       %i.icon-chevron-up
-      Fermer
+      Valider Exposition

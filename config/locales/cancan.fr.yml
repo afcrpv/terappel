@@ -1,0 +1,6 @@
+fr:
+  unauthorized:
+    access:
+      all: "Vous n'êtes pas authorisé à voir cette page."
+      user: "Vous n'êtes pas authorisé à gérer les utilisateurs."
+      dossier: "Vous ne pouvez pas modifier un dossier n'appartenant pas à votre CRPV !"

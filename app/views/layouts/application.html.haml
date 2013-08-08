@@ -14,9 +14,9 @@
   %meta{:content => "width=device-width, initial-scale=1, maximum-scale=1", :name => "viewport"}/
 
   / CSS
-  = stylesheet_link_tag    "application"
+  = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
 
-  = javascript_include_tag "application"
+  = javascript_include_tag "application", "data-turbolinks-track" => true
   = csrf_meta_tags
   / Favicons
 
@@ -42,31 +42,29 @@
                 %li= link_to "Recherche Simple", dossiers_path
                 %li= link_to "Recherche Avancée", new_search_path
 
-            %li= link_to t('admin.dashboard.pagename'), rails_admin_path if can? :access, :rails_admin
-
-          %ul.nav.pull-right= render 'layouts/user_nav'
+          = render 'layouts/user_nav'
           .pull-right= render 'layouts/search'
 
-  #main_wrap
+  #main_wrap{role: "main"}
     #page_wrap
-      .container
-        .row#page_header
+      .container-fluid
+        .row-fluid#page_header
           %header
             .span8
               %h1#page_title
                 = yield(:title) if show_title?
                 = yield(:page_title)
             .span4
-              - flash && flash.each do |key, value|
-                .flash.alert.fade.in{:class => "alert-#{key}"}
-                  %a.close{"data-dismiss" => "alert"} &times;
-                  %strong= value
+              - flash && flash.each do |name, msg|
+                .flash.alert.fade.in{:class => "alert-#{name}"}
+                  %a.close{"data-dismiss" => "alert", href: "#"} &times;
+                  %strong= msg
 
         = yield
 
     #footer_wrap
-      .container
+      .container-fluid
         %footer#page_footer
-          .row
+          .row-fluid
             .span4.offset8
               Copyright Terappel 2012

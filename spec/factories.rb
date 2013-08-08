@@ -6,10 +6,14 @@ FactoryGirl.define do
     password_confirmation { |user| user.password}
     centre
 
-    factory :admin do
-      sequence(:username) { |n| "admin#{n}"}
-      email { |admin| "#{admin.username}@example.com".downcase}
-      role "admin"
+    factory :member do
+      after(:create) {|user| user.approve!}
+
+      factory :admin do
+        sequence(:username) { |n| "admin#{n}"}
+        email { |admin| "#{admin.username}@example.com".downcase}
+        after(:create) {|user| user.add_role :admin}
+      end
     end
   end
 
@@ -22,8 +26,38 @@ FactoryGirl.define do
     sequence(:code) { |n| "dossier#{n}"}
     sequence(:name) { |n| "name#{n}"}
     date_appel Time.now.to_date
+    expo_terato "Oui"
+    a_relancer "Oui"
     centre
     user
+    demandeur
+    ignore do
+      produits_count 1
+    end
+
+    before(:create) do |dossier, evaluator|
+      dossier.expositions = create_list(:exposition, evaluator.produits_count, dossier: dossier)
+    end
+
+    factory :dossier_a_relancer do
+      a_relancer "Oui"
+      relance
+    end
+  end
+
+  factory :exposition do
+    produit
+    expo_terme
+    indication
+    dossier
+  end
+
+  factory :demandeur do
+    correspondant
+  end
+
+  factory :relance do
+    correspondant
   end
 
   factory :correspondant do
@@ -31,6 +65,11 @@ FactoryGirl.define do
     ville { centre.name.titleize }
     cp "69006"
     centre
+    specialite
+  end
+
+  factory :specialite do
+    name "généraliste"
   end
 
   factory :produit do

@@ -25,6 +25,7 @@ fr:
         imc: "IMC"
         categoriesp: "C.S.P."
         expo_terato: "Témoin"
+        a_relancer: "Relance"
         correspondant_nom: "Correspondant"
         grsant: Nbr de grossesse(s) antérieure(s)
         date_dernieres_regles: "DDR"
@@ -38,7 +39,7 @@ fr:
         evolution: "Issue de la grossesse"
         modaccouch: "Modalité accouchement"
         terme: "Terme (SA)"
-        date_reelle_accouchement: "Date"
+        date_reelle_accouchement: "Date accouchement"
         date_recueil_evol: "Date de recueil de l'évolution"
       exposition:
         expo_type: "Type"

@@ -1,0 +1,12 @@
+%div.modal.hide.fade#dossier_modal{tabIndex: "-1", role: "dialog", aria: {labelledby: "modal-label", hidden: "true"}}
+  .modal-header
+    %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+    %h3#modal_label
+      Fiche dossier
+      %span.code
+  .modal-body
+    %p Chargement du dossier...
+  .modal-footer
+    = link_to "Imprimer", "#", target: "_BLANK", class: "btn btn-info print-dossier"
+    = link_to "Modifier", "#", class: "btn btn-primary edit-dossier"
+    %button.btn{:"data-dismiss" => "modal", :"aria-hidden" => "true"} Fermer

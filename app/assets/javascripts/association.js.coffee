@@ -1,30 +1,107 @@
+$ = jQuery
+
+$ ->
+  ### EXPOSITIONS ###
+  $("#tabs li a[href='#expositions']").bind 'click', ->
+    for association in ["produit", "indication"]
+      $(".#{association}_autocomplete").attach_expositions_select2(association, "/dossiers/#{association}s.json")
+
+    $("table#expositions_summary").prefillSummaryTable
+      modelName: "expositions"
+    $(".calendar").expo_termes_calc()
+    $(".duree_calc").duree_expo_calc()
+    $(".validate_expo").validateAssociation
+      modelName: "exposition"
+      selectedFields: [
+        "produit_id"
+        "expo_terme_id"
+        "indication_id"
+        "dose"
+        "de"
+        "a"
+        "de2"
+        "a2"
+      ]
+      requiredFields: ["produit_id"]
+
+    $("#expositions").bind 'cocoon:after-insert', ->
+      for association in ["produit", "indication"]
+        $(".#{association}_autocomplete").attach_expositions_select2(association, "/dossiers/#{association}s.json")
+      $(".validate_expo").last().validateAssociation
+        modelName: "exposition"
+        selectedFields: [
+          "produit_id"
+          "expo_terme_id"
+          "indication_id"
+          "dose"
+          "de"
+          "a"
+          "de2"
+          "a2"
+        ]
+        requiredFields: ["produit_id"]
+
+      $(select).select2() for select in $(".combobox").filter(":visible")
+      $(".calendar").expo_termes_calc()
+      $(".duree_calc").duree_expo_calc()
+      disableSubmitWithEnter()
+
+  #### BEBES ####
+  $("#tabs li a[href='#bebes']").bind 'click', ->
+    for association in ["malformation", "pathologie"]
+      $(".#{association}_tokens").attach_bebes_select2 association, "/#{association}s.json"
+      $("select[id$=#{association}]").check_show_association_tokens(association)
+
+    $("table#bebes_summary").prefillSummaryTable
+      modelName: "bebes"
+    $(".validate_bebe").validateAssociation
+      modelName: "bebe"
+      selectedFields: [
+        "sexe"
+        "poids"
+        "taille"
+        "pc"
+        "apgar1"
+        "apgar5"
+        "malformation"
+        "pathologie"
+      ]
+      requiredFields: [
+        "sexe"
+      ]
+
+    $('#bebes').bind 'cocoon:after-insert', ->
+      for association in ["malformation", "pathologie"]
+        $(".#{association}_tokens").attach_bebes_select2 association, "/#{association}s.json"
+        $("select[id$=_#{association}]").last().check_show_association_tokens(association)
+        $("a.show_#{association}_tree:visible").complete_modal_for_association(association)
+      $(".validate_bebe").last().validateAssociation
+        modelName: "bebe"
+        selectedFields: [
+          "sexe"
+          "poids"
+          "taille"
+          "pc"
+          "apgar1"
+          "apgar5"
+          "malformation"
+          "pathologie"
+        ]
+        requiredFields: [
+          "sexe"
+        ]
+
+      $(select).select2() for select in $(".combobox").filter(":visible")
+      disableSubmitWithEnter()
+
 class @Association
   constructor: (name, attributes, required_attributes) ->
     @name = name
     @attributes = attributes
     @required_attributes = required_attributes
 
-$.widget "terappel.prefillSummaryTable"
-  options:
-    modelName: null
-
-  _create: ->
-    $('.nested-fields').hide()
-    $target = @element.find("tbody")
-
-    start_points = $("##{@options.modelName} .nested-fields")
-
-    model_ids = for start_point in start_points
-      collectModelId($(start_point))
-
-    values_set = for start_point in start_points
-      collect_values_to_copy($(start_point), @options.modelName)
-
-    for values, i in values_set
-      append_to_summary(values, $target, model_ids[i], @options.modelName)
-
 collectModelId = ($start_point) ->
-  $start_point.find("input[id]").filter(":first").attr("id").match(/[0-9]+/).join()
+  $start_point.find("[name]").filter(":first").attr("id").match(/[0-9]+/).join()
 
 destroyModal = (model_name, plural_name_and_id) ->
   $modal = $("<div class='modal hide' id='#{plural_name_and_id}_destroy' />")
@@ -75,6 +152,7 @@ modifyLink = (model_name, $related_fieldset, plural_name_and_id) ->
   $modify_link.one 'click', (e) ->
     e.preventDefault()
     # toggle the div.nested-fields containing the related model form
+    console.log $related_fieldset
     $related_fieldset.slideToggle()
     hide_add_field_link("#{model_name}s")
     if model_name is "bebe"
@@ -83,283 +161,13 @@ modifyLink = (model_name, $related_fieldset, plural_name_and_id) ->
 
   return $modify_link
 
-$.widget "terappel.validateAssociation"
-  options:
-    modelName: null
-    modelId: null
-    selectedFields: []
-    requiredFields: []
+show_add_field_link = (association) -> $("a.add_fields[data-associations=#{association}]").show()
 
-  _create: ->
-    @_bindActions(@options.modelName, @options.selectedFields, @options.requiredFields)
-
-  pluralNameAndId: ->
-    "#{@options.modelName}s_#{@options.modelId}"
-
-  _bindActions: (model_name, selected_fields) ->
-    $start_point = @element.closest(".nested-fields")
-    @options.modelId = model_id = collectModelId $($start_point)
-    plural_name_and_id = @pluralNameAndId()
-
-    @element.on 'click', (e) =>
-      e.preventDefault()
-
-      association = new Association(model_name, @_getFieldsValues($start_point, @options.selectedFields), @_getFieldsValues($start_point, @options.requiredFields))
-      required_fields_values = for key, value of association.required_attributes
-        value
-
-      $target = $("##{model_name}s_summary")
-
-      if required_fields_values.join("").length
-        $model_row = @_getModelRow($target)
-        @_actionsCell($model_row)
-        @_fieldsCells($model_row, association.attributes)
-        @_prepareMalfPathCells($model_row) if model_name is "bebe"
-        $start_point.hide()
-        show_add_field_link("#{model_name}s")
-      else
-        @_emptyFieldsError()
-
-  _getModelRow: ($target) ->
-    plural_name_and_id = @pluralNameAndId()
-    #check if we need to replace an existing
-    if ($model_row = $target.find("tbody tr##{plural_name_and_id}")).length
-      $model_row.empty()
-    else # or create a new row
-      ($model_row = $("<tr id='#{plural_name_and_id}' class='live' />")).
-        appendTo($target.find("tbody"))
-
-    return $model_row
-
-  _emptyFieldsError: ->
-    required_field_list = @options.requiredFields.join(", ")
-    model_name = @options.modelName
-    $("p##{model_name}_message").remove()
-    $("<p id='#{model_name}_message'>")
-      .insertBefore(@element)
-      .text("Vous devez remplir : #{required_field_list}")
-
-  _getFieldsValues: ($start_point, selectedFields) ->
-    fields_and_values = {}
-
-    for field in $start_point.find("input[id], select[id]")
-      key = $(field).attr('id').replace(/dossier_\w+?_\w+?_\d+?_(\w+)$/, '$1')
-      value = switch key
-        when "produit_id", "indication_id"
-          if (label = $(field).data("load")) then label.text else ""
-        when "expo_terme_id", "malformation", "pahtologie"
-          $(field).find("option").filter(":selected").text()
-        else $(field).val()
-
-      fields_and_values[key] = value
-
-    selected_attributes = {}
-    for field in selectedFields
-      selected_attributes[field] = fields_and_values[field]
-
-    return selected_attributes
-
-  _getRelatedFieldset: ($model_row) ->
-    model_name = @options.modelName
-    model_id = @options.modelId
-    $model_row
-      .parents()
-      .find(".nested-fields")
-      .has("input[id*='_#{model_name}s_attributes_#{model_id}']")
-
-  _actionsCell: ($model_row) ->
-    plural_name_and_id = @pluralNameAndId()
-    model_name = @options.modelName
-    $related_fieldset = @_getRelatedFieldset($model_row)
-
-    $cell = $("<td />")
-    modifyLink(model_name, $related_fieldset, plural_name_and_id)
-      .appendTo($cell)
-    destroyLink(model_name, $related_fieldset, $model_row, plural_name_and_id, true)
-      .appendTo($cell)
-
-    $cell.appendTo($model_row)
-
-  _fieldsCells: ($model_row, fields_and_values) ->
-    for key, value of fields_and_values
-      cell_content = if value is "Oui" then "<a href='#' class='btn btn-danger' >#{value}</a>" else value
-      $model_row.append("<td class=\"#{key}\">#{cell_content}</td")
-
-  _prepareMalfPathCells: ($model_row) ->
-    $related_fieldset = @_getRelatedFieldset($model_row)
-    prepare_malf_and_path_columns($related_fieldset, $model_row, association) for association in ["malformation", "pathologie"]
-
-jQuery ->
-  $("#tabs li a[href='#expositions']").bind 'click', ->
-    for association in ["produit", "indication"]
-      $(".#{association}_autocomplete").attach_expositions_select2(association, "/dossiers/#{association}s.json")
-
-    $("table#expositions_summary").prefillSummaryTable
-      modelName: "expositions"
-    $(".calendar").expo_termes_calc()
-    $(".duree_calc").duree_expo_calc()
-    $(".validate_expo").validateAssociation
-      modelName: "exposition"
-      selectedFields: [
-        "produit_id"
-        "expo_terme_id"
-        "indication_id"
-        "dose"
-        "de"
-        "a"
-        "de2"
-        "a2"
-      ]
-      requiredFields: ["produit_id"]
-
-    $("#expositions").bind 'cocoon:after-insert', ->
-      for association in ["produit", "indication"]
-        $(".#{association}_autocomplete").attach_expositions_select2(association, "/dossiers/#{association}s.json")
-      $(".validate_expo").last().validateAssociation
-        modelName: "exposition"
-        selectedFields: [
-          "produit_id"
-          "expo_terme_id"
-          "indication_id"
-          "dose"
-          "de"
-          "a"
-          "de2"
-          "a2"
-        ]
-        requiredFields: ["produit_id"]
-
-      $(select).select2() for select in $(".combobox").filter(":visible")
-      $(".calendar").expo_termes_calc()
-      $(".duree_calc").duree_expo_calc()
-      disableSubmitWithEnter()
-
-  #### BEBES ####
-  $("#tabs li a[href='#bebes']").bind 'click', ->
-
-    for association in ["malformation", "pathologie"]
-      $(".#{association}_tokens").attach_bebes_select2 association, "/#{association}s.json"
-      $("select[id$=#{association}]").check_show_association_tokens(association)
-
-    $("table#bebes_summary").prefillSummaryTable
-      modelName: "bebes"
-    $(".validate_bebe").validateAssociation
-      modelName: "bebe"
-      selectedFields: [
-        "sexe"
-        "poids"
-        "taille"
-        "pc"
-        "apgar1"
-        "apgar5"
-        "malformation"
-        "pathologie"
-      ]
-      requiredFields: [
-        "sexe"
-      ]
-
-    $('#bebes').bind 'cocoon:after-insert', ->
-      for association in ["malformation", "pathologie"]
-        $(".#{association}_tokens").attach_bebes_select2 association, "/#{association}s.json"
-        $("select[id$=_#{association}]").last().check_show_association_tokens(association)
-        $("a.show_#{association}_tree:visible").complete_modal_for_association(association)
-      $(".validate_bebe").last().validateAssociation
-        modelName: "bebe"
-        selectedFields: [
-          "sexe"
-          "poids"
-          "taille"
-          "pc"
-          "apgar1"
-          "apgar5"
-          "malformation"
-          "pathologie"
-        ]
-        requiredFields: [
-          "sexe"
-        ]
-
-      $(select).select2() for select in $(".combobox").filter(":visible")
-      disableSubmitWithEnter()
-
-$.fn.attach_bebes_select2 = (association, url) ->
-  @select2
-    minimumInputLength: 3
-    multiple: true
-    initSelection : (element, callback) ->
-      preload = element.data("load")
-      callback(preload)
-    width: "75%"
-    ajax:
-      url: url
-      dataType: "json"
-      data: (term, page) ->
-        q: term
-        page_limit: 10
-      results: (data, page) ->
-        return {results: data}
-  @on "change", (e) ->
-    $.ajax
-      url: "/#{association}s/ancestors.json"
-      dataType: 'json'
-      data: {id: e.val[0]}
-      success: (data) =>
-        initial_ancestors = if (original_data = $(this).data("initial-ancestors")) then original_data else []
-        $(this).data("initial-ancestors", initial_ancestors.concat data)
-
-  $('.select2-search-field input').css('width', '100%')
-
-$.fn.attach_expositions_select2 = (association, url) ->
-  @select2
-    minimumInputLength: 3
-    width: "80%"
-    initSelection : (element, callback) ->
-      preload = element.data("load")
-      callback(preload)
-    ajax:
-      url: url
-      dataType: "json"
-      data: (term, page) ->
-        q: term
-        page_limit: 10
-      results: (data, page) ->
-        return {results: data}
-  @on "change", (e) ->
-    $.ajax
-      url: "/dossiers/#{association}s.json?#{association}_id=#{e.val}"
-      dataType: "json"
-      success: (data) =>
-        $(this).data("load", data[0])
-
-  $('.select2-search-field input').css('width', '100%')
-
-show_add_field_link = (association) ->
-  $("a.add_fields[data-associations=#{association}]").show()
-
-hide_add_field_link = (association) ->
-  $("a.add_fields[data-associations=#{association}]").hide()
+hide_add_field_link = (association) -> $("a.add_fields[data-associations=#{association}]").hide()
 
 humanizePluralizeFormat = (string) ->
-  myToUpper = (match) ->
-    match.toUpperCase()
+  myToUpper = (match) -> match.toUpperCase()
   return string.replace(/^[a-z]{1}/, myToUpper) + "s"
-
-$.fn.check_show_association_tokens = (association) ->
-  @each ->
-    $select = $(this)
-    $tokens = $($select.nextAll(".#{association}_tokens"))
-    # make tokens visible when association field is == "Oui"
-    condition = $select.val() is "Oui"
-    showNextif condition, $select, $tokens
-    showNextif condition, $select, $select.nextAll(".btn")
-
-    # ... or changes to oui
-    $select.on "change", ->
-      condition = $(this).val() is "Oui"
-      next = $(this).nextAll(".#{association}_tokens")
-      showNextif condition, $(this), next
-      showNextif condition, $(this), $(this).nextAll(".btn")
 
 collect_values_to_copy = ($start_point, model) ->
   # damn ugly... but i'm outta ideas for now, need a bit of oo to not do like this
@@ -390,6 +198,8 @@ collect_values_to_copy = ($start_point, model) ->
 append_to_summary = (fields, $target, model_id, model, live=false) ->
   row_class = if live then "live" else ""
   # check whether a row with id equal to collected model id exists
+  existing_row = $target.find("tr##{model}_#{model_id}")
+  console.log existing_row
   if $target.find("tr##{model}_#{model_id}").length isnt 0
     $model_row = $target.find("tr##{model}_#{model_id}")
     $model_row.empty()
@@ -452,7 +262,199 @@ cell_for_action_links = ($node, model_id, model) ->
 
   $cell.appendTo($node)
 
-jQuery.fn.complete_modal_for_association = (association) ->
+$.widget "terappel.prefillSummaryTable",
+  options:
+    modelName: null
+
+  _create: ->
+    $('.nested-fields').hide()
+    $target = @element.find("tbody")
+
+    start_points = $("##{@options.modelName} .nested-fields")
+
+    model_ids = for start_point in start_points
+      collectModelId($(start_point))
+
+    values_set = for start_point in start_points
+      collect_values_to_copy($(start_point), @options.modelName)
+
+    for values, i in values_set
+      append_to_summary(values, $target, model_ids[i], @options.modelName)
+
+$.widget "terappel.validateAssociation",
+  options:
+    modelName: null
+    modelId: null
+    selectedFields: []
+    requiredFields: []
+
+  _create: ->
+    @_bindActions(@options.modelName, @options.selectedFields, @options.requiredFields)
+
+  pluralNameAndId: ->
+    "#{@options.modelName}s_#{@options.modelId}"
+
+  _bindActions: (model_name, selected_fields) ->
+    $start_point = @element.closest(".nested-fields")
+    @options.modelId = model_id = collectModelId $($start_point)
+    plural_name_and_id = @pluralNameAndId()
+
+    @element.on 'click', (e) =>
+      e.preventDefault()
+
+      association = new Association(model_name, @_getFieldsValues($start_point, @options.selectedFields), @_getFieldsValues($start_point, @options.requiredFields))
+      required_fields_values = for key, value of association.required_attributes
+        value
+
+      $target = $("##{model_name}s_summary")
+
+      if required_fields_values.join("").length
+        $model_row = @_getModelRow($target)
+        @_actionsCell($model_row)
+        @_fieldsCells($model_row, association.attributes)
+        @_prepareMalfPathCells($model_row) if model_name is "bebe"
+        $start_point.hide()
+        show_add_field_link("#{model_name}s")
+      else
+        @_emptyFieldsError()
+
+  _getModelRow: ($target) ->
+    plural_name_and_id = @pluralNameAndId()
+    #check if we need to replace an existing
+    if ($model_row = $target.find("tbody tr##{plural_name_and_id}")).length
+      $model_row.empty()
+    else # or create a new row
+      ($model_row = $("<tr id='#{plural_name_and_id}' class='live' />")).
+        appendTo($target.find("tbody"))
+
+    return $model_row
+
+  _emptyFieldsError: ->
+    required_field_list = @options.requiredFields.join(", ")
+    model_name = @options.modelName
+    $("##{model_name}_message").remove()
+    $("<div id='#{model_name}_message' class='alert alert-error'>")
+      .insertBefore(@element)
+      .text("Vous devez remplir : #{required_field_list}")
+
+  _getFieldsValues: ($start_point, selectedFields) ->
+    fields_and_values = {}
+
+    for field in $start_point.find("input[id], select[id]")
+      key = $(field).attr('id').replace(/dossier_\w+?_\w+?_\d+?_(\w+)$/, '$1')
+      value = switch key
+        when "produit_id", "indication_id"
+          if (label = $(field).data("load")) then label.text else ""
+        when "expo_terme_id", "malformation", "pathologie"
+          $(field).find("option").filter(":selected").text()
+        else $(field).val()
+
+      fields_and_values[key] = value
+
+    selected_attributes = {}
+    for field in selectedFields
+      selected_attributes[field] = fields_and_values[field]
+
+    return selected_attributes
+
+  _getRelatedFieldset: ($model_row) ->
+    model_name = @options.modelName
+    model_id = @options.modelId
+    $model_row
+      .parents()
+      .find(".nested-fields")
+      .has("input[id*='_#{model_name}s_attributes_#{model_id}']")
+
+  _actionsCell: ($model_row) ->
+    plural_name_and_id = @pluralNameAndId()
+    model_name = @options.modelName
+    $related_fieldset = @_getRelatedFieldset($model_row)
+
+    $cell = $("<td />")
+    modifyLink(model_name, $related_fieldset, plural_name_and_id)
+      .appendTo($cell)
+    destroyLink(model_name, $related_fieldset, $model_row, plural_name_and_id, true)
+      .appendTo($cell)
+
+    $cell.appendTo($model_row)
+
+  _fieldsCells: ($model_row, fields_and_values) ->
+    for key, value of fields_and_values
+      cell_content = if value is "Oui" then "<a href='#' class='btn btn-danger' >#{value}</a>" else value
+      $model_row.append("<td class=\"#{key}\">#{cell_content}</td")
+
+  _prepareMalfPathCells: ($model_row) ->
+    $related_fieldset = @_getRelatedFieldset($model_row)
+    prepare_malf_and_path_columns($related_fieldset, $model_row, association) for association in ["malformation", "pathologie"]
+
+$.fn.attach_bebes_select2 = (association, url) ->
+  @select2
+    minimumInputLength: 3
+    multiple: true
+    initSelection : (element, callback) ->
+      preload = element.data("load")
+      callback(preload)
+    width: "75%"
+    ajax:
+      url: url
+      dataType: "json"
+      data: (term, page) ->
+        q: term
+        page_limit: 10
+      results: (data, page) ->
+        return {results: data}
+  @on "change", (e) ->
+    $.ajax
+      url: "/#{association}s/ancestors.json"
+      dataType: 'json'
+      data: {id: e.val[0]}
+      success: (data) =>
+        initial_ancestors = if (original_data = $(this).data("initial-ancestors")) then original_data else []
+        $(this).data("initial-ancestors", initial_ancestors.concat data)
+
+  $('.select2-search-field input').css('width', '100%')
+
+$.fn.attach_expositions_select2 = (association, url) ->
+  @select2
+    minimumInputLength: 3
+    width: "80%"
+    initSelection : (element, callback) ->
+      preload = element.data("load")
+      callback(preload)
+    ajax:
+      url: url
+      dataType: "json"
+      data: (term, page) ->
+        q: term
+        page_limit: 10
+      results: (data, page) ->
+        return {results: data}
+  @on "change", (e) ->
+    $.ajax
+      url: "/dossiers/#{association}s.json?#{association}_id=#{e.val}"
+      dataType: "json"
+      success: (data) =>
+        $(this).data("load", data[0])
+
+  $('.select2-search-field input').css('width', '100%')
+
+$.fn.check_show_association_tokens = (association) ->
+  @each ->
+    $select = $(this)
+    $tokens = $($select.nextAll(".#{association}_tokens"))
+    # make tokens visible when association field is == "Oui"
+    condition = $select.val() is "Oui"
+    showNextif condition, $select, $tokens
+    showNextif condition, $select, $select.nextAll(".btn")
+
+    # ... or changes to oui
+    $select.on "change", ->
+      condition = $(this).val() is "Oui"
+      next = $(this).nextAll(".#{association}_tokens")
+      showNextif condition, $(this), next
+      showNextif condition, $(this), $(this).nextAll(".btn")
+
+$.fn.complete_modal_for_association = (association) ->
   @on 'click', =>
     field = @prevAll("input")
     bebe_id = field.attr("id").match(/[0-9]+/).join()
@@ -463,7 +465,7 @@ jQuery.fn.complete_modal_for_association = (association) ->
     $modal.find(".#{association}s_container").html("")
     $(".#{association}s_tree").attach_jstree(association, bebe_id)
 
-jQuery.fn.attach_jstree = (association, bebe_id) ->
+$.fn.attach_jstree = (association, bebe_id) ->
   $select2_input = $("input#dossier_bebes_attributes_#{bebe_id}_#{association}_tokens")
   @jstree
     json_data:

@@ -1,135 +1,127 @@
-- title(nil, true, :id => @dossier.code)
+.dossier_fiche
+  .row-fluid
+    .span4
+      %span.libelle Date Appel
+      = @decorated_dossier.date_appel
+    .span6
+      %span.libelle Motif
+      = @decorated_dossier.motif_name
+    .span2
+      %span.libelle Témoin
+      = @decorated_dossier.expo_terato
+  .row-fluid
+    .span6
+      %span.libelle Correspondant initial
+      = @decorated_dossier.demandeur
+    - if @decorated_dossier.a_relancer == "Oui"
+      .span6
+        %span.libelle Correspondant à relancer
+        = @decorated_dossier.relance
+  .row-fluid
+    .span12
+      %span.libelle Patiente
+      = @decorated_dossier.patiente
+      = @decorated_dossier.patient_data
+  %h4 Antécédents
+  .row-fluid
+    .span4
+      %span.libelle Personnels
+      = @decorated_dossier.atcds_perso
+    .span4
+      %span.libelle Familiaux
+      = @decorated_dossier.atcds_fam
+    .span4
+      %span.libelle Grossesses
+      = @decorated_dossier.atcds_grs
+  %h4 Grossesse en cours
+  .row-fluid
+    .span4
+      %span.libelle Age grossesse lors appel
+      = @decorated_dossier.age_grossesse
+    .span4
+      %span.libelle Début grossesse
+      = @decorated_dossier.date_debut_grossesse
+    .span4
+      %span.libelle Accouchement prévu
+      = @decorated_dossier.date_accouchement_prevu
+  .row-fluid
+    .span4
+      %span.libelle Tabac
+      = @decorated_dossier.tabac
+    .span4
+      %span.libelle Alcool
+      = @decorated_dossier.alcool
+    .span3
+      %span.libelle Autres toxiques
+      = @decorated_dossier.toxiques
+  .row-fluid
+    .span4
+      %span.libelle Acide folique
+      = @decorated_dossier.folique
+    .span4
+      %span.libelle Pathologie(s) T1
+      = @decorated_dossier.patho1t
+    .span3
+      %span.libelle AMP
+      = @decorated_dossier.ass_med_proc
+  %h4 Expositions
+  .row-fluid
+    .span4
+      %strong Produit
+    .span4
+      %strong Indication
+    .span2
+      %strong Posologie
+    .span2
+      %strong Terme
+  - @dossier.expositions.each do |expo|
+    .row-fluid
+      .span4= expo.produit
+      .span4= expo.indication
+      .span2= expo.expo_terme
+      .span2= expo.dose
 
-#infos
-  %h2 Informations Générales
-  %table.table.table-condensed.table-striped
-    %tr
-      %td
-        %span.libelle Date Appel
-        = @dossier.date_appel
-      %td
-        %span.libelle Motif
-        = @dossier.motif_name
-      %td
-        %span.libelle Témoin
-        = @dossier.expo_terato
-    %tr
-      %td{colspan: "3"}
-        %span.libelle Correspondant
-        = @dossier.correspondant
-    %tr
-      %td
-        %span.libelle Patiente
-        = @dossier.patiente
-      %td
-        %span.libelle Age
-        = @dossier.age
-      %td
-        %span.libelle Poids/Taille
-        = @dossier.poids_et_taille
-    %tr
-      %td{colspan: "3"}
-        %span.libelle Catégorie socio-professionnelle
-        = @dossier.categoriesp
-    %tr
-      %td{colspan: "3"}
-        %span.libelle Antécédents Personnels
-        = @dossier.atcds_perso
-    %tr
-      %td{colspan: "3"}
-        %span.libelle Antécédents Familiaux
-        = @dossier.atcds_fam
-    %tr
-      %td{colspan: "3"}
-        %span.libelle Grossesse antérieures
-        = @dossier.atcds_grs
-
-#grossesse
-  %h2 Grossesse
-  %table.table.table-condensed.table-striped
-    %tr
-      %td
-        %span.libelle Age grossesse lors de l'appel
-        = @dossier.age_grossesse
-      %td
-        %span.libelle Début grossesse
-        = @dossier.date_debut_grossesse
-      %td
-        %span.libelle Accouchement prévu
-        = @dossier.date_accouchement_prevu
-    %tr
-      %td
-        %span.libelle Tabac
-        = @dossier.tabac
-      %td
-        %span.libelle Alcool
-        = @dossier.alcool
-      %td
-        %span.libelle Autres toxiques
-        = @dossier.toxiques
-    %tr
-      %td
-        %span.libelle Acide folique avant grossesse
-        = @dossier.folique
-
-      %td
-        %span.libelle Pathologie(s) au 1er trimestre
-        = @dossier.patho1t
-
-#expositions
-  %h2 Expositions
-  %table.table.table-condensed.table-striped
-    %tr
-      %th Produit
-      %th Indication
-      %th Terme
-      %th Posologie
-      %th Voie
-    = @dossier.expositions_table(%w(produit indication expo_terme dose voie))
-
-#evol
-  %h2 Evolution
-  %table.table.table-condensed.table-striped
-    %tr
-      %td
-        %span.libelle Date recueil évolution
-        = @dossier.date_recueil_evol
-      %td
-        %span.libelle Pathologie maternelle
-        = @dossier.path_mat
-      %td
-        %span.libelle Evolution
-        = @dossier.evolution
-    %tr
-      %td
-        %span.libelle Modalité accouchement
-        = @dossier.modaccouch
-      %td
-        %span.libelle Terme
-        = @dossier.terme
-      %td
-        %span.libelle Date réelle d'accouchement
-        = @dossier.date_reelle_accouchement
-
-#bebes
-  %h2 Nouveau-né
-  %table.table.table-condensed.table-striped
-    %tr
-      %th Age au dernier examen
-      %th Sexe
-      %th Poids
-      %th Taille
-      %th PC
-      %th Apgar
-      %th Malformation
-      %th Pathologie
-    = @dossier.bebes_table(%w(age sexe poids taille pc apgar malformation pathologie))
-
-#commentaire
-  %h2 Commentaire
-  = @dossier.commentaire
-
-.form-actions
-  = link_to edit_dossier_path(@dossier), class: "btn btn-primary" do
-    %i.icon-white.icon-pencil
-    Modifier ce dossier
+  %h4 Evolution
+  .row-fluid
+    .span3
+      %span.libelle Date recueil
+      = @decorated_dossier.date_recueil_evol
+    .span3
+      %span.libelle Evolution
+      = @decorated_dossier.evolution
+    .span2
+      %span.libelle Terme
+      = @decorated_dossier.terme
+    .span4
+      %span.libelle Date accouchement
+      = @decorated_dossier.date_reelle_accouchement
+  %h4 Nouveau(x)-né(s)
+  .row-fluid
+    .span1
+      %strong Age
+    .span1
+      %strong Sexe
+    .span1
+      %strong Poids
+    .span1
+      %strong Taille
+    .span1
+      %strong PC
+    .span1
+      %strong Apgar
+    .span3
+      %strong Malformation
+    .span3
+      %strong Pathologie
+  - @dossier.bebes.each do |bebe|
+    .row-fluid
+      .span1= bebe.age
+      .span1= bebe.sexe
+      .span1= bebe.poids
+      .span1= bebe.taille
+      .span1= bebe.pc
+      .span1= bebe.apgar
+      .span3= bebe.malformation
+      .span3= bebe.pathologie
+  %h4 Commentaire
+  = @decorated_dossier.commentaire

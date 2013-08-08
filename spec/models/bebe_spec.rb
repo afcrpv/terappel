@@ -1,18 +1,15 @@
 require 'spec_helper'
 
 describe Bebe do
-  let(:bebe) {Factory(:bebe)}
+  let(:bebe) {create(:bebe)}
   subject {bebe}
 
   %w(malformation pathologie).each do |association|
     before do
       (1..2).each do |n|
-        Factory(association, libelle: association + n.to_s)
+        create(association, libelle: association + n.to_s)
       end
     end
-    it {should respond_to "#{association}_tokens"}
-    it {should respond_to "#{association}_tokens="}
-    it {should respond_to "#{association}_names"}
     describe "##{association}_tokens=" do
       it "should split the provided string of ids and assign them to #{association}_ids" do
         subject.send("#{association}_tokens=", "1,2")

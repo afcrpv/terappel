@@ -53,7 +53,6 @@ $.fn.resetDates = ->
 $.fn.calculateGrossesse = ->
   @each ->
     $(this).blur ->
-
       # ensure date_appel isnt empty
       if date_appel = $("#dossier_date_appel").val()
         date_dernieres_regles = if (value = $('#dossier_date_dernieres_regles').val()) then value else ""

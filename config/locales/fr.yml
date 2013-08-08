@@ -183,15 +183,15 @@ fr:
     updated_at: "Modifié le"
 
   errors:
-    format: "Le %{attribute} %{message}"
+    format: "%{attribute} %{message}"
     messages: &errors_messages
-      inclusion: "n'est pas inclus(e) dans la liste"
+      inclusion: "n'est pas inclus dans la liste"
       exclusion: "n'est pas disponible"
       invalid: "n'est pas valide"
       confirmation: "ne concorde pas avec la confirmation"
       accepted: "doit être accepté(e)"
-      empty: "doit être rempli(e)"
-      blank: "doit être rempli(e)"
+      empty: "doit être rempli"
+      blank: "doit être rempli"
       too_long: "est trop long (pas plus de %{count} caractères)"
       too_short: "est trop court (au moins %{count} caractères)"
       wrong_length: "ne fait pas la bonne longueur (doit comporter %{count} caractères)"

@@ -9,6 +9,9 @@
           %li
             %span.libelle= t('attributes.search.' + k)
             = v
+        %li
+          %span.libelle Résultats
+          = @dossiers_count
   .span3
     .actions
       = link_to edit_search_path(@search), class: "btn-primary" do
@@ -23,4 +26,12 @@
 
 %hr
 
-= render "dossiers/dossiers", dossiers: @dossiers
+- if @dossiers_count < 300
+  = render "dossiers/dossiers", dossiers: @decorated_dossiers
+- else
+  .alert.alert-block
+    %button.close{type: "button", data: {dismiss: "alert"}} &times;
+    %h4 Attention !
+    Cette recherche produit un nombre de dossiers > 1000.
+
+= render 'dossiers/dossier_modal'

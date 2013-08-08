@@ -1,17 +1,43 @@
-#encoding: utf-8
 class DossierDecorator < ApplicationDecorator
-  decorates :dossier
-  decorates_association :correspondant
+  delegate_all
+
+  def nbr_bebes
+    object.bebes.size
+  end
+
+  def commentaire(parse=true)
+    parse ? h.simple_format(object.commentaire) : object.commentaire
+  end
+
+  def date_appel
+    localize_date(object.date_recueil)
+  end
+
+  def date_recueil_evol
+    localize_date(object.date_recueil_evol)
+  end
+
+  def demandeur
+    handle_none object.demandeur do
+      object.demandeur.correspondant
+    end
+  end
+
+  def relance
+    handle_none object.relance do
+      object.relance.correspondant
+    end
+  end
 
   def poids
-    handle_none dossier.poids do
-      "#{dossier.poids} kg"
+    handle_none object.poids do
+      "#{object.poids} kg"
     end
   end
 
   def taille
-    handle_none dossier.taille do
-      "#{dossier.taille} cm"
+    handle_none object.taille do
+      "#{object.taille} cm"
     end
   end
 
@@ -20,57 +46,79 @@ class DossierDecorator < ApplicationDecorator
   end
 
   def imc
-    if dossier.poids && dossier.taille
-      " (IMC : #{(dossier.poids / (dossier.taille/100.to_f)**2).round})"
+    if object.poids && object.taille
+      " (IMC : #{(object.poids / (object.taille/100.to_f)**2).round})"
     end
   end
 
-  def correspondant
-    handle_none dossier.correspondant do
-      dossier.correspondant
+  (1..3).each do |i|
+    define_method :"dose#{i}" do
+      exposition = object.expositions[i-1]
+      handle_none exposition do
+        exposition.send(:dose)
+      end
     end
-  end
-
-  %w(malformation pathologie).each do |mp|
-    define_method mp do
-      if dossier.bebes.any?
-        ["Oui", "Non", "Ne sait pas"].each do |value|
-          if dossier.bebes.any? {|b| b.send(mp) == value}
-            return value
+    %w(produit indication expo_terme).each do |name|
+      define_method :"#{name}#{i}" do
+        exposition = object.expositions[i-1]
+        handle_none exposition do
+          handle_none exposition.send(:"#{name}") do
+            exposition.send(:"#{name}_name")
           end
         end
       end
     end
   end
 
+  %w(sexe poids taille pc apgar1 apgar5).each do |name|
+    define_method name do
+      object.bebes.first.send(name) if object.bebes.any?
+    end
+  end
 
-  %w(expo_terato ass_med_proc toxiques folique patho1t path_mat).each do |method|
-    define_method method do
-      handle_none dossier.send(method) do
-        hash = array_to_hash Dossier::ONI
-        hash[dossier.send(method)]
+  %w(indication expo_terme).each do |name|
+    define_method name do
+      object.expositions.first.send(name).try(:name)
+    end
+  end
+
+  %w(de a de2 a2 dose).each do |name|
+    define_method name do
+      object.expositions.first.send(name)
+    end
+  end
+
+  %w(malformation pathologie).each do |mp|
+    define_method mp do
+      if object.bebes.any?
+        Dossier::ONI.each do |value|
+          if object.bebes.any? {|b| b.send(mp) == value}
+            return value
+          end
+        end
+        return "non spécifié" if object.bebes.any? {|b| b.send(mp) == nil}
       end
     end
   end
-  %w(modaccouch evolution).each do |method|
+
+  %w(expo_terato ass_med_proc toxiques folique patho1t path_mat).each do |method|
     define_method method do
-      hash = array_to_hash(Dossier.const_get(method.upcase))
-      handle_none dossier.send(method) do
-        hash[dossier.send(method)]
+      handle_none object.send(method) do
+        object.send(method)
       end
     end
   end
 
   %w(age_grossesse terme).each do |sa|
     define_method sa do
-      handle_none dossier.send(sa) do
-        dossier.send(sa).to_s + " SA"
+      handle_none object.send(sa) do
+        object.send(sa).to_s + " SA"
       end
     end
   end
 
   def atcds_grs
-    attribute = dossier.grsant
+    attribute = object.grsant
     handle_none attribute do
       if attribute == 0
         result = "primipare-primigeste"
@@ -79,16 +127,16 @@ class DossierDecorator < ApplicationDecorator
         gestes = {}
         %w(fcs geu miu ivg img nai).each do |geste|
           if geste == "nai"
-            gestes["naissance"] = dossier.send(geste)
+            gestes["naissance"] = object.send(geste)
           else
-            gestes[geste] = dossier.send(geste)
+            gestes[geste] = object.send(geste)
           end
         end
         autres = []
         gestes.each do |k, v|
           if v && v > 0
             if k == "naissance"
-              autres.push "#{h.pluralize(v, k)}"
+              autres.push "#{pluralize(v, k)}"
             else
               autres.push v.to_s + " #{k.upcase}"
             end
@@ -105,7 +153,7 @@ class DossierDecorator < ApplicationDecorator
 
   %w(fam perso).each do |atcds|
     define_method "atcds_#{atcds}" do
-      attribute = dossier.send("antecedents_#{atcds}")
+      attribute = object.send("antecedents_#{atcds}")
       handle_none attribute do
         case attribute
         when "1" then "Non"
@@ -117,94 +165,72 @@ class DossierDecorator < ApplicationDecorator
     end
   end
 
-  %w(tabac alcool).each do |vice|
-    define_method vice do
-      const = vice == "tabac" ? Dossier::TABAC : Dossier::ALCOOL
-      suffix = vice == "tabac" ? " cigarettes/j" : ""
-      hash = array_to_hash(const)
-      handle_none dossier.send(vice) do
-        suffix = "" if dossier.send(vice) == 0
-        hash[dossier.send(vice).to_s] + suffix
-      end
-    end
+  def patiente
+    object.patiente_fullname
+  end
+
+  def patient_data
+    [age, poids_taille_imc].compact.join(", ")
   end
 
   def age
-    handle_none dossier.age do
-      dossier.age.to_s + " ans"
-    end
+    value_with_unit object.age, "ans"
   end
 
-  def patiente
-    handle_none dossier.patiente_fullname do
-      dossier.patiente_fullname
-    end
+  def poids
+    value_with_unit object.poids, "kg"
   end
+
+  def taille
+    value_with_unit object.taille, "cm"
+  end
+
+  def imc
+    object.imc if object.imc
+  end
+
+  def poids_taille_imc
+    result = [poids, taille].join(" x ")
+    result << " (IMC #{imc})" if imc
+  end
+
 
   %w(appel dernieres_regles debut_grossesse accouchement_prevu reelle_accouchement recueil_evol).each do |date|
     method_name = "date_#{date}"
     define_method method_name do
-      handle_none dossier.send(method_name) do
-        localize_date dossier.send(method_name)
+      handle_none object.send(method_name) do
+        localize_date object.send(method_name)
       end
     end
   end
 
   def produit_name(index)
-    if dossier.produits.any?
-      dossier.produits[index].try(:name)
+    if object.produits.any?
+      object.produits[index].try(:name)
     end
   end
 
-  %w(expositions bebes).each do |name|
-    define_method "#{name}_table" do |fields|
-      association = dossier.send(name)
-      if association.any?
-        rows = []
-        association.each do |assoc|
-          cells = []
-          fields.each do |field|
-            value = assoc.send(field) || " - "
-            cells.push h.content_tag(:td, value.to_s)
-          end
-          rows.push h.content_tag(:tr, cells.join("\n").html_safe)
-        end
-        rows.join("\n").html_safe
-      end
+  def expositions(parse=true)
+    handle_none object.produits_names, "Aucune" do
+      parse ? twipsy(object.produits_names) : object.produits_names
     end
   end
 
-  def expositions
-    handle_none dossier.produits_names, "Aucune" do
-      twipsy dossier.produits_names
+  private
+
+  def value_with_unit(value, unit)
+    if value.present?
+      "#{value} #{unit}"
     end
   end
-  # Accessing Helpers
-  #   You can access any helper via a proxy
-  #
-  #   Normal Usage: helpers.number_to_currency(2)
-  #   Abbreviated : h.number_to_currency(2)
-  #
-  #   Or, optionally enable "lazy helpers" by calling this method:
-  #     lazy_helpers
-  #   Then use the helpers with no proxy:
-  #     number_to_currency(2)
 
-  # Defining an Interface
-  #   Control access to the wrapped subject's methods using one of the following:
-  #
-  #   To allow only the listed methods (whitelist):
-  #     allows :method1, :method2
-  #
-  #   To allow everything except the listed methods (blacklist):
-  #     denies :method1, :method2
-
-  # Presentation Methods
-  #   Define your own instance methods, even overriding accessors
-  #   generated by ActiveRecord:
+  # Define presentation-specific methods here. Helpers are accessed through
+  # `helpers` (aka `h`). You can override attributes, for example:
   #
   #   def created_at
-  #     h.content_tag :span, time.strftime("%a %m/%d/%y"), 
-  #                   :class => 'timestamp'
+  #     helpers.content_tag :span, class: 'time' do
+  #       object.created_at.strftime("%a %m/%d/%y")
+  #     end
   #   end
+
 end

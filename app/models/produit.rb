@@ -1,9 +1,13 @@
 class Produit < ActiveRecord::Base
-  attr_accessible :name, :oldid
   has_many :expositions, inverse_of: :produit
-  has_many :dossiers, :through => :expositions
+  has_many :dossiers, through: :expositions
 
-  default_scope order(:name)
+  has_many :dcis, through: :compositions
+  has_many :compositions, dependent: :destroy
+  has_many :atcs, through: :classifications
+  has_many :classifications, dependent: :destroy
+
+  default_scope {order(:name)}
 
   def self.search_by_name(string)
     where("LOWER(name) like ?", "%#{string}%")

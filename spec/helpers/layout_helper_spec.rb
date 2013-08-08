@@ -16,7 +16,7 @@ describe LayoutHelper do
       it "should pass them to the translator" do
         helper.stub!(:action_name).and_return('show')
         helper.stub!(:controller_name).and_return('dossiers')
-        helper.default_title(:id => "1").should == "Dossier #1"
+        helper.default_title(:id => "1").should == "Détails du dossier 1"
       end
     end
   end

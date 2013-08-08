@@ -5,6 +5,7 @@
 #= require bmi
 #= require select2
 #= require common
+#= require dossiers
 #= require grossesse
 #= require association
 #= require_tree .

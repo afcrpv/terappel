@@ -1,22 +1,12 @@
-#encoding: utf-8
-class ApplicationDecorator < Draper::Base
-
-  def localize_date(datefield)
-    h.l datefield
-  end
-
-  def handle_none(value, message="-")
-    if value.present?
-      yield
-    else
-      message
-    end
-  end
-
+class ApplicationDecorator < Draper::Decorator
   def twipsy(value)
     h.content_tag :a, h.truncate(value, length: 20),
       href: "#", rel: "tooltip",
       "data-original-title" => value
+  end
+
+  def localize_date(datefield)
+    h.l datefield
   end
 
   def array_to_hash(a)
@@ -25,5 +15,13 @@ class ApplicationDecorator < Draper::Base
       h[n] = m
     end
     return h
+  end
+
+  def handle_none(value, message="-")
+    if value.present?
+      yield
+    else
+      message
+    end
   end
 end

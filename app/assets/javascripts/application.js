@@ -5,17 +5,18 @@
 // the compiled file.
 //
 //= require jquery
-//= require jquery.ui.all
 //= require jquery_ujs
+//= require turbolinks
+//= require jquery.ui.core
+//= require jquery.ui.widget
 //= require bootstrap
-//= require dataTables/jquery.dataTables
-//= require dataTables/jquery.dataTables.bootstrap
 //= require cocoon
-//= require rails.validations
-//= require rails.validations.simple_form
 //= require jquery.maskedinput
 //= require select2
-//= require common
 //= require jstree
-//= require ra.remote-form
-//= require_tree .
+//= require common
+//= require grossesse
+//= require bmi
+//= require association
+//= require dossiers
+//= require searches

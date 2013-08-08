@@ -6,68 +6,15 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 #
-
 require 'csv'
 
-puts "creating first Centre"
-Centre.where(name: "Lyon").first_or_create!(code: "LY")
+#Dir[Rails.root.join('./db', 'seeds', '*.rb').to_s].each do |file|
+  #puts "Loading db/seeds/#{file.split(File::SEPARATOR).last}"
+  #load(file)
+#end
 
-# create Motif
-puts "importing Motifs table from csv"
-CSV.foreach("csv/motifs.csv", headers: true) do |row|
-  Motif.where(name: row['name']).first_or_create!(oldid: row['oldid'])
-end
-
-# create Evolution
-puts "importing Evolution table from csv"
-CSV.foreach("csv/evolutions.csv", headers: true) do |row|
-  Evolution.where(name: row['name']).first_or_create!(oldid: row['oldid'], libelle: row['libelle'])
-end
-
-# create ExpoType
-puts "importing ExpoType table from csv"
-CSV.foreach("csv/expo_types.csv", headers: true) do |row|
-  ExpoType.where(name: row['name']).first_or_create!(oldid: row['oldid'])
-end
-
-# create ExpoNature
-puts "importing ExpoNature table from csv"
-CSV.foreach("csv/expo_natures.csv", headers: true) do |row|
-  ExpoNature.where(name: row['name']).first_or_create!(oldid: row['oldid'])
-end
-
-# create ExpoTerme
-puts "importing ExpoTerme table from csv"
-CSV.foreach("csv/expo_termes.csv", headers: true) do |row|
-  ExpoTerme.where(name: row['name']).first_or_create!(oldid: row['oldid'])
-end
-
-# create Indication
-puts "importing Indication table from csv"
-CSV.foreach("csv/indications.csv", headers: true) do |row|
-  Indication.where(name: row['name']).first_or_create!(oldid: row['oldid'])
-end
-
-# create Formule
-puts "importing Formule table from csv"
-CSV.foreach("csv/formules.csv", headers: true) do |row|
-  Formule.where(name: row['name']).first_or_create!(oldid: row['oldid'])
-end
-
-# create Qualite
-puts "importing Qualite table from csv"
-CSV.foreach("csv/qualites.csv", headers: true) do |row|
-  Qualite.where(name: row['name']).first_or_create!(oldid: row['oldid'])
-end
-
-# create Specialite
-puts "importing Specialite table from csv"
-CSV.foreach("csv/specialites.csv", headers: true) do |row|
-  Specialite.where(name: row['name']).first_or_create!(oldid: row['oldid'])
-end
-
-# create Produits
-puts "importing Produit table from csv"
-CSV.foreach("csv/produits.csv", headers: true) do |row|
-  Produit.where(name: row['name']).first_or_create!(oldid: row['oldid'])
-end
+#load Rails.root.join('./db', 'seeds', '0_thesaurus.rb')
+load Rails.root.join('./db', 'seeds', '1_dossiers.rb')
+#load Rails.root.join('./db', 'seeds', '2_correspondants.rb')
+#load Rails.root.join('./db', 'seeds', '3_expositions.rb')
+#load Rails.root.join('./db', 'seeds', '4_bebes.rb')

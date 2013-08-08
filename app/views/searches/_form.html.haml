@@ -7,16 +7,21 @@
       = f.text_field :max_date_appel, class: "span2", "data-value" => max_date_appel
   = f.input :motif_id, collection: Motif.all, input_html: {class: "span5"}
   = f.input :expo_nature_id, collection: ExpoNature.all, label: "Nature expo"
-  = f.input :expo_type_id, collection: ExpoType.all, label: "Type expo", input_html: {class: "span6"}
+  = f.input :expo_type_id, collection: ExpoType.all, label: "Type expo", input_html: {class: "span5"}
   = f.input :expo_terme_id, collection: ExpoTerme.all, label: "Termes expo"
-  = f.input :indication_name, url: autocomplete_indication_name_dossiers_path, label: "Indication",
-    as: :autocomplete, input_html: {id_element: "#search_indication_id", class: "span7"}
-  = f.input :indication_id, as: :hidden
-  = f.input :produit_name, url: autocomplete_produit_name_dossiers_path, label: "Produit",
-    as: :autocomplete, input_html: {id_element: "#search_produit_id", class: "span7"}
-  = f.input :produit_id, as: :hidden
+  - %w(dci produit).each do |name|
+    .control-group
+      = f.label :"#{name}_tokens", name.pluralize.titleize, class: "control-label"
+      .controls
+        = f.hidden_field :"#{name}_tokens", class: "span8 #{name}_tokens", value: (items = f.object.send(:"#{name}s")).map(&:id).join(","), data: {load: items.map(&:name_and_id).to_json, placeholder: "Choisir les #{name}s"}
+
+  - %w(indication).each do |field|
+    .control-group
+      = f.label field.to_sym
+      .controls
+        = f.hidden_field :"#{field}_id", class: "span5 #{field}_autocomplete", data: {load: f.object.send(field).try(:name_and_id), placeholder: "Saisir une #{field}"}
   = f.input :malformation, label: "Malformations", as: :radio_buttons, collection: Dossier::ONI, item_wrapper_class: "inline"
   = f.input :pathologie, label: "Pathologies", as: :radio_buttons, collection: Dossier::ONI, item_wrapper_class: "inline"
   .actions
-    = f.button :submit, "Rechercher", disable_with: "Rechercher", class: "btn-primary"
+    = f.button :submit, "Rechercher", data: {disable_with: "Rechercher"}, class: "btn-primary"
     = button_tag "Effacer le formulaire", type: :reset, class: "btn btn-danger"

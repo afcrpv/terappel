@@ -13,7 +13,7 @@ $ ->
   $.fn.select2.defaults.formatNoMatches = -> "Aucun résultat"
   $.fn.select2.defaults.formatInputTooShort = (input, min) -> "Saisir au moins #{min - input.length} caractères"
   $.fn.select2.defaults.formatSearching = -> "Recherche en cours..."
-  $.fn.select2.defaults.width = "element"
+  $.fn.select2.defaults.width = "100%"
 
   $("#codedossier").typeahead
     source: (query, process) ->
@@ -43,34 +43,22 @@ $.fn.duree_expo_calc = ->
   @each ->
     $(this).blur (e) ->
       e.preventDefault()
+      $(this).parents(".control-group").removeClass("error")
+      $(this).nextAll(".duree").parents(".controls").find("span.help-inline").remove()
       de = $(this).prevAll(".de").val()
       a = $(this).val()
       result = a - de
-      $(this).nextAll(".duree").val(a - de) if !isNaN(result) and result > 0
+      if !isNaN(result)
+        if result > 0
+          $(this).nextAll(".duree").val(a - de)
+        else
+          $(this).parents(".control-group").addClass("error")
+          $(this).nextAll(".duree").parents(".controls").append("<span class='help-inline'>Erreur</span>")
 
 window.show_or_hide_hint_for_toxics = ($toxic_element, toxic_value, values_to_compare) ->
   $toxic_message = $toxic_element.next(".help-block").hide()
   toxic_condition = toxic_value and toxic_value in values_to_compare
   showNextif toxic_condition, $toxic_element, $toxic_message
-
-window.show_or_hide_issue_elements = ($evolution_element, evolution_value) ->
-  $hint = $evolution_element.next(".help-block")
-  if evolution_value and evolution_value in ["2", "3", "4", "5", "6"] then $(".issue").show() else $(".issue").hide()
-
-  if evolution_value is "6" # when evolution is NAI
-    # hide the hint inviting to add the malformation and the #date_recueil_evol div and show the #modaccouch and #date_reelle_accouchement divs
-    $hint.hide()
-    $("#date_recueil_evol").hide()
-    for field in ["modaccouch", "date_reelle_accouchement"]
-      $("##{field}").show()
-  else if evolution_value in ["2", "3", "4", "5"]# when evolution is FCS, IVG, IMG or MIU
-    # show the #date_recueil_evol div and the hint inviting to add the malformation
-    $hint.show()
-    $("#date_recueil_evol").show()
-    for field in ["modaccouch", "date_reelle_accouchement"]
-      $("##{field}").hide()
-  else
-    $hint.hide()
 
 window.disableSubmitWithEnter = ->
   for type in ["text", "number"]
