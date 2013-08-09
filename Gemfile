@@ -54,8 +54,6 @@ gem "rolify", github: "EppO/rolify"
 gem "cocoon", github: "nathanvda/cocoon"
 
 gem 'jstree-rails', github: "tristanm/jstree-rails"
-#gem 'client_side_validations', github: 'bcardarella/client_side_validations'
-#gem 'client_side_validations-simple_form'
 gem 'haml-rails'
 gem 'responders'
 gem 'prawn', github: "prawnpdf/prawn"
