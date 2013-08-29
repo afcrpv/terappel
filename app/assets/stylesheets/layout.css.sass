@@ -6,64 +6,13 @@ table#dossiers
   td
     vertical-align: middle
 
-/* Top bar */
-.topbar-search
-  position: relative
-  margin-right: 10px
-  margin-top: 7px
-  .search-query
-    -moz-transition: all 0.2s ease-in-out 0s
-    background: lighten($navbarBackgroundHighlight, 10%)
-    +border-radius(15px)
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) inset
-    border: 0 none
-    margin-bottom: 0
-    padding: 4px 14px 2px 12px
-    position: absolute
-    top: 0
-    right: 0
-    z-index: 2
-    font-size: 14px
-    line-height: 1
-    &:focus
-      background: #fff
-  .search-icon
-    cursor: pointer
-    position: absolute
-    top: 5px
-    right: 8px
-    z-index: 3
-    .icon-search
-      opacity: 0.6
-
 /* wrappers */
-$mainWrapDelta: 0.06
 
-#main_wrap
-  width: $gridRowWidth + $gridRowWidth * $mainWrapDelta
-  margin: auto
-  +single-box-shadow
-  +border-radius(0 0 15px 15px)
-  border: 1px solid #333
+#page_wrap
   background: white
-
-// portrait tablet to default desktop
-@media (min-width: 768px) and (max-width: 979px)
-  $gridRowWidth768: $gridColumnWidth768 * $gridColumns + $gridGutterWidth768 * ($gridColumns - 1)
-  #main_wrap
-    width: $gridRowWidth768 + $gridRowWidth768 * $mainWrapDelta
-
-// Large desktop
-@media (min-width: 1200px)
-  $gridRowWidth1200: $gridColumnWidth1200 * $gridColumns + $gridGutterWidth1200 * ($gridColumns - 1)
-  #main_wrap
-    width: $gridRowWidth1200 + $gridRowWidth1200 * $mainWrapDelta
 
 #page_header
   margin-bottom: 5px
-
-#page_wrap
-  margin: 5px
 
 #page_footer
   margin: 10px 0

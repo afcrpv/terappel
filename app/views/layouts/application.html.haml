@@ -5,66 +5,64 @@
   %meta{:charset => "utf-8"}/
   %title= yield(:title) || "Untitled"
 
-  :plain
-    <!-- if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+  / IE
+  %meta{"http-equiv" => "X-UA-Compatible", content: "IE=edge"}
 
-  / Mobile Specific Metas
-  %meta{:content => "width=device-width, initial-scale=1, maximum-scale=1", :name => "viewport"}/
+  %meta{name: "viewport", content: "width=device-width, initial-scale=1.0"}/
 
   / CSS
   = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
 
   = javascript_include_tag "application", "data-turbolinks-track" => true
   = csrf_meta_tags
-  / Favicons
 
+  / Favicons
   = favicon_link_tag
-  %link{:href => "images/apple-touch-icon.png", :rel => "apple-touch-icon"}/
-  %link{:href => "images/apple-touch-icon-72x72.png", :rel => "apple-touch-icon", :sizes => "72x72"}/
-  %link{:href => "images/apple-touch-icon-114x114.png", :rel => "apple-touch-icon", :sizes => "114x114"}/
+
   = yield(:head)
 
-%body{:class => params[:controller]}
+%body{class: params[:controller]}
 
-  .navbar.navbar-fixed-top
-    .navbar-inner
-      .container
-        = link_to "Terappel", root_path, class: "brand"
-        - if current_user
-          %ul.nav
-            %li.dropdown
-              = link_to "#", class: "dropdown-toggle", "data-toggle" => "dropdown" do
-                Recherche
-                %b.caret
-              %ul.dropdown-menu
-                %li= link_to "Recherche Simple", dossiers_path
-                %li= link_to "Recherche Avancée", new_search_path
+  %nav.navbar.navbar-default.navbar-fixed-top{role: "navigation"}
+    .navbar-header
+      %button.navbar-toggle{type: "button", data: {toggle: "collapse", target: ".navbar-ex1-collapse"}}
+      %span.sr-only Menu
+      %span.icon-bar
+      %span.icon-bar
+      %span.icon-bar
+      = link_to "Terappel", root_path, class: "navbar-brand"
 
-          = render 'layouts/user_nav'
-          .pull-right= render 'layouts/search'
+    - if current_user
+      %ul.nav.navbar-nav
+        %li.dropdown
+          = link_to "#", class: "dropdown-toggle", "data-toggle" => "dropdown" do
+            Recherche
+            %b.caret
+          %ul.dropdown-menu
+            %li= link_to "Recherche Simple", dossiers_path
+            %li= link_to "Recherche Avancée", new_search_path
+      = render 'layouts/search'
+      = render 'layouts/user_nav'
 
-  #main_wrap{role: "main"}
-    #page_wrap
-      .container-fluid
-        .row-fluid#page_header
-          %header
-            .span8
-              %h1#page_title
-                = yield(:title) if show_title?
-                = yield(:page_title)
-            .span4
-              - flash && flash.each do |name, msg|
-                .flash.alert.fade.in{:class => "alert-#{name}"}
-                  %a.close{"data-dismiss" => "alert", href: "#"} &times;
-                  %strong= msg
+  #page_wrap
+    .container
+      .row#page_header
+        %header
+          .col-md-8
+            %h1#page_title
+              = yield(:title) if show_title?
+              = yield(:page_title)
+          .col-md-4
+            - flash && flash.each do |name, msg|
+              .flash.alert.fade.in{:class => "alert-#{name}"}
+                %a.close{"data-dismiss" => "alert", href: "#"} &times;
+                %strong= msg
 
-        = yield
+      = yield
 
-    #footer_wrap
-      .container-fluid
-        %footer#page_footer
-          .row-fluid
-            .span4.offset8
-              Copyright Terappel 2012
+  #footer_wrap
+    .container
+      .row#page_footer
+        %footer
+          .col-md-4.col-md-offset-8
+            Copyright Terappel 2012

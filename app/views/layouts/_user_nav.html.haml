@@ -2,16 +2,15 @@
   %li.divider-vertical
   %li.dropdown
     %a.dropdown-toggle{href: "#", data: {toggle: "dropdown"}}
-      %i.icon-user.icon-white
+      Bonjour, #{current_user.username}
+      %span.glyphicon.glyphicon-user
       %b.caret
     %ul.dropdown-menu
       %li
-        %span.navbar-user= current_user.username
-      %li
         = link_to edit_user_registration_path do
-          %i.icon-pencil
+          %span.glyphicon.glyphicon-pencil
           Modifier compte
       %li
         = link_to logout_path do
-          %i.icon-off
+          %span.glyphicon.glyphicon-off
           Déconnexion
