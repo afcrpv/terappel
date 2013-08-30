@@ -1,127 +1,127 @@
 .dossier_fiche
-  .row-fluid
-    .span4
+  .row
+    .col-lg-4
       %span.libelle Date Appel
       = @decorated_dossier.date_appel
-    .span6
+    .col-lg-6
       %span.libelle Motif
       = @decorated_dossier.motif_name
-    .span2
+    .col-lg-2
       %span.libelle Témoin
       = @decorated_dossier.expo_terato
-  .row-fluid
-    .span6
+  .row
+    .col-lg-6
       %span.libelle Correspondant initial
       = @decorated_dossier.demandeur
     - if @decorated_dossier.a_relancer == "Oui"
-      .span6
+      .col-lg-6
         %span.libelle Correspondant à relancer
         = @decorated_dossier.relance
-  .row-fluid
-    .span12
+  .row
+    .col-lg-12
       %span.libelle Patiente
       = @decorated_dossier.patiente
       = @decorated_dossier.patient_data
   %h4 Antécédents
-  .row-fluid
-    .span4
+  .row
+    .col-lg-4
       %span.libelle Personnels
       = @decorated_dossier.atcds_perso
-    .span4
+    .col-lg-4
       %span.libelle Familiaux
       = @decorated_dossier.atcds_fam
-    .span4
+    .col-lg-4
       %span.libelle Grossesses
       = @decorated_dossier.atcds_grs
   %h4 Grossesse en cours
-  .row-fluid
-    .span4
+  .row
+    .col-lg-4
       %span.libelle Age grossesse lors appel
       = @decorated_dossier.age_grossesse
-    .span4
+    .col-lg-4
       %span.libelle Début grossesse
       = @decorated_dossier.date_debut_grossesse
-    .span4
+    .col-lg-4
       %span.libelle Accouchement prévu
       = @decorated_dossier.date_accouchement_prevu
-  .row-fluid
-    .span4
+  .row
+    .col-lg-4
       %span.libelle Tabac
       = @decorated_dossier.tabac
-    .span4
+    .col-lg-4
       %span.libelle Alcool
       = @decorated_dossier.alcool
-    .span3
+    .col-lg-3
       %span.libelle Autres toxiques
       = @decorated_dossier.toxiques
-  .row-fluid
-    .span4
+  .row
+    .col-lg-4
       %span.libelle Acide folique
       = @decorated_dossier.folique
-    .span4
+    .col-lg-4
       %span.libelle Pathologie(s) T1
       = @decorated_dossier.patho1t
-    .span3
+    .col-lg-3
       %span.libelle AMP
       = @decorated_dossier.ass_med_proc
   %h4 Expositions
-  .row-fluid
-    .span4
+  .row
+    .col-lg-4
       %strong Produit
-    .span4
+    .col-lg-4
       %strong Indication
-    .span2
+    .col-lg-2
       %strong Posologie
-    .span2
+    .col-lg-2
       %strong Terme
   - @dossier.expositions.each do |expo|
-    .row-fluid
-      .span4= expo.produit
-      .span4= expo.indication
-      .span2= expo.expo_terme
-      .span2= expo.dose
+    .row
+      .col-lg-4= expo.produit
+      .col-lg-4= expo.indication
+      .col-lg-2= expo.expo_terme
+      .col-lg-2= expo.dose
 
   %h4 Evolution
-  .row-fluid
-    .span3
+  .row
+    .col-lg-3
       %span.libelle Date recueil
       = @decorated_dossier.date_recueil_evol
-    .span3
+    .col-lg-3
       %span.libelle Evolution
       = @decorated_dossier.evolution
-    .span2
+    .col-lg-2
       %span.libelle Terme
       = @decorated_dossier.terme
-    .span4
+    .col-lg-4
       %span.libelle Date accouchement
       = @decorated_dossier.date_reelle_accouchement
   %h4 Nouveau(x)-né(s)
-  .row-fluid
-    .span1
+  .row
+    .col-lg-1
       %strong Age
-    .span1
+    .col-lg-1
       %strong Sexe
-    .span1
+    .col-lg-1
       %strong Poids
-    .span1
+    .col-lg-1
       %strong Taille
-    .span1
+    .col-lg-1
       %strong PC
-    .span1
+    .col-lg-1
       %strong Apgar
-    .span3
+    .col-lg-3
       %strong Malformation
-    .span3
+    .col-lg-3
       %strong Pathologie
   - @dossier.bebes.each do |bebe|
-    .row-fluid
-      .span1= bebe.age
-      .span1= bebe.sexe
-      .span1= bebe.poids
-      .span1= bebe.taille
-      .span1= bebe.pc
-      .span1= bebe.apgar
-      .span3= bebe.malformation
-      .span3= bebe.pathologie
+    .row
+      .col-lg-1= bebe.age
+      .col-lg-1= bebe.sexe
+      .col-lg-1= bebe.poids
+      .col-lg-1= bebe.taille
+      .col-lg-1= bebe.pc
+      .col-lg-1= bebe.apgar
+      .col-lg-3= bebe.malformation
+      .col-lg-3= bebe.pathologie
   %h4 Commentaire
   = @decorated_dossier.commentaire

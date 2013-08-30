@@ -1,107 +1,105 @@
-.row-fluid
-  .span2
-    = f.input :code, input_html: {class: "span11"}
-  .span2
-    = f.input :date_appel, as: :string, input_html: {class: "span11 dateITA dateNotFuture",
+.row
+  .col-lg-2
+    = f.input :code
+  .col-lg-2
+    = f.input :date_appel, as: :string, input_html: {class: "dateITA dateNotFuture",
       autofocus: true, "data-value" => date_appel}
-  .span6
-    = f.association :motif, input_html: {class: "span11"}
-  .span2
-    = f.input :expo_terato, as: :select, collection: Dossier::ONI, input_html: {class: "span6"}
+  .col-lg-6
+    = f.association :motif
+  .col-lg-2
+    = f.input :expo_terato, as: :select, collection: Dossier::ONI
 
-.row-fluid#dossier_demandeur_id_field
+.row#dossier_demandeur_id_field
   = f.simple_fields_for :demandeur do |demandeur|
-    .span6
-      .control-group
+    .col-lg-6
+      .form-group
         = demandeur.label :correspondant_id, "Correspondant initial"
-        .controls
-          = demandeur.hidden_field :correspondant_id, class: "span11", data: {placeholder: "Choisir un correspondant",
-            load: demandeur.object.correspondant.try(:fullname_and_id).to_json, source: correspondants_url(format: :json)}
+        = demandeur.hidden_field :correspondant_id, data: {placeholder: "Choisir un correspondant",
+          load: demandeur.object.correspondant.try(:fullname_and_id).to_json, source: correspondants_url(format: :json)}
 
-    .span4
-      %label &nbsp;
-      .btn-group
+    .col-lg-4
+      .correspondant-actions
         = link_to content_tag(:i, nil, class: "icon-plus") + "Ajout", new_correspondant_path(modal: true),
-          data: {target: "#correspondant_modal", toggle: "modal"}, title: "Nouveau correspondant", class: "btn corr_create"
+          data: {target: "#correspondant_modal", toggle: "modal"}, title: "Nouveau correspondant", class: "btn btn-default corr_create"
         = link_to content_tag(:i, nil, class: "icon-pencil") + "Voir/modifier",
           edit_correspondant_path(id: "__ID__", modal: true), data: {target: "#correspondant_modal", toggle: "modal"},
-          title: "Modifier correspondant", class: "btn corr_update"
+          title: "Modifier correspondant", class: "btn btn-default corr_update"
 
-  .span2
-    = f.input :a_relancer, collection: %w(Oui Non), input_html: {class: "span6"}
+  .col-lg-2
+    = f.input :a_relancer, collection: %w(Oui Non)
 
-  #relance.modal.hide.fade{tabindex: "-1", role: "dialog", aria: {labelledby: "relance-modal", hidden: "true"}}
-    .modal-header
-      %button.close{type: "button", data: {dismiss: "modal"}, aria: {hidden: "true"}} &times;
-      %h3#relance-modal Relance
-    .modal-body
-      %p Le correspondant est-il le même que la personne à relancer ?
-    .modal-footer
-      %button.btn.btn-primary.copy-correspondant{data: {dismiss: "modal"}} Oui
-      %button.btn{data: {dismiss: "modal"}} Non
+  #relance.modal.fade{tabindex: "-1", role: "dialog", aria: {labelledby: "relance-modal", hidden: "true"}}
+    .modal-dialog
+      .modal-content
+        .modal-header
+          %button.close{type: "button", data: {dismiss: "modal"}, aria: {hidden: "true"}} &times;
+          %h4.modal-title#relance-modal Relance
+        .modal-body
+          %p Le correspondant est-il le même que la personne à relancer ?
+        .modal-footer
+          %button.btn.btn-primary.copy-correspondant{data: {dismiss: "modal"}} Oui
+          %button.btn.btn-default{data: {dismiss: "modal"}} Non
 
-.row-fluid#dossier_relance_id_field
+.row#dossier_relance_id_field
   = f.simple_fields_for :relance do |relance|
-    .span6
-      .control-group
+    .col-lg-6
+      .form-group
         = relance.label :correspondant_id, "Correspondant à relancer"
-        .controls
-          = relance.hidden_field :correspondant_id, class: "span11", data: {placeholder: "Choisir une personne",
-            load: relance.object.correspondant.try(:fullname_and_id).to_json, source: correspondants_url(format: :json)}
-    .span4
-      %label &nbsp;
+        = relance.hidden_field :correspondant_id, data: {placeholder: "Choisir une personne",
+          load: relance.object.correspondant.try(:fullname_and_id).to_json, source: correspondants_url(format: :json)}
+    .col-lg-4
       .btn-group
         = link_to content_tag(:i, nil, class: "icon-plus") + "Ajout", new_correspondant_path(modal: true),
-          data: {target: "#correspondant_modal", toggle: "modal"}, title: "Nouveau correspondant", class: "btn corr_create"
+          data: {target: "#correspondant_modal", toggle: "modal"}, title: "Nouveau correspondant", class: "btn btn-default corr_create"
         = link_to content_tag(:i, nil, class: "icon-pencil") + "Voir/modifier",
           edit_correspondant_path(id: "__ID__", modal: true), data: {target: "#correspondant_modal", toggle: "modal"},
-          title: "Modifier correspondant", class: "btn corr_update"
+          title: "Modifier correspondant", class: "btn btn-default corr_update"
 
-.row-fluid
-  .span2
-    = f.input :name, input_html: {class: "span11"}
-  .span2
-    = f.input :prenom, input_html: {class: "span11"}
-  .span2
-    = f.input :date_naissance, as: :string, input_html: {class: "span11 dateITA dateNotFuture", data: {value: date_naissance}}
-  .span1
-    = f.input :age, input_html: {class: "span11"}
+.row
+  .col-lg-2
+    = f.input :name
+  .col-lg-2
+    = f.input :prenom
+  .col-lg-2
+    = f.input :date_naissance, as: :string, input_html: {class: "dateITA dateNotFuture", data: {value: date_naissance}}
+  .col-lg-1
+    = f.input :age
 
-.row-fluid
-  .span2
-    = f.input :poids, wrapper: :append do
-      = f.input_field :poids, class: "span6"
-      %span.add-on kg
-  .span2
-    = f.input :taille, wrapper: :append do
-      = f.input_field :taille, class: "span6"
-      %span.add-on cm
-  .span2
-    = f.input :imc, wrapper: :append do
-      = f.input_field :imc, class: "span4"
-      %span.add-on
+.row
+  .col-lg-2
+    = f.input :poids, wrapper: :group do
+      = f.input_field :poids
+      %span.input-group-addon kg
+  .col-lg-2
+    = f.input :taille, wrapper: :group do
+      = f.input_field :taille
+      %span.input-group-addon cm
+  .col-lg-2
+    = f.input :imc, wrapper: :group do
+      = f.input_field :imc
+      %span.input-group-addon
         kg/m
         %sup> 2
-  .span5
-    = f.association :categoriesp, input_html: {class: "span11"}
+  .col-lg-5
+    = f.association :categoriesp
 
 - %w(perso fam).each do |field|
-  .row-fluid
-    .span3
-      = f.input :"antecedents_#{field}", collection: Dossier::ONI, input_html: {class: "span4"}
-    .span9.comm_atcds
-      = f.input :"comm_antecedents_#{field}", label: "Préciser", input_html: {class: "span11", rows: "1"}
+  .row
+    .col-lg-3
+      = f.input :"antecedents_#{field}", collection: Dossier::ONI
+    .col-lg-9.comm_atcds
+      = f.input :"comm_antecedents_#{field}", label: "Préciser", input_html: {rows: "1"}
 
 %table#grossesses_anterieures
   %tbody
     %tr
       %th{colspan: "5"}= t(:grsant, scope: "activerecord.attributes.dossier")
-      %td= f.input :grsant, label: false, input_html: {class: "span1 grsant_coherence"}
+      %td= f.input :grsant, label: false, input_html: {class: "grsant_coherence"}
     %tr
       - [:fcs, :geu, :miu].each do |item|
         %th= item.to_s.upcase
-        %td= f.input item, label: false, input_html: {class: "span1 grsant_coherence"}
+        %td= f.input item, label: false, input_html: {class: "grsant_coherence"}
     %tr
       - [:ivg, :img, :nai].each do |item|
         %th= item.to_s.upcase
-        %td= f.input item, label: false, input_html: {class: "span1 grsant_coherence"}
+        %td= f.input item, label: false, input_html: {class: "grsant_coherence"}

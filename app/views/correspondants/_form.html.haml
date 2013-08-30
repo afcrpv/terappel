@@ -1,4 +1,4 @@
-= simple_form_for correspondant, html: {class: "form-horizontal", data: {title: form_title}} do |f|
+= simple_form_for correspondant, html: {role: "form", data: {title: form_title}} do |f|
   = f.error_notification if f.error_notification
   = f.input :centre_id, as: :hidden
   = f.association :formule

@@ -21,7 +21,7 @@ $ ->
     $($(@).attr('data-target') + " .code").html(dossier_code)
     $($(@).attr('data-target') + " .edit-dossier").attr("href", dossier_edit_url)
     $($(@).attr('data-target') + " .print-dossier").attr("href", dossier_print_url)
-    $($(@).attr('data-target') + " .modal-body").load $(@).attr('href'), ->
+    $($(@).attr('data-target') + " .modal-body").load $(@).data('source'), ->
       $($(@).attr('data-target')).modal('show')
 
   disableSubmitWithEnter()
@@ -71,11 +71,11 @@ $ ->
   for field in ["antecedents_perso", "antecedents_fam"]
     element = $("#dossier_#{field}")
     condition = element.val() is "Oui"
-    next = element.parents(".row-fluid").find(".comm_atcds")
+    next = element.parents(".row").find(".comm_atcds")
     showNextif condition, element, next
     element.on 'change', ->
       condition = $(this).val() is "Oui"
-      next = $(this).parents(".row-fluid").find(".comm_atcds")
+      next = $(this).parents(".row").find(".comm_atcds")
       showNextif condition, $(this), next
 
   # calculateur dates
@@ -246,16 +246,20 @@ $.widget "terappel.remoteCorrespondantForm",
   _getModal: ->
     unless @dialog
       @dialog = $('<div id="correspondant_modal" class="modal fade" role="dialog", aria-labelledby="modal-label" aria-hidden="true">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h3 id="modal-label">...<h3>
-          </div>
-          <div class="modal-body">
-            ...
-          </div>
-          <div class="modal-footer">
-            <a href="#" class="btn btn-primary save-action">...</a>
-            <button class="btn" data-dismiss="modal" aria-hidden="true">Fermer</>
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="modal-label">...<h3>
+              </div>
+              <div class="modal-body">
+                ...
+              </div>
+              <div class="modal-footer">
+                <a href="#" class="btn btn-primary save-action">...</a>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Fermer</>
+              </div>
+            </div>
           </div>
         </div>')
         .modal(

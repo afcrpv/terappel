@@ -1,13 +1,13 @@
 .row-fluid
-  = f.input :date_dernieres_regles, wrapper: :append, wrapper_html: {class: "span3"} do
+  = f.input :date_dernieres_regles, wrapper: :group, wrapper_html: {class: "span3"} do
     = f.input_field :date_dernieres_regles, as: :string, class: "input-small dateITA dateNotFuture calc_dates_grossesse", "data-value" => date_dernieres_regles
     = button_tag "#", tabIndex: "-1", type: :button, class: "btn clear_date" do
       X
-  = f.input :date_debut_grossesse, wrapper: :append, wrapper_html: {class: "span3"} do
+  = f.input :date_debut_grossesse, wrapper: :group, wrapper_html: {class: "span3"} do
     = f.input_field :date_debut_grossesse, as: :string, class: "input-small dateITA dateNotFuture calc_dates_grossesse", "data-value" => date_debut_grossesse
     = button_tag "#", tabIndex: "-1", type: :button, class: "btn clear_date" do
       X
-  = f.input :date_accouchement_prevu, wrapper: :append, wrapper_html: {class: "span3"} do
+  = f.input :date_accouchement_prevu, wrapper: :group, wrapper_html: {class: "span3"} do
     = f.input_field :date_accouchement_prevu, as: :string, class: "input-small dateITA calc_dates_grossesse", "data-value" => date_accouchement_prevu
     = button_tag "#", tabIndex: "-1", type: :button, class: "btn clear_date" do
       X
