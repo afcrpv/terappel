@@ -15,12 +15,12 @@ $ ->
   $.fn.select2.defaults.formatSearching = -> "Recherche en cours..."
   $.fn.select2.defaults.width = "100%"
 
-  $("#codedossier").typeahead
-    source: (query, process) ->
-      $.get "/home/dossiers.json", {q: query}, (data) =>
-        process(item.text for item in data)
-    items: 10
-    minLength: 2
+  #$("#codedossier").typeahead
+    #source: (query, process) ->
+      #$.get "/home/dossiers.json", {q: query}, (data) =>
+        #process(item.text for item in data)
+    #items: 10
+    #minLength: 2
 
 $.fn.expo_termes_calc = ->
   $(".date_expo").hide()
