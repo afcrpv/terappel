@@ -48,13 +48,14 @@
     .container
       .row#page_header
         %header
-          .col-md-8
+          .col-md-7.col-sm-7
             %h1#page_title
               = yield(:title) if show_title?
               = yield(:page_title)
-          .col-md-4
+          .col-md-5.col-sm-5
+            - flashes = {alert: "warning", notice: "info"}
             - flash && flash.each do |name, msg|
-              .flash.alert.fade.in{:class => "alert-#{name}"}
+              .flash.alert.fade.in{class: "alert-#{flashes[:"#{name}"]}"}
                 %a.close{"data-dismiss" => "alert", href: "#"} &times;
                 %strong= msg
 
@@ -64,5 +65,5 @@
     .container
       .row#page_footer
         %footer
-          .col-md-4.col-md-offset-8
+          .col-sm-4.col-sm-offset-8.col-sm-4.col-sm-offset-8
             Copyright Terappel 2012
