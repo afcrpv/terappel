@@ -60,8 +60,6 @@ class DossiersController < ApplicationController
 
   def new
     @dossier = Dossier.new(code: params[:code], centre_id: current_user.centre_id)
-    @dossier.build_demandeur
-    @dossier.build_relance
 
     respond_with @dossier
   end
@@ -79,8 +77,6 @@ class DossiersController < ApplicationController
   end
 
   def edit
-    @dossier.build_demandeur unless @dossier.demandeur
-    @dossier.build_relance unless @dossier.relance
     respond_with @dossier
   end
 

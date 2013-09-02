@@ -10,20 +10,20 @@
     = f.input :expo_terato, as: :select, collection: Dossier::ONI
 
 .row#dossier_demandeur_id_field
-  = f.simple_fields_for :demandeur do |demandeur|
-    .col-lg-6
+  .col-lg-6
+    = f.simple_fields_for :demandeur do |demandeur|
       .form-group
         = demandeur.label :correspondant_id, "Correspondant initial"
         = demandeur.hidden_field :correspondant_id, data: {placeholder: "Choisir un correspondant",
           load: demandeur.object.correspondant.try(:fullname_and_id).to_json, source: correspondants_url(format: :json)}
 
-    .col-lg-4
-      .correspondant-actions
-        = link_to content_tag(:i, nil, class: "icon-plus") + "Ajout", new_correspondant_path(modal: true),
-          data: {target: "#correspondant_modal", toggle: "modal"}, title: "Nouveau correspondant", class: "btn btn-default corr_create"
-        = link_to content_tag(:i, nil, class: "icon-pencil") + "Voir/modifier",
-          edit_correspondant_path(id: "__ID__", modal: true), data: {target: "#correspondant_modal", toggle: "modal"},
-          title: "Modifier correspondant", class: "btn btn-default corr_update"
+  .col-lg-4
+    .correspondant-actions
+      = link_to content_tag(:i, nil, class: "icon-plus") + "Ajout", new_correspondant_path(modal: true),
+        data: {target: "#correspondant_modal", toggle: "modal"}, title: "Nouveau correspondant", class: "btn btn-default corr_create"
+      = link_to content_tag(:i, nil, class: "icon-pencil") + "Voir/modifier",
+        edit_correspondant_path(id: "__ID__", modal: true), data: {target: "#correspondant_modal", toggle: "modal"},
+        title: "Modifier correspondant", class: "btn btn-default corr_update"
 
   .col-lg-2
     = f.input :a_relancer, collection: %w(Oui Non)
