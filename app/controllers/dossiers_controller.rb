@@ -112,7 +112,7 @@ class DossiersController < ApplicationController
   end
 
   def set_dossier
-    @dossier = Dossier.find_by_code(params[:id])
+    @dossier = Dossier.includes({expositions: [:produit, :indication]}).find_by_code(params[:id])
   end
 
   def date_appel
