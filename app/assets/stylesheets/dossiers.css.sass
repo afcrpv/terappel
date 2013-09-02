@@ -1,5 +1,7 @@
 $tableBackground: darken($sa5, 15%)
 body.dossiers
+  .select2-container
+    display: block
   .correspondant-actions
     margin-top: 19px
   #dossier_modal .modal-dialog
@@ -167,7 +169,7 @@ body.dossiers
         &:after
           content: ""
 
-  form.form-vertical
+  form
     #tabs
       margin-bottom: 0
     .nav-tabs > li > a, .nav-pills > li > a
@@ -177,33 +179,20 @@ body.dossiers
       margin-bottom: 10px
       padding-top: 18px
       +border-radius(0 0 5px 5px)
-    input, select
-      margin-bottom: 0
-    .input-append, .input-prepend
-      margin-bottom: 0
-
-    .control-group
-      margin-bottom: 5px
-    label
-      font-weight: bold
-      margin-bottom: 1px
 
     .links, .expo_links
       margin-top: 5px
 
     .field_links
-      border: 0
-      position: absolute
-      bottom: 10px
-      right: 10px
-      width: 200px
       .validate_expo
+        margin: 5px 0
         float: right
 
     .nested-fields
       padding-top: 0.5em
       position: relative
       overflow-y: hidden
+      overflow-x: hidden
       border-bottom: 1px solid black
 
     .ui-tabs .ui-tabs-panel

@@ -1,45 +1,51 @@
 .nested-fields
-  .row-fluid
-    .span6
-      = f.association :expo_type, input_html: {class: "span11"}
-    .span6
-      = f.association :expo_nature, input_html: {class: "span8"}
-  .row-fluid
+  .row
+    .col-lg-6.col-sm-6
+      = f.association :expo_type
+    .col-lg-6.col-sm-6
+      = f.association :expo_nature
+  .row
     - %w(produit indication).each do |field|
       - article = field == "produit" ? "un" : "une"
-      .span6
-        .control-group
+      .col-lg-6.col-sm-6
+        .form-group
           = f.label field.to_sym
-          .controls
-            = f.hidden_field :"#{field}_id", class: "span11 #{field}_autocomplete", data: {load: f.object.send(field).try(:name_and_id), placeholder: "Saisir #{article} #{field}"}
-  .row-fluid
-    .span6
-      = f.association :voie, input_html: {class: "span4"}
-    .span6
-      = f.input :dose, input_html: {class: "span6"}, hint: "par exemple en mg/j"
+          = f.hidden_field :"#{field}_id", class: "#{field}_autocomplete", data: {load: f.object.send(field).try(:name_and_id), placeholder: "Saisir #{article} #{field}"}
+  .row
+    .col-lg-4.col-sm-4
+      = f.association :voie
+    .col-lg-4.col-sm-4
+      = f.input :dose, hint: "par exemple en mg/j"
+    .col-lg-4.col-sm-4
+      = f.association :expo_terme
 
-  .row-fluid
+  .row
     - [["periode_expo", ""], ["reprise_ttt", "2"]].each do |item|
       - pexpo_class = item[0]
       - suffix = item[1]
-      %div{class: "#{pexpo_class} span6"}
-        .control-group
-          = f.label :"de#{suffix}"
-          .controls.controls-row
-            .input-append
-              = f.text_field :"de#{suffix}", class: "de input-mini", placeholder: "De"
-              = button_tag tabIndex: "-1", type: :button, class: "btn calendar" do
-                %i.icon-calendar
-                = f.text_field :"de#{suffix}_date", class: "input-small date_expo"
-              = f.text_field :"a#{suffix}", class: "input-mini duree_calc", placeholder: "à"
-              = button_tag tabIndex: "-1", type: :button, class: "btn calendar" do
-                %i.icon-calendar
-                = f.text_field :"a#{suffix}_date", class: "input-small date_expo"
-              = f.text_field :"duree#{suffix}", class: "input-mini duree", placeholder: "durée"
+      %div{class: "#{pexpo_class} col-lg-12"}
+        = f.label :"de#{suffix}"
+        .row
+          .col-lg-2.col-sm-2
+            = f.text_field :"de#{suffix}", class: "form-control de", placeholder: "De"
+          .col-lg-1.col-sm-1
+            = button_tag tabIndex: "-1", type: :button, class: "btn btn-default calendar" do
+              %span.glyphicon.glyphicon-calendar
+          .col-lg-2.col-sm-2
+            = f.text_field :"de#{suffix}_date", class: "form-control date_expo"
+          .col-lg-2.col-sm-2
+            = f.text_field :"a#{suffix}", class: "form-control duree_calc", placeholder: "à"
+          .col-lg-1.col-sm-1
+            = button_tag tabIndex: "-1", type: :button, class: "btn btn-default calendar" do
+              %span.glyphicon.glyphicon-calendar
+          .col-lg-2.col-sm-2
+            = f.text_field :"a#{suffix}_date", class: "form-control date_expo"
+          .col-lg-2.col-sm-2
+            = f.text_field :"duree#{suffix}", class: "form-control duree", placeholder: "durée"
 
-  = f.association :expo_terme
-
-  .field_links
-    = link_to "#", class: "btn btn-small validate_expo" do
-      %i.icon-chevron-up
-      Valider Exposition
+  .row
+    .col-lg-2.col-lg-offset-10.col-sm-offset-10.col-sm-2
+      .field_links
+        = link_to "#", class: "btn btn-success btn-sm validate_expo" do
+          %span.glyphicon.glyphicon-chevron-up
+          Valider Exposition
