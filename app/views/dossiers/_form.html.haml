@@ -23,13 +23,12 @@
 
   = f.input :commentaire, label: "Commentaire du dossier", input_html: {class: "span11", rows: 2}
 
-  .form-actions
-    = button_tag type: :submit, data: {disable_with: (save_and_continue = "Enregistrer et continuer")}, name: "_continue", class: "btn btn-success" do
-      %i.icon-white.icon-arrow-right
-      = save_and_continue
-    = button_tag type: :submit, data: {disable_with: (save_and_add = "Enregistrer et créer un nouveau dossier")}, name: "_add_another", class: "btn btn-primary" do
-      %i.icon-white.icon-plus
-      = save_and_add
-    = button_tag type: :submit, data: {disable_with: (save_and_close = "Enregistrer et fermer")}, class: "btn btn-info" do
-      %i.icon-white.icon-ok
-      = save_and_close
+  = button_tag type: :submit, data: {disable_with: (save_and_continue = "Enregistrer et continuer")}, name: "_continue", class: "btn btn-success" do
+    %i.glyphicon.glyphicon-arrow-right
+    = save_and_continue
+  = button_tag type: :submit, data: {disable_with: (save_and_add = "Enregistrer et créer un nouveau dossier")}, name: "_add_another", class: "btn btn-primary" do
+    %i.glyphicon.glyphicon-plus
+    = save_and_add
+  = button_tag type: :submit, data: {disable_with: (save_and_close = "Enregistrer et fermer")}, class: "btn btn-info" do
+    %i.glyphicon.glyphicon-ok
+    = save_and_close
