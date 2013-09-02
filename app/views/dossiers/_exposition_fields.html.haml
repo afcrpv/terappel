@@ -43,9 +43,7 @@
           .col-lg-2.col-sm-2
             = f.text_field :"duree#{suffix}", class: "form-control duree", placeholder: "durée"
 
-  .row
-    .col-lg-2.col-lg-offset-10.col-sm-offset-10.col-sm-2
-      .field_links
-        = link_to "#", class: "btn btn-success btn-sm validate_expo" do
-          %span.glyphicon.glyphicon-chevron-up
-          Valider Exposition
+  .field_links
+    = link_to "#", class: "btn btn-success btn-sm validate_expo" do
+      %span.glyphicon.glyphicon-chevron-up
+      Valider Exposition
