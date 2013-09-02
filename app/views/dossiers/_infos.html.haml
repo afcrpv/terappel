@@ -1,23 +1,23 @@
 .row
-  .col-lg-2
+  .col-lg-2.col-sm-2
     = f.input :code
-  .col-lg-2
+  .col-lg-2.col-sm-2
     = f.input :date_appel, as: :string, input_html: {class: "dateITA dateNotFuture",
       autofocus: true, "data-value" => date_appel}
-  .col-lg-6
+  .col-lg-6.col-sm-6
     = f.association :motif
-  .col-lg-2
+  .col-lg-2.col-sm-2
     = f.input :expo_terato, as: :select, collection: Dossier::ONI
 
 .row#dossier_demandeur_id_field
-  .col-lg-6
+  .col-lg-6.col-sm-6
     = f.simple_fields_for :demandeur do |demandeur|
       .form-group
         = demandeur.label :correspondant_id, "Correspondant initial"
         = demandeur.hidden_field :correspondant_id, data: {placeholder: "Choisir un correspondant",
           load: demandeur.object.correspondant.try(:fullname_and_id).to_json, source: correspondants_url(format: :json)}
 
-  .col-lg-4
+  .col-lg-4.col-sm-4
     .correspondant-actions
       = link_to content_tag(:i, nil, class: "icon-plus") + "Ajout", new_correspondant_path(modal: true),
         data: {target: "#correspondant_modal", toggle: "modal"}, title: "Nouveau correspondant", class: "btn btn-default corr_create"
@@ -25,7 +25,7 @@
         edit_correspondant_path(id: "__ID__", modal: true), data: {target: "#correspondant_modal", toggle: "modal"},
         title: "Modifier correspondant", class: "btn btn-default corr_update"
 
-  .col-lg-2
+  .col-lg-2.col-sm-2
     = f.input :a_relancer, collection: %w(Oui Non)
 
   #relance.modal.fade{tabindex: "-1", role: "dialog", aria: {labelledby: "relance-modal", hidden: "true"}}
@@ -42,12 +42,12 @@
 
 .row#dossier_relance_id_field
   = f.simple_fields_for :relance do |relance|
-    .col-lg-6
+    .col-lg-6.col-sm-6
       .form-group
         = relance.label :correspondant_id, "Correspondant à relancer"
         = relance.hidden_field :correspondant_id, data: {placeholder: "Choisir une personne",
           load: relance.object.correspondant.try(:fullname_and_id).to_json, source: correspondants_url(format: :json)}
-    .col-lg-4
+    .col-lg-4.col-sm-4
       .btn-group
         = link_to content_tag(:i, nil, class: "icon-plus") + "Ajout", new_correspondant_path(modal: true),
           data: {target: "#correspondant_modal", toggle: "modal"}, title: "Nouveau correspondant", class: "btn btn-default corr_create"
@@ -56,45 +56,49 @@
           title: "Modifier correspondant", class: "btn btn-default corr_update"
 
 .row
-  .col-lg-2
+  .col-lg-2.col-sm-2
     = f.input :name
-  .col-lg-2
+  .col-lg-2.col-sm-2
     = f.input :prenom
-  .col-lg-2
+  .col-lg-2.col-sm-2
     = f.input :date_naissance, as: :string, input_html: {class: "dateITA dateNotFuture", data: {value: date_naissance}}
-  .col-lg-1
+  .col-lg-1.col-sm-1
     = f.input :age
 
 .row
-  .col-lg-2
+  .col-lg-2.col-sm-2
     = f.input :poids, wrapper: :group do
       = f.input_field :poids
       %span.input-group-addon kg
-  .col-lg-2
+  .col-lg-2.col-sm-2
     = f.input :taille, wrapper: :group do
       = f.input_field :taille
       %span.input-group-addon cm
-  .col-lg-2
+  .col-lg-2.col-sm-2
     = f.input :imc, wrapper: :group do
       = f.input_field :imc
       %span.input-group-addon
         kg/m
         %sup> 2
-  .col-lg-5
+  .col-lg-6.col-sm-6
     = f.association :categoriesp
 
-- %w(perso fam).each do |field|
-  .row
-    .col-lg-3
-      = f.input :"antecedents_#{field}", collection: Dossier::ONI
-    .col-lg-9.comm_atcds
-      = f.input :"comm_antecedents_#{field}", label: "Préciser", input_html: {rows: "1"}
+.row
+  - %w(perso fam).each do |field|
+    .col-lg-6.col-sm-6
+      .row
+        .col-lg-4.col-sm-4
+          = f.input :"antecedents_#{field}", collection: Dossier::ONI
+        .col-lg-8.col-sm-8.comm_atcds
+          = f.input :"comm_antecedents_#{field}", label: "Préciser", input_html: {rows: "1"}
 
 %table#grossesses_anterieures
   %tbody
     %tr
-      %th{colspan: "5"}= t(:grsant, scope: "activerecord.attributes.dossier")
+      %th{colspan: "3"}= t(:grsant, scope: "activerecord.attributes.dossier")
       %td= f.input :grsant, label: false, input_html: {class: "grsant_coherence"}
+      %td
+      %td
     %tr
       - [:fcs, :geu, :miu].each do |item|
         %th= item.to_s.upcase
