@@ -71,11 +71,11 @@ $ ->
   for field in ["antecedents_perso", "antecedents_fam"]
     element = $("#dossier_#{field}")
     condition = element.val() is "Oui"
-    next = element.parents(".row").find(".comm_atcds")
+    next = element.closest(".row").find(".comm_atcds")
     showNextif condition, element, next
     element.on 'change', ->
       condition = $(this).val() is "Oui"
-      next = $(this).parents(".row").find(".comm_atcds")
+      next = $(this).closest(".row").find(".comm_atcds")
       showNextif condition, $(this), next
 
   # calculateur dates
