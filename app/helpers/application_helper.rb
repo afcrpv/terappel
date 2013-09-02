@@ -23,7 +23,7 @@ module ApplicationHelper
         end
       end
       contents << content_tag(:ul, errors)
-      content_tag :div, contents, class: "alert alert-error alert-block #{object.class.name.humanize.downcase}-errors"
+      content_tag :div, contents, class: "alert alert-danger alert-block #{object.class.name.humanize.downcase}-errors"
     end
   end
 

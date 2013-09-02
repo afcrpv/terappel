@@ -333,7 +333,7 @@ $.widget "terappel.validateAssociation",
     required_field_list = @options.requiredFields.join(", ")
     model_name = @options.modelName
     $("##{model_name}_message").remove()
-    $("<div id='#{model_name}_message' class='alert alert-error'>")
+    $("<div id='#{model_name}_message' class='alert alert-danger'>")
       .insertBefore(@element)
       .text("Vous devez remplir : #{required_field_list}")
 
@@ -417,7 +417,7 @@ $.fn.attach_bebes_select2 = (association, url) ->
 $.fn.attach_expositions_select2 = (association, url) ->
   @select2
     minimumInputLength: 3
-    width: "80%"
+    width: "100%"
     initSelection : (element, callback) ->
       preload = element.data("load")
       callback(preload)
