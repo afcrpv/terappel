@@ -1,12 +1,14 @@
-%div.modal.hide#pathologie
-  .modal-header
-    %a.close{"data-dismiss" => "modal"} x
-    %h3 Arbre des Pathologies
-  .modal-body
-    .pathologies_tree
-  .modal-footer
-    Pathologies Sélectionnées :
-    .pathologies_container
-    = link_to "#", class: "btn btn-primary add_pathologies" do
-      %i.icon-plus.icon-white
-      Rajouter ces pathologies
+.modal.fade#pathologie{tabIndex: "-1", role: "dialog", aria: {labelledby: "pathologie-label", hidden: "true"}}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+        %h4.modal-title#malformation-label Arbre des Pathologies
+      .modal-body
+        .pathologies_tree
+      .modal-footer
+        Pathologies Sélectionnées :
+        .pathologies_container
+        = link_to "#", class: "btn btn-primary add_pathologies" do
+          %i.glyphicon.glyphicon-plus
+          Rajouter ces pathologies

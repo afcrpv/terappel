@@ -104,22 +104,25 @@ collectModelId = ($start_point) ->
   $start_point.find("[name]").filter(":first").attr("id").match(/[0-9]+/).join()
 
 destroyModal = (model_name, plural_name_and_id) ->
-  $modal = $("<div class='modal hide' id='#{plural_name_and_id}_destroy' />")
-  $("<div class='modal-header' />")
-    .html("""
-          <button class="close" data-dismiss="modal" type="button">x</button>
-          <h3>Destruction #{model_name}</h3>
-          """)
-    .appendTo($modal)
-  $("<div class='modal-body' />")
-    .html("<p>Cette opération est irreversible, veuillez confirmer.</p></div>")
-    .appendTo($modal)
-  $("<div class='modal-footer' />")
-    .html("""
-          <a href="#" class="btn" data-dismiss="modal">Annuler</a>
-          <a href="#" class="btn btn-danger" id="confirm-destruction-#{plural_name_and_id}">Détruire</a>
-          """)
-    .appendTo($modal)
+  $modal = $("""
+    <div id="#{plural_name_and_id}_destroy" class="modal fade" role="dialog" aria-labelledby="destruction-label" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="destruction-label">Destruction #{model_name}</h4>
+          </div>
+          <div class="modal-body">
+            <p>Cette opération est irreversible, veuillez confirmer.</p>
+          </div>
+          <div class="modal-footer">
+            <a href="#" class="btn btn-danger" id="confirm-destruction-#{plural_name_and_id}">Détruire</a>
+            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Annuler</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  """)
 
   return $modal
 
@@ -455,7 +458,7 @@ $.fn.check_show_association_tokens = (association) ->
 
 $.fn.complete_modal_for_association = (association) ->
   @on 'click', =>
-    field = @prevAll("input")
+    field = @closest(".row").find("[name]").first()
     bebe_id = field.attr("id").match(/[0-9]+/).join()
     association_modal_id = "#{association}_bebe_#{bebe_id}_modal"
     $modal = $(".modal##{association}")
