@@ -1,33 +1,44 @@
 .nested-fields
   .row
-    = f.input :age, wrapper: :group, wrapper_html: {class: "span3"} do
-      = f.input_field :age, class: "input-mini"
-      %span.add-on semaines
-    = f.input :sexe, collection: Bebe::SEXE, wrapper_html: {class: "span2"}, input_html: {class: "input-medium combobox"}
-    = f.input :poids, wrapper: :group, wrapper_html: {class: "span2"} do
-      = f.input_field :poids, class: "input-mini"
-      %span.add-on g
+    = f.input :age, wrapper: :group, wrapper_html: {class: "col-lg-4 col-sm-5"} do
+      = f.input_field :age
+      %span.input-group-addon semaines
   .row
-    = f.input :taille, wrapper: :group, wrapper_html: {class: "span3"} do
-      = f.input_field :taille, class: "input-mini"
-      %span.add-on cm
-    = f.input :pc, wrapper: :group, wrapper_html: {class: "span2"} do
-      = f.input_field :pc, class: "input-mini"
-      %span.add-on cm
-    = f.input :apgar1, wrapper_html: {class: "span1"}, input_html: {class: "input-mini"}
-    = f.input :apgar5, wrapper_html: {class: "span1"}, input_html: {class: "input-mini"}
+    = f.input :sexe, collection: Bebe::SEXE, wrapper_html: {class: "col-lg-2 col-sm-2"}
+    = f.input :poids, wrapper: :group, wrapper_html: {class: "col-lg-2 col-sm-2"} do
+      = f.input_field :poids
+      %span.input-group-addon g
+    = f.input :taille, wrapper: :group, wrapper_html: {class: "col-lg-2 col-sm-2"} do
+      = f.input_field :taille
+      %span.input-group-addon cm
+    = f.input :pc, label: "PC", wrapper: :group, wrapper_html: {class: "col-lg-2 col-sm-2"} do
+      = f.input_field :pc
+      %span.input-group-addon cm
+    = f.input :apgar1, wrapper_html: {class: "col-lg-2 col-sm-2"}
+    = f.input :apgar5, wrapper_html: {class: "col-lg-2 col-sm-2"}
   .row
     - %w(malformation pathologie).each do |field|
-      .span6
-        .control-group
-          = f.label field.to_sym
-          .controls.controls-row
-            = f.collection_select field.to_sym, Dossier::ONI, :first, :first, {include_blank: true}, class: "input-mini"
-            = f.hidden_field "#{field}_tokens".to_sym, class: "input-xlarge #{field}_tokens", value: (items = f.object.send("#{field}s")).map(&:id).join(","), data: {load: (items.map(&:libelle_and_id).to_json), "initial-ancestors" => field.classify.constantize.find(items.map(&:id)).map(&:ancestor_ids).flatten.uniq}, placeholder: "Choisir les #{field}s"
-            = link_to "##{field}", class: "btn show_#{field}_tree", title: "Arbre #{field.capitalize.pluralize}", "data-toggle" => "modal" do
-              %i.icon-list
+      .col-lg-6.col-sm-6
+        .row
+          .col-lg-4.col-sm-4
+            .form-group
+              = f.label field.to_sym
+              = f.collection_select field.to_sym, Dossier::ONI, :first, :first, {include_blank: true}, class: "form-control"
+          .col-lg-6.col-sm-6
+            .form-group
+              = f.label "#{field}_tokens".to_sym
+              = f.hidden_field "#{field}_tokens".to_sym, class: "#{field}_tokens",
+                value: (items = f.object.send("#{field}s")).map(&:id).join(","),
+                data: {load: (items.map(&:libelle_and_id).to_json),
+                "initial-ancestors" => field.classify.constantize.find(items.map(&:id)).map(&:ancestor_ids).flatten.uniq,
+                placeholder: "Choisir les #{field}s"}
+          .col-lg-2.col-sm-2
+            .bebe-actions
+              = link_to "##{field}", class: "btn btn-default show_#{field}_tree",
+                title: "Arbre #{field.capitalize.pluralize}", data: {toggle: "modal"} do
+                %i.glyphicon.glyphicon-list
 
   .field_links
-    = link_to "#", class: "btn btn-small validate_bebe" do
-      %i.icon-chevron-up
-      Fermer
+    = link_to "#", class: "btn btn-success btn-sm validate_bebe" do
+      %i.glyphicon.glyphicon-chevron-up
+      Valider Nouveau-né

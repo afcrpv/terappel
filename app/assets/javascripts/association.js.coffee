@@ -394,7 +394,6 @@ $.fn.attach_bebes_select2 = (association, url) ->
     initSelection : (element, callback) ->
       preload = element.data("load")
       callback(preload)
-    width: "75%"
     ajax:
       url: url
       dataType: "json"
