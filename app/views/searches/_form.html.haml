@@ -1,27 +1,45 @@
-= simple_form_for search, html: { class: "form-horizontal search"} do |f|
-  = f.input :centre_id, collection: Centre.all
-  .control-group.inline-inputs
-    = f.label "Date Appel"
-    .controls
-      = f.text_field :min_date_appel, class: "span2", "data-value" => min_date_appel
-      = f.text_field :max_date_appel, class: "span2", "data-value" => max_date_appel
-  = f.input :motif_id, collection: Motif.all, input_html: {class: "span5"}
-  = f.input :expo_nature_id, collection: ExpoNature.all, label: "Nature expo"
-  = f.input :expo_type_id, collection: ExpoType.all, label: "Type expo", input_html: {class: "span5"}
-  = f.input :expo_terme_id, collection: ExpoTerme.all, label: "Termes expo"
+= simple_form_for search, html: { class: "form-horizontal search", role: "form" } do |f|
+  - if current_user.admin?
+    = f.input :centre_id, label_html: {class: "col-lg-2 col-md-2"} do
+      .col-lg-2.col-md-2
+        = f.input_field :centre_id, collection: Centre.all
+  .form-group
+    = f.label :min_date_appel, "Date Appel", class: "col-lg-2 col-md-2 control-label"
+    .col-lg-2.col-md-2
+      = f.text_field :min_date_appel, class: "form-control", "data-value" => min_date_appel
+    .col-lg-2.col-md-2
+      = f.text_field :max_date_appel, class: "form-control", "data-value" => max_date_appel
+  = f.input :motif_id, label_html: {class: "col-lg-2 col-md-2"} do
+    .col-lg-5.col-md-6
+      = f.input_field :motif_id, collection: Motif.all
+  = f.input :expo_nature_id, label_html: {class: "col-lg-2 col-md-2"}, label: "Nature expo" do
+    .col-lg-5.col-md-6
+      = f.input_field :expo_nature_id, collection: ExpoNature.all
+  = f.input :expo_type_id, label_html: {class: "col-lg-2 col-md-2"}, label: "Type expo" do
+    .col-lg-5.col-md-6
+      = f.input_field :expo_type_id, collection: ExpoType.all
+  = f.input :expo_terme_id, label_html: {class: "col-lg-2 col-md-2"}, label: "Termes expo" do
+    .col-lg-5.col-md-6
+      = f.input_field :expo_terme_id, collection: ExpoTerme.all
   - %w(dci produit).each do |name|
-    .control-group
-      = f.label :"#{name}_tokens", name.pluralize.titleize, class: "control-label"
-      .controls
-        = f.hidden_field :"#{name}_tokens", class: "span8 #{name}_tokens", value: (items = f.object.send(:"#{name}s")).map(&:id).join(","), data: {load: items.map(&:name_and_id).to_json, placeholder: "Choisir les #{name}s"}
+    .form-group
+      = f.label :"#{name}_tokens", name.pluralize.titleize, class: "col-lg-2 col-md-2 control-label"
+      .col-lg-5.col-md-6
+        = f.hidden_field :"#{name}_tokens", class: "#{name}_tokens", value: (items = f.object.send(:"#{name}s")).map(&:id).join(","), data: {load: items.map(&:name_and_id).to_json, placeholder: "Choisir les #{name}s"}
 
   - %w(indication).each do |field|
-    .control-group
-      = f.label field.to_sym
-      .controls
-        = f.hidden_field :"#{field}_id", class: "span5 #{field}_autocomplete", data: {load: f.object.send(field).try(:name_and_id), placeholder: "Saisir une #{field}"}
-  = f.input :malformation, label: "Malformations", as: :radio_buttons, collection: Dossier::ONI, item_wrapper_class: "inline"
-  = f.input :pathologie, label: "Pathologies", as: :radio_buttons, collection: Dossier::ONI, item_wrapper_class: "inline"
-  .actions
-    = f.button :submit, "Rechercher", data: {disable_with: "Rechercher"}, class: "btn-primary"
-    = button_tag "Effacer le formulaire", type: :reset, class: "btn btn-danger"
+    .form-group
+      = f.label field.to_sym, class: "col-lg-2 col-md-2 control-label"
+      .col-lg-5.col-md-6
+        = f.hidden_field :"#{field}_id", class: "#{field}_autocomplete", data: {load: f.object.send(field).try(:name_and_id), placeholder: "Saisir une #{field}"}
+  = f.input :malformation, label_html: {class: "col-lg-2 col-md-2"}, label: "Malformations" do
+    .col-lg-2.col-md-2
+      = f.input_field :malformation, collection: Dossier::ONI
+  = f.input :pathologie, label_html: {class: "col-lg-2 col-md-2"}, label: "Pathologies" do
+    .col-lg-2.col-md-2
+      = f.input_field :pathologie, collection: Dossier::ONI
+
+  .form-group
+    .col-lg-offset-2.col-lg-10.col-md-offset-2.col-md-10
+      = f.button :submit, "Rechercher", data: {disable_with: "Rechercher"}, class: "btn-primary"
+      = button_tag "Effacer le formulaire", type: :reset, class: "btn btn-danger"

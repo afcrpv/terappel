@@ -29,7 +29,6 @@ $ ->
       initSelection : (element, callback) ->
         preload = element.data("load")
         callback(preload)
-      width: "75%"
       ajax:
         url: "/dossiers/#{name}s.json"
         dataType: "json"
