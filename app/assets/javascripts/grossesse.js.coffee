@@ -48,7 +48,7 @@ class @Grossesse
 $.fn.resetDates = ->
   @each ->
     $(this).click ->
-      $(this).prev().val("")
+      $(this).closest(".input-group").find("input").val("")
 
 $.fn.calculateGrossesse = ->
   @each ->
