@@ -60,6 +60,8 @@ gem 'responders'
 gem 'prawn', github: "prawnpdf/prawn"
 gem 'draper', '~> 1.0'
 
+gem 'twitter-typeahead-rails', github: "yourabi/twitter-typeahead-rails"
+
 group :test, :development do
   gem "rspec-rails"
   gem "jasmine-rails", github: "irfn/jasmine-rails"

@@ -10,6 +10,7 @@
 //= require turbolinks
 //= require jquery.ui.core
 //= require jquery.ui.widget
+//= require twitter/typeahead.min
 //= require bootstrap
 //= require cocoon
 //= require jquery.maskedinput
