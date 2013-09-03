@@ -48,7 +48,7 @@
         = relance.hidden_field :correspondant_id, data: {placeholder: "Choisir une personne",
           load: relance.object.correspondant.try(:fullname_and_id).to_json, source: correspondants_url(format: :json)}
     .col-lg-4.col-sm-4
-      .btn-group
+      .correspondant-actions
         = link_to content_tag(:i, nil, class: "icon-plus") + "Ajout", new_correspondant_path(modal: true),
           data: {target: "#correspondant_modal", toggle: "modal"}, title: "Nouveau correspondant", class: "btn btn-default corr_create"
         = link_to content_tag(:i, nil, class: "icon-pencil") + "Voir/modifier",
