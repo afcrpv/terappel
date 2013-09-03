@@ -16,10 +16,8 @@ class DossiersPdf < Prawn::Document
   def dossiers_table
     data = []
     data << ["N° Dossier", "Date Appel", "Patiente", "Motif", "Exposition", "Evolution", "Malf", "Path"]
-    @dossiers.each do |dossier|
-      @view.present dossier do |d|
-        data << [d.code, d.date_appel, d.name, d.motif_code, d.expositions(false), d.evolution, d.malformation, d.pathologie]
-      end
+    @dossiers.each do |d|
+      data << [d.code, d.date_appel, d.name, d.motif_code, d.expositions(false), d.evolution, d.malformation, d.pathologie]
     end
 
     font_size 10 do

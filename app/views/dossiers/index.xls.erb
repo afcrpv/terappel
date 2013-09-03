@@ -7,18 +7,16 @@
   <Worksheet ss:Name="Sheet1">
     <Table>
       <Row>
-        <% Dossier::COLUMNS_FOR_CSV.each do |column| %>
+        <% DossiersDecorator::COLUMNS_FOR_CSV.each do |column| %>
           <Cell><Data ss:Type="String"><%= Dossier.human_attribute_name(column) %></Data></Cell>
         <% end -%>
       </Row>
-    <% @dossiers.each do |dossier| %>
-      <% present dossier do |d| %>
-        <Row>
-          <% Dossier::COLUMNS_FOR_CSV.each do |column| %>
-            <Cell><Data ss:Type="String"><%= d.send(column) %></Data></Cell>
-          <% end -%>
-        </Row>
-      <% end -%>
+    <% @decorated_dossiers.each do |d| %>
+      <Row>
+        <% DossiersDecorator::COLUMNS_FOR_CSV.each do |column| %>
+          <Cell><Data ss:Type="String"><%= d.send(column) %></Data></Cell>
+        <% end -%>
+      </Row>
     <% end %>
     </Table>
   </Worksheet>

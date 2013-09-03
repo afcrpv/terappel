@@ -1,9 +1,9 @@
 class DossierPdf < Prawn::Document
-  def initialize dossier, view
+  def initialize dossier, decorated_dossier, view
     super(top_margin: 30)
     @view = view
     @dossier_object = dossier
-    @dossier = view.present(dossier)
+    @dossier = decorated_dossier
     header
 
     my_table info_generales, "Info générales"

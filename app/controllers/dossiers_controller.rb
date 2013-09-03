@@ -37,7 +37,7 @@ class DossiersController < ApplicationController
       format.html
       format.xls
       format.pdf do
-        pdf = DossiersPdf.new(@dossiers, view_context)
+        pdf = DossiersPdf.new(@decorated_dossiers, view_context)
         send_data pdf.render, filename: "dossiers.pdf",
                               type: "application/pdf",
                               disposition: "inline"
@@ -50,7 +50,7 @@ class DossiersController < ApplicationController
     respond_with @dossier do |format|
       format.html {render layout: false}
       format.pdf do
-        pdf = DossierPdf.new(@dossier, view_context)
+        pdf = DossierPdf.new(@dossier, @decorated_dossier, view_context)
         send_data pdf.render, filename: "dossier_#{@dossier.code}.pdf",
                               type: "application/pdf",
                               disposition: "inline"
