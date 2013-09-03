@@ -1,127 +1,127 @@
 .dossier_fiche
   .row
-    .col-lg-4
+    .col-lg-4.col-sm-4
       %span.libelle Date Appel
       = @decorated_dossier.date_appel
-    .col-lg-6
+    .col-lg-6.col-sm-6
       %span.libelle Motif
       = @decorated_dossier.motif_name
-    .col-lg-2
+    .col-lg-2.col-sm-2
       %span.libelle Témoin
       = @decorated_dossier.expo_terato
   .row
-    .col-lg-6
+    .col-lg-6.col-sm-6
       %span.libelle Correspondant initial
       = @decorated_dossier.demandeur
     - if @decorated_dossier.a_relancer == "Oui"
-      .col-lg-6
+      .col-lg-6.col-sm-6
         %span.libelle Correspondant à relancer
         = @decorated_dossier.relance
   .row
-    .col-lg-12
+    .col-lg-12.col-sm-12
       %span.libelle Patiente
       = @decorated_dossier.patiente
       = @decorated_dossier.patient_data
   %h4 Antécédents
   .row
-    .col-lg-4
+    .col-lg-4.col-sm-4
       %span.libelle Personnels
       = @decorated_dossier.atcds_perso
-    .col-lg-4
+    .col-lg-4.col-sm-4
       %span.libelle Familiaux
       = @decorated_dossier.atcds_fam
-    .col-lg-4
+    .col-lg-4.col-sm-4
       %span.libelle Grossesses
       = @decorated_dossier.atcds_grs
   %h4 Grossesse en cours
   .row
-    .col-lg-4
+    .col-lg-4.col-sm-4
       %span.libelle Age grossesse lors appel
       = @decorated_dossier.age_grossesse
-    .col-lg-4
+    .col-lg-4.col-sm-4
       %span.libelle Début grossesse
       = @decorated_dossier.date_debut_grossesse
-    .col-lg-4
+    .col-lg-4.col-sm-4
       %span.libelle Accouchement prévu
       = @decorated_dossier.date_accouchement_prevu
   .row
-    .col-lg-4
+    .col-lg-4.col-sm-4
       %span.libelle Tabac
       = @decorated_dossier.tabac
-    .col-lg-4
+    .col-lg-4.col-sm-4
       %span.libelle Alcool
       = @decorated_dossier.alcool
-    .col-lg-3
+    .col-lg-3.col-sm-3
       %span.libelle Autres toxiques
       = @decorated_dossier.toxiques
   .row
-    .col-lg-4
+    .col-lg-4.col-sm-4
       %span.libelle Acide folique
       = @decorated_dossier.folique
-    .col-lg-4
+    .col-lg-4.col-sm-4
       %span.libelle Pathologie(s) T1
       = @decorated_dossier.patho1t
-    .col-lg-3
+    .col-lg-3.col-sm-3
       %span.libelle AMP
       = @decorated_dossier.ass_med_proc
   %h4 Expositions
   .row
-    .col-lg-4
+    .col-lg-4.col-sm-4
       %strong Produit
-    .col-lg-4
+    .col-lg-4.col-sm-4
       %strong Indication
-    .col-lg-2
+    .col-lg-2.col-sm-2
       %strong Posologie
-    .col-lg-2
+    .col-lg-2.col-sm-2
       %strong Terme
   - @dossier.expositions.each do |expo|
     .row
-      .col-lg-4= expo.produit
-      .col-lg-4= expo.indication
-      .col-lg-2= expo.expo_terme
-      .col-lg-2= expo.dose
+      .col-lg-4.col-sm-4= expo.produit
+      .col-lg-4.col-sm-4= expo.indication
+      .col-lg-2.col-sm-2= expo.expo_terme
+      .col-lg-2.col-sm-2= expo.dose
 
   %h4 Evolution
   .row
-    .col-lg-3
+    .col-lg-3.col-sm-3
       %span.libelle Date recueil
       = @decorated_dossier.date_recueil_evol
-    .col-lg-3
+    .col-lg-3.col-sm-3
       %span.libelle Evolution
       = @decorated_dossier.evolution
-    .col-lg-2
+    .col-lg-2.col-sm-2
       %span.libelle Terme
       = @decorated_dossier.terme
-    .col-lg-4
+    .col-lg-4.col-sm-4
       %span.libelle Date accouchement
       = @decorated_dossier.date_reelle_accouchement
   %h4 Nouveau(x)-né(s)
   .row
-    .col-lg-1
+    .col-lg-1.col-sm-1
       %strong Age
-    .col-lg-1
+    .col-lg-1.col-sm-1
       %strong Sexe
-    .col-lg-1
+    .col-lg-1.col-sm-1
       %strong Poids
-    .col-lg-1
+    .col-lg-1.col-sm-1
       %strong Taille
-    .col-lg-1
+    .col-lg-1.col-sm-1
       %strong PC
-    .col-lg-1
+    .col-lg-1.col-sm-1
       %strong Apgar
-    .col-lg-3
+    .col-lg-3.col-sm-3
       %strong Malformation
-    .col-lg-3
+    .col-lg-3.col-sm-3
       %strong Pathologie
   - @dossier.bebes.each do |bebe|
     .row
-      .col-lg-1= bebe.age
-      .col-lg-1= bebe.sexe
-      .col-lg-1= bebe.poids
-      .col-lg-1= bebe.taille
-      .col-lg-1= bebe.pc
-      .col-lg-1= bebe.apgar
-      .col-lg-3= bebe.malformation
-      .col-lg-3= bebe.pathologie
+      .col-lg-1.col-sm-1= bebe.age
+      .col-lg-1.col-sm-1= bebe.sexe
+      .col-lg-1.col-sm-1= bebe.poids
+      .col-lg-1.col-sm-1= bebe.taille
+      .col-lg-1.col-sm-1= bebe.pc
+      .col-lg-1.col-sm-1= bebe.apgar
+      .col-lg-3.col-sm-3= bebe.malformation
+      .col-lg-3.col-sm-3= bebe.pathologie
   %h4 Commentaire
   = @decorated_dossier.commentaire
