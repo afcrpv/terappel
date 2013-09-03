@@ -245,7 +245,7 @@ $.widget "terappel.remoteCorrespondantForm",
 
   _getModal: ->
     unless @dialog
-      @dialog = $('<div id="correspondant_modal" class="modal fade" role="dialog", aria-labelledby="modal-label" aria-hidden="true">
+      @dialog = $('<div id="correspondant_modal" class="modal fade" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -257,7 +257,7 @@ $.widget "terappel.remoteCorrespondantForm",
               </div>
               <div class="modal-footer">
                 <a href="#" class="btn btn-primary save-action">...</a>
-                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Fermer</>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Fermer</button>
               </div>
             </div>
           </div>
