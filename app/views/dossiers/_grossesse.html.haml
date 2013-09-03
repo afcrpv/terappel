@@ -14,7 +14,10 @@
     %span.input-group-btn
       %button.btn.btn-default.clear_date{tabIndex: "-1", type: "button"} X
 
-  = f.input :age_grossesse, wrapper_html: {class: "col-lg-3 col-sm-3"}
+  = f.input :age_grossesse, wrapper: :group, wrapper_html: {class: "col-lg-3 col-sm-3"} do
+    = f.input_field :age_grossesse
+    %span.input-group-addon
+      SA
 
 .row
   .col-lg-12.col-sm-12#grossesse_date_messages
