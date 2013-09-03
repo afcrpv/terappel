@@ -116,7 +116,7 @@ destroyModal = (model_name, plural_name_and_id) ->
             <p>Cette opération est irreversible, veuillez confirmer.</p>
           </div>
           <div class="modal-footer">
-            <a href="#" class="btn btn-danger" id="confirm-destruction-#{plural_name_and_id}">Détruire</a>
+            <a href="#" class="btn btn-danger" id="confirm-destruction-#{plural_name_and_id}">Confirmer</a>
             <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Annuler</button>
           </div>
         </div>
@@ -128,7 +128,7 @@ destroyModal = (model_name, plural_name_and_id) ->
 
 destroyLink = (model_name, $related_fieldset, $model_row, plural_name_and_id) ->
   destroy_title = "'Détruire #{model_name}'"
-  $destroy_link = $("<a href='##{plural_name_and_id}_destroy' id='destroy_#{plural_name_and_id}' data-toggle='modal' title=#{destroy_title}><i class='icon-trash'></i><span style='display:none;'>#{destroy_title}</span></a>")
+  $destroy_link = $("<a href='##{plural_name_and_id}_destroy' id='destroy_#{plural_name_and_id}' data-toggle='modal' title=#{destroy_title}><span class='glyphicon glyphicon-trash'></span><span style='display:none;'>#{destroy_title}</span></a>")
 
   destroyModal(model_name, plural_name_and_id)
     .appendTo("body")
@@ -145,17 +145,16 @@ destroyLink = (model_name, $related_fieldset, $model_row, plural_name_and_id) ->
       # marks the corresponding model for destroy assigning the _destroy input value to 1
       $related_fieldset.find("input[type=hidden]").val("1")
     # and close the modal and destroy it
-    $("##{plural_name_and_id}_destroy").modal('hide').remove()
+    $("##{plural_name_and_id}_destroy").modal('hide')
 
   return $destroy_link
 
 modifyLink = (model_name, $related_fieldset, plural_name_and_id) ->
   modify_title = "'Modifier #{model_name}'"
-  $modify_link = $("<a href='#' id='modify_#{plural_name_and_id}' class='modify_link' title=#{modify_title}><i class='icon-pencil'></i><span style='display:none;'>#{modify_title}</span></a>")
+  $modify_link = $("<a href='#' id='modify_#{plural_name_and_id}' class='modify_link' title=#{modify_title}><span class='glyphicon glyphicon-pencil'></span><span style='display:none;'>#{modify_title}</span></a>")
   $modify_link.one 'click', (e) ->
     e.preventDefault()
     # toggle the div.nested-fields containing the related model form
-    console.log $related_fieldset
     $related_fieldset.slideToggle()
     hide_add_field_link("#{model_name}s")
     if model_name is "bebe"
@@ -202,7 +201,6 @@ append_to_summary = (fields, $target, model_id, model, live=false) ->
   row_class = if live then "live" else ""
   # check whether a row with id equal to collected model id exists
   existing_row = $target.find("tr##{model}_#{model_id}")
-  console.log existing_row
   if $target.find("tr##{model}_#{model_id}").length isnt 0
     $model_row = $target.find("tr##{model}_#{model_id}")
     $model_row.empty()
