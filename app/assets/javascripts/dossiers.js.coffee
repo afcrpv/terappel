@@ -280,7 +280,7 @@ $.fn.focusFieldOnError = ->
       $("##{field}").focus()
     else
       $info_tab.tab("show")
-      $info_tab.on "shown", ->
+      $info_tab.on "shown.bs.tab", ->
         $("##{field}").focus()
 
 $.fn.show_or_hide_issue_elements = ->
