@@ -1,0 +1,15 @@
+%li.dropdown
+  = link_to "#", class: "dropdown-toggle", data: {toggle: "dropdown"} do
+    Saisie/Correction
+    %span.caret
+  %div.dropdown-menu.saisie-menu
+    = form_tag @dossier_for_search, method: :get, class: "navbar-form", role: "search" do
+      .form-group
+        %label.sr-only{for: "codedossier"} N° d'appel
+        .input-group
+          = text_field_tag "codedossier", '',
+            autocomplete: "off",
+            placeholder: "N° d'appel",
+            class: "form-control search-query"
+          .input-group-btn
+            %button.btn.btn-primary{type: "submit"} OK

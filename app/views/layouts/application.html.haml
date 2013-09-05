@@ -33,16 +33,15 @@
       = link_to "Terappel", root_path, class: "navbar-brand"
 
     - if current_user
-      %ul.nav.navbar-nav
-        %li.dropdown
-          = link_to "#", class: "dropdown-toggle", data: {toggle: "dropdown"} do
-            Saisie/Correction
-            %span.caret
-          %div.dropdown-menu.saisie-menu
-            = render 'layouts/search'
-        %li= link_to "Recherche Simple", dossiers_path
-        %li= link_to "Recherche Avancée", new_search_path
-      = render 'layouts/user_nav'
+      %ul.nav.navbar-nav.navbar-left
+        = render 'layouts/qsearch'
+        %li= link_to "Recherche", new_search_path
+        %li= link_to "Relance", "#"
+        %li= link_to "Exploitation", "#"
+        = render 'layouts/admin_nav' if current_user.admin?
+      %p.navbar-text.pull-right
+        Bonjour,
+        = link_to current_user.username, edit_user_registration_path
 
   #page_wrap
     .container
