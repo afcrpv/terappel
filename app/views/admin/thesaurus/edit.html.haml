@@ -1,0 +1,5 @@
+- title "Modification #{@name} :", "#{@item.name}"
+
+= simple_form_for @item, url: url_for(action: 'edit', id: @item.id), html: {class: "form-inline", role: "form"} do |f|
+  = f.input :name, label_html: {class: "sr-only"}, label: "Libéllé"
+  = f.button :submit, "Enregistrer", class: "btn btn-primary"

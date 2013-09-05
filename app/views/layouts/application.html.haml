@@ -38,7 +38,11 @@
         %li= link_to "Recherche", new_search_path
         %li= link_to "Relance", "#"
         %li= link_to "Exploitation", "#"
-        = render 'layouts/admin_nav' if current_user.admin?
+        %li.dropdown
+          = link_to "#", class: "dropdown-toggle", data: {toggle: "dropdown"} do
+            Administration
+            %b.caret
+          = render 'layouts/admin_nav' if current_user.admin?
       %p.navbar-text.pull-right
         Bonjour,
         = link_to current_user.username, edit_user_registration_path

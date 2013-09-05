@@ -1,0 +1,19 @@
+- title "Liste des libéllés pour la table #{@name}"
+
+%table.table
+  %thead
+    %tr
+      %th Libéllé
+      %th Actions
+  %tbody
+    - @items.each do |item|
+      %tr
+        %td= item.name
+        %td
+          .btn-group
+            = link_to "Modifier", admin_edit_libelle_path(@name, item.id), class: "btn btn-warning btn-sm" if can?(:update, item)
+            = link_to "Détruire", admin_destroy_libelle_path(@name, item.id), method: :delete, data: {confirm: "Etes-vous sûr ?"}, class: "btn btn-danger btn-sm" if can?(:destroy, item)
+
+.btn-group
+  = link_to "Nouveau libéllé", admin_new_libelle_path(@name), class: "btn btn-primary"
+  = link_to "Retour aux tables générales", admin_tables_generales_path, class: "btn btn-default"

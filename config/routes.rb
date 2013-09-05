@@ -6,8 +6,6 @@ Terappel::Application.routes.draw do
     get "logout", to: "devise/sessions#destroy"
   end
 
-  #mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
-
   get "home/dossiers"
   get "/try_new_dossier", to: "home#try_new_dossier"
 
@@ -20,7 +18,6 @@ Terappel::Application.routes.draw do
     end
   end
 
-  resources :correspondants, only: :index
 
   resources :malformations, only: :index
   resources :pathologies, only: :index
@@ -29,7 +26,20 @@ Terappel::Application.routes.draw do
   get "pathologies/tree", to: 'pathologies#tree'
   get "pathologies/ancestors", to: 'pathologies#ancestors'
 
-  resources :correspondants, only: [:show, :new, :create, :edit, :update]
+  resources :correspondants, except: :destroy
+
+  namespace :admin do
+    get "tables_generales", to: "thesaurus#dashboard"
+    get "tables_generales/:name", to: "thesaurus#index", as: "thesaurus"
+    match "tables_generales/:name/new", to: "thesaurus#new", via: :get, as: "new_libelle"
+    match "tables_generales/:name/:id", to: "thesaurus#create", via: :post
+    match "tables_generales/:name/:id/edit", to: "thesaurus#edit", via: :get, as: "edit_libelle"
+    match "tables_generales/:name/:id", to: "thesaurus#update", via: :patch
+    match "tables_generales/:name/:id", to: "thesaurus#destroy", via: :delete, as: "destroy_libelle"
+    resources :users do
+      put 'approve', on: :member
+    end
+  end
 
   root to: "home#index"
 end

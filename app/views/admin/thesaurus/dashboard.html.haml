@@ -1,0 +1,16 @@
+- title "Gestion des tables générales"
+
+%table.table
+  %thead
+    %tr
+      %th Table
+      %th Actions
+  %tbody
+  - [:categoriesp, :motif, :formule, :qualite, :specialite, :expo_nature, :expo_terme, :expo_type, :voie, :indication].each do |field|
+    - klass = field.to_s.classify.constantize
+    %tr
+      %td= klass.model_name.human
+      %td
+        .btn-group
+          = link_to "Liste", admin_thesaurus_path(name: field), class: "btn btn-default btn-sm"
+          = link_to "Nouveau libéllé", admin_new_libelle_path(field), class: "btn btn-default btn-sm"

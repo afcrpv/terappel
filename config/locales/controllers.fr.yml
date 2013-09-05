@@ -13,9 +13,5 @@ fr:
     create: "Nouveau Correspondant"
     edit: "Modification correspondant: %{id}"
     update: "Modification correspondant: %{id}"
-  shared:
-    action_links:
-      show: "Détails"
-      edit: "Modifier"
-      destroy: "Détruire"
-      confirm: "Etes-vous sûr ?"
+  users:
+    index: "Liste utilisateurs"
