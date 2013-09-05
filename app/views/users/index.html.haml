@@ -1,8 +1,0 @@
-- title
-
-- if @users.any?
-  %ul
-  - @users.each do |user|
-    %li= link_to user.username, [@centre, user]
-- else
-  No users of #{@centre.name} centre #{@centre.users.any? ? h(link_to("except yourself", [@centre, current_user])) : ""}

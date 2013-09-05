@@ -1,6 +1,6 @@
 class Admin::UsersController < ApplicationController
   before_action :set_user, only: [:approve, :show, :edit, :update, :destroy]
-  authorize_resource
+  load_and_authorize_resource :user
 
   def index
     @users = params[:approved] ? User.where(approved: false) : User.all
