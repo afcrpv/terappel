@@ -1,3 +1,25 @@
-- title
+- title "Terappel", "Gestion des appels grossesse"
 
-= link_to "Liste de dossiers récents", dossiers_path, class: "btn btn-primary btn-lg"
+= link_to new_dossier_path, class: "btn btn-success btn-lg" do
+  %span.glyphicon.glyphicon-plus
+  Saisir un dossier
+= link_to new_search_path, class: "btn btn-primary btn-lg" do
+  %span.glyphicon.glyphicon-search
+  Rechercher un dossier
+.btn-group
+  %button{type: "button", class: "btn btn-info btn-lg"}
+    %span.glyphicon.glyphicon-wrench
+    Administration
+  %button{type: "button", class: "btn btn-info btn-lg dropdown-toggle", data: {toggle: "dropdown"}}
+    %span.caret
+  %ul.dropdown-menu{role: "menu"}
+    %li= link_to "Tables générales", "#"
+    %li= link_to "Produits", "#"
+    %li= link_to "Correspondants", "#"
+    %li= link_to "Malformations", "#"
+    %li= link_to "Pathologies", "#"
+    %li.divider
+    %li= link_to "Utilisateurs", "#"
+= link_to "#", class: "btn btn-warning btn-lg" do
+  %span.glyphicon.glyphicon-book
+  Exploitation

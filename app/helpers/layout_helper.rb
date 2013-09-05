@@ -3,8 +3,9 @@
 # to do so you may need to add this line to your ApplicationController
 #   helper :layout
 module LayoutHelper
-  def title(page_title = nil, show_title = true, interpolations={})
+  def title(page_title = nil, subtitle = nil, show_title = true, interpolations={})
     content_for(:title) {page_title ? page_title.to_s : default_title(interpolations)}
+    content_for(:subtitle) { subtitle }
     @show_title = show_title
   end
 
