@@ -1,9 +1,10 @@
-= form_tag @dossier_for_search, method: :get, class: "navbar-form navbar-left", role: "search" do
+= form_tag @dossier_for_search, method: :get, class: "navbar-form", role: "search" do
   .form-group
-    = text_field_tag "codedossier", '',
-      autocomplete: "off",
-      placeholder: "N° Dossier",
-      class: "form-control search-query"
-  %button.btn.btn-default{type: "submit"}
-    %span.glyphicon.glyphicon-search
-    Recherche
+    %label.sr-only{for: "codedossier"} N° d'appel
+    .input-group
+      = text_field_tag "codedossier", '',
+        autocomplete: "off",
+        placeholder: "N° d'appel",
+        class: "form-control search-query"
+      .input-group-btn
+        %button.btn.btn-primary{type: "submit"} OK

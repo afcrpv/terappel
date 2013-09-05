@@ -35,13 +35,13 @@
     - if current_user
       %ul.nav.navbar-nav
         %li.dropdown
-          = link_to "#", class: "dropdown-toggle", "data-toggle" => "dropdown" do
-            Recherche
-            %b.caret
-          %ul.dropdown-menu
-            %li= link_to "Recherche Simple", dossiers_path
-            %li= link_to "Recherche Avancée", new_search_path
-      = render 'layouts/search'
+          = link_to "#", class: "dropdown-toggle", data: {toggle: "dropdown"} do
+            Saisie/Correction
+            %span.caret
+          %div.dropdown-menu.saisie-menu
+            = render 'layouts/search'
+        %li= link_to "Recherche Simple", dossiers_path
+        %li= link_to "Recherche Avancée", new_search_path
       = render 'layouts/user_nav'
 
   #page_wrap
@@ -49,9 +49,9 @@
       .row#page_header
         %header
           .col-md-7.col-sm-7
-            %h1#page_title
+            %h1.page-header
               = yield(:title) if show_title?
-              = yield(:page_title)
+              %small= yield(:subtitle)
           .col-md-5.col-sm-5
             - flashes = {alert: "warning", notice: "info", error: "danger"}
             - flash && flash.each do |name, msg|

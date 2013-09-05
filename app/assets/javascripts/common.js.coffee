@@ -1,12 +1,11 @@
 $ = jQuery
 
 $ ->
-  $(".topbar-search .search-icon").click ->
-    $(".topbar-search").submit() if $(".search-query").val()
   $(".alert-message").alert()
   $("[rel=tooltip]").tooltip
     delay:
       hide: 100
+
   $(".dropdown-toggle").dropdown()
 
   $.fn.select2.defaults.allowClear = true
@@ -14,12 +13,6 @@ $ ->
   $.fn.select2.defaults.formatInputTooShort = (input, min) -> "Saisir au moins #{min - input.length} caractères"
   $.fn.select2.defaults.formatSearching = -> "Recherche en cours..."
   $.fn.select2.defaults.width = "100%"
-
-  $("#codedossier").typeahead
-    name: 'dossiers'
-    limit: 10
-    remote: "/home/dossiers.json?q=%QUERY"
-    valueKey: "text"
 
 $.fn.expo_termes_calc = ->
   $(".date_expo").hide()
