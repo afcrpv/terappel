@@ -5,7 +5,7 @@
 $ = jQuery
 
 $ ->
-  $('body').on 'hidden', '#dossier_modal', ->
+  $('body').on 'hidden.bs.modal', '#dossier_modal', ->
     $(@).removeData('modal')
 
   $("[data-field=dossier_#{field}]").focusFieldOnError() for field in ["name", "date_appel", "expo_terato", "a_relancer", "code"]
@@ -107,7 +107,7 @@ $ ->
   $("#dossier_a_relancer").on "change", ->
     $("#relance").modal("show") if @value is "Oui"
 
-  $('body').on 'hidden', '#relance', ->
+  $('body').on 'hidden.bs.modal', '#relance', ->
     $("#dossier_relance_id_field").show()
 
   $(".copy-correspondant").on "click", ->
@@ -266,7 +266,7 @@ $.widget "terappel.remoteCorrespondantForm",
           keyboard: true
           backdrop: true
           show: true
-        ).on "hidden", =>
+        ).on "hidden.bs.modal", =>
           @dialog.remove()
           @dialog = null
     return @dialog

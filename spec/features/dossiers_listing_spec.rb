@@ -11,7 +11,7 @@ feature "Dossiers listing" do
     click_link "Imprimer le dossier LY2013001"
     find("#modal_label").should have_content "Fiche dossier LY2013001"
     click_button "Fermer"
-    click_link "Modifier le dossier LY2013001"
+    find_link("Modifier le dossier LY2013001").trigger("click")
     page.should have_content "Modification Dossier LY2013001"
   end
 

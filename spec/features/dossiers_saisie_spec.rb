@@ -16,7 +16,7 @@ feature "Dossiers saisie" do
   context "dossier global search" do
     scenario "allows creating dossiers when submitted code does not exist", js: true do
       fill_in "codedossier", with: "LY1111001"
-      page.execute_script("$('.topbar-search').submit()")
+      click_button "Recherche"
       page.should have_content("Le dossier LY1111001 n'existe pas")
       click_link("Clickez ici pour le créer")
       page.find('#dossier_code').value.should == "LY1111001"
@@ -26,7 +26,7 @@ feature "Dossiers saisie" do
       fill_in "codedossier", with: "LY2013001"
       choose_autocomplete_result "LY2013001", "#codedossier"
       find_field("codedossier").value.should include("LY2013001")
-      page.execute_script("$('.topbar-search').submit()")
+      click_button "Recherche"
       page.should have_content "Modification Dossier LY2013001"
     end
   end
@@ -54,8 +54,8 @@ feature "Dossiers saisie" do
     within ".tab-pane#expositions" do
       click_link "Ajouter une exposition"
       find(".nested-fields").visible?.should be_true
-      select2 produit.id, produit.name, from: "Saisir un produit"
-      find_link("Fermer").trigger("click")
+      select2 produit.name, from: "Produit", search: true
+      find_link("Valider").trigger("click")
     end
     within ".dossier-errors" do
       find_link("Nom patiente").trigger("click")

@@ -21,11 +21,7 @@ module Select2Macros
 
     [value].flatten.each do |value|
       choices_container = select2_container.find(:xpath, "a[contains(concat(' ',normalize-space(@class),' '),' select2-choice ')] | ul[contains(concat(' ',normalize-space(@class),' '),' select2-choices ')]")
-      if Capybara.current_driver == :poltergeist
-        choices_container.trigger('click')
-      else
-        choices_container.click
-      end
+      choices_container.trigger('click')
       find(:xpath, "//body").find("#{drop_container} li", text: value).click
     end
   end
