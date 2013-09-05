@@ -9,7 +9,7 @@ class Admin::ThesaurusController < ApplicationController
 
   def index
     klass = @name.classify.constantize
-    @items = klass.all
+    @items = klass.order(:name)
   end
 
   def new
@@ -38,7 +38,7 @@ class Admin::ThesaurusController < ApplicationController
   private
 
   def item_params
-    params.require(@name).permit(:name)
+    params.require(@name).permit(:name, :oldid)
   end
 
   def set_name

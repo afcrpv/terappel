@@ -1,0 +1,3 @@
+= f.input :name, label_html: {class: "sr-only"}, label: "Libéllé", input_html: {placeholder: "libellé"}
+= f.input :oldid, label_html: {class: "sr-only"}, label: "Vieux ID", input_html: {placeholder: "vieux id"} if f.object.respond_to?(:oldid)
+= f.button :submit, "Enregistrer", class: "btn btn-primary"

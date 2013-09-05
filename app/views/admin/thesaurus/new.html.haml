@@ -1,5 +1,4 @@
 - title "Nouveau libéllé pour la table #{@name}"
 
-= simple_form_for @klass.new, url: url_for(action: 'new'), html: {class: "form-inline", role: "form"} do |f|
-  = f.input :name, label_html: {class: "sr-only"}, label: "Libéllé"
-  = f.button :submit, "Enregistrer", class: "btn btn-primary"
+= simple_form_for @klass.new, url: admin_new_libelle_path, html: {class: "form-inline", role: "form"} do |f|
+  = render "fields", f: f
