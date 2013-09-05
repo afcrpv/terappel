@@ -48,19 +48,17 @@
         = link_to current_user.username, edit_user_registration_path
 
   #page_wrap
+    - flashes = {alert: "warning", notice: "info", error: "danger"}
+    - flash && flash.each do |name, msg|
+      .flash.alert.fade.in{class: "alert-#{flashes[:"#{name}"]}"}
+        %a.close{"data-dismiss" => "alert", href: "#"} &times;
+        %strong= msg
     .container
-      .row#page_header
+      #page_header
         %header
-          .col-md-7.col-sm-7
-            %h1.page-header
-              = yield(:title) if show_title?
-              %small= yield(:subtitle)
-          .col-md-5.col-sm-5
-            - flashes = {alert: "warning", notice: "info", error: "danger"}
-            - flash && flash.each do |name, msg|
-              .flash.alert.fade.in{class: "alert-#{flashes[:"#{name}"]}"}
-                %a.close{"data-dismiss" => "alert", href: "#"} &times;
-                %strong= msg
+          %h1.page-header
+            = yield(:title) if show_title?
+            %small= yield(:subtitle)
 
       = yield
 
