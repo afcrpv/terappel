@@ -1,11 +1,10 @@
 - title "Modification #{resource_name.to_s.humanize}"
 
-= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+= simple_form_for resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, role: "form" } do |f|
   = f.error_notification
   = f.input :username, input_html: {autofocus: true}
   = f.input :email
   = f.input :password, autocomplete: "off", hint: "laissez vide si vous ne voulez pas changer", required: false
   = f.input :password_confirmation, required: false
   = f.input :current_password, label: "Mot de passe actuel", hint: "saisir votre mot de passe actuel pour confirmer les modifications", required: true
-  .form-actions
-    = f.submit "Mettre à jour"
+  = f.submit "Mettre à jour", class: "btn btn-primary"
