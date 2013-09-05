@@ -7,4 +7,8 @@ class Centre < ActiveRecord::Base
   include Slug
 
   default_scope {order(:code)}
+
+  def to_s
+    name
+  end
 end
