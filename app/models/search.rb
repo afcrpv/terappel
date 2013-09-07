@@ -16,7 +16,7 @@ class Search < ActiveRecord::Base
 
   def find_dossiers
     dossiers = Dossier.includes({expositions: [:produit, :indication, :expo_terme]}, :centre, :motif, :produits, :bebes)
-    dossiers = dossiers.where(centre_id: centre_id) if centre_id.present?
+    dossiers = dossiers.where(centre_id: centre_id) if local?
     dossiers = dossiers.where(motif_id: motif_id) if motif_id.present?
     dossiers = dossiers.joins(:expositions).where('expositions.expo_nature_id' => expo_nature_id) if expo_nature_id
     dossiers = dossiers.joins(:expositions).where('expositions.expo_type_id' => expo_type_id) if expo_type_id
@@ -25,16 +25,17 @@ class Search < ActiveRecord::Base
     dossiers = dossiers.joins(:expositions).where(expositions: {produit_id: [produit_ids]}) if produit_ids.any?
     dossiers = dossiers.joins(expositions: {produit: :compositions}).where(compositions: {dci_id: [dci_ids]}) if dci_ids.any?
     dossiers = dossiers.where(evolution: evolution) if evolution
-    dossiers = dossiers.joins(:bebes).where(bebes: {malformation: malformation}) if malformation
-    dossiers = dossiers.joins(:bebes).where(bebes: {pathologie: pathologie}) if pathologie
+    dossiers = dossiers.joins(:bebes).where(bebes: {malformation: malformation}) if malformation.present?
+    dossiers = dossiers.joins(:bebes).where(bebes: {pathologie: pathologie}) if pathologie.present?
     dossiers = dossiers.where("date_appel >= ?", min_date_appel) if min_date_appel
     dossiers = dossiers.where("date_appel <= ?", max_date_appel) if max_date_appel
     dossiers.uniq
   end
 
   def search_params
-    result = attributes
-    result['centre'] = Centre.find(centre_id).name if centre_id
+    result = {}
+    result['Type recherche'] = local? ? "Locale (#{Centre.find(centre_id)})" : "Nationale"
+    result = result.merge(attributes)
     result['date appel'] = "du " + I18n.l(min_date_appel) + " au " + I18n.l(max_date_appel)
     result['motif'] = Motif.find(motif_id).name if motif_id
     result['produits'] = Produit.find(self.produit_ids).map(&:name).to_sentence(two_words_connector: " ou ", words_connector: " ou ", last_word_connector: " ou ") if produit_ids
@@ -44,6 +45,7 @@ class Search < ActiveRecord::Base
     result['expo_terme'] = ExpoTerme.find(expo_terme_id).name if expo_terme_id
     result['indication'] = Indication.find(indication_id).name if indication_id
     result['evolution'] = Evolution.find(evolution).name if evolution
+    result = result.delete_if {|k,v| k == "local"}
     result = result.delete_if {|k,v| k =~ /id$/}
     result = result.delete_if {|k,v| %w(max_date_appel min_date_appel).include?(k)}
     result = result.delete_if {|k,v| %w(created_at updated_at).include?(k)}

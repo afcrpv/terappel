@@ -1,8 +1,8 @@
 = simple_form_for search, html: { class: "form-horizontal search", role: "form" } do |f|
-  - if current_user.admin?
-    = f.input :centre_id, label_html: {class: "col-lg-2 col-md-2"} do
-      .col-lg-2.col-md-2
-        = f.input_field :centre_id, collection: Centre.all
+  = f.input :centre_id, as: :hidden, input_html: {value: current_user.centre_id}
+  = f.input :local, label_html: {class: "col-lg-2 col-md-2"}, label: "Type recherche" do
+    .col-lg-10.col-md-10
+      = f.input_field :local, collection: [["Locale", true], ["Nationale", false]], as: :radio_buttons
   .form-group
     = f.label "Date Appel", class: "col-lg-2 col-md-2 control-label"
     .col-lg-3.col-md-3
@@ -16,31 +16,36 @@
         %span.input-group-addon au
         = f.text_field :max_date_appel, class: "form-control", "data-value" => max_date_appel
   = f.input :motif_id, label_html: {class: "col-lg-2 col-md-2"} do
-    .col-lg-5.col-md-6
+    .col-lg-6.col-md-6
       = f.input_field :motif_id, collection: Motif.all
   = f.input :expo_nature_id, label_html: {class: "col-lg-2 col-md-2"}, label: "Nature expo" do
-    .col-lg-5.col-md-6
+    .col-lg-6.col-md-6
       = f.input_field :expo_nature_id, collection: ExpoNature.all
   = f.input :expo_type_id, label_html: {class: "col-lg-2 col-md-2"}, label: "Type expo" do
-    .col-lg-5.col-md-6
+    .col-lg-6.col-md-6
       = f.input_field :expo_type_id, collection: ExpoType.all
   = f.input :expo_terme_id, label_html: {class: "col-lg-2 col-md-2"}, label: "Termes expo" do
-    .col-lg-5.col-md-6
+    .col-lg-6.col-md-6
       = f.input_field :expo_terme_id, collection: ExpoTerme.all
   - %w(dci produit).each do |name|
     .form-group
       = f.label :"#{name}_tokens", name.pluralize.titleize, class: "col-lg-2 col-md-2 control-label"
-      .col-lg-5.col-md-6
-        = f.hidden_field :"#{name}_tokens", class: "#{name}_tokens", value: (items = f.object.send(:"#{name}s")).map(&:id).join(","), data: {load: items.map(&:name_and_id).to_json, placeholder: "Choisir les #{name}s"}
+      .col-lg-6.col-md-6
+        = f.hidden_field :"#{name}_tokens", class: "#{name}_tokens",
+          value: (items = f.object.send(:"#{name}s")).map(&:id).join(","),
+          data: {load: items.map(&:name_and_id).to_json, placeholder: "Choisir les #{name}s"}
 
   - %w(indication).each do |field|
     .form-group
       = f.label field.to_sym, class: "col-lg-2 col-md-2 control-label"
-      .col-lg-5.col-md-6
-        = f.hidden_field :"#{field}_id", class: "#{field}_autocomplete", data: {load: f.object.send(field).try(:name_and_id), placeholder: "Saisir une #{field}"}
+      .col-lg-6.col-md-6
+        = f.hidden_field :"#{field}_id", class: "#{field}_autocomplete",
+          data: {load: f.object.send(field).try(:name_and_id), placeholder: "Saisir une #{field}"}
+
   = f.input :malformation, label_html: {class: "col-lg-2 col-md-2"}, label: "Malformations" do
     .col-lg-2.col-md-2
       = f.input_field :malformation, collection: Dossier::ONI
+
   = f.input :pathologie, label_html: {class: "col-lg-2 col-md-2"}, label: "Pathologies" do
     .col-lg-2.col-md-2
       = f.input_field :pathologie, collection: Dossier::ONI

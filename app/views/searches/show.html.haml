@@ -1,37 +1,40 @@
 - title "Résultats de la recherche"
 
 .row
-  .span9
+  .col-lg-9.col-md-9
     .well.search-params
       %h4 Paramètres de recherche
       %ul
         - @search.search_params.each do |k, v|
           %li
-            %span.libelle= t('attributes.search.' + k)
+            %span.libelle= t('activerecord.attributes.search.' + k)
             = v
         %li
           %span.libelle Résultats
           = @dossiers_count
-  .span3
+  .col-lg-3.col-md-3
     .actions
-      = link_to edit_search_path(@search), class: "btn-primary" do
-        %i.icon-white.icon-pencil
+      = link_to edit_search_path(@search), class: "btn btn-primary" do
+        %span.glyphicon.glyphicon-pencil
         Modifier la recherche
-      = link_to search_path(@search, format: :csv) do
-        %i.icon-download-alt
+      = link_to search_path(@search, format: :csv), class: "btn btn-default" do
+        %span.glyphicon.glyphicon-download-alt
         Exporter fichier csv
-      = link_to new_search_path do
-        %i.icon-plus
+      = link_to new_search_path, class: "btn btn-default" do
+        %span.glyphicon.glyphicon-plus
         Nouvelle recherche
 
 %hr
 
-- if @dossiers_count < 300
-  = render "dossiers/dossiers", dossiers: @decorated_dossiers
+- if @dossiers.any?
+  - if @dossiers_count < 300
+    = render "dossiers/dossiers", dossiers: @decorated_dossiers
+  - else
+    .alert.alert-danger
+      %h4 Attention !
+      Cette recherche produit un nombre de dossiers > 1000. Veuillez
+      = link_to "modifier les critères.", edit_search_path(@search), class: "alert-link"
 - else
-  .alert.alert-block
-    %button.close{type: "button", data: {dismiss: "alert"}} &times;
-    %h4 Attention !
-    Cette recherche produit un nombre de dossiers > 1000.
+  %h4 Aucun résultat.
 
 = render 'dossiers/dossier_modal'

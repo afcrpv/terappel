@@ -41,7 +41,7 @@ class SearchesController < ApplicationController
   private
 
   def search_params
-    params.require(:search).permit :centre_id, :min_date_appel, :max_date_appel, :motif_id, :expo_nature_id, :expo_type_id, :indication_id, :expo_terme_id, :evolution, :malformation, :pathologie, :produit_tokens, :dci_tokens
+    params.require(:search).permit :local, :centre_id, :min_date_appel, :max_date_appel, :motif_id, :expo_nature_id, :expo_type_id, :indication_id, :expo_terme_id, :evolution, :malformation, :pathologie, :produit_tokens, :dci_tokens
   end
 
   def min_date_appel
