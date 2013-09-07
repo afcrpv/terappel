@@ -1,4 +1,4 @@
 - title "Modification #{@name.classify.constantize.model_name.human}"
 
-= simple_form_for @item, url: {action: 'update'}, html: {class: "form-inline", role: "form", method: :patch} do |f|
+= form_for @item, url: {action: 'update'}, html: {class: "form-inline", role: "form", method: :patch} do |f|
   = render "fields", f: f

@@ -1,3 +1,7 @@
-= f.input :name, label_html: {class: "sr-only"}, label: "Libéllé", input_html: {placeholder: "libellé"}
-= f.input :oldid, label_html: {class: "sr-only"}, label: "Vieux ID", input_html: {placeholder: "vieux id"} if f.object.respond_to?(:oldid)
-= f.button :submit, "Enregistrer", class: "btn btn-primary"
+.form-group
+  = f.label :name, "Libéllé", class: "sr-only"
+  = f.text_field :name, placeholder: "libellé", class: "form-control"
+.form-group
+  = f.label :oldid, "Vieux ID", class: "sr-only"
+  = f.number_field :oldid, placeholder: "vieux id", class: "form-control" if f.object.respond_to?(:oldid)
+= f.submit "Enregistrer", class: "btn btn-primary"
