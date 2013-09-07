@@ -1,38 +1,47 @@
 class Admin::ThesaurusController < ApplicationController
   respond_to :html
 
-  before_action :set_name
+  before_action :set_name, except: :dashboard
+  before_action :set_klass, except: :dashboard
   before_action :set_item, only: [:edit, :update, :destroy]
 
   def dashboard
+    authorize! :dashboard, :thesaurus
   end
 
   def index
-    klass = @name.classify.constantize
-    @items = klass.order(:name)
+    @items = @klass.order(:name)
+    respond_with @items
+    authorize! :index, :thesaurus
   end
 
   def new
-    @klass = @name.classify.constantize
+    @item = @klass.new
+    respond_with @item
+    authorize! :create, :thesaurus
   end
 
   def create
-    klass = @name.classify.constantize
-    @item = klass.create(item_params)
+    @item = @klass.create(item_params)
     respond_with @item, location: admin_thesaurus_path(name: @name)
+    authorize! :create, :thesaurus
   end
 
   def edit
+    respond_with @item
+    authorize! :update, :thesaurus
   end
 
   def update
     @item.update(item_params)
     respond_with @item, location: admin_thesaurus_path(name: @name)
+    authorize! :update, :thesaurus
   end
 
   def destroy
     @item.destroy
     respond_with @item, location: admin_thesaurus_path(name: @name)
+    authorize! :destroy, :thesaurus
   end
 
   private
@@ -45,8 +54,11 @@ class Admin::ThesaurusController < ApplicationController
     @name ||= params[:name]
   end
 
+  def set_klass
+    @klass ||= @name.classify.constantize
+  end
+
   def set_item
-    klass = @name.classify.constantize
-    @item = klass.find(params[:id])
+    @item ||= @klass.find(params[:id])
   end
 end

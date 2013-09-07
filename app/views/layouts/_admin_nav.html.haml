@@ -1,5 +1,5 @@
 %ul.dropdown-menu
-  %li= link_to "Tables générales", admin_tables_generales_path
+  %li= link_to "Tables générales", admin_tables_generales_path if can?(:dashboard, :thesaurus)
   %li= link_to "Produits", "#"
   %li= link_to "Correspondants", "#"
   %li= link_to "Malformations", "#"

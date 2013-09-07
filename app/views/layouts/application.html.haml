@@ -42,7 +42,7 @@
           = link_to "#", class: "dropdown-toggle", data: {toggle: "dropdown"} do
             Administration
             %b.caret
-          = render 'layouts/admin_nav' if current_user.admin?
+          = render 'layouts/admin_nav'
       %p.navbar-text.pull-right
         Bonjour,
         = link_to current_user.username, edit_user_registration_path
