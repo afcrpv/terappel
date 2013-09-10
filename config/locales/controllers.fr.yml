@@ -15,3 +15,7 @@ fr:
     update: "Modification correspondant: %{id}"
   users:
     index: "Liste utilisateurs"
+    new: "Nouvel utilisateur"
+    create: "Nouvel utilisateur"
+    edit: "Modification utilisateur: %{id}"
+    update: "Modification utilisateur: %{id}"

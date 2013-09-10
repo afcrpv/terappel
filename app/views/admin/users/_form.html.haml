@@ -1,7 +1,15 @@
-= semantic_form_for user do |f|
-  = f.semantic_errors :base
-  = f.inputs do
-    = render 'fields', :f => f, :user => user
-    = f.input :password, :as => :password
-    = f.input :password_confirmation, :as => :password
-  = f.buttons :commit
+= simple_form_for([:admin, user], wrapper: :bootstrap3_horizontal, defaults: {right_column_html: {class: "col-lg-3 col-md-3"}, label_html: {class: "col-lg-2 col-md-2"} }, html: {class: "form-horizontal", role: "form"}) do |f|
+  = f.error_notification
+  = f.input :username
+  = f.input :email
+  = f.association :centre
+  = f.association :roles, as: :check_boxes, right_column_html: { class: "col-lg-10 col-md-10" }
+  = f.input :password, autocomplete: "off"
+  = f.input :password_confirmation
+  = f.input :current_password unless f.object.new_record?
+  = f.input :approved, label: "Approuvé ?"
+  .form-group
+    .col-lg-offset-2.col-lg-10.col-md-offset-2.col-md-10
+      .btn-group
+        = f.button :submit, "Enregistrer", data: {disable_with: "Enregistrer"}, class: "btn-primary"
+        = link_to "Retour à la liste", admin_users_path, class: "btn btn-default"
