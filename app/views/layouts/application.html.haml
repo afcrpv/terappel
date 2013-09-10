@@ -45,7 +45,7 @@
           = render 'layouts/admin_nav'
       %p.navbar-text.pull-right
         Bonjour,
-        = link_to current_user.username, edit_user_registration_path
+        = link_to current_user.username, edit_user_registration_path, title: "Modifier compte"
 
   #page_wrap
     - flashes = {alert: "warning", notice: "info", error: "danger"}

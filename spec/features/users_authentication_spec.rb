@@ -10,7 +10,7 @@ feature "Users authentication" do
   end
 
   scenario "cannot login with incorrect credentials" do
-    click_link "Déconnexion"
+    visit logout_path
     login User.new
     page.should have_content("Identifiant ou mot de passe incorrect.")
   end
