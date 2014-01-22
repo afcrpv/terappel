@@ -45,6 +45,7 @@ gem 'select2-rails', github: "argerim/select2-rails"
 gem 'rails_12factor', group: :production
 gem 'newrelic_rpm'
 gem 'unicorn'
+gem 'unicorn-rails'
 gem 'foreman'
 
 gem "devise", github: "plataformatec/devise"
