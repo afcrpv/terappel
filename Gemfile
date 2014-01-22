@@ -1,5 +1,5 @@
 source 'http://rubygems.org'
-ruby "2.0.0"
+ruby "2.1.0"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0'
 
@@ -11,7 +11,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', "~> 4.0.0"
 
 gem 'bootstrap-sass', github: "thomas-mcdonald/bootstrap-sass", branch: "3"
-gem "compass-rails", github: "milgner/compass-rails", branch: "rails4"
+gem "compass-rails", github: "Compass/compass-rails"
 
 gem 'jquery-rails'
 
