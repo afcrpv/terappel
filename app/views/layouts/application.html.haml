@@ -1,7 +1,7 @@
 !!! 5
 %head
   %meta{charset: "utf-8"}/
-  %title= yield(:title) || "Untitled"
+  %title= yield(:title) || "Terappel"
 
   %meta{"http-equiv" => "X-UA-Compatible", content: "IE=edge,chrome1"}
   :plain
@@ -42,4 +42,4 @@
       .row#page_footer
         %footer
           .col-sm-4.col-sm-offset-8.col-sm-4.col-sm-offset-8
-            Copyright Terappel 2012
+            Copyright Terappel #{Date.today.year}
