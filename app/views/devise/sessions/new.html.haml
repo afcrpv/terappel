@@ -1,11 +1,16 @@
 - title "Connexion"
 
-= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "form-horizontal"}) do |f|
-  = f.input :username, input_html: {class: "span4"}, required: false
-  = f.input :password, input_html: {class: "span4"}
-  - if devise_mapping.rememberable?
-    = f.input :remember_me, as: :boolean
-  .form-actions
-    = f.button :submit, "Connexion", data: {disable_with: "Attendre..."}, class: "btn-success"
+= form_for resource, as: resource_name, url: session_path(resource_name), html: {class: "form-horizontal"} do |f|
+  .form-group
+    = f.label :username, "Utilisateur", class: "col-sm-2 control-label"
+    .col-sm-6
+      = f.text_field :username, class: "form-control"
 
-= render "devise/shared/links"
+  .form-group
+    = f.label :password, "Mot de passe", class: "col-sm-2 control-label"
+    .col-sm-6
+      = f.password_field :password, class: "form-control"
+
+  .form-group
+    .col-sm-offset-2.col-sm-6
+      = f.submit "Se connecter", data: {disable_with: "Attendre..."}, class: "btn btn-success"

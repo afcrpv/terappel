@@ -1,10 +1,36 @@
-- title "Modification #{resource_name.to_s.humanize}"
+- title "Modification profile"
 
-= simple_form_for resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, role: "form" } do |f|
-  = f.error_notification
-  = f.input :username, input_html: {autofocus: true}
-  = f.input :email
-  = f.input :password, autocomplete: "off", hint: "laissez vide si vous ne voulez pas changer", required: false
-  = f.input :password_confirmation, required: false
-  = f.input :current_password, label: "Mot de passe actuel", hint: "saisir votre mot de passe actuel pour confirmer les modifications", required: true
-  = f.submit "Mettre à jour", class: "btn btn-primary"
+= form_for resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "form-horizontal", role: "form" } do |f|
+  = render "error_message", model: resource
+  .form-group
+    = f.label :username, "Nom d'utilisateur", class: "col-sm-2 control-label"
+    .col-sm-3
+      = f.text_field :username, class: "form-control", autofocus: true
+
+  .form-group
+    = f.label :email, class: "col-sm-2 control-label"
+    .col-sm-3
+      = f.email_field :email, class: "form-control"
+
+  .form-group
+    = f.label :password, "Mot de passe", class: "col-sm-2 control-label"
+    .col-sm-3
+      = f.password_field :password, autocomplete: "off", class: "form-control"
+    .col-sm-6
+      %span.help-block laissez vide si vous ne voulez pas changer
+
+  .form-group
+    = f.label :password_confirmation, "Confirmer", class: "col-sm-2 control-label"
+    .col-sm-3
+      = f.password_field :password_confirmation, class: "form-control"
+
+  .form-group
+    = f.label :current_password, "Mot de passe actuel", class: "col-sm-2 control-label"
+    .col-sm-3
+      = f.password_field :current_password, class: "form-control"
+    .col-sm-6
+      %span.help-block saisir votre mot de passe actuel pour confirmer les modifications
+
+  .form-group
+    .col-sm-offset-2.col-sm-10
+      = f.submit "Enregistrer", class: "btn btn-success"

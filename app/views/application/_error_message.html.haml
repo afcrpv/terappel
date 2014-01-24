@@ -1,0 +1,8 @@
+- if model.errors.any?
+  .panel.panel-danger#error_explanation
+    .panel-heading
+      Le formulaire a #{pluralize model.errors.count, "erreur"}.
+    .panel-body
+      %ol
+        - model.errors.full_messages.each do |msg|
+          %li= msg

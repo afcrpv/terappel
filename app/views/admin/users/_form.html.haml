@@ -1,15 +1,42 @@
-= simple_form_for([:admin, user], wrapper: :bootstrap3_horizontal, defaults: {right_column_html: {class: "col-lg-3 col-md-3"}, label_html: {class: "col-lg-2 col-md-2"} }, html: {class: "form-horizontal", role: "form"}) do |f|
-  = f.error_notification
-  = f.input :username
-  = f.input :email
-  = f.association :centre
-  = f.association :roles, as: :check_boxes, right_column_html: { class: "col-lg-10 col-md-10" }
-  = f.input :password, autocomplete: "off"
-  = f.input :password_confirmation
-  = f.input :current_password unless f.object.new_record?
-  = f.input :approved, label: "Approuvé ?"
+= form_for [:admin, user], html: {class: "form-horizontal", role: "form"} do |f|
+  = render "error_message", model: user
+
   .form-group
-    .col-lg-offset-2.col-lg-10.col-md-offset-2.col-md-10
+    = f.label :username, "Nom d'utilisateur", class: "col-sm-2 control-label"
+    .col-sm-3
+      = f.text_field :username, class: "form-control"
+
+  .form-group
+    = f.label :email, class: "col-sm-2 control-label"
+    .col-sm-3
+      = f.email_field :email, class: "form-control"
+
+
+  .form-group
+    = f.label :password, "Mot de passe", class: "col-sm-2 control-label"
+    .col-sm-3
+      = f.password_field :password, autocomplete: "off", class: "form-control"
+
+  .form-group
+    = f.label :password_confirmation, "Confirmer", class: "col-sm-2 control-label"
+    .col-sm-3
+      = f.password_field :password_confirmation, class: "form-control"
+
+  .form-group
+    = f.label :centre_id, "CRPV", class: "col-sm-2 control-label"
+    .col-sm-3
+      = f.collection_select :centre_id, Centre.all, :id, :name, {}, class: "form-control"
+
+  .form-group
+    = f.label :roles, class: "col-sm-2 control-label"
+    .col-sm-10
+      - Role.all.each do |role|
+        %label.checkbox-inline
+          = check_box_tag "user[role_ids][]", role.id, user.role_ids.include?(role.id), id: dom_id(role)
+          = role.name
+
+  .form-group
+    .col-sm-offset-2.col-sm-6
       .btn-group
-        = f.button :submit, "Enregistrer", data: {disable_with: "Enregistrer"}, class: "btn-primary"
+        = f.submit "Enregistrer", data: {disable_with: "Enregistrer"}, class: "btn btn-success"
         = link_to "Retour à la liste", admin_users_path, class: "btn btn-default"
