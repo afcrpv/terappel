@@ -1,53 +1,28 @@
 !!! 5
 %head
-
-  / Basic Page Needs
-  %meta{:charset => "utf-8"}/
+  %meta{charset: "utf-8"}/
   %title= yield(:title) || "Untitled"
 
-  / IE
-  %meta{"http-equiv" => "X-UA-Compatible", content: "IE=edge"}
+  %meta{"http-equiv" => "X-UA-Compatible", content: "IE=edge,chrome1"}
+  :plain
+    <!-- if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 
   %meta{name: "viewport", content: "width=device-width, initial-scale=1.0"}/
 
-  / CSS
   = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
-
   = javascript_include_tag "application", "data-turbolinks-track" => true
   = csrf_meta_tags
 
-  / Favicons
   = favicon_link_tag
 
   = yield(:head)
 
 %body{class: params[:controller]}
+  = render 'layouts/navigation'
 
-  %nav.navbar.navbar-inverse.navbar-fixed-top{role: "navigation"}
-    .navbar-header
-      %button.navbar-toggle{type: "button", data: {toggle: "collapse", target: ".navbar-ex1-collapse"}}
-      %span.sr-only Menu
-      %span.icon-bar
-      %span.icon-bar
-      %span.icon-bar
-      = link_to "Terappel", root_path, class: "navbar-brand"
-
-    - if current_user
-      %ul.nav.navbar-nav.navbar-left
-        = render 'layouts/qsearch'
-        %li= link_to "Recherche", new_search_path
-        %li= link_to "Relance", "#"
-        %li= link_to "Exploitation", "#"
-        %li.dropdown
-          = link_to "#", class: "dropdown-toggle", data: {toggle: "dropdown"} do
-            Administration
-            %b.caret
-          = render 'layouts/admin_nav'
-      %p.navbar-text.pull-right
-        Bonjour,
-        = link_to current_user.username, edit_user_registration_path, title: "Modifier compte"
-
-  #page_wrap
+  %main{role: "main", id: "page_wrap"}
     - flashes = {alert: "warning", notice: "info", error: "danger"}
     - flash && flash.each do |name, msg|
       .flash.alert.fade.in{class: "alert-#{flashes[:"#{name}"]}"}

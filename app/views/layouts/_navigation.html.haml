@@ -1,0 +1,21 @@
+%header.navbar.navbar-inverse.navbar-fixed-top{role: "banner"}
+  .container
+    .navbar-header
+      %button.navbar-toggle{data: {toggle: "collapse", target: ".terappel-navbar-collapse"}}
+        %span.sr-only Menu
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      = link_to "Terappel", root_path, class: "navbar-brand"
+
+    - if current_user
+      %nav.collapse.navbar-collapse.terappel-navbar-collapse{role: "navigation"}
+        %ul.nav.navbar-nav
+          = render 'layouts/qsearch'
+          %li{class: request.path =~ /search/ ? "active" : nil}= link_to "Recherche", new_search_path
+          %li{class: request.path =~ /relance/ ? "active" : nil}= link_to "Relance", "#"
+          %li{class: request.path =~ /exploitation/ ? "active" : nil}= link_to "Exploitation", "#"
+          = render 'layouts/admin_nav'
+        %p.navbar-text.navbar-right
+          Bonjour,
+          = link_to current_user.username, edit_user_registration_path, title: "Modifier compte"
