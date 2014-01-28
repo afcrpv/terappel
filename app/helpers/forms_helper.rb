@@ -12,7 +12,7 @@ module FormsHelper
 
       'method,options={}' => %w{
         date_field datetime_field datetime_local_field email_field file_field
-         hidden_field number_field password_field phone_field range_field
+         number_field password_field phone_field range_field
         search_field telephone_field text_area text_field time_field url_field
       },
 
