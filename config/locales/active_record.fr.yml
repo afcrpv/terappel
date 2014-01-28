@@ -68,8 +68,8 @@ fr:
       exposition:
         expo_type: "Type"
         expo_nature: "Nature"
-        produit_name: "Exposition"
-        indication_name: "Indication"
+        produit: "Exposition"
+        indication: "Indication"
         voie: "Voie d'exposition"
         dose: "Posologie"
         de: "Période Expo (en SA)"
