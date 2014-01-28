@@ -1,47 +1,60 @@
 .nested-fields
   .row
-    .col-lg-6.col-sm-6
-      = f.association :expo_type
-    .col-lg-6.col-sm-6
-      = f.association :expo_nature
+    - %w(type nature).each do |field|
+      - field_name = "expo_#{field}"
+      .col-sm-6
+        = f.group do
+          = f.label :"#{field_name}_id", t(field_name, scope: [:activerecord, :attributes, :exposition])
+          = f.collection_select :"#{field_name}_id", field_name.classify.constantize.all, :id, :name, include_blank: true
   .row
     - %w(produit indication).each do |field|
       - article = field == "produit" ? "un" : "une"
-      .col-lg-6.col-sm-6
-        .form-group
-          = f.label field.to_sym
+      .col-sm-6
+        = f.group do
+          = f.label ":#{field}_id", t(field, scope: [:activerecord, :attributes, :exposition])
           = f.hidden_field :"#{field}_id", class: "#{field}_autocomplete", data: {load: f.object.send(field).try(:name_and_id), placeholder: "Saisir #{article} #{field}"}
   .row
-    .col-lg-4.col-sm-4
-      = f.association :voie
-    .col-lg-4.col-sm-4
-      = f.input :dose, hint: "par exemple en mg/j"
-    .col-lg-4.col-sm-4
-      = f.association :expo_terme
+    .col-sm-4
+      = f.group do
+        = f.label :voie_id, t(:voie_id, scope: [:activerecord, :attributes, :exposition])
+        = f.collection_select :voie_id, Voie.all, :id, :name, include_blank: true
+    .col-sm-4
+      = f.group do
+        = f.label :dose, t(:dose, scope: [:activerecord, :attributes, :exposition])
+        = f.text_field :dose
+        %span.help-block par exemple en mg/j
+    .col-sm-4
+      = f.group do
+        = f.label :expo_terme_id, t(:expo_terme, scope: [:activerecord, :attributes, :exposition])
+        = f.collection_select :expo_terme_id, ExpoTerme.all, :id, :name, include_blank: true
 
   .row
     - [["periode_expo", ""], ["reprise_ttt", "2"]].each do |item|
       - pexpo_class = item[0]
       - suffix = item[1]
-      %div{class: "#{pexpo_class} col-lg-12"}
-        = f.label :"de#{suffix}"
+      %div{class: "#{pexpo_class} col-sm-12"}
+        = f.label :"de#{suffix}", t("de#{suffix}", scope: [:activerecord, :attributes, :exposition])
         .row
-          .col-lg-2.col-sm-2
-            = f.text_field :"de#{suffix}", class: "form-control de", placeholder: "De"
-          .col-lg-1.col-sm-1
+          .col-sm-2
+            = f.group do
+              = f.text_field :"de#{suffix}", class: "de", placeholder: "De"
+          .col-sm-1
             = button_tag tabIndex: "-1", type: :button, class: "btn btn-default calendar" do
               %span.glyphicon.glyphicon-calendar
-          .col-lg-2.col-sm-2
-            = f.text_field :"de#{suffix}_date", class: "form-control date_expo"
-          .col-lg-2.col-sm-2
-            = f.text_field :"a#{suffix}", class: "form-control duree_calc", placeholder: "à"
-          .col-lg-1.col-sm-1
+          .col-sm-2
+            = f.group do
+              = f.text_field :"de#{suffix}_date", class: "date_expo"
+          .col-sm-2
+            = f.text_field :"a#{suffix}", class: "duree_calc", placeholder: "à"
+          .col-sm-1
             = button_tag tabIndex: "-1", type: :button, class: "btn btn-default calendar" do
               %span.glyphicon.glyphicon-calendar
-          .col-lg-2.col-sm-2
-            = f.text_field :"a#{suffix}_date", class: "form-control date_expo"
-          .col-lg-2.col-sm-2
-            = f.text_field :"duree#{suffix}", class: "form-control duree", placeholder: "durée"
+          .col-sm-2
+            = f.group do
+              = f.text_field :"a#{suffix}_date", class: "date_expo"
+          .col-sm-2
+            = f.group do
+              = f.text_field :"duree#{suffix}", class: "duree", placeholder: "durée"
 
   .field_links
     = link_to "#", class: "btn btn-success btn-sm validate_expo" do

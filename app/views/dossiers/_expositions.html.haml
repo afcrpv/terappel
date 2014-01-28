@@ -12,7 +12,7 @@
       %th.to à
   %tbody
 
-= f.simple_fields_for :expositions do |exposition|
+= f.fields_for :expositions do |exposition|
   = render "exposition_fields", f: exposition
 
 .links

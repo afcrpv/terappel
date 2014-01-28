@@ -25,28 +25,28 @@
     .col-sm-4
       = f.group do
         = f.label :"#{field}"
-        = f.collection_select :"#{field}", Dossier::TABAC, :to_s, :to_s, {include_blank: true}, class: "form-control"
+        = f.collection_select :"#{field}", Dossier::TABAC, :to_s, :to_s, include_blank: true
 
   .col-sm-4
     = f.group do
       = f.label :toxiques
-      = f.collection_select :toxiques, Dossier::ONI, :to_s, :to_s, {include_blank: true}, class: "form-control"
+      = f.collection_select :toxiques, Dossier::ONI, :to_s, :to_s, include_blank: true
       %span.help-block A préciser dans l'onglet Exposition
 
 .row
   .col-sm-4
     = f.group do
       = f.label :folique
-      = f.collection_select :folique, Dossier::ONI, :to_s, :to_s, {include_blank: true}, class: "form-control"
+      = f.collection_select :folique, Dossier::ONI, :to_s, :to_s, include_blank: true
       %span.help-block Préciser éventuellement le dosage dans le commentaire
 
   .col-sm-4
     = f.group do
       = f.label :patho1t
-      = f.collection_select :patho1t, Dossier::ONI, :to_s, :to_s, {include_blank: true}, class: "form-control"
+      = f.collection_select :patho1t, Dossier::ONI, :to_s, :to_s, include_blank: true
       %span.help-block Préciser la ou les pathologies dans le commentaire
 
   .col-sm-4
     = f.group do
       = f.label :ass_med_proc
-      = f.collection_select :ass_med_proc, Dossier::ONI, :to_s, :to_s, {include_blank: true}, class: "form-control"
+      = f.collection_select :ass_med_proc, Dossier::ONI, :to_s, :to_s, include_blank: true
