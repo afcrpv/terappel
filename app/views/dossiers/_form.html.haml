@@ -1,8 +1,7 @@
-= simple_form_for dossier, validate: true, html: {class: "saisie", role: "form"} do |f|
-  - f.object.build_demandeur
-  - f.object.build_relance
-  = errors_for dossier
-  = f.input :centre_id, as: :hidden
+= twitter_bootstrap_form_for dossier, html: {class: "saisie"} do |f|
+  = f.error_messages
+  -#= errors_for dossier
+  = f.hidden_field :centre_id
   = f.hidden_field :current_tab, value: params[:current_tab] || "infos"
 
   %ul.nav.nav-tabs#tabs
@@ -15,13 +14,15 @@
   .tab-content
     #infos.tab-pane.fade.in.active= render "infos", f: f
     #grossesse.tab-pane.fade.in= render "grossesse", f: f
-    #expositions.tab-pane.fade.in= render "expositions", f: f
-    #evol.tab-pane.fade.in= render "evolution", f: f
-    #bebes.tab-pane.fade.in= render "bebes", f: f
+    -##expositions.tab-pane.fade.in= render "expositions", f: f
+    -##evol.tab-pane.fade.in= render "evolution", f: f
+    -##bebes.tab-pane.fade.in= render "bebes", f: f
 
   %hr
 
-  = f.input :commentaire, label: "Commentaire du dossier", input_html: {class: "span11", rows: 2}
+  = f.group do
+    = f.label :commentaire
+    = f.text_area :commentaire, rows: 2
 
   = button_tag type: :submit, data: {disable_with: (save_and_continue = "Enregistrer et continuer")}, name: "_continue", class: "btn btn-success" do
     %i.glyphicon.glyphicon-arrow-right

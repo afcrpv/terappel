@@ -1,23 +1,19 @@
 .row
-  = f.input :date_dernieres_regles, wrapper: :group, wrapper_html: {class: "col-lg-3 col-sm-3"} do
-    = f.input_field :date_dernieres_regles, as: :string, class: "dateITA dateNotFuture calc_dates_grossesse", "data-value" => date_dernieres_regles
-    %span.input-group-btn
-      %button.btn.btn-default.clear_date{type: "button", tabIndex: "-1"} X
+  - %w(date_dernieres_regles date_debut_grossesse date_accouchement_prevu).each do |field|
+    .col-sm-3
+      = f.group do
+        = f.label :"#{field}"
+        = f.input_group do
+          = f.text_field :"#{field}", class: "calc_dates_grossesse", "data-value" => eval(field)
+          %span.input-group-btn
+            %button.btn.btn-default.clear_date{type: "button", tabIndex: "-1"} X
 
-  = f.input :date_debut_grossesse, wrapper: :group, wrapper_html: {class: "col-lg-3 col-sm-3"} do
-    = f.input_field :date_debut_grossesse, as: :string, class: "dateITA dateNotFuture calc_dates_grossesse", "data-value" => date_debut_grossesse
-    %span.input-group-btn
-      %button.btn.btn-default.clear_date{type: "button", tabIndex: "-1"} X
-
-  = f.input :date_accouchement_prevu, wrapper: :group, wrapper_html: {class: "col-lg-3 col-sm-3"} do
-    = f.input_field :date_accouchement_prevu, as: :string, class: "dateITA calc_dates_grossesse", "data-value" => date_accouchement_prevu
-    %span.input-group-btn
-      %button.btn.btn-default.clear_date{tabIndex: "-1", type: "button"} X
-
-  = f.input :age_grossesse, wrapper: :group, wrapper_html: {class: "col-lg-3 col-sm-3"} do
-    = f.input_field :age_grossesse
-    %span.input-group-addon
-      SA
+  .col-sm-3
+    = f.group do
+      = f.label :age_grossesse
+      = f.input_group do
+        = f.number_field :age_grossesse
+        %span.input-group-addon SA
 
 .row
   .col-lg-12.col-sm-12#grossesse_date_messages
@@ -25,11 +21,32 @@
 %hr
 
 .row
-  = f.input :tabac, as: :select, collection: Dossier::TABAC, wrapper_html: {class: "col-lg-4 col-sm-4"}
-  = f.input :alcool, as: :select, collection: Dossier::ALCOOL, wrapper_html: {class: "col-lg-4 col-sm-4"}
-  = f.input :toxiques, as: :select, collection: Dossier::ONI, wrapper_html: {class: "col-lg-4 col-sm-4"}, hint: "A préciser dans l'onglet Exposition"
+  - %w(tabac alcool).each do |field|
+    .col-sm-4
+      = f.group do
+        = f.label :"#{field}"
+        = f.collection_select :"#{field}", Dossier::TABAC, :to_s, :to_s, {include_blank: true}, class: "form-control"
+
+  .col-sm-4
+    = f.group do
+      = f.label :toxiques
+      = f.collection_select :toxiques, Dossier::ONI, :to_s, :to_s, {include_blank: true}, class: "form-control"
+      %span.help-block A préciser dans l'onglet Exposition
 
 .row
-  = f.input :folique, as: :select, collection: Dossier::ONI, wrapper_html: {class: "col-lg-4 col-sm-4"}, hint: "Préciser éventuellement le dosage dans le commentaire"
-  = f.input :patho1t, as: :select, collection: Dossier::ONI, wrapper_html: {class: "col-lg-4 col-sm-4"}, hint: "Préciser la ou les pathologies dans le commentaire"
-  = f.input :ass_med_proc, collection: Dossier::ONI, wrapper_html: {class: "col-lg-4 col-sm-4"}
+  .col-sm-4
+    = f.group do
+      = f.label :folique
+      = f.collection_select :folique, Dossier::ONI, :to_s, :to_s, {include_blank: true}, class: "form-control"
+      %span.help-block Préciser éventuellement le dosage dans le commentaire
+
+  .col-sm-4
+    = f.group do
+      = f.label :patho1t
+      = f.collection_select :patho1t, Dossier::ONI, :to_s, :to_s, {include_blank: true}, class: "form-control"
+      %span.help-block Préciser la ou les pathologies dans le commentaire
+
+  .col-sm-4
+    = f.group do
+      = f.label :ass_med_proc
+      = f.collection_select :ass_med_proc, Dossier::ONI, :to_s, :to_s, {include_blank: true}, class: "form-control"

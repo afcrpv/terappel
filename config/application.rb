@@ -32,5 +32,7 @@ module Terappel
       g.controller_specs   false
       g.routing_specs      false
     end
+
+    config.action_view.field_error_proc = Proc.new { |html_tag, instance| "<div class='has-error'>#{html_tag}</div>".html_safe }
   end
 end
