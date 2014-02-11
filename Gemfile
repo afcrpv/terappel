@@ -10,7 +10,7 @@ gem 'jquery-ui-sass-rails'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', "~> 4.0.0"
 
-gem 'bootstrap-sass', '~> 3.0.3.0'
+gem 'bootstrap-sass', '~> 3.1.0'
 gem "compass-rails", github: "Compass/compass-rails"
 
 gem 'jquery-rails'
@@ -69,6 +69,9 @@ group :test, :development do
 end
 
 group :development do
+  gem "spring", "~> 1.1.1"
+  gem "spring-commands-rspec"
+  gem "guard-rspec", "~> 2.1.0"
   gem 'pry-rails'
   gem "quiet_assets", ">= 1.0.1"
   gem 'rb-fsevent', :require => false
@@ -82,8 +85,6 @@ group :test do
   gem 'capybara'
   gem "selenium-webdriver"
   gem "database_cleaner", github: "bmabey/database_cleaner", tag: "v1.0.0.RC1"
-  gem "guard-rspec", "~> 2.1.0"
   gem "simplecov", :require => false
-  gem "zeus"
   gem 'launchy'    # So you can do Then show me the page
 end
