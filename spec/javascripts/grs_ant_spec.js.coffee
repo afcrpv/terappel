@@ -1,14 +1,11 @@
 describe "Total grossesses number", ->
   beforeEach ->
-    table = affix("table#grossesses_anterieures tbody")
-    table.affix("tr td div.control-group div.controls input#dossier_grsant")
-    row1 = table.affix("tr")
-    for field in ["fcs", "geu", "miu"]
-      row1.affix("td div.control-group div.controls input#dossier_#{field}")
-    row2 = table.affix("tr")
-    for field in ["ivg", "img", "nai"]
-      row2.affix("td div.control-group div.controls input#dossier_#{field}")
-    $("#grossesses_anterieures input").checkGrsantCoherence()
+    affix("div.form-group input#dossier_grsant.grsant_coherence")
+
+    for field in ["fcs", "geu", "miu", "ivg", "img", "nai"]
+      affix(".form-group input#dossier_#{field}.grsant_coherence")
+
+    $(".grsant_coherence").checkGrsantCoherence()
 
   it "zero all related fields when grsant is filled with 0", ->
     $("#dossier_grsant").val("0")
@@ -33,27 +30,27 @@ describe "Total grossesses number", ->
         $("#dossier_grsant").val("3").blur()
 
       it "displays a warning", ->
-        expect($("span.help-inline")).toHaveText 'Saisie incorrecte, vérifiez la somme !'
+        expect($(".help-block")).toHaveText 'Saisie incorrecte, vérifiez la somme !'
 
       it "sets the error class to the sum input", ->
-        expect($("#dossier_grsant").closest(".control-group")).toHaveClass("error")
+        expect($("#dossier_grsant").closest(".form-group")).toHaveClass("has-error")
 
      describe 'when entered sum equals calculated sum', ->
       beforeEach ->
         $("#dossier_grsant").val("2").blur()
 
        it "displays positive feedback", ->
-          expect($("span.help-inline")).toHaveText 'Saisie correcte.'
+          expect($(".help-block")).toHaveText 'Saisie correcte.'
 
       it "sets the success class to the sum input", ->
-        expect($("#dossier_grsant").closest(".control-group")).toHaveClass("success")
+        expect($("#dossier_grsant").closest(".form-group")).toHaveClass("has-success")
 
   describe "when any fields are empty", ->
     beforeEach ->
       $("#dossier_grsant").blur()
 
     it "displays an appropriate warning", ->
-      expect($("span.help-inline")).toHaveText 'Saisie incomplète, veuillez saisir tous les champs !'
+      expect($(".help-block")).toHaveText 'Saisie incomplète, veuillez saisir tous les champs !'
 
     it "sets the warning class to the sum input", ->
-      expect($("#dossier_#{field}").closest(".control-group")).toHaveClass("warning") for field in ["grsant", "fcs", "geu", "miu", "ivg", "img", "nai"]
+      expect($("#dossier_#{field}").closest(".form-group")).toHaveClass("has-warning") for field in ["grsant", "fcs", "geu", "miu", "ivg", "img", "nai"]
