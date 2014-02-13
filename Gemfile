@@ -63,8 +63,7 @@ gem 'draper', '~> 1.0'
 
 group :test, :development do
   gem "rspec-rails"
-  gem "jasmine-rails", github: "irfn/jasmine-rails"
-  gem 'guard-jasmine'
+  gem "jasmine-rails"
   gem "poltergeist", github: "jonleighton/poltergeist"
 end
 

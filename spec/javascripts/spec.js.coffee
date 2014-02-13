@@ -1,6 +1,7 @@
 #= require jquery
 #= require jquery.ui.core
 #= require jquery.ui.widget
+#= require jquery.maskedinput
 #= require bootstrap
 #= require bmi
 #= require select2
@@ -8,4 +9,3 @@
 #= require dossiers
 #= require grossesse
 #= require association
-#= require_tree .
