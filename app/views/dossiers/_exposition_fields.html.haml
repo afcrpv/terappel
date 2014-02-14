@@ -11,7 +11,7 @@
       - article = field == "produit" ? "un" : "une"
       .col-sm-6
         = f.group do
-          = f.label ":#{field}_id", t(field, scope: [:activerecord, :attributes, :exposition])
+          = f.label :"#{field}_id", t(field, scope: [:activerecord, :attributes, :exposition])
           = f.hidden_field :"#{field}_id", class: "#{field}_autocomplete", data: {load: f.object.send(field).try(:name_and_id), placeholder: "Saisir #{article} #{field}"}
   .row
     .col-sm-4
@@ -37,21 +37,17 @@
         .row
           .col-sm-2
             = f.group do
-              = f.text_field :"de#{suffix}", class: "de", placeholder: "De"
-          .col-sm-1
-            = button_tag tabIndex: "-1", type: :button, class: "btn btn-default calendar" do
-              %span.glyphicon.glyphicon-calendar
+              = f.label :"de#{suffix}_date", "De la date", class: "sr-only"
+              = f.text_field :"de#{suffix}_date", class: "de_date"
           .col-sm-2
             = f.group do
-              = f.text_field :"de#{suffix}_date", class: "date_expo"
-          .col-sm-2
-            = f.text_field :"a#{suffix}", class: "duree_calc", placeholder: "à"
-          .col-sm-1
-            = button_tag tabIndex: "-1", type: :button, class: "btn btn-default calendar" do
-              %span.glyphicon.glyphicon-calendar
+              = f.text_field :"de#{suffix}", class: "de", placeholder: "de (SA)"
           .col-sm-2
             = f.group do
-              = f.text_field :"a#{suffix}_date", class: "date_expo"
+              = f.text_field :"a#{suffix}_date", class: "a_date"
+          .col-sm-2
+            = f.group do
+              = f.text_field :"a#{suffix}", class: "a", placeholder: "à (SA)"
           .col-sm-2
             = f.group do
               = f.text_field :"duree#{suffix}", class: "duree", placeholder: "durée"
@@ -60,3 +56,4 @@
     = link_to "#", class: "btn btn-success btn-sm validate_expo" do
       %span.glyphicon.glyphicon-chevron-up
       Valider Exposition
+    = link_to_remove_association "remove exposition", f

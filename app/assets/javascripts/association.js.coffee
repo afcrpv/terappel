@@ -8,8 +8,10 @@ $ ->
 
     $("table#expositions_summary").prefillSummaryTable
       modelName: "expositions"
-    $(".calendar").expo_termes_calc()
-    $(".duree_calc").duree_expo_calc()
+    for expo_terme in ["periode_expo", "reprise_ttt"]
+      $(".#{expo_terme}").expo_termes_calc()
+      $(".#{expo_terme}").duree_expo()
+
     $(".validate_expo").validateAssociation
       modelName: "exposition"
       selectedFields: [
@@ -42,8 +44,11 @@ $ ->
         requiredFields: ["produit_id"]
 
       $(select).select2() for select in $(".combobox").filter(":visible")
-      $(".calendar").expo_termes_calc()
-      $(".duree_calc").duree_expo_calc()
+
+      for expo_terme in ["periode_expo", "reprise_ttt"]
+        $(".#{expo_terme}").expo_termes_calc()
+        $(".#{expo_terme}").duree_expo()
+
       disableSubmitWithEnter()
 
   #### BEBES ####
@@ -101,7 +106,8 @@ class @Association
     @required_attributes = required_attributes
 
 collectModelId = ($start_point) ->
-  $start_point.find("[name]").filter(":first").attr("id").match(/[0-9]+/).join()
+  console.log $start_point.find("input[name]").filter(":first")
+  $start_point.find("[name]").filter(":first").attr("name").match(/[0-9]+/).join()
 
 destroyModal = (model_name, plural_name_and_id) ->
   $modal = $("""
@@ -301,6 +307,7 @@ $.widget "terappel.validateAssociation",
     plural_name_and_id = @pluralNameAndId()
 
     @element.on 'click', (e) =>
+      console.log "clicked validate action"
       e.preventDefault()
 
       association = new Association(model_name, @_getFieldsValues($start_point, @options.selectedFields), @_getFieldsValues($start_point, @options.requiredFields))
@@ -308,6 +315,8 @@ $.widget "terappel.validateAssociation",
         value
 
       $target = $("##{model_name}s_summary")
+
+      console.dir association
 
       if required_fields_values.join("").length
         $model_row = @_getModelRow($target)
@@ -512,3 +521,64 @@ $.fn.attach_jstree = (association, bebe_id) ->
           success: (data) ->
             initial_ancestors = $select2_input.data("initial-ancestors")
             $select2_input.data("initial-ancestors", initial_ancestors.concat data)
+
+$.fn.expo_termes_calc = ->
+  @each ->
+    $base = $(this)
+    console.log("started expo_termes_calc function for div.#{$base.attr('class')}")
+    $de = $base.find(".de")
+    $de_date = $base.find(".de_date")
+    $de_date.mask("99/99/9999")
+
+    $de_date.one 'blur', ->
+      console.log 'fired calculation'
+      date_expo = parse_fr_date(@value) if @value?
+      if date_expo? and !isNaN(date_expo.getTime())
+        $ddr = $('#dossier_date_dernieres_regles')
+        $ddg = $('#dossier_date_debut_grossesse')
+        ddr = $ddr.val()
+        ddg = $ddg.val()
+
+        target_date = new Date
+        if ddr? and ddr.trim() isnt ""
+          target_date = parse_fr_date(ddr)
+        else if ddg? and ddg.trim() isnt ""
+          parsed_ddg = parse_fr_date(ddg)
+          target_date = parse_fr_date(addDays(parsed_ddg, -14))
+        else
+          return alert "Dates de dernières règles et début de grossesse vides, veuillez remplir l'une des deux !"
+
+        console.log "target_date = #{target_date}"
+
+        $de.val(getSA(target_date, date_expo)) if !isNaN(target_date.getTime())
+
+$.fn.duree_expo = ->
+  $base = $(this)
+  @each ->
+    $de = $base.find(".de")
+    $base.find(".a").blur ->
+      $duree = $base.find(".duree")
+      field.parents(".form-group").removeClass("has-error") for field in [$de, $(this), $duree]
+      $duree.next("p.help-block").remove()
+      de = $de.val()
+      a = $(this).val()
+      result = new DureeExpo($base.attr('class'), de, a).calculate()
+      if result.length?
+        field.parents(".form-group").addClass("has-error") for field in [$de, $(this), $duree]
+        $duree.parents(".form-group").append("<p class='help-block'>#{result}</p>")
+      else
+        $duree.val(result)
+
+class @DureeExpo
+  constructor: (context, de, a) ->
+    @context = context
+    @de = parseInt(de)
+    @a = parseInt(a)
+
+  calculate: ->
+    return "Veuillez remplir les champs 'de (SA)' et 'à (SA)' !" if @oneValueMissing()
+    return "La valeur 'de (SA)' est > à 'à (SA)' !" if @a < @de
+    @a - @de
+
+  oneValueMissing: ->
+    isNaN(@a) or isNaN(@de)
