@@ -4,6 +4,7 @@ class Ability
   def initialize(user)
     if user
       can :access, :home
+      can :access, :jasmine
       can :update, :users, id: user.id
 
       can :create, :dossiers
