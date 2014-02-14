@@ -1,10 +1,23 @@
 .row
-  .col-lg-6.col-sm-6
-    = f.input :evolution, collection: Dossier::EVOLUTION,
-      hint: "Compléter le champ malformation si un examen anatomo-pathologique interprétable a été effectué"
+  .col-sm-3
+    = f.group do
+      = f.label :evolution
+      = f.collection_select :evolution, Dossier::EVOLUTION, :to_s, :to_s, {include_blank: true}
+      %p.help-block Compléter le champ malformation si un examen anatomo-pathologique interprétable a été effectué
 
 .row.issue
-  = f.input :modaccouch, collection: Dossier::MODACCOUCH, wrapper_html: {class: "col-lg-3 col-sm-3", id: "modaccouch"}, input_html: {data: {placeholder: "Choisir..."}}
-  = f.input :terme, wrapper_html: {class: "col-lg-3 col-sm-3"}
-  = f.input :date_reelle_accouchement, as: :string, wrapper_html: {class: "col-lg-3 col-sm-3", id: "date_reelle_accouchement"}, input_html: {data: {value: date_reelle_accouchement}}
-  = f.input :date_recueil_evol, as: :string, wrapper_html: {class: "col-lg-3 col-sm-3", id: "date_recueil_evol"}, input_html: {data: {value: date_recueil_evol}}
+  .col-sm-3#modaccouch
+    = f.group do
+      = f.label :modaccouch
+      = f.collection_select :modaccouch, Dossier::MODACCOUCH, :to_s, :to_s, {prompt: "Choisir..."}
+  .col-lg-2.col-sm-3#date_reelle_accouchement
+    = f.group do
+      = f.label :date_reelle_accouchement
+      = f.text_field :date_reelle_accouchement, data: {value: date_reelle_accouchement}
+  .col-lg-2.col-sm-3
+    = f.group do
+      = f.label :terme
+      = f.number_field :terme
+  .col-lg-2.col-sm-3#date_recueil_evol
+    = f.group do
+      = f.text_field :date_recueil_evol, data: {value: date_recueil_evol}
