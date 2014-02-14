@@ -5,8 +5,7 @@
 $ = jQuery
 
 $ ->
-  $('body').on 'hidden.bs.modal', '#dossier_modal', ->
-    $(@).removeData('modal')
+  $('body').on 'hidden.bs.modal', '#dossier_modal', -> $(@).removeData('modal')
 
   $("[data-field=dossier_#{field}]").focusFieldOnError() for field in ["name", "date_appel", "expo_terato", "a_relancer", "code"]
   $("[data-field=dossier_expositions]").on "click", (e) ->
@@ -56,7 +55,7 @@ $ ->
 
   #### Grossesse
   $("#dossier_grsant").zeroGrossesseFields()
-  $("#grossesses_anterieures").find("input").checkGrsantCoherence()
+  $(".grsant_coherence").checkGrsantCoherence()
 
   for field in ["toxiques", "folique", "patho1t"]
     element = $("#dossier_#{field}")
@@ -95,9 +94,7 @@ $ ->
   #### Correspondant ####
   for name in ["demandeur", "relance"]
     $("#dossier_#{name}_attributes_correspondant_id").attach_correspondant_select2(name)
-    $("#dossier_#{name}_id_field").remoteCorrespondantForm
-      typeCorrespondant: name
-
+    $("#dossier_#{name}_id_field").remoteCorrespondantForm {typeCorrespondant: name}
     correspondant_id = $("#dossier_#{name}_attributes_correspondant_id").val()
     activateCorrespondantEdit(correspondant_id, name)
 
@@ -119,6 +116,16 @@ $ ->
 
 # functions & jQuery plugins
 
+class @Parite
+  constructor: (total, atcds) ->
+    @total = parseInt(total)
+    @atcds =
+      parseInt(item) for item in atcds
+
+  coherence: ->
+    return true if @total is @atcds.reduce (x, y) -> x + y
+    false
+
 $.fn.checkGrsantCoherence = ->
   array = @
   @each ->
@@ -130,27 +137,29 @@ $.fn.checkGrsantCoherence = ->
           can_fire = false
           empty_elements.push element
 
-      $("#dossier_grsant").next("span.help-inline").remove()
-      $message = $('<span class="help-inline" />')
+      $("#dossier_grsant").next(".help-block").remove()
+      $message = $('<p class="help-block" />')
       if can_fire is true
-        entered_sum = $("#dossier_grsant").val()
-        expected_sum = 0
-        expected_sum += parseInt($("#dossier_#{field}").val()) for field in ["fcs", "geu", "miu", "ivg", "img", "nai"]
-        if parseInt(entered_sum) isnt expected_sum
-          $message.html("Saisie incorrecte, vérifiez la somme !")
-          message_class = "error"
-        else
+        total = $("#dossier_grsant").val()
+        atcds =
+          $("#dossier_#{field}").val() for field in ["fcs", "geu", "miu", "ivg", "img", "nai"]
+        parite = new Parite(total, atcds)
+
+        if parite.coherence()
           $message.html("Saisie correcte.")
-          message_class = "success"
-        $(element).closest(".control-group").attr("class", "control-group #{message_class}") for element in array
+          message_class = "has-success"
+        else
+          $message.html("Saisie incorrecte, vérifiez la somme !")
+          message_class = "has-error"
+
+        $(element).closest(".form-group").attr("class", "form-group #{message_class}") for element in array
       else
         $message.html("Saisie incomplète, veuillez saisir tous les champs !")
-        message_class = "warning"
-        $(element).closest(".control-group").attr("class", "control-group #{message_class}") for element in empty_elements
-        $(this).closest(".control-group").attr("class", "control-group success") if $(this).val()
+        message_class = "has-warning"
+        $(element).closest(".form-group").attr("class", "form-group #{message_class}") for element in empty_elements
+        $(this).closest(".form-group").attr("class", "form-group has-success") if $(this).val()
 
-      $("#dossier_grsant").closest(".controls").append($message)
-      $("#dossier_grsant").closest(".control-group").attr("class", "control-group #{message_class}")
+      $("#dossier_grsant").closest(".form-group").append($message)
 
 $.fn.zeroGrossesseFields = ->
   @on 'blur', ->
