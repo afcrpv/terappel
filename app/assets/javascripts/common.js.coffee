@@ -1,6 +1,10 @@
 $ = jQuery
 
 $ ->
+  $("#codedossier").on "keyup", ->
+    value = $(this).val()
+    $(this).val(value.toUpperCase())
+
   $(".alert-message").alert()
   $("[rel=tooltip]").tooltip
     delay:
