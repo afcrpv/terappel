@@ -9,7 +9,7 @@ $ ->
     $("table#expositions_summary").prefillSummaryTable
       modelName: "expositions"
     for expo_terme in ["periode_expo", "reprise_ttt"]
-      $(".#{expo_terme}").expo_termes_calc()
+      $(".#{expo_terme}").expo_termes_calc($(".#{expo_terme} .#{prefix}_date"), $(".#{expo_terme} .#{prefix}")) for prefix in ["de", "a"]
       $(".#{expo_terme}").duree_expo()
 
     $(".validate_expo").validateAssociation
@@ -46,7 +46,7 @@ $ ->
       $(select).select2() for select in $(".combobox").filter(":visible")
 
       for expo_terme in ["periode_expo", "reprise_ttt"]
-        $(".#{expo_terme}").expo_termes_calc()
+        $(".#{expo_terme}").expo_termes_calc($(".#{expo_terme} .#{prefix}_date"), $(".#{expo_terme} .#{prefix}")) for prefix in ["de", "a"]
         $(".#{expo_terme}").duree_expo()
 
       disableSubmitWithEnter()
@@ -522,56 +522,21 @@ $.fn.attach_jstree = (association, bebe_id) ->
             initial_ancestors = $select2_input.data("initial-ancestors")
             $select2_input.data("initial-ancestors", initial_ancestors.concat data)
 
-$.fn.expo_termes_calc = ->
-  @each ->
-    $base = $(this)
-    console.log("started expo_termes_calc function for div.#{$base.attr('class')}")
-    $de = $base.find(".de")
-    $de_date = $base.find(".de_date")
-    $de_date.mask("99/99/9999")
+class @SaExpo
+  constructor: (dg_date, expo_date) ->
+    parsed_dg_date = parse_fr_date(dg_date)
+    @dg_date = parse_fr_date(addDays(parsed_dg_date, -14))
+    @expo_date = parse_fr_date(expo_date)
 
-    $de_date.one 'blur', ->
-      console.log 'fired calculation'
-      date_expo = parse_fr_date(@value) if @value?
-      if date_expo? and !isNaN(date_expo.getTime())
-        $ddr = $('#dossier_date_dernieres_regles')
-        $ddg = $('#dossier_date_debut_grossesse')
-        ddr = $ddr.val()
-        ddg = $ddg.val()
-
-        target_date = new Date
-        if ddr? and ddr.trim() isnt ""
-          target_date = parse_fr_date(ddr)
-        else if ddg? and ddg.trim() isnt ""
-          parsed_ddg = parse_fr_date(ddg)
-          target_date = parse_fr_date(addDays(parsed_ddg, -14))
-        else
-          return alert "Dates de dernières règles et début de grossesse vides, veuillez remplir l'une des deux !"
-
-        console.log "target_date = #{target_date}"
-
-        $de.val(getSA(target_date, date_expo)) if !isNaN(target_date.getTime())
-
-$.fn.duree_expo = ->
-  $base = $(this)
-  @each ->
-    $de = $base.find(".de")
-    $base.find(".a").blur ->
-      $duree = $base.find(".duree")
-      field.parents(".form-group").removeClass("has-error") for field in [$de, $(this), $duree]
-      $duree.next("p.help-block").remove()
-      de = $de.val()
-      a = $(this).val()
-      result = new DureeExpo($base.attr('class'), de, a).calculate()
-      if result.length?
-        field.parents(".form-group").addClass("has-error") for field in [$de, $(this), $duree]
-        $duree.parents(".form-group").append("<p class='help-block'>#{result}</p>")
-      else
-        $duree.val(result)
+  calculate: ->
+    return "" if isNaN(@expo_date)
+    return "Veuillez remplir la date de debut de grossesse !" if isNaN(@dg_date)
+    result = getSA(@dg_date, @expo_date)
+    return "La date d'exposition est antérieure à la date de debut de grossesse !" if result < 0
+    result
 
 class @DureeExpo
-  constructor: (context, de, a) ->
-    @context = context
+  constructor: (de, a) ->
     @de = parseInt(de)
     @a = parseInt(a)
 
@@ -582,3 +547,34 @@ class @DureeExpo
 
   oneValueMissing: ->
     isNaN(@a) or isNaN(@de)
+
+$.fn.expo_termes_calc = ($date, $sa) ->
+  $base = $(this)
+
+  $date.mask("99/99/9999")
+  $date.blur ->
+    ddg = $("#dossier_date_debut_grossesse").val()
+    field.parents(".form-group").removeClass("has-error") for field in [$sa, $(@)]
+    $sa.next("p.help-block").remove()
+    result = new SaExpo(ddg, @value).calculate()
+    if result.length? and result.length > 0
+      field.parents(".form-group").addClass("has-error") for field in [$sa, $(@)]
+      $sa.parents(".form-group").append("<p class='help-block'>#{result}</p>")
+    else
+      $sa.val(result)
+
+$.fn.duree_expo = ->
+  $base = $(this)
+  $de = $base.find(".de")
+  $base.find(".a").blur ->
+    $duree = $base.find(".duree")
+    field.parents(".form-group").removeClass("has-error") for field in [$de, $(this), $duree]
+    $duree.next("p.help-block").remove()
+    de = $de.val()
+    a = $(this).val()
+    result = new DureeExpo(de, a).calculate()
+    if result.length?
+      field.parents(".form-group").addClass("has-error") for field in [$de, $(this), $duree]
+      $duree.parents(".form-group").append("<p class='help-block'>#{result}</p>")
+    else
+      $duree.val(result)

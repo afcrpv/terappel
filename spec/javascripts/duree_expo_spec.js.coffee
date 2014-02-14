@@ -1,10 +1,10 @@
 describe "DureeExpo", ->
   it "calculates with provided arguments", ->
-    duree_expo = new DureeExpo("periode_expo", "4", "8")
+    duree_expo = new DureeExpo("4", "8")
     expect(duree_expo.calculate()).toBe(4)
 
   it "returns an error message when #de or #a argument is blank", ->
-    duree_expo = new DureeExpo("periode_expo", "", "8")
+    duree_expo = new DureeExpo("", "8")
     expect(duree_expo.calculate()).toBe "Veuillez remplir les champs 'de (SA)' et 'à (SA)' !"
 
   describe "with its jquery plugin", ->
