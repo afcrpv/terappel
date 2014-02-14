@@ -12,40 +12,6 @@ feature "Dossiers expositions management" do
     login user
   end
 
-  describe "expo duree calculation" do
-    background do
-      visit new_dossier_path
-      click_link "EXPOSITION"
-      within ".tab-pane#expositions" do
-        click_link "Ajouter une exposition"
-      end
-    end
-    scenario "should return the correct result if positive", js: true do
-      pending "pending feature"
-      within ".periode_expo" do
-        find(".de").set("2")
-        find(".duree_calc").set("4")
-        page.execute_script %Q{ $('.duree_calc').trigger("blur") }
-        find(".duree").value.should == "2"
-      end
-    end
-
-    scenario "should alert if negative result", js: true do
-      pending "pending feature"
-      within ".periode_expo" do
-        find(".de").set("4")
-        find(".duree_calc").set("2")
-        page.execute_script %Q{ $('.duree_calc').trigger("blur") }
-        page.should have_content("Erreur")
-        find(".de").set("2")
-        find(".duree_calc").set("4")
-        page.execute_script %Q{ $('.duree_calc').trigger("blur") }
-        page.should_not have_content("Erreur")
-        find(".duree").value.should == "2"
-      end
-    end
-  end
-
   describe "for new dossiers" do
     background do
       visit new_dossier_path
@@ -53,7 +19,7 @@ feature "Dossiers expositions management" do
       within ".tab-pane#expositions" do
         click_link "Ajouter une exposition"
         find(".nested-fields").visible?.should be_true
-        select2 produit.name, from: "Produit", search: true
+        select2 produit.name, from: "Exposition", search: true
         select2 indication.name, from: "Indication", search: true
         fill_in "Posologie", with: "2 g/j"
         click_link "Valider Exposition"
@@ -68,7 +34,7 @@ feature "Dossiers expositions management" do
 
     scenario "update existing exposition", js: true do
       find_link("Modifier exposition").trigger("click")
-      fill_in "Posologie", :with => "50 mg/j"
+      fill_in "Posologie", with: "50 mg/j"
       click_on "Valider"
       page.should have_content('50 mg/j')
     end
@@ -78,7 +44,7 @@ feature "Dossiers expositions management" do
       within ".tab-pane#expositions" do
         click_link "Ajouter une exposition"
         find(".nested-fields").visible?.should be_true
-        select2 produit2.name, from: "Produit", search: true
+        select2 produit2.name, from: "Exposition", search: true
         select2 indication.name, from: "Indication", search: true
         fill_in "Posologie", with: "100 µg/j"
         click_link "Valider Exposition"
