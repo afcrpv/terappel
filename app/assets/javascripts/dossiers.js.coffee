@@ -293,7 +293,8 @@ $.fn.focusFieldOnError = ->
         $("##{field}").focus()
 
 $.fn.show_or_hide_issue_elements = ->
-  show_or_hide_issue @, @value
+  show_or_hide_issue @, @val()
+  console.log @val()
   @on "change", (e) ->
     show_or_hide_issue e.target, e.target.value
 
