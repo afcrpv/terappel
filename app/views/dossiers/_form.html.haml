@@ -1,6 +1,5 @@
 = twitter_bootstrap_form_for dossier, html: {class: "saisie"} do |f|
   = f.error_messages
-  -#= errors_for dossier
   = f.hidden_field :centre_id
   = f.hidden_field :current_tab, value: params[:current_tab] || "infos"
 

@@ -137,19 +137,3 @@
       = f.group do
         = f.label item
         = f.text_field item, class: "grsant_coherence"
-
--#%table#grossesses_anterieures
-  %tbody
-    %tr
-      %th{colspan: "3"}= t(:grsant, scope: "activerecord.attributes.dossier")
-      %td= f.text_field :grsant, class: "grsant_coherence"
-      %td
-      %td
-    %tr
-      - [:fcs, :geu, :miu].each do |item|
-        %th= item.to_s.upcase
-        %td= f.text_field item, class: "grsant_coherence"
-    %tr
-      - [:ivg, :img, :nai].each do |item|
-        %th= item.to_s.upcase
-        %td= f.text_field item, class: "grsant_coherence"
