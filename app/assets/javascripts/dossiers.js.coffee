@@ -87,6 +87,8 @@ $ ->
   $(".calc_dates_grossesse").calculateGrossesse()
   $(".clear_date").resetDates()
 
+  $("#dossier_date_reelle_accouchement").calculateTermeNaissance()
+
   #### Evolution ####
 
   $("#dossier_evolution").show_or_hide_issue_elements()

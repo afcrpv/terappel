@@ -1,9 +1,10 @@
 class @Grossesse
-  constructor: (date_appel, date_dernieres_regles="", date_debut_grossesse="", date_accouchement_prevu="") ->
+  constructor: (date_appel, date_dernieres_regles="", date_debut_grossesse="", date_accouchement_prevu="", date_reelle_accouchement="") ->
     @date_appel = date_appel
     @date_dernieres_regles = date_dernieres_regles
     @date_debut_grossesse = date_debut_grossesse
     @date_accouchement_prevu = date_accouchement_prevu
+    @date_reelle_accouchement = date_reelle_accouchement
 
   get_date_debut_grossesse: ->
     return @date_debut_grossesse unless isNaN(parse_fr_date(@date_debut_grossesse).getTime())
@@ -45,6 +46,15 @@ class @Grossesse
       sa = getSA(date, date_appel)
       return sa
 
+  terme_naissance: ->
+    parsed_date_dg = parse_fr_date(@date_debut_grossesse)
+    date_ra = parse_fr_date(@date_reelle_accouchement)
+    message = "calcul terme naissance impossible car date "
+    return message + "de début de grossesse vide" if isNaN(parsed_date_dg.getTime())
+    return message + "réélle d'accouchement vide" if isNaN(date_ra.getTime())
+    date_dg = parse_fr_date addDays(parsed_date_dg, -14)
+    getSA(date_dg, date_ra)
+
 $.fn.resetDates = ->
   @each ->
     $(this).click ->
@@ -73,3 +83,16 @@ $.fn.calculateGrossesse = ->
       else
         $("#grossesse_date_messages").
           html("<span class='calc_error'>Calcul des dates de grossesse impossible, date appel vide</span>")
+
+$.fn.calculateTermeNaissance = ->
+  $(@).blur ->
+    $terme = $("#dossier_terme")
+    terme = new Grossesse("", "", $("#dossier_date_debut_grossesse").val(), "", $(@).val()).terme_naissance()
+    field.parents(".form-group").removeClass("has-error") for field in [$terme, $(@)]
+    $terme.next("p.help-block").remove()
+    unless $terme.val().length? and $terme.val().length > 0
+      if terme.length? and terme.length > 0
+        field.parents(".form-group").addClass("has-error") for field in [$terme, $(@)]
+        $terme.parents(".form-group").append("<p class='help-block'>#{terme}</p>")
+      else
+        $terme.val(terme)

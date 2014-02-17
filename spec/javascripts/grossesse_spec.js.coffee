@@ -51,6 +51,44 @@ describe "Grossesse", ->
       grossesse = new Grossesse(@date_appel, "", "", "28/09/2012")
       expect(grossesse.age_grossesse()).toBe(4)
 
+  describe "#calculateTermeNaissance jQuery plugin", ->
+    beforeEach ->
+      affix("#dossier_date_debut_grossesse")
+      affix(".form-group #dossier_date_reelle_accouchement")
+      affix(".form-group #dossier_terme")
+      @ddra = $("#dossier_date_reelle_accouchement")
+      @ddra.calculateTermeNaissance()
+
+    it "calculate terme naissance", ->
+      $("#dossier_date_debut_grossesse").val("15/01/2014")
+      @ddra.val("15/10/2014").trigger("blur")
+      expect($("#dossier_terme").val()).toBe "41"
+
+    describe "when #dossier_terme is already filled", ->
+      beforeEach ->
+        $("#dossier_terme").val("41")
+        @ddra.val("").trigger("blur")
+
+      it "doesn't print an error message", ->
+        expect($(".help-block")).not.toExist()
+
+      it "doesn't add error class to inputs", ->
+        expect($("#dossier_#{input}").parent()).not.toHaveClass("form-group has-error") for input in ["terme", "date_reelle_accouchement"]
+
+    describe "when if #dossier_date_reelle_accouchement is blank", ->
+      beforeEach ->
+        $("#dossier_date_debut_grossesse").val("15/01/2014")
+        @ddra.val("").trigger("blur")
+
+      it "doesn't calculate terme naissance", ->
+        expect($("#dossier_terme").val()).toBe ""
+
+      it "assigns error class to input fields when calculation is impossible", ->
+        expect($("#dossier_#{input}").parent()).toHaveClass("form-group has-error") for input in ["terme", "date_reelle_accouchement"]
+
+      it "warns with a 'date is empty' message", ->
+        expect($(".help-block")).toHaveText "calcul terme naissance impossible car date réélle d'accouchement vide"
+
   describe "with its #calculateGrossesse jQuery plugin", ->
     beforeEach ->
       $form = affix("form")
