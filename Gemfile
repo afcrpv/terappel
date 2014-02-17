@@ -71,6 +71,7 @@ group :development do
   gem "spring", "~> 1.1.1"
   gem "spring-commands-rspec"
   gem "guard-rspec", "~> 2.1.0"
+  gem "guard-jasmine"
   gem 'pry-rails'
   gem "quiet_assets", ">= 1.0.1"
   gem 'rb-fsevent', :require => false
