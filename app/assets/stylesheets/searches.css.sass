@@ -16,4 +16,22 @@ body.searches
     .libelle
       font-weight: bold
       &:after
-        content: " : "
+
+  #dossier_modal .modal-dialog
+    .modal-body
+      max-height: 600px
+      overflow-x: hidden
+    .row
+      padding: 5px 0
+      margin-left: 2px
+      border: 1px solid $table-border-color
+      &:nth-child(odd)
+        background-color: $table-bg-accent
+      &:nth-child(even)
+        background-color: $table-bg
+
+  span.libelle
+    clear: left
+    font-weight: bold
+    &:after
+      content: " : "
