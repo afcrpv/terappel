@@ -59,7 +59,7 @@ gem 'jstree-rails', github: "tristanm/jstree-rails"
 gem 'haml-rails'
 gem 'responders'
 gem 'prawn', github: "prawnpdf/prawn"
-gem 'draper', '~> 1.0'
+gem 'draper', '~> 1.3'
 
 group :test, :development do
   gem "rspec-rails"
