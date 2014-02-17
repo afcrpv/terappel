@@ -14,7 +14,7 @@
       %th Pathologie
   %tbody
 
-= f.simple_fields_for :bebes do |bebe|
+= f.fields_for :bebes do |bebe|
   = render "bebe_fields", f: bebe
 
 .links

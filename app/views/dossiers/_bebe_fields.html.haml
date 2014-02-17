@@ -1,38 +1,56 @@
 .nested-fields
   .row
-    = f.input :age, wrapper: :group, wrapper_html: {class: "col-lg-4 col-sm-5"} do
-      = f.input_field :age
-      %span.input-group-addon semaines
+    .col-sm-2
+      = f.group do
+        = f.label :age, t(:age, scope: [:activerecord, :attributes, :bebe])
+        = f.input_group do
+          = f.number_field :age
+          %span.input-group-addon semaines
   .row
-    = f.input :sexe, collection: Bebe::SEXE, wrapper_html: {class: "col-lg-2 col-sm-2"}
-    = f.input :poids, wrapper: :group, wrapper_html: {class: "col-lg-2 col-sm-2"} do
-      = f.input_field :poids
-      %span.input-group-addon g
-    = f.input :taille, wrapper: :group, wrapper_html: {class: "col-lg-2 col-sm-2"} do
-      = f.input_field :taille
-      %span.input-group-addon cm
-    = f.input :pc, label: "PC", wrapper: :group, wrapper_html: {class: "col-lg-2 col-sm-2"} do
-      = f.input_field :pc
-      %span.input-group-addon cm
-    = f.input :apgar1, wrapper_html: {class: "col-lg-2 col-sm-2"}
-    = f.input :apgar5, wrapper_html: {class: "col-lg-2 col-sm-2"}
+    .col-sm-2
+      = f.group do
+        = f.label :sexe, t(:sexe, scope: [:activerecord, :attributes, :bebe])
+        = f.collection_select :sexe, Bebe::SEXE, :to_s, :to_s, include_blank: true
+    .col-sm-2
+      = f.group do
+        = f.label :poids, t(:poids, scope: [:activerecord, :attributes, :bebe])
+        = f.input_group do
+          = f.number_field :poids
+          %span.input-group-addon g
+    .col-sm-2
+      = f.group do
+        = f.label :taille, t(:taille, scope: [:activerecord, :attributes, :bebe])
+        = f.input_group do
+          = f.number_field :taille
+          %span.input-group-addon cm
+    .col-sm-2
+      = f.group do
+        = f.label :pc, t(:pc, scope: [:activerecord, :attributes, :bebe])
+        = f.input_group do
+          = f.number_field :pc
+          %span.input-group-addon cm
+    - %w(1 5).each do |n|
+      .col-sm-2
+        = f.group do
+          = f.label :"apgar#{n}", t(:"apgar#{n}", scope: [:activerecord, :attributes, :bebe])
+          = f.number_field :"apgar#{n}"
   .row
     - %w(malformation pathologie).each do |field|
-      .col-lg-6.col-sm-6
+      .col-sm-6
         .row
-          .col-lg-4.col-sm-4
-            .form-group
-              = f.label field.to_sym
-              = f.collection_select field.to_sym, Dossier::ONI, :first, :first, {include_blank: true}, class: "form-control"
-          .col-lg-6.col-sm-6
-            .form-group
-              = f.label "#{field}_tokens".to_sym
-              = f.hidden_field "#{field}_tokens".to_sym, class: "#{field}_tokens",
+          .col-sm-4
+            = f.group do
+              = f.label field.to_sym, t(field.to_sym, scope: [:activerecord, :attributes, :bebe])
+              = f.collection_select field.to_sym, Dossier::ONI, :first, :first, include_blank: true
+          .col-sm-6
+            = f.group do
+              = f.label :"#{field}_tokens", t(:"#{field}_tokens", scope: [:activerecord, :attributes, :bebe])
+              = f.hidden_field :"#{field}_tokens", class: "#{field}_tokens",
                 value: (items = f.object.send("#{field}s")).map(&:id).join(","),
                 data: {load: (items.map(&:libelle_and_id).to_json),
                 "initial-ancestors" => field.classify.constantize.find(items.map(&:id)).map(&:ancestor_ids).flatten.uniq,
                 placeholder: "Choisir les #{field}s"}
-          .col-lg-2.col-sm-2
+          .col-sm-2
             .bebe-actions
               = link_to "##{field}", class: "btn btn-default show_#{field}_tree",
                 title: "Arbre #{field.capitalize.pluralize}", data: {toggle: "modal"} do
@@ -40,5 +58,6 @@
 
   .field_links
     = link_to "#", class: "btn btn-success btn-sm validate_bebe" do
-      %i.glyphicon.glyphicon-chevron-up
+      %span.glyphicon.glyphicon-chevron-up
       Valider Nouveau-né
+    = link_to_remove_association "remove bebe", f, class: "sr-only"
