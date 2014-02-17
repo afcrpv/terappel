@@ -16,6 +16,7 @@ class Ability
       cannot :destroy, :correspondants
 
       can :read, [:produits, :malformations, :pathologies, :searches]
+      can :tree, [:malformations, :pathologies]
       can [:create, :update], :searches
       cannot :index, :searches
 
