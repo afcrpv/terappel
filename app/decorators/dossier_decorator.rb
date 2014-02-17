@@ -136,7 +136,7 @@ class DossierDecorator < ApplicationDecorator
         gestes.each do |k, v|
           if v && v > 0
             if k == "naissance"
-              autres.push "#{pluralize(v, k)}"
+              autres.push "#{h.pluralize(v, k)}"
             else
               autres.push v.to_s + " #{k.upcase}"
             end
