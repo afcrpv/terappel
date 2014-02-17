@@ -51,7 +51,7 @@ class @Grossesse
     date_ra = parse_fr_date(@date_reelle_accouchement)
     message = "calcul terme naissance impossible car date "
     return message + "de début de grossesse vide" if isNaN(parsed_date_dg.getTime())
-    return message + "réélle d'accouchement vide" if isNaN(date_ra.getTime())
+    return message + "réelle d'accouchement vide" if isNaN(date_ra.getTime())
     date_dg = parse_fr_date addDays(parsed_date_dg, -14)
     getSA(date_dg, date_ra)
 

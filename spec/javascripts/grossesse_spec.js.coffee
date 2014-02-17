@@ -87,7 +87,7 @@ describe "Grossesse", ->
         expect($("#dossier_#{input}").parent()).toHaveClass("form-group has-error") for input in ["terme", "date_reelle_accouchement"]
 
       it "warns with a 'date is empty' message", ->
-        expect($(".help-block")).toHaveText "calcul terme naissance impossible car date réélle d'accouchement vide"
+        expect($(".help-block")).toHaveText "calcul terme naissance impossible car date réelle d'accouchement vide"
 
   describe "with its #calculateGrossesse jQuery plugin", ->
     beforeEach ->
