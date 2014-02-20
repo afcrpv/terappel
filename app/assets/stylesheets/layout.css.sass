@@ -46,3 +46,23 @@ table#dossiers
 .dropdown-menu.saisie-menu
   max-width: none
   width: 215px
+
+.modal-body
+  max-height: 600px
+  overflow-x: hidden
+
+.dossier_fiche
+  .row
+    padding: 5px 0
+    margin-left: 2px
+    border: 1px solid $table-border-color
+    &:nth-child(odd)
+      background-color: $table-bg-accent
+    &:nth-child(even)
+      background-color: $table-bg
+
+  span.libelle
+    clear: left
+    font-weight: bold
+    &:after
+      content: " : "
