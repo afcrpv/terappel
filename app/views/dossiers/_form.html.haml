@@ -2,6 +2,7 @@
   = f.error_messages
   = f.hidden_field :centre_id
   = f.hidden_field :current_tab, value: params[:current_tab] || "infos"
+  = f.hidden_field :show_preview, value: params[:show_preview] || "false"
 
   %ul.nav.nav-tabs#tabs
     %li= link_to "INFORMATIONS GÉNÉRALES", "#infos", data: {toggle: "pill"}
@@ -24,11 +25,17 @@
     = f.text_area :commentaire, rows: 2
 
   = button_tag type: :submit, data: {disable_with: (save_and_continue = "Enregistrer et continuer")}, name: "_continue", class: "btn btn-success" do
-    %i.glyphicon.glyphicon-arrow-right
+    %span.glyphicon.glyphicon-arrow-right
     = save_and_continue
   = button_tag type: :submit, data: {disable_with: (save_and_add = "Enregistrer et créer un nouveau dossier")}, name: "_add_another", class: "btn btn-primary" do
-    %i.glyphicon.glyphicon-plus
+    %span.glyphicon.glyphicon-plus
     = save_and_add
   = button_tag type: :submit, data: {disable_with: (save_and_close = "Enregistrer et fermer")}, class: "btn btn-info" do
-    %i.glyphicon.glyphicon-ok
+    %span.glyphicon.glyphicon-ok
     = save_and_close
+  = button_tag type: :submit, data: {disable_with: (save_and_preview = "Enregistrer et voir l'aperçu")}, name: "_preview", class: "btn btn-default" do
+    %span.glyphicon.glyphicon-print
+    = save_and_preview
+
+= render 'dossiers/dossier_modal'
+

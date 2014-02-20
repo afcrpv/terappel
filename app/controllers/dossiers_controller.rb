@@ -69,7 +69,9 @@ class DossiersController < ApplicationController
   def create
     @dossier = Dossier.create(dossier_params)
     if params[:_continue]
-      location = edit_dossier_path(@dossier)
+      location = edit_dossier_path(@dossier, current_tab: params[:dossier][:current_tab])
+    elsif params[:_preview]
+      location = edit_dossier_path(@dossier, current_tab: params[:dossier][:current_tab], show_preview: "true")
     elsif params[:_add_another]
       location = new_dossier_path
     else
@@ -87,6 +89,8 @@ class DossiersController < ApplicationController
   def update
     if params[:_continue]
       location = edit_dossier_path(@dossier, current_tab: params[:dossier][:current_tab])
+    elsif params[:_preview]
+      location = edit_dossier_path(@dossier, current_tab: params[:dossier][:current_tab], show_preview: "true")
     elsif params[:_add_another]
       location = new_dossier_path
     else

@@ -14,18 +14,17 @@ $ ->
 
   $('body').on 'click', '.show-dossier-modal', (ev) ->
     ev.preventDefault()
-    dossier_code = $(@).data('dossierCode')
-    dossier_edit_url = $(@).data('editUrl')
-    dossier_print_url = $(@).data('printUrl')
-    $($(@).attr('data-target') + " .code").html(dossier_code)
-    $($(@).attr('data-target') + " .edit-dossier").attr("href", dossier_edit_url)
-    $($(@).attr('data-target') + " .print-dossier").attr("href", dossier_print_url)
-    $($(@).attr('data-target') + " .modal-body").load $(@).data('source'), ->
-      $($(@).attr('data-target')).modal('show')
+    modal_id = $(@).attr('data-target')
+    code = $(@).data('dossierCode')
+    base_url = $(@).data('baseUrl')
+    dossierPreview(modal_id, code, base_url)
 
   disableSubmitWithEnter()
 
   $(".combobox").select2()
+
+  # show dossier preview if params[:dossier][:show_preview] == "true"
+  dossierPreview("#dossier_modal", (dossier_code = $("#dossier_code").val()), "/dossiers/#{dossier_code}", false) if $("input#dossier_show_preview").val() is "true"
 
   # bootstrap form tabs
   current_tab = $("input#dossier_current_tab").val()
@@ -117,6 +116,16 @@ $ ->
       activateCorrespondantEdit($relance.val(), "relance")
 
 # functions & jQuery plugins
+dossierPreview = (modal_id, code, base_url, edit = true) ->
+  console.log "fired"
+  console.log edit
+  $(modal_id + " .code").html(code)
+  if edit
+    $(modal_id + " .edit-dossier").attr("href", "#{base_url}/edit")
+  else
+    $(modal_id + " .edit-dossier").remove()
+  $(modal_id + " .print-dossier").attr("href", "#{base_url}.pdf")
+  $(modal_id + " .modal-body").load base_url, -> $(modal_id).modal('show')
 
 class @Parite
   constructor: (total, atcds) ->

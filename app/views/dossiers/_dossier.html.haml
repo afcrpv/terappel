@@ -10,5 +10,7 @@
   %td
     .btn-group
       = link_to content_tag(:span, nil, class: "glyphicon glyphicon-print"), "#",
-        data: {source: dossier_path(dossier), target: "#dossier_modal", toggle: "modal", dossier_code: dossier.code, edit_url: edit_dossier_path(dossier), print_url: dossier_path(dossier, format: :pdf)}, title: "Imprimer le dossier #{dossier.code}", class: "btn btn-default btn-sm show-dossier-modal"
-      = link_to content_tag(:span, nil, class: "glyphicon glyphicon-pencil"), edit_dossier_path(dossier), title: "Modifier le dossier #{dossier.code}", class: "btn btn-default btn-sm"
+        data: {base_url: dossier_path(dossier), target: "#dossier_modal", toggle: "modal", dossier_code: dossier.code},
+        title: "Imprimer le dossier #{dossier.code}", class: "btn btn-default btn-sm show-dossier-modal"
+      = link_to content_tag(:span, nil, class: "glyphicon glyphicon-pencil"),
+        edit_dossier_path(dossier), title: "Modifier le dossier #{dossier.code}", class: "btn btn-default btn-sm"
