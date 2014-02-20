@@ -1,21 +1,37 @@
 fr:
   home:
-    index: "Page d'accueil de Terappel"
+    index:
+      title: "Page d'accueil de Terappel"
   dossiers:
-    show: "Détails du dossier %{id}"
-    new: "Nouveau Dossier"
-    create: "Nouveau Dossier"
-    edit: "Modification Dossier %{id}"
-    update: "Modification Dossier %{id}"
+    show:
+      title: "Détails du dossier %{id}"
+    new:
+      title: "Nouveau Dossier"
+    create:
+      title: "Nouveau Dossier"
+    edit:
+      title: "Modification Dossier %{id}"
+    update:
+      title: "Modification Dossier %{id}"
   correspondants:
-    show: "Correspondant: %{id}"
-    new: "Nouveau Correspondant"
-    create: "Nouveau Correspondant"
-    edit: "Modification correspondant: %{id}"
-    update: "Modification correspondant: %{id}"
+    show:
+      title: "Correspondant: %{id}"
+    new:
+      title: "Nouveau Correspondant"
+    create:
+      title: "Nouveau Correspondant"
+    edit:
+      title: "Modification correspondant: %{id}"
+    update:
+      title: "Modification correspondant: %{id}"
   users:
-    index: "Liste utilisateurs"
-    new: "Nouvel utilisateur"
-    create: "Nouvel utilisateur"
-    edit: "Modification utilisateur: %{id}"
-    update: "Modification utilisateur: %{id}"
+    index:
+      title: "Liste utilisateurs"
+    new:
+      title: "Nouvel utilisateur"
+    create:
+      title: "Nouvel utilisateur"
+    edit:
+      title: "Modification utilisateur: %{id}"
+    update:
+      title: "Modification utilisateur: %{id}"

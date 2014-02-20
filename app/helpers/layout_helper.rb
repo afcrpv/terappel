@@ -20,6 +20,6 @@ module LayoutHelper
   private
 
   def translate_controller_action(action, resource, interpolations={})
-    I18n.t([resource, action].join("."), interpolations)
+    I18n.t([resource, action, "title"].join("."), interpolations)
   end
 end
