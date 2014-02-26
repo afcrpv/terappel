@@ -24,6 +24,9 @@ fr:
       title: "Modification correspondant: %{id}"
     update:
       title: "Modification correspondant: %{id}"
+  produits:
+    index:
+      title: "Liste produits"
   users:
     index:
       title: "Liste utilisateurs"

@@ -1,0 +1,4 @@
+= form_for [:admin, produit] do |f|
+  = render "error_message", model: produit
+  = f.text_field :name
+  = f.submit "Enregistrer"

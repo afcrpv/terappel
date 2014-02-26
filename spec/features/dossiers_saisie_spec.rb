@@ -32,6 +32,7 @@ feature "Dossiers saisie" do
   end
 
   scenario "navigating form errors", js: true do
+    pending "not implemented"
     visit new_dossier_path
     page.should_not have_css(".dossier-errors")
     click_button "Enregistrer et fermer"

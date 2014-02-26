@@ -36,6 +36,7 @@ Terappel::Application.routes.draw do
     match "tables_generales/:name/:id/edit", to: "thesaurus#edit", via: :get, as: "edit_libelle"
     match "tables_generales/:name/:id", to: "thesaurus#update", via: [:patch, :put]
     match "tables_generales/:name/:id", to: "thesaurus#destroy", via: :delete, as: "destroy_libelle"
+    resources :produits
     resources :users do
       put 'approve', on: :member
     end

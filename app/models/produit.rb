@@ -8,6 +8,8 @@ class Produit < ActiveRecord::Base
   has_many :atcs, through: :classifications
   has_many :classifications, dependent: :destroy
 
+  validates :name, presence: true, uniqueness: true
+
   default_scope {order(:name)}
 
   def self.search_by_name(string)
