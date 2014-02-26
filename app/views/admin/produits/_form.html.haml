@@ -1,4 +1,13 @@
-= form_for [:admin, produit] do |f|
+= form_for [:admin, produit], html: {class: "form-horizontal", role: "form"} do |f|
   = render "error_message", model: produit
-  = f.text_field :name
-  = f.submit "Enregistrer"
+
+  .form-group
+    = f.label :name, "Libellé", class: "col-sm-2 control-label"
+    .col-sm-4
+      = f.text_field :name, class: "form-control"
+
+  .form-group
+    .col-sm-offset-2.col-sm-6
+      .btn-group
+        = f.submit "Enregistrer", data: {disable_with: "Enregistrer"}, class: "btn btn-success"
+        = link_to "Retour à la liste", admin_produits_path, class: "btn btn-default"

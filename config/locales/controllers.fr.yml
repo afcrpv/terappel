@@ -27,6 +27,8 @@ fr:
   produits:
     index:
       title: "Liste produits"
+    new:
+      title: "Nouveau Produit"
   users:
     index:
       title: "Liste utilisateurs"
