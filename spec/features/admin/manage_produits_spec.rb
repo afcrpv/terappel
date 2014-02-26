@@ -24,6 +24,6 @@ feature "Admin manage produits" do
     fill_in "produit_name", with: "bal"
     click_on "Enregistrer"
     page.should have_content(/succès/)
-    page.should have_content "Liste produits"
+    page.should have_content("Liste produits")
   end
 end
