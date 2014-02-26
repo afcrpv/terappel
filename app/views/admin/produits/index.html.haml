@@ -1,1 +1,17 @@
 - title
+
+%table.table.table-striped.table-condensed.table_bordered
+  %thead
+    %tr
+      %th Libellé
+      %th &nbsp;
+  %tbody
+    - for produit in @produits
+      %tr
+        %td= produit.name
+        %td
+          .btn-group
+            = link_to content_tag(:span, nil, class: "glyphicon glyphicon-pencil"),
+              edit_admin_produit_path(produit), title: "Modifier le produit #{produit.name}", class: "btn btn-default btn-sm" if can?(:update, produit)
+
+= link_to "Nouveau Produit", new_admin_produit_path, class: "btn btn-success" if can?(:create, :produits)

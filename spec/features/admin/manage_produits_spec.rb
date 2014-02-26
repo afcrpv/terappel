@@ -1,10 +1,16 @@
 require "spec_helper"
 
 feature "Admin manage produits" do
-  given!(:produit) {create(:produit)}
+  given!(:produit) {create(:produit, name: "Tartampionate")}
   given(:admin) {create(:admin)}
 
   background {login admin}
+
+  scenario "browse" do
+    visit admin_produits_path
+    page.should have_content "Liste produits"
+    page.should have_content "Tartampionate"
+  end
 
   scenario "creation" do
     visit new_admin_produit_path
