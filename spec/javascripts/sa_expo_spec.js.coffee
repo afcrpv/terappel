@@ -42,3 +42,9 @@ describe "SaExpo", ->
       $("#dossier_date_debut_grossesse").val("15/01/2014")
       $("#de_date").val("15/12/2013").trigger("blur")
       expect($(".help-block")).toHaveText "La date d'exposition est antérieure à la date de debut de grossesse !"
+
+    it "a prefilled SA field should not be blanked out if #de_date is blank", ->
+      $("#dossier_date_debut_grossesse").val("15/01/2014")
+      $("#de").val("2")
+      $("#de_date").val("").trigger("blur")
+      expect($("#de").val()).toBe "2"

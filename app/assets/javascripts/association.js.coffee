@@ -557,11 +557,12 @@ $.fn.expo_termes_calc = ($date, $sa) ->
     field.parents(".form-group").removeClass("has-error") for field in [$sa, $(@)]
     $sa.next("p.help-block").remove()
     result = new SaExpo(ddg, @value).calculate()
-    if result.length? and result.length > 0
-      field.parents(".form-group").addClass("has-error") for field in [$sa, $(@)]
-      $sa.parents(".form-group").append("<p class='help-block'>#{result}</p>")
-    else
-      $sa.val(result)
+    unless $sa.val().length > 0
+      if result.length? and result.length > 0
+        field.parents(".form-group").addClass("has-error") for field in [$sa, $(@)]
+        $sa.parents(".form-group").append("<p class='help-block'>#{result}</p>")
+      else
+        $sa.val(result)
 
 $.fn.duree_expo = ->
   $base = $(this)
