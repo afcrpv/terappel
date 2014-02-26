@@ -10,7 +10,7 @@
     .col-sm-2
       = f.group do
         = f.label :sexe, t(:sexe, scope: [:activerecord, :attributes, :bebe])
-        = f.collection_select :sexe, Bebe::SEXE, :to_s, :to_s, include_blank: true
+        = f.collection_select :sexe, Bebe::SEXE, :last, :first, include_blank: true
     .col-sm-2
       = f.group do
         = f.label :poids, t(:poids, scope: [:activerecord, :attributes, :bebe])
