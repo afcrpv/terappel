@@ -1,17 +1,15 @@
-- title
+- title "Administration Produits"
 
-%table.table.table-striped.table-condensed.table_bordered
-  %thead
-    %tr
-      %th Libellé
-      %th &nbsp;
-  %tbody
-    - for produit in @produits
-      %tr
-        %td= produit.name
-        %td
-          .btn-group
-            = link_to content_tag(:span, nil, class: "glyphicon glyphicon-pencil"),
-              edit_admin_produit_path(produit), title: "Modifier le produit #{produit.name}", class: "btn btn-default btn-sm" if can?(:update, produit)
+.well.well-lg
+  = form_tag admin_produits_path, remote: true, method: :get, class: "form-inline", role: "search" do
+    = link_to new_admin_produit_path, class: "btn btn-success btn-lg" do
+      %span.glyphicon.glyphicon-plus
+      Création d'un nouveau produit
+    .form-group
+      = label_tag "produit_id", "", class: "sr-only"
+      = hidden_field_tag "produit_id", "", placeholder: "nom du produit", class: "form-control input-lg"
+    %button.btn.btn-info.btn-lg{type: "submit"}
+      %span.glyphicon.glyphicon-info-sign
+      Voir/Modifier
 
-= link_to "Nouveau Produit", new_admin_produit_path, class: "btn btn-success" if can?(:create, :produits)
+.panel.panel-default.chosen-produit

@@ -1,0 +1,28 @@
+$(".chosen-produit").html("");
+
+<% produit = Produit.find(params[:produit_id]) %>
+html = "";
+html += '<div class="panel-heading"><%= produit.name %></div>';
+html += '<div class="panel-body">';
+html += 'DCI : ';
+<% if produit.dcis.any? %>
+  html += '<ul>';
+  <% produit.dcis.each do |dci| %>
+    html += '<li><%= dci.name %></li>';
+  <% end %>
+  html += '</ul>';
+<% else %>
+  html += "aucune<br>";
+<% end %>
+html += 'Classes ATC : ';
+<% if produit.atcs.any? %>
+  html += '<ul>';
+  <% produit.atcs.each do |atc| %>
+    html += '<li><%= atc.name %></li>';
+  <% end %>
+  html += '</ul>';
+<% else %>
+  html += "aucune";
+<% end %>
+html += '</div>';
+$(".chosen-produit").html(html)

@@ -6,10 +6,9 @@ feature "Admin manage produits" do
 
   background {login admin}
 
-  scenario "browse" do
+  scenario "dashboard" do
     visit admin_produits_path
-    page.should have_content "Liste produits"
-    page.should have_content "Tartampionate"
+    page.should have_content "Administration Produits"
   end
 
   scenario "creation" do
@@ -19,7 +18,6 @@ feature "Admin manage produits" do
     fill_in "produit_name", with: "fooman"
     click_on "Enregistrer"
     page.should have_content "succès"
-    page.should have_content "Liste produits"
   end
 
   scenario "update" do
@@ -30,6 +28,5 @@ feature "Admin manage produits" do
     fill_in "produit_name", with: "bal"
     click_on "Enregistrer"
     page.should have_content(/succès/)
-    page.should have_content("Liste produits")
   end
 end

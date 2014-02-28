@@ -20,4 +20,5 @@
 //= require bmi
 //= require association
 //= require dossiers
+//= require admin/produits
 //= require searches
