@@ -12,9 +12,9 @@
       %nav.collapse.navbar-collapse.terappel-navbar-collapse{role: "navigation"}
         %ul.nav.navbar-nav
           = render 'layouts/qsearch'
-          %li{class: request.path =~ /search/ ? "active" : nil}= link_to "Recherche", new_search_path
+          %li{class: request.path =~ /dossiers$/ ? "active" : nil}= link_to "Recherche", dossiers_path
+          %li{class: request.path =~ /search/ ? "active" : nil}= link_to "Exploitation", new_search_path
           %li{class: request.path =~ /relance/ ? "active" : nil}= link_to "Relance", "#"
-          %li{class: request.path =~ /exploitation/ ? "active" : nil}= link_to "Exploitation", "#"
           %li.dropdown{class: request.path =~ /admin/ ? "active" : nil}
             = link_to "#", class: "dropdown-toggle", data: {toggle: "dropdown"} do
               Administration
