@@ -1,6 +1,6 @@
 class Exposition < ActiveRecord::Base
-  belongs_to :produit, inverse_of: :expositions
-  belongs_to :dossier
+  belongs_to :produit, inverse_of: :expositions, counter_cache: true
+  belongs_to :dossier, counter_cache: true
   belongs_to :expo_type
   belongs_to :indication
   belongs_to :expo_terme

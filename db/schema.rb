@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130906155942) do
+ActiveRecord::Schema.define(version: 20140303163055) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -308,6 +308,7 @@ ActiveRecord::Schema.define(version: 20130906155942) do
     t.integer  "nident"
     t.integer  "nrelance"
     t.integer  "bebes_count",              default: 0
+    t.integer  "expositions_count",        default: 0
   end
 
   add_index "dossiers", ["categoriesp_id"], name: "index_dossiers_on_categoriesp_id", using: :btree
@@ -434,6 +435,7 @@ ActiveRecord::Schema.define(version: 20130906155942) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "oldid"
+    t.integer  "expositions_count", default: 0
   end
 
   create_table "produits_searches", id: false, force: true do |t|
