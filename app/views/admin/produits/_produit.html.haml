@@ -1,0 +1,42 @@
+.panel-heading= produit.name
+.panel-body
+  - if produit.dcis.any?
+    %table.table
+      %thead
+        %tr
+          %th DCI
+          %th &nbsp;
+      %tbody
+        - produit.dcis.each do |dci|
+          %tr
+            %td= dci
+            %td
+              .btn-group
+                = link_to "Voir", "#", class: "btn btn-info btn-sm"
+                = link_to "Enlever", "#", class: "btn btn-danger btn-sm", data: {confirm: "Attention cette opération est irréversible ! Confirmez-vous ?"}
+        %tr
+          %td= link_to "Ajout", "#", class: "btn btn-success btn-sm"
+          %th &nbsp;
+  - else
+    aucune
+    %br
+
+  - if produit.atcs.any?
+    %table.table
+      %thead
+        %tr
+          %th Classes ATC
+          %th &nbsp;
+      %tbody
+        - produit.atcs.each do |atc|
+          %tr
+            %td= atc
+            %td
+              .btn-group
+                = link_to "Voir", "#", class: "btn btn-info btn-sm"
+                = link_to "Enlever", "#", class: "btn btn-danger btn-sm", data: {confirm: "Attention cette opération est irréversible ! Confirmez-vous ?"}
+        %tr
+          %td= link_to "Ajout", "#", class: "btn btn-success btn-sm"
+          %th &nbsp;
+  - else
+    aucune
