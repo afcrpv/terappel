@@ -1,56 +1,72 @@
-= simple_form_for search, html: { class: "form-horizontal search", role: "form" } do |f|
-  = f.input :centre_id, as: :hidden, input_html: {value: current_user.centre_id}
-  = f.input :local, label_html: {class: "col-lg-2 col-md-2"}, label: "Type recherche" do
-    .col-lg-10.col-md-10
-      = f.input_field :local, collection: [["Locale", true], ["Nationale", false]], as: :radio_buttons
+= form_for search, html: { class: "form-horizontal search", role: "form" } do |f|
+  = f.hidden_field :centre_id, value: current_user.centre_id
+
   .form-group
-    = f.label "Date Appel", class: "col-lg-2 col-md-2 control-label"
-    .col-lg-3.col-md-3
+    = f.label :local, "Type recherche", class: "col-sm-2 control-label"
+    .col-sm-10
+      - [["Locale", true], ["Nationale", false]].each do |local_choice|
+        %label.radio-inline
+          = f.radio_button :local, local_choice[1]
+          = local_choice[0]
+
+  .form-group
+    = f.label "Date Appel", class: "col-sm-2 control-label"
+    .col-sm-3
       = f.label :min_date_appel, class: "sr-only"
       .input-group
         %span.input-group-addon du
         = f.text_field :min_date_appel, class: "form-control", "data-value" => min_date_appel
-    .col-lg-3.col-md-3
+    .col-sm-3
       = f.label :max_date_appel, class: "sr-only"
       .input-group
         %span.input-group-addon au
         = f.text_field :max_date_appel, class: "form-control", "data-value" => max_date_appel
-  = f.input :motif_id, label_html: {class: "col-lg-2 col-md-2"} do
-    .col-lg-6.col-md-6
-      = f.input_field :motif_id, collection: Motif.all
-  = f.input :expo_nature_id, label_html: {class: "col-lg-2 col-md-2"}, label: "Nature expo" do
-    .col-lg-6.col-md-6
-      = f.input_field :expo_nature_id, collection: ExpoNature.all
-  = f.input :expo_type_id, label_html: {class: "col-lg-2 col-md-2"}, label: "Type expo" do
-    .col-lg-6.col-md-6
-      = f.input_field :expo_type_id, collection: ExpoType.all
-  = f.input :expo_terme_id, label_html: {class: "col-lg-2 col-md-2"}, label: "Termes expo" do
-    .col-lg-6.col-md-6
-      = f.input_field :expo_terme_id, collection: ExpoTerme.all
+
+  .form-group
+    = f.label :motif_id, class: "col-sm-2 control-label"
+    .col-sm-6
+      = f.collection_select :motif_id, Motif.all, :id, :name, {include_blank: true}, class: "form-control"
+
+  .form-group
+    = f.label :expo_nature_id, "Nature expo", class: "col-sm-2 control-label"
+    .col-sm-6
+      = f.collection_select :expo_nature_id, ExpoNature.all, :id, :name, {include_blank: true}, class: "form-control"
+
+  .form-group
+    = f.label :expo_type_id, "Type expo", class: "col-sm-2 control-label"
+    .col-sm-6
+      = f.collection_select :expo_type_id, ExpoType.all, :id, :name, {include_blank: true}, class: "form-control"
+
+  .form-group
+    = f.label :expo_terme_id, "Termes expo", class: "col-sm-2 control-label"
+    .col-sm-6
+      = f.collection_select :expo_terme_id, ExpoTerme.all, :id, :name, {include_blank: true}, class: "form-control"
+
   - %w(dci produit).each do |name|
     .form-group
-      = f.label :"#{name}_tokens", name.pluralize.titleize, class: "col-lg-2 col-md-2 control-label"
-      .col-lg-6.col-md-6
+      = f.label :"#{name}_tokens", name.pluralize.titleize, class: "col-sm-2 control-label"
+      .col-sm-6
         = f.hidden_field :"#{name}_tokens", class: "#{name}_tokens",
           value: (items = f.object.send(:"#{name}s")).map(&:id).join(","),
           data: {load: items.map(&:name_and_id).to_json, placeholder: "Choisir les #{name}s"}
 
-  - %w(indication).each do |field|
-    .form-group
-      = f.label field.to_sym, class: "col-lg-2 col-md-2 control-label"
-      .col-lg-6.col-md-6
-        = f.hidden_field :"#{field}_id", class: "#{field}_autocomplete",
-          data: {load: f.object.send(field).try(:name_and_id), placeholder: "Saisir une #{field}"}
-
-  = f.input :malformation, label_html: {class: "col-lg-2 col-md-2"}, label: "Malformations" do
-    .col-lg-2.col-md-2
-      = f.input_field :malformation, collection: Dossier::ONI
-
-  = f.input :pathologie, label_html: {class: "col-lg-2 col-md-2"}, label: "Pathologies" do
-    .col-lg-2.col-md-2
-      = f.input_field :pathologie, collection: Dossier::ONI
+  .form-group
+    = f.label :indication_id, class: "col-sm-2 control-label"
+    .col-sm-6
+      = f.hidden_field :indication_id, class: "indication_autocomplete",
+        data: {load: f.object.send(:indication).try(:name_and_id), placeholder: "Saisir une indication"}
 
   .form-group
-    .col-lg-offset-2.col-lg-10.col-md-offset-2.col-md-10
-      = f.button :submit, "Rechercher", data: {disable_with: "Rechercher"}, class: "btn-primary"
+    = f.label :malformation, "Malformations", class: "col-sm-2 control-label"
+    .col-sm-2
+      = f.collection_select :malformation, Dossier::ONI, :to_s, :to_s, {include_blank: true}, class: "form-control"
+
+  .form-group
+    = f.label :pathologie, "Pathologies", class: "col-sm-2 control-label"
+    .col-sm-2
+      = f.collection_select :pathologie, Dossier::ONI, :to_s, :to_s, {include_blank: true}, class: "form-control"
+
+  .form-group
+    .col-sm-offset-2.col-sm-10
+      = f.submit "Rechercher", data: {disable_with: "Rechercher"}, class: "btn btn-primary"
       = button_tag "Effacer le formulaire", type: :reset, class: "btn btn-danger"
