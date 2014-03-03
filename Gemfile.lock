@@ -12,6 +12,18 @@ GIT
     rolify (3.3.0.rc4)
 
 GIT
+  remote: git://github.com/activerecord-hackery/ransack.git
+  revision: 155dca814b4f09af4eb3715c8402522c32ab3daa
+  branch: rails-4
+  specs:
+    ransack (1.1.0)
+      actionpack (>= 4.0)
+      activerecord (>= 4.0)
+      activesupport (>= 4.0)
+      i18n
+      polyamorous (~> 0.6.0)
+
+GIT
   remote: git://github.com/argerim/select2-rails.git
   revision: bfb63267337c6e3f20e6c670ea40d54897d409ae
   specs:
@@ -244,6 +256,8 @@ GEM
       ttfunk
     pg (0.15.1)
     phantomjs (1.9.2.1)
+    polyamorous (0.6.4)
+      activerecord (>= 3.0)
     polyglot (0.3.3)
     pry (0.9.12.2)
       coderay (~> 1.0.5)
@@ -397,6 +411,7 @@ DEPENDENCIES
   quiet_assets (>= 1.0.1)
   rails (= 4.0.0)
   rails_12factor
+  ransack!
   rb-fsevent
   responders
   rolify!

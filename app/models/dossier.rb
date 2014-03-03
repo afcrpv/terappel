@@ -24,6 +24,7 @@ class Dossier < ActiveRecord::Base
   belongs_to :categoriesp
 
   has_many :produits, through: :expositions
+  has_many :indications, through: :expositions
   has_many :expositions, dependent: :destroy
   accepts_nested_attributes_for :expositions, reject_if: :all_blank, allow_destroy: true
   has_many :bebes, dependent: :destroy

@@ -25,7 +25,10 @@ fr:
         role: "Rôle"
         centre_name: "Centre"
       dossier:
+        produits_names: Expositions
         date_appel: "Date d'appel"
+        localized_dateappel: "Date d'appel"
+        patiente_fullname: Patiente
         name: "Nom patiente"
         prenom: "Prénom"
         date_naissance: "Date de naissance"

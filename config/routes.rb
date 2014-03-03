@@ -12,6 +12,7 @@ Terappel::Application.routes.draw do
   resources :searches
   resources :dossiers do
     collection do
+      match 'search', to: "dossiers#search", via: [:get, :post], as: :search
       get :produits
       get :indications
       get :dcis

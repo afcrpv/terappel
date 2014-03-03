@@ -60,6 +60,7 @@ gem 'haml-rails'
 gem 'responders'
 gem 'prawn', github: "prawnpdf/prawn"
 gem 'draper', '~> 1.3'
+gem "ransack", github: "activerecord-hackery/ransack", branch: "rails-4"
 
 group :test, :development do
   gem "rspec-rails"

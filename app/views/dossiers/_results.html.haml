@@ -1,0 +1,7 @@
+= content_tag :p, display_query_sql(@dossiers) if current_user.admin?
+
+= content_tag :h2, display_results_header(@dossiers.size)
+
+= content_tag :table, class: "table" do
+  = content_tag :thead, display_sort_column_headers(@search), nil, false
+  = content_tag :tbody, display_search_results(@dossiers), nil, false

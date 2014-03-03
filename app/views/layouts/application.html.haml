@@ -17,6 +17,10 @@
 
   = favicon_link_tag
 
+  %script{type: "text/javascript"}
+    $(function() {
+    = yield :document_ready
+    });
   = yield(:head)
 
 %body{class: params[:controller]}

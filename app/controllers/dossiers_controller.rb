@@ -31,7 +31,7 @@ class DossiersController < ApplicationController
   end
 
   def index
-    @dossiers = @dossiers.includes([:motif, :bebes, :produits]).limit(10)
+    @dossiers = @dossiers.includes([:motif]).limit(10)
     @decorated_dossiers = @dossiers.decorate
     respond_with @dossiers do |format|
       format.html
@@ -43,6 +43,16 @@ class DossiersController < ApplicationController
                               disposition: "inline"
       end
     end
+  end
+
+  def search
+    @search = Dossier.includes(:produits).search(params[:q])
+    @search.build_grouping unless @search.groupings.any?
+    @dossiers = params[:distinct].to_i.zero? ?
+      @search.result :
+      @search.result(distinct: true)
+
+    respond_with @dossiers
   end
 
   def show
@@ -107,9 +117,9 @@ class DossiersController < ApplicationController
 
   private
 
-  def interpolation_options
-    { resource_name: "Dossier #{@dossier.code}" }
-  end
+  #def interpolation_options
+    #{ resource_name: "Dossier #{@dossier.code}" }
+  #end
 
   def set_centre
     @centre = current_user.centre
