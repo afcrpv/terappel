@@ -12,14 +12,17 @@ class SearchesController < ApplicationController
   end
 
   def create
-    @search = Search.create(search_params)
+    @search = Search.new(search_params)
+    @search.q = params[:search]
+    @search.save!
     respond_with @search, location: @search
   end
 
   def show
     @filename = "Export_terappel_" + I18n.l(Date.today).gsub("/","_") + ".csv"
-    @dossiers = @search.find_dossiers
-    @decorated_dossiers = @search.find_dossiers.decorate
+    ransack = Dossier.includes(:produits, :bebes, :motif).search(@search.q)
+    @dossiers = @search.distinct.zero? ? ransack.result : ransack.result(distinct: true)
+    @decorated_dossiers = @dossiers.decorate
     @dossiers_count = @dossiers.count
 
     respond_with @search do |format|
@@ -41,7 +44,7 @@ class SearchesController < ApplicationController
   private
 
   def search_params
-    params.require(:search).permit :local, :centre_id, :min_date_appel, :max_date_appel, :motif_id, :expo_nature_id, :expo_type_id, :indication_id, :expo_terme_id, :evolution, :malformation, :pathologie, :produit_tokens, :dci_tokens
+    params.require(:search).permit(:local, :centre_id, :min_date_appel, :max_date_appel, :motif_id, :expo_nature_id, :expo_type_id, :indication_id, :expo_terme_id, :evolution, :malformation, :pathologie, :produit_tokens, :dci_tokens)
   end
 
   def min_date_appel

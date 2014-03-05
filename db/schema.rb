@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140303163055) do
+ActiveRecord::Schema.define(version: 20140305142843) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -510,11 +510,13 @@ ActiveRecord::Schema.define(version: 20140303163055) do
     t.integer  "evolution"
     t.string   "malformation"
     t.string   "pathologie"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
     t.integer  "produit_id"
     t.integer  "dci_id"
     t.boolean  "local"
+    t.string   "q",              limit: 4096
+    t.integer  "distinct",                    default: 1
   end
 
   create_table "specialites", force: true do |t|

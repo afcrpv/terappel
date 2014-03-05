@@ -1,13 +1,7 @@
 - title "Exploitation - Recherche avancée"
 
-= search_form_for @search, url: search_dossiers_path, html: {method: :post, role: "search"} do |f|
+= search_form_for @search, as: :search, url: searches_path, html: {method: :post, role: "search"} do |f|
   - setup_search_form f
-
-  %fieldset.fields
-    %legend Tri
-    = f.sort_fields do |s|
-      = render 'sort_fields', f: s
-    = button_to_add_fields "Ajouter un tri", f, :sort
 
   %fieldset.fields
     %legend Groupes de critères
@@ -15,10 +9,4 @@
       = render 'grouping_fields', f: g
     = button_to_add_fields "Ajouter un Groupe", f, :grouping
 
-  .checkbox
-    = label_tag :distinct, "Enlever les doublons ?"
-    = check_box_tag :distinct, "1", params[:distinct].to_i == 1
-
-  = f.submit "Rechercher", class: "btn btn-primary"
-
-  = render 'results'
+  = f.submit "Rechercher", class: "btn btn-primary", name: nil

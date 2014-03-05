@@ -5,35 +5,41 @@
     .well.search-params
       %h4 Paramètres de recherche
       %ul
-        - @search.search_params.each do |k, v|
+        - @search.q.each do |k, v|
           %li
             %span.libelle= t('activerecord.attributes.search.' + k)
             = v
         %li
           %span.libelle Résultats
           = @dossiers_count
+        %li= display_query_sql(@dossiers) if current_user.admin?
+
   .col-sm-3
     .actions
-      = link_to edit_search_path(@search), class: "btn btn-primary" do
+      = link_to search_dossiers_path(search_id: @search.id), class: "btn btn-primary" do
         %span.glyphicon.glyphicon-pencil
         Modifier la recherche
       = link_to search_path(@search, format: :csv), class: "btn btn-default" do
         %span.glyphicon.glyphicon-download-alt
         Exporter fichier csv
-      = link_to new_search_path, class: "btn btn-default" do
+      = link_to search_dossiers_path, class: "btn btn-default" do
         %span.glyphicon.glyphicon-plus
         Nouvelle recherche
 
 %hr
 
 - if @dossiers.any?
-  - if @dossiers_count < 300
+  - if @dossiers_count < Dossier::SEARCH_LIMIT
     = render "dossiers/dossiers", dossiers: @decorated_dossiers
   - else
     .alert.alert-danger
       %h4 Attention !
-      Cette recherche produit un nombre de dossiers > 1000. Veuillez
-      = link_to "modifier les critères.", edit_search_path(@search), class: "alert-link"
+      Cette recherche produit un nombre de dossiers > #{Dossier::SEARCH_LIMIT}.
+      %br
+      Veuillez
+      = link_to "modifier les critères", edit_search_path(@search), class: "alert-link"
+      ou
+      = link_to "exporter les résultats en fichier csv.", search_path(@search, format: :csv), class: "alert-link"
 - else
   %h4 Aucun résultat.
 

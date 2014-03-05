@@ -7,6 +7,7 @@ class Dossier < ActiveRecord::Base
   ALCOOL = ["Non", "Occasionnel", "Régulier", "NSP"]
   MODACCOUCH = ["V-b spontanée", "V-b instrumentale", "Césarienne", "Inconnue"]
   EVOLUTION = ["GEU", "FCS", "IVG", "IMG", "MIU", "NAI", "INC", "GNC"]
+  SEARCH_LIMIT = 300
 
   # validations
   validates_presence_of :name, :date_appel, :centre_id, :expo_terato, :a_relancer

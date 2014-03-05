@@ -13,6 +13,8 @@ fr:
       expo_type: Type (exposition)
       voie: Voie (exposition)
     attributes:
+      produit:
+        name: Nom produit
       search:
         local: Type recherche
       user:

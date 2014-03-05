@@ -1,7 +1,7 @@
 class DossiersController < ApplicationController
   respond_to :html
-  respond_to :pdf, only: [:show, :index]
-  respond_to :xls, only: [:show, :index]
+  respond_to :pdf, only: [:show]
+  respond_to :csv, only: [:search]
   respond_to :json, only: [:produits, :indications, :dcis]
 
   rescue_from CanCan::Unauthorized do |exception|
@@ -46,11 +46,8 @@ class DossiersController < ApplicationController
   end
 
   def search
-    @search = Dossier.includes(:produits).search(params[:q])
+    @search = params[:search_id].present? ? Dossier.search(Search.find(params[:search_id]).q) : Dossier.search(params[:q])
     @search.build_grouping unless @search.groupings.any?
-    @dossiers = params[:distinct].to_i.zero? ?
-      @search.result :
-      @search.result(distinct: true)
 
     respond_with @dossiers
   end

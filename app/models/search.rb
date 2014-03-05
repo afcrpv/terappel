@@ -6,6 +6,8 @@ class Search < ActiveRecord::Base
   has_and_belongs_to_many :produits
   has_and_belongs_to_many :dcis
 
+  store :q
+
   %w(produit dci).each do |name|
     attr_reader :"#{name}_tokens"
 
