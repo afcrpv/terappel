@@ -8,6 +8,7 @@ class Ability
       can :update, :users, id: user.id
 
       can :create, :dossiers
+      can :search, :dossiers
       can [:produits, :indications, :dcis], :dossiers
       can [:read, :update], :dossiers, centre_id: user.centre_id
       cannot :destroy, :dossiers
