@@ -1,5 +1,5 @@
 source 'http://rubygems.org'
-ruby "2.1.0"
+ruby "2.1.1"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0'
 
@@ -66,6 +66,7 @@ group :test, :development do
   gem "rspec-rails"
   gem "jasmine-rails"
   gem "poltergeist", github: "jonleighton/poltergeist"
+  gem "railroady"
 end
 
 group :development do
