@@ -54,7 +54,7 @@ window.parse_fr_date = (string) ->
     aaaa = parseInt(adata[2],10)
     xdata = new Date(aaaa,mm-1,gg)
 
- window.addDays = (objDate, days) ->
+window.addDays = (objDate, days) ->
   strSep = "/"
   # add days to date object
   objDate.setDate(objDate.getDate() + days)
