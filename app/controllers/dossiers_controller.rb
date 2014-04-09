@@ -1,7 +1,7 @@
 class DossiersController < ApplicationController
   respond_to :html
-  respond_to :pdf, only: [:show]
-  respond_to :csv, only: [:search]
+  respond_to :js, only: :index
+  respond_to :pdf, only: :show
   respond_to :json, only: [:produits, :indications, :dcis]
 
   rescue_from CanCan::Unauthorized do |exception|
@@ -14,6 +14,7 @@ class DossiersController < ApplicationController
   load_and_authorize_resource :dossier
 
   helper_method :date_appel, :date_reelle_accouchement, :date_dernieres_regles, :date_debut_grossesse, :date_accouchement_prevu, :evolutions, :date_naissance, :date_recueil_evol
+  helper_method :min_date_appel, :max_date_appel
 
   def produits
     @produits = params[:produit_id] ? Produit.where(id: params[:produit_id]) : Produit.search_by_name(params[:q])
@@ -31,10 +32,13 @@ class DossiersController < ApplicationController
   end
 
   def index
-    @dossiers = @dossiers.includes([:motif]).limit(10)
-    @decorated_dossiers = @dossiers.decorate
+    @q = Dossier.search(params[:q])
+    @dossiers = @q.result(distinct: true).limit(10)
+    #@dossiers = @dossiers.includes([:motif]).limit(10)
+    #@decorated_dossiers = @dossiers.decorate
     respond_with @dossiers do |format|
       format.html
+      format.js
       format.xls
       format.pdf do
         pdf = DossiersPdf.new(@decorated_dossiers, view_context)
@@ -43,13 +47,6 @@ class DossiersController < ApplicationController
                               disposition: "inline"
       end
     end
-  end
-
-  def search
-    @search = params[:search_id].present? ? Dossier.search(Search.find(params[:search_id]).q) : Dossier.search(params[:q])
-    @search.build_grouping unless @search.groupings.any?
-
-    respond_with @dossiers
   end
 
   def show
@@ -164,5 +161,13 @@ class DossiersController < ApplicationController
       demandeur_attributes: [:correspondant_id],
       relance_attributes: [:correspondant_id],
       expositions_attributes: [:id, :expo_type_id, :expo_nature_id, :produit_id, :indication_id, :voie_id, :dose, :de, :de_date, :a, :a_date, :duree, :de2, :de2_date, :a2, :a2_date, :duree2, :expo_terme_id, :_destroy], bebes_attributes: [:id, :age, :sexe, :poids, :taille, :pc, :apgar1, :apgar5, :malformation, :pathologie, :malformation_tokens, :pathologie_tokens, :_destroy])
+  end
+
+  def min_date_appel
+    @min_date_appel = params[:id] && @q.min_date_appel ? l(@q.min_date_appel) : l(Dossier.minimum(:date_appel))
+  end
+
+  def max_date_appel
+    @max_date_appel = params[:id] && @q.max_date_appel ? l(@q.max_date_appel) : l(Dossier.maximum(:date_appel))
   end
 end

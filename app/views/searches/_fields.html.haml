@@ -1,6 +1,14 @@
-= form_for search, html: { class: "form-horizontal search", role: "form" } do |f|
-  = f.hidden_field :centre_id, value: current_user.centre_id
+- setup_search_form f
 
+%fieldset.fields
+  %legend Groupes de critères
+  = f.grouping_fields do |g|
+    = render 'grouping_fields', f: g
+  = button_to_add_fields "Ajouter un Groupe", f, :grouping
+
+= f.submit "Rechercher", class: "btn btn-primary", name: nil
+-#
+  = f.hidden_field :centre_id, value: current_user.centre_id
   .form-group
     = f.label :local, "Type recherche", class: "col-sm-2 control-label"
     .col-sm-10
@@ -65,8 +73,3 @@
     = f.label :pathologie, "Pathologies", class: "col-sm-2 control-label"
     .col-sm-2
       = f.collection_select :pathologie, Dossier::ONI, :to_s, :to_s, {include_blank: true}, class: "form-control"
-
-  .form-group
-    .col-sm-offset-2.col-sm-10
-      = f.submit "Rechercher", data: {disable_with: "Rechercher"}, class: "btn btn-primary"
-      = button_tag "Effacer le formulaire", type: :reset, class: "btn btn-danger"

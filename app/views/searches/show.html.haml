@@ -16,13 +16,13 @@
 
   .col-sm-3
     .actions
-      = link_to search_dossiers_path(search_id: @search.id), class: "btn btn-primary" do
+      = link_to edit_search_path(@search), class: "btn btn-primary" do
         %span.glyphicon.glyphicon-pencil
         Modifier la recherche
       = link_to search_path(@search, format: :csv), class: "btn btn-default" do
         %span.glyphicon.glyphicon-download-alt
         Exporter fichier csv
-      = link_to search_dossiers_path, class: "btn btn-default" do
+      = link_to new_search_path, class: "btn btn-default" do
         %span.glyphicon.glyphicon-plus
         Nouvelle recherche
 

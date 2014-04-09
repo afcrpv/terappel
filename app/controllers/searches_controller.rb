@@ -4,11 +4,9 @@ class SearchesController < ApplicationController
 
   load_and_authorize_resource :search
 
-  helper_method :min_date_appel, :max_date_appel
-
   def new
-    @search = Search.new(centre_id: current_user.centre_id)
-    respond_with @search
+    @search = Dossier.search(params[:q])
+    @search.build_grouping unless @search.groupings.any?
   end
 
   def create
@@ -32,11 +30,13 @@ class SearchesController < ApplicationController
   end
 
   def edit
-    respond_with @search
+    @search = Dossier.search(Search.find(params[:id]).q)
+    @search.build_grouping unless @search.groupings.any?
   end
 
   def update
     flash[:notice] = nil
+    @search.q = params[:search]
     @search.update(search_params)
     respond_with @search, location: @search
   end
@@ -44,15 +44,7 @@ class SearchesController < ApplicationController
   private
 
   def search_params
-    params.require(:search).permit(:local, :centre_id, :min_date_appel, :max_date_appel, :motif_id, :expo_nature_id, :expo_type_id, :indication_id, :expo_terme_id, :evolution, :malformation, :pathologie, :produit_tokens, :dci_tokens)
-  end
-
-  def min_date_appel
-    @min_date_appel = params[:id] && @search.min_date_appel ? l(@search.min_date_appel) : l(Dossier.minimum(:date_appel))
-  end
-
-  def max_date_appel
-    @max_date_appel = params[:id] && @search.max_date_appel ? l(@search.max_date_appel) : l(Dossier.maximum(:date_appel))
+    params.require(:search).permit(:g)#:local, :centre_id, :min_date_appel, :max_date_appel, :motif_id, :expo_nature_id, :expo_type_id, :indication_id, :expo_terme_id, :evolution, :malformation, :pathologie, :produit_tokens, :dci_tokens)
   end
 
   def interpolation_options

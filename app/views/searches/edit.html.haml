@@ -1,2 +1,4 @@
 - title "Modification Recherche"
-= render 'form', search: @search
+
+= search_form_for @search, as: :search, url: search_path(params[:id]), html: {method: :patch, role: "search"} do |f|
+  = render "fields", f: f

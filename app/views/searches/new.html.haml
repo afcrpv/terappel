@@ -1,2 +1,4 @@
-- title "Exploitation - recherche avancée"
-= render 'form', search: @search
+- title "Exploitation - Recherche avancée"
+
+= search_form_for @search, as: :search, url: searches_path, html: {method: :post, role: "search"} do |f|
+  = render "fields", f: f
