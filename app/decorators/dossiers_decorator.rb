@@ -8,12 +8,14 @@ class DossiersDecorator < Draper::CollectionDecorator
     end
   end
 
+  COLUMNS_FOR_CSV << :commentaire
+
   def to_csv(options = {})
     CSV.generate(options) do |csv|
       csv << COLUMNS_FOR_CSV.map {|column| object.human_attribute_name(column) }
       object.load.each do |dossier|
         columns = COLUMNS_FOR_CSV.map do |column|
-          decorated_column = DossierDecorator.decorate(dossier).send(column)
+          decorated_column = column == :commentaire ? DossierDecorator.decorate(dossier).send(column, false) : DossierDecorator.decorate(dossier).send(column)
           decorated_column.present? ? decorated_column : ""
         end
         csv << columns
