@@ -25,7 +25,7 @@ class SearchesController < ApplicationController
 
     respond_with @search do |format|
       format.html { render }
-      format.csv { send_data @decorated_dossiers.to_csv(col_sep: ";").encode('iso-8859-1', 'utf-8'), filename: @filename }
+      format.csv { send_data @decorated_dossiers.to_csv(col_sep: ";"), filename: @filename }
     end
   end
 
