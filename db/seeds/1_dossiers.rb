@@ -43,7 +43,7 @@ CSV.foreach("csv/dossiers.csv", headers: true) do |row|
   dossier.nai= row['naissance']
   dossier.terme= row['terme']
   dossier.grsant= row['nbrgroanter']
-  dossier.modaccouch= Dossier::MODACCOUCH[row['modaccouch'].to_i]
+  dossier.modaccouch= row['modaccouch'].blank? ? nil : Dossier::MODACCOUCH[row['modaccouch'].to_i]
   dossier.tabac= Dossier::TABAC[row['tabac'].to_i]
   dossier.alcool= Dossier::ALCOOL[row['alcool'].to_i]
   dossier.age_grossesse= row['agegrosse']
