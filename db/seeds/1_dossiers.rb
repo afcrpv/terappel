@@ -30,6 +30,8 @@ CSV.foreach("csv/dossiers.csv", headers: true) do |row|
   dossier.name= name
   dossier.prenom= row['prenom']
   dossier.age= row['age']
+  dossier.poids = row['poids']
+  dossier.taille = row['poids']
   dossier.antecedents_perso= Dossier::ONI[row['ap'].to_i]
   dossier.antecedents_fam= Dossier::ONI[row['af'].to_i]
   dossier.a_relancer= a_relancer
