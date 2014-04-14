@@ -18,8 +18,8 @@ CSV.foreach("csv/dossiers.csv", headers: true) do |row|
   expo_terato = row['expoterato'].blank? ? "NSP" : EXPOTERATO[row['expoterato']]
   a_relancer = RELANCE[row['relance']]
   dossier = Dossier.find_or_initialize_by(code: row['nappelsaisi'])
-  dossier.centre_id= Centre.where(code: row['nappelsaisi'][0..1]).first.id
-  dossier.evolution= Dossier::EVOLUTION[row['ntypaccou'].to_i + 1]
+  dossier.centre_id = Centre.where(code: row['nappelsaisi'][0..1]).first.id
+  dossier.evolution = row['ntypaccou'].blank? ? "INC" : Dossier::EVOLUTION[row['ntypaccou'].to_i]
   dossier.categoriesp_id= row['ncategorie']
   dossier.motif_id= row['ncode']
   dossier.date_appel= row['da']
