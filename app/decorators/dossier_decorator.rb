@@ -31,13 +31,13 @@ class DossierDecorator < ApplicationDecorator
 
   def poids
     handle_none object.poids do
-      "#{object.poids} kg"
+      "#{object.poids}"
     end
   end
 
   def taille
     handle_none object.taille do
-      "#{object.taille} cm"
+      "#{object.taille}"
     end
   end
 
@@ -52,14 +52,16 @@ class DossierDecorator < ApplicationDecorator
   end
 
   (1..3).each do |i|
-    define_method :"dose#{i}" do
-      exposition = object.expositions[i-1]
-      handle_none exposition do
-        exposition.send(:dose)
+    %w(dose de a de2 a2).each do |method|
+      define_method :"#{method}_#{i}" do
+        exposition = object.expositions[i-1]
+        handle_none exposition do
+          exposition.send(:try, :"#{method}")
+        end
       end
     end
     %w(produit indication expo_terme).each do |name|
-      define_method :"#{name}#{i}" do
+      define_method :"#{name}_#{i}" do
         exposition = object.expositions[i-1]
         handle_none exposition do
           handle_none exposition.send(:"#{name}") do
@@ -70,10 +72,18 @@ class DossierDecorator < ApplicationDecorator
     end
   end
 
-  %w(sexe poids taille pc apgar1 apgar5).each do |name|
-    define_method name do
+  %w(sexe pc apgar1 apgar5).each do |name|
+    define_method "bb1_#{name}" do
       object.bebes.first.send(name) if object.bebes.any?
     end
+  end
+
+  def bb1_poids
+    object.bebes.first.poids if object.bebes.any?
+  end
+
+  def bb1_taille
+    object.bebes.first.taille if object.bebes.any?
   end
 
   %w(indication expo_terme).each do |name|
@@ -84,7 +94,7 @@ class DossierDecorator < ApplicationDecorator
 
   %w(de a de2 a2 dose).each do |name|
     define_method name do
-      object.expositions.first.send(name)
+      object.expositions.first.send(:try, name)
     end
   end
 
@@ -111,8 +121,8 @@ class DossierDecorator < ApplicationDecorator
 
   %w(age_grossesse terme).each do |sa|
     define_method sa do
-      handle_none object.send(sa) do
-        object.send(sa).to_s + " SA"
+      handle_none object.send(sa), nil do
+        object.send(sa).to_s
       end
     end
   end
@@ -156,10 +166,10 @@ class DossierDecorator < ApplicationDecorator
       attribute = object.send("antecedents_#{atcds}")
       handle_none attribute do
         case attribute
-        when "1" then "Non"
-        when "0" then self.send("comm_antecedents_#{atcds}")
+        when "Non" then "Non"
+        when "Oui" then self.send("comm_antecedents_#{atcds}")
         else
-          attribute
+          "NSP"
         end
       end
     end
