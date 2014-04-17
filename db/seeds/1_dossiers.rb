@@ -1,3 +1,8 @@
+def column_to_i(column, dictionary, default)
+  column.blank? ? default : dictionary[column.to_i]
+  #row['ntypaccou'].blank? ? "INC" : Dossier::EVOLUTION[row['ntypaccou'].to_i]
+end
+
 # create Dossiers
 EXPOTERATO = {
   "O" => "Oui",
@@ -19,7 +24,7 @@ CSV.foreach("csv/dossiers.csv", headers: true) do |row|
   a_relancer = RELANCE[row['relance']]
   dossier = Dossier.find_or_initialize_by(code: row['nappelsaisi'])
   dossier.centre_id = Centre.where(code: row['nappelsaisi'][0..1]).first.id
-  dossier.evolution = row['ntypaccou'].blank? ? "INC" : Dossier::EVOLUTION[row['ntypaccou'].to_i]
+  dossier.evolution = column_to_i(row['ntypaccou'], "INC", Dossier::EVOLUTION)
   dossier.categoriesp_id= row['ncategorie']
   dossier.motif_id= row['ncode']
   dossier.date_appel= row['da']
@@ -32,8 +37,8 @@ CSV.foreach("csv/dossiers.csv", headers: true) do |row|
   dossier.age= row['age']
   dossier.poids = row['poids']
   dossier.taille = row['poids']
-  dossier.antecedents_perso= Dossier::ONI[row['ap'].to_i]
-  dossier.antecedents_fam= Dossier::ONI[row['af'].to_i]
+  dossier.antecedents_perso = column_to_i(row['ap'], "NSP", Dossier::ONI)
+  dossier.antecedents_fam = column_to_i(row['af'], "NSP", Dossier::ONI)
   dossier.a_relancer= a_relancer
   dossier.ass_med_proc= row['assmedproc']
   dossier.expo_terato= expo_terato
@@ -45,9 +50,9 @@ CSV.foreach("csv/dossiers.csv", headers: true) do |row|
   dossier.nai= row['naissance']
   dossier.terme= row['terme']
   dossier.grsant= row['nbrgroanter']
-  dossier.modaccouch= row['modaccouch'].blank? ? nil : Dossier::MODACCOUCH[row['modaccouch'].to_i]
-  dossier.tabac= Dossier::TABAC[row['tabac'].to_i]
-  dossier.alcool= Dossier::ALCOOL[row['alcool'].to_i]
+  dossier.modaccouch = column_to_i(row['modaccouch'], nil, Dossier::MODACCOUCH)
+  dossier.tabac = column_to_i(row['tabac'], "NSP", Dossier::TABAC)
+  dossier.alcool = column_to_i(row['alcool'], "NSP", Dossier::ALCOOL)
   dossier.age_grossesse= row['agegrosse']
   dossier.comm_antecedents_perso= row['atcdpersonnels']
   dossier.comm_antecedents_fam= row['atcdfamiliaux']
