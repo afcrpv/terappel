@@ -55,7 +55,7 @@ CSV.foreach("csv/dossiers.csv", headers: true) do |row|
   dossier.alcool = column_to_i(row['alcool'], "NSP", Dossier::ALCOOL)
   dossier.age_grossesse= row['agegrosse']
   dossier.comm_antecedents_perso= row['atcdpersonnels']
-  dossier.comm_antecedents_fam= row['atcdfamiliaux']
+  dossier.comm_antecedents_fam= row['atcdfamilliaux']
   dossier.commentaire= [row['comevol'], row['comexpo'], row['combebe'], row['comgene']].join("\n")
   dossier.path_mat= row['pathomater']
   dossier.relance_counter= row['nbrRelance']
