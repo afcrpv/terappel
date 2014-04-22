@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140407093202) do
+ActiveRecord::Schema.define(version: 20140422121023) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -262,7 +262,6 @@ ActiveRecord::Schema.define(version: 20140407093202) do
     t.datetime "updated_at"
     t.integer  "centre_id"
     t.string   "code"
-    t.integer  "evolution_id"
     t.integer  "categoriesp_id"
     t.integer  "motif_id"
     t.string   "modaccouch"
@@ -314,7 +313,6 @@ ActiveRecord::Schema.define(version: 20140407093202) do
   add_index "dossiers", ["categoriesp_id"], name: "index_dossiers_on_categoriesp_id", using: :btree
   add_index "dossiers", ["code"], name: "index_dossiers_on_code", unique: true, using: :btree
   add_index "dossiers", ["date_appel"], name: "index_dossiers_on_date_appel", using: :btree
-  add_index "dossiers", ["evolution_id"], name: "index_dossiers_on_evolution_id", using: :btree
   add_index "dossiers", ["expo_terato"], name: "index_dossiers_on_expo_terato", using: :btree
   add_index "dossiers", ["modaccouch"], name: "index_dossiers_on_mod_accouch_id", using: :btree
   add_index "dossiers", ["motif_id"], name: "index_dossiers_on_motif_id", using: :btree
