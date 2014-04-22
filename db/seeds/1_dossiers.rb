@@ -1,4 +1,4 @@
-def column_to_i(column, dictionary, default)
+def column_to_i(column, default, dictionary)
   column.blank? ? default : dictionary[column.to_i]
   #row['ntypaccou'].blank? ? "INC" : Dossier::EVOLUTION[row['ntypaccou'].to_i]
 end
