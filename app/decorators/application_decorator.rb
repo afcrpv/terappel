@@ -1,8 +1,8 @@
 class ApplicationDecorator < Draper::Decorator
   def twipsy(value)
     h.content_tag :a, h.truncate(value, length: 20),
-      href: "#", rel: "tooltip",
-      "data-original-title" => value
+      href: "#", data: {toggle: "tooltip"},
+      title: value
   end
 
   def localize_date(datefield)

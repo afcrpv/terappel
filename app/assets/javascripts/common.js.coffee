@@ -6,9 +6,7 @@ $ ->
     $(this).val(value.toUpperCase())
 
   $(".alert-message").alert()
-  $("[rel=tooltip]").tooltip
-    delay:
-      hide: 100
+  $("[data-toggle=tooltip]").tooltip()
 
   $(".dropdown-toggle").dropdown()
 
