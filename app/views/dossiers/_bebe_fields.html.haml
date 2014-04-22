@@ -41,7 +41,7 @@
           .col-sm-4
             = f.group do
               = f.label field.to_sym, t(field.to_sym, scope: [:activerecord, :attributes, :bebe])
-              = f.collection_select field.to_sym, Dossier::ONI, :first, :first, include_blank: true
+              = f.collection_select field.to_sym, Dossier::ONI, :to_s, :to_s, include_blank: true
           .col-sm-6
             = f.group do
               = f.label :"#{field}_tokens", t(:"#{field}_tokens", scope: [:activerecord, :attributes, :bebe])
