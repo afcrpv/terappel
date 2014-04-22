@@ -65,7 +65,11 @@ class DossierDecorator < ApplicationDecorator
         exposition = object.expositions[i-1]
         handle_none exposition do
           handle_none exposition.send(:"#{name}") do
-            exposition.send(:"#{name}_name")
+            if name == "produit"
+              exposition.send(:"#{name}_dci")
+            else
+              exposition.send(:"#{name}_name")
+            end
           end
         end
       end

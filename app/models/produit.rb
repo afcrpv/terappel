@@ -16,6 +16,10 @@ class Produit < ActiveRecord::Base
     where("LOWER(name) like ?", "%#{string}%")
   end
 
+  def dci
+    dcis.map(&:libelle).join("-")
+  end
+
   def to_s
     name
   end

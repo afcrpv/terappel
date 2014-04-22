@@ -8,6 +8,7 @@ class Exposition < ActiveRecord::Base
   belongs_to :voie
 
   delegate :name, to: :produit, allow_nil: true, prefix: true
+  delegate :dci,  to: :produit, allow_nil: true, prefix: true
   delegate :name, to: :indication, allow_nil: true, prefix: true
   delegate :name, to: :expo_terme, allow_nil: true, prefix: true
 
