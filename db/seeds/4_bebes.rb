@@ -62,7 +62,7 @@ end
   puts "Filling up parent_id using codeterme and codetermepere"
   collection = klass.all
   collection.each do |item|
-    pere = klass.where(codeterme: item.codetermepere).first
+    pere = klass.find_by(codeterme: item.codetermepere)
     unless pere.nil?
       item.parent_id = pere.id
       item.save!
@@ -73,10 +73,10 @@ end
   CSV.foreach("csv/bebes_#{name.pluralize}.csv", headers: true) do |row|
     oldid = row['nappelsaisi'][0..1]+row['nbebe'].to_s
     puts "processing row##{oldid}"
-    bebe = Bebe.where(oldid: oldid).first
+    bebe = Bebe.find_by(oldid: oldid)
     if bebe
-      puts "adding malformation to bebe##{oldid}"
-      bebe.send(:"#{name.pluralize}") << klass.where(oldid: row["n#{name}"]).first
+      puts "adding #{name} to bebe##{oldid}"
+      bebe.send(:"#{name.pluralize}") << klass.find_by(oldid: row["n#{name}"])
     end
   end
 end
