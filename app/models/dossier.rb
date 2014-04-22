@@ -1,5 +1,3 @@
-require "csv"
-#encoding: utf-8
 class Dossier < ActiveRecord::Base
   # Constants
   ONI = %w(Oui Non NSP)
