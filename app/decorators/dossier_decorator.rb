@@ -41,16 +41,6 @@ class DossierDecorator < ApplicationDecorator
     end
   end
 
-  def poids_et_taille
-    [poids, taille].join("/").html_safe + imc
-  end
-
-  def imc
-    if object.poids && object.taille
-      " (IMC : #{(object.poids / (object.taille/100.to_f)**2).round})"
-    end
-  end
-
   (1..3).each do |i|
     %w(dose de a de2 a2).each do |method|
       define_method :"#{method}_#{i}" do
@@ -60,16 +50,20 @@ class DossierDecorator < ApplicationDecorator
         end
       end
     end
-    %w(produit indication expo_terme).each do |name|
+
+    define_method :"produit_#{i}" do
+      exposition = object.expositions[i-1]
+      handle_none exposition do
+        exposition.send(:try, :produit)
+      end
+    end
+
+    %w(indication expo_terme).each do |name|
       define_method :"#{name}_#{i}" do
         exposition = object.expositions[i-1]
         handle_none exposition do
           handle_none exposition.send(:"#{name}") do
-            if name == "produit"
-              exposition.send(:"#{name}_dci")
-            else
-              exposition.send(:"#{name}_name")
-            end
+            exposition.send(:"#{name}_name")
           end
         end
       end
@@ -184,18 +178,18 @@ class DossierDecorator < ApplicationDecorator
   end
 
   def patient_data
-    [age, poids_taille_imc].compact.join(", ")
+    [age_unite, poids_taille_imc].compact.join(", ")
   end
 
-  def age
+  def age_unite
     value_with_unit object.age, "ans"
   end
 
-  def poids
+  def poids_unite
     value_with_unit object.poids, "kg"
   end
 
-  def taille
+  def taille_unite
     value_with_unit object.taille, "cm"
   end
 
@@ -204,10 +198,9 @@ class DossierDecorator < ApplicationDecorator
   end
 
   def poids_taille_imc
-    result = [poids, taille].join(" x ")
+    result = [poids_unite, taille_unite].join(" x ")
     result << " (IMC #{imc})" if imc
   end
-
 
   %w(appel dernieres_regles debut_grossesse accouchement_prevu reelle_accouchement recueil_evol).each do |date|
     method_name = "date_#{date}"

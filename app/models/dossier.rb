@@ -10,7 +10,7 @@ class Dossier < ActiveRecord::Base
   # validations
   validates_presence_of :name, :date_appel, :centre_id, :expo_terato, :a_relancer
   validates :code, uniqueness: true, presence: true
-  validate :must_have_produits
+  #validate :must_have_produits
 
   #associations
   belongs_to :centre

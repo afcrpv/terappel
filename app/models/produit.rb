@@ -16,12 +16,13 @@ class Produit < ActiveRecord::Base
     where("LOWER(name) like ?", "%#{string}%")
   end
 
-  def dci
-    dcis.map(&:libelle).join("-")
+  def to_s
+    return dci if dci.present?
+    name
   end
 
-  def to_s
-    name
+  def dci
+    dcis.map(&:libelle).join("-")
   end
 
   def name_and_id
