@@ -15,7 +15,6 @@ Terappel::Application.configure do
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.default_url_options = { :host => "localhost:3000" }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -28,17 +27,14 @@ Terappel::Application.configure do
   # number of complex assets.
   config.assets.debug = true
 
+  config.action_mailer.default_url_options = { :host => "localhost:3000" }
+
   config.after_initialize do
     Bullet.enable = true
     Bullet.alert = true
     Bullet.bullet_logger = true
     Bullet.console = true
-    #  Bullet.growl = true
+    Bullet.growl = true
     Bullet.rails_logger = true
   end
-
-  #require "debugger"
-  #Debugger.start_remote
-  #Debugger.settings[:autoeval] = true
-  #puts "=> Debugger enabled"
 end
