@@ -1,88 +1,58 @@
 source 'http://rubygems.org'
 ruby '2.1.4'
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.8'
 
-gem 'pg'
-
-gem 'sass-rails', '~> 4.0.2'
-gem 'jquery-ui-sass-rails'
-gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.0.0'
-
-gem 'bootstrap-sass', '~> 3.1.0'
-gem 'compass-rails', github: 'Compass/compass-rails'
-
-gem 'jquery-rails'
-
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-#gem 'jbuilder', '~> 1.2'
-
-group :doc do
-  # bundle exec rake doc:rails generates the API under doc/api.
-  gem 'sdoc', require: false
-end
-
-gem 'select2-rails', github: 'argerim/select2-rails'
-
-# Use unicorn as the web server
-# gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# To use debugger
-# gem 'debugger', group: [:development, :test]
-
-# Heroku gems
-gem 'rails_12factor', group: :production
-gem 'newrelic_rpm'
-gem 'unicorn'
-gem 'unicorn-rails'
-gem 'foreman'
-
-gem 'devise', github: 'plataformatec/devise'
-gem 'simple_form', github: 'plataformatec/simple_form'
-gem 'ancestry', github: 'stefankroes/ancestry'
-gem 'cancan', github: 'ncri/cancan', branch: '2.0'
-gem 'rolify', github: 'EppO/rolify'
-gem 'cocoon', github: 'nathanvda/cocoon'
-
-gem 'jstree-rails', github: 'tristanm/jstree-rails'
-gem 'haml-rails'
-gem 'responders'
-gem 'prawn', github: 'prawnpdf/prawn'
-gem 'draper', '~> 1.3'
-gem 'ransack', github: 'activerecord-hackery/ransack', branch: 'rails-4'
-
-group :test, :development do
-  gem 'rspec-rails'
-  gem 'jasmine-rails'
-  gem 'poltergeist', github: 'jonleighton/poltergeist'
-  gem 'railroady'
+group :production do
+  gem 'foreman',        '~> 0.75.0'
+  gem 'newrelic_rpm',   '~> 3.9.6'
+  gem 'rails_12factor', '~> 0.0.3'
+  gem 'unicorn'
 end
 
 group :development do
-  gem 'spring', '~> 1.1.1'
-  gem 'spring-commands-rspec'
-  gem 'guard-rspec', '~> 2.1.0'
-  gem 'guard-jasmine'
-  gem 'pry-rails'
-  gem 'quiet_assets', '>= 1.0.1'
-  gem 'rb-fsevent', :require => false
-  gem 'terminal-notifier-guard'
-  gem 'bullet'
+  gem 'better_errors',         '~> 1.1.0'
+  gem 'binding_of_caller'
+  gem 'bullet',                '~> 4.14.0'
   gem 'consistency_fail'
+  gem 'growl'
+  gem 'guard-rspec',           '~> 4.3.1'
+  gem 'pry-rails',             '~> 0.3.2'
+  gem 'quiet_assets',          '~> 1.0.3'
+  gem 'rb-fsevent',            '~> 0.9.4', require: false
+  gem 'spring',                '~> 1.1.3'
+  gem 'spring-commands-rspec', '~> 1.0.2'
 end
 
 group :test do
+  gem 'capybara',           '~> 2.4.4'
+  gem 'database_cleaner',   github: 'bmabey/database_cleaner'
   gem 'factory_girl_rails'
-  gem 'capybara'
-  gem 'selenium-webdriver'
-  gem 'database_cleaner', github: 'bmabey/database_cleaner', tag: 'v1.0.0.RC1'
-  gem 'simplecov', :require => false
-  gem 'launchy'    # So you can do Then show me the page
+  gem 'simplecov',          require: false
 end
+
+group :test, :development do
+  gem 'poltergeist', github: 'jonleighton/poltergeist'
+  gem 'rspec-rails'
+end
+
+gem 'ancestry',             github: 'stefankroes/ancestry'
+gem 'bootstrap-sass',       '~> 3.1.0'
+gem 'cancan',               github: 'ncri/cancan', branch: '2.0'
+gem 'cocoon',               github: 'nathanvda/cocoon'
+gem 'coffee-rails',         '~> 4.0.0'
+gem 'compass-rails',        github: 'Compass/compass-rails'
+gem 'devise',               github: 'plataformatec/devise'
+gem 'draper',               '~> 1.3'
+gem 'haml-rails'
+gem 'jquery-rails'
+gem 'jquery-ui-sass-rails'
+gem 'jstree-rails',         github: 'tristanm/jstree-rails'
+gem 'pg'
+gem 'prawn',                github: 'prawnpdf/prawn'
+gem 'ransack',              github: 'activerecord-hackery/ransack', branch: 'rails-4'
+gem 'responders'
+gem 'rolify',               github: 'EppO/rolify'
+gem 'sass-rails',           '~> 4.0.3'
+gem 'select2-rails',        github: 'argerim/select2-rails'
+gem 'simple_form',          '~> 3.1.0.rc1'
+gem 'uglifier',             '>= 1.3.0'
