@@ -12,7 +12,10 @@ vendor/ruby
 coverage
 .DS_Store
 csv
+**/*.csv
+**/*.xls
 *.dump
 
 csv_old
 .envrc
+
