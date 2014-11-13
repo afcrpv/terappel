@@ -38,7 +38,7 @@ end
 
 gem 'ancestry',             github: 'stefankroes/ancestry'
 gem 'bootstrap-sass',       '~> 3.1.0'
-gem 'cancan',               github: 'ncri/cancan', branch: '2.0'
+gem 'cancancan',            '~> 1.9.2'
 gem 'cocoon',               github: 'nathanvda/cocoon'
 gem 'coffee-rails',         '~> 4.0.0'
 gem 'compass-rails',        github: 'Compass/compass-rails'

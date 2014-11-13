@@ -1,4 +1,6 @@
 class MalformationsController < ApplicationController
+  load_and_authorize_resource
+
   def index
     @malformations = Malformation.where("LOWER(libelle) like ?", "%#{params[:q]}%").limit(10)
     respond_to do |format|

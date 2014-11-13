@@ -1,48 +1,33 @@
 class Ability
   include CanCan::Ability
 
+  attr_reader :user
+
   def initialize(user)
-    if user
-      can :access, :home
-      can :access, :jasmine
-      can :update, :users, id: user.id
+    @user = user
+    member_rules if user
+    admin_rules if user && user.admin?
+  end
 
-      can :create, :dossiers
-      can :search, :dossiers
-      can [:produits, :indications, :dcis], :dossiers
-      can [:read, :update], :dossiers, centre_id: user.centre_id
-      cannot :destroy, :dossiers
+  def member_rules
+    can [:index, :dossiers, :try_new_dossier], :home
+    can :update, User, id: user.id
 
-      can :access, :correspondants, centre_id: user.centre_id
-      cannot :destroy, :correspondants
+    can :create, Dossier
+    can [:produits, :indications, :dcis], Dossier
+    can [:read, :update], Dossier, centre_id: user.centre_id
+    cannot :destroy, Dossier
 
-      can :read, [:produits, :malformations, :pathologies, :searches]
-      can :tree, [:malformations, :pathologies]
-      can [:create, :update], :searches
-      cannot :index, :searches
+    can :manage, :correspondants, centre_id: user.centre_id
 
-      if user.admin?
-        can :access, :all
-        cannot :destroy, :users, id: user.id
-      end
-    end
-    # Define abilities for the passed in (current) user. For example:
-    #
-    #   if user
-    #     can :access, :all
-    #   else
-    #     can :access, :home
-    #     can :create, [:users, :sessions]
-    #   end
-    #
-    # Here if there is a user he will be able to perform any action on any controller.
-    # If someone is not logged in he can only access the home, users, and sessions controllers.
-    #
-    # The first argument to `can` is the action the user can perform. The second argument
-    # is the controller name they can perform that action on. You can pass :access and :all
-    # to represent any action and controller respectively. Passing an array to either of
-    # these will grant permission on each item in the array.
-    #
-    # See the wiki for details: https://github.com/ryanb/cancan/wiki/Defining-Abilities
+    can :read, [Produit, Malformation, Pathologie, Search]
+    can :tree, [Malformation, Pathologie]
+    can [:create, :update], Search
+    cannot :index, Search
+  end
+
+  def admin_rules
+    can :manage, :all
+    cannot :destroy, User, id: user.id
   end
 end

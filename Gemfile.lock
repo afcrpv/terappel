@@ -42,13 +42,6 @@ GIT
     cocoon (1.2.6)
 
 GIT
-  remote: git://github.com/ncri/cancan.git
-  revision: aa370c3ea1907df534708105b20f243c388377d5
-  branch: 2.0
-  specs:
-    cancan (2.0.0.alpha)
-
-GIT
   remote: git://github.com/plataformatec/devise.git
   revision: 145ce9e1de6108cbcc8551a5011685f05d00437e
   specs:
@@ -123,6 +116,7 @@ GEM
     bullet (4.14.0)
       activesupport (>= 3.0.0)
       uniform_notifier (>= 1.6.0)
+    cancancan (1.9.2)
     capybara (2.4.4)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -342,7 +336,7 @@ DEPENDENCIES
   binding_of_caller
   bootstrap-sass (~> 3.1.0)
   bullet (~> 4.14.0)
-  cancan!
+  cancancan (~> 1.9.2)
   capybara (~> 2.4.4)
   cocoon!
   coffee-rails (~> 4.0.0)

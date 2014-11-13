@@ -1,17 +1,19 @@
 class DossiersController < ApplicationController
+  # TODO: cleanup dossiers controller
+  load_and_authorize_resource
+
   respond_to :html
   respond_to :js, only: :index
   respond_to :pdf, only: :show
   respond_to :json, only: [:produits, :indications, :dcis]
 
-  rescue_from CanCan::Unauthorized do |exception|
+  rescue_from CanCan::AccessDenied do |exception|
     Rails.logger.debug "Access denied on #{exception.action} #{exception.subject.inspect}"
     redirect_to dossiers_url, alert: "Vous ne pouvez pas modifier un dossier n'appartenant pas à votre CRPV !"# exception.message
   end
 
   before_action :set_centre
   before_action :set_dossier, only: [:show, :edit, :update, :destroy]
-  load_and_authorize_resource :dossier
 
   helper_method :date_appel, :date_reelle_accouchement, :date_dernieres_regles, :date_debut_grossesse, :date_accouchement_prevu, :evolutions, :date_naissance, :date_recueil_evol
   helper_method :min_date_appel, :max_date_appel

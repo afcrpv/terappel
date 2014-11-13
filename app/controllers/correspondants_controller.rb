@@ -1,7 +1,6 @@
-# encoding: UTF-8
 class CorrespondantsController < ApplicationController
   before_action :find_centre
-  load_and_authorize_resource :correspondant
+  load_and_authorize_resource
 
   helper_method :form_title
 
