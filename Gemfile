@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 ruby '2.1.4'
-gem 'rails', '4.0.8'
+gem 'rails', '4.1.7'
 
 group :production do
   gem 'foreman',        '~> 0.75.0'
