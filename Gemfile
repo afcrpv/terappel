@@ -19,6 +19,7 @@ group :development do
   gem 'pry-rails',             '~> 0.3.2'
   gem 'quiet_assets',          '~> 1.0.3'
   gem 'rb-fsevent',            '~> 0.9.4', require: false
+  gem 'ruby_gntp'
   gem 'spring',                '~> 1.1.3'
   gem 'spring-commands-rspec', '~> 1.0.2'
 end
@@ -49,7 +50,7 @@ gem 'jquery-ui-sass-rails'
 gem 'jstree-rails',         github: 'tristanm/jstree-rails'
 gem 'pg'
 gem 'prawn',                github: 'prawnpdf/prawn'
-gem 'ransack',              github: 'activerecord-hackery/ransack', branch: 'rails-4'
+gem 'ransack',              '~> 1.5.1'
 gem 'responders'
 gem 'rolify',               github: 'EppO/rolify'
 gem 'sass-rails',           '~> 4.0.3'
