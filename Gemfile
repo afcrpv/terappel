@@ -1,27 +1,21 @@
 source 'http://rubygems.org'
 ruby '2.2.2'
-gem 'rails', '4.1.7'
 
-group :production do
-  gem 'foreman',        '~> 0.75.0'
-  gem 'newrelic_rpm',   '~> 3.9.6'
-  gem 'rails_12factor', '~> 0.0.3'
-  gem 'unicorn'
-end
+gem 'rails', '4.2.1'
+gem 'pg',     '~> 0.18.1'
 
 group :development do
-  gem 'better_errors',         '~> 1.1.0'
+  gem 'better_errors',         '~> 2.1.1'
   gem 'binding_of_caller'
-  gem 'bullet',                '~> 4.14.0'
+  gem 'bullet'
   gem 'consistency_fail'
   gem 'growl'
-  gem 'guard-rspec',           '~> 4.3.1'
-  gem 'pry-rails',             '~> 0.3.2'
+  gem 'guard-rspec',           '~> 4.5.0'
+  gem 'pry-rails'
   gem 'quiet_assets',          '~> 1.0.3'
-  gem 'rb-fsevent',            '~> 0.9.4', require: false
-  gem 'ruby_gntp'
-  gem 'spring',                '~> 1.1.3'
-  gem 'spring-commands-rspec', '~> 1.0.2'
+  gem 'rb-fsevent',            require: false
+  gem 'spring'
+  gem 'spring-commands-rspec'
 end
 
 group :test do
@@ -32,28 +26,34 @@ group :test do
 end
 
 group :test, :development do
-  gem 'poltergeist', github: 'jonleighton/poltergeist'
+  gem 'capybara-webkit'
   gem 'rspec-rails'
 end
 
 gem 'ancestry',             github: 'stefankroes/ancestry'
-gem 'bootstrap-sass',       '~> 3.1.0'
-gem 'cancancan',            '~> 1.9.2'
+gem 'bootstrap-sass',       '~> 3.3.3'
+gem 'cancancan'
 gem 'cocoon',               github: 'nathanvda/cocoon'
-gem 'coffee-rails',         '~> 4.0.0'
+gem 'coffee-rails',         '~> 4.1.0'
 gem 'compass-rails',        github: 'Compass/compass-rails'
 gem 'devise',               github: 'plataformatec/devise'
-gem 'draper',               '~> 1.3'
-gem 'haml-rails'
+gem 'draper'
+gem 'figaro',               '~> 1.1.0'
+gem 'font-awesome-rails',   '~> 4.1.0.0'
+gem 'haml-rails',           '~> 0.9.0'
 gem 'jquery-rails'
 gem 'jquery-ui-sass-rails'
 gem 'jstree-rails',         github: 'tristanm/jstree-rails'
-gem 'pg'
+gem 'kaminari',                  '~> 0.16.3'
+gem 'newrelic_rpm'
 gem 'prawn',                github: 'prawnpdf/prawn'
+gem 'puma'
+gem 'rack-timeout'
 gem 'ransack',              '~> 1.5.1'
-gem 'responders'
+gem 'responders',           '~> 2.1.0'
 gem 'rolify',               github: 'EppO/rolify'
-gem 'sass-rails',           '~> 4.0.3'
+gem 'sass-rails',           '~> 5.0.1'
 gem 'select2-rails',        github: 'argerim/select2-rails'
-gem 'simple_form',          '~> 3.1.0.rc1'
+gem 'shog',                 '~> 0.1.3'
+gem 'simple_form',          '~> 3.1.0'
 gem 'uglifier',             '>= 1.3.0'
