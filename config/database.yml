@@ -14,7 +14,7 @@ login: &login
   pool: 5
 
 development: &development
-  database: terappel_dev
+  database: terappel_development
   <<: *login
 
   # Connect on a TCP socket. Omitted by default since the client uses a
