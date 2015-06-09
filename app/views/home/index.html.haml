@@ -1,20 +1,20 @@
-- title "Terappel", "Gestion des appels grossesse"
+- title 'Terappel', 'Gestion des appels grossesse'
 
 .well.well-lg
   = link_to new_dossier_path, class: "btn btn-success btn-lg" do
-    %span.glyphicon.glyphicon-plus
+    = fa_icon 'plus'
     Saisir un dossier
   = link_to new_search_path, class: "btn btn-primary btn-lg" do
-    %span.glyphicon.glyphicon-search
+    = fa_icon 'search'
     Rechercher un dossier
   - if current_user.admin?
     .btn-group
       %button{type: "button", class: "btn btn-info btn-lg"}
-        %span.glyphicon.glyphicon-wrench
+        = fa_icon 'cog'
         Administration
       %button{type: "button", class: "btn btn-info btn-lg dropdown-toggle", data: {toggle: "dropdown"}}
         %span.caret
       = render 'layouts/admin_nav'
   = link_to search_dossiers_path, class: "btn btn-warning btn-lg" do
-    %span.glyphicon.glyphicon-book
+    = fa_icon 'bar-chart'
     Exploitation

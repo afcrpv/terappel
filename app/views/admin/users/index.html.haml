@@ -1,7 +1,5 @@
 - title
 
-= link_to 'Nouvel utilisateur', new_admin_user_path, class: "btn btn-primary"
-
 %table.table
   %thead
     %tr
@@ -21,6 +19,11 @@
           %td= user.roles.map(&:name).join(",")
           %td
             .btn-group
-              = link_to "Approuver", approve_admin_user_path(user), method: :put, class: "btn btn-default btn-sm" unless user.approved? and can?(:create, :users)
-              = link_to "Modifier", edit_admin_user_path(user), class: "btn btn-default btn-sm" if can?(:update, user)
-              = link_to "Détruire", [:admin, user], method: :delete, data: {confirm: 'Etes-vous sûr ?'}, class: "btn btn-default btn-sm" if can?(:destroy, user)
+              = link_to 'Approuver', approve_admin_user_path(user),
+                method: :put,
+                class: 'btn btn-default btn-sm' unless user.approved? and can?(:create, :users)
+              = link_to 'Modifier', edit_admin_user_path(user),
+                class: 'btn btn-default btn-sm' if can?(:update, user)
+              = link_to 'Détruire', [:admin, user], method: :delete,
+                data: { confirm: 'Etes-vous sûr ?' },
+                class: 'btn btn-default btn-sm' if can?(:destroy, user)
