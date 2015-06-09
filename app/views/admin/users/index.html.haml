@@ -1,11 +1,12 @@
 - title
 
-= link_to "Nouvel utilisateur", new_admin_user_path, class: "btn btn-primary"
+= link_to 'Nouvel utilisateur', new_admin_user_path, class: "btn btn-primary"
 
 %table.table
   %thead
     %tr
       %th Nom d'utilisateur
+      %th Email
       %th CRPV
       %th Rôle(s)
       %th Actions
@@ -15,6 +16,7 @@
       - @users.each do |user|
         %tr
           %td= user.username
+          %td= user.email
           %td= user.centre
           %td= user.roles.map(&:name).join(",")
           %td

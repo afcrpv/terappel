@@ -1,36 +1,24 @@
-- title "Modification profile"
+- title 'Modification profile'
 
-= form_for resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "form-horizontal", role: "form" } do |f|
-  = render "error_message", model: resource
-  .form-group
-    = f.label :username, "Nom d'utilisateur", class: "col-sm-2 control-label"
-    .col-sm-3
-      = f.text_field :username, class: "form-control", autofocus: true
+.row
+  .col-md-6.col-md-offset-3
+    = simple_form_for resource,
+      as: resource_name, url: registration_path(resource_name),
+      html: { method: :put, role: 'form' },
+      wrapper_mappings: { check_boxes: :vertical_radio_and_checkboxes,
+                          radio_buttons: :vertical_radio_and_checkboxes,
+                          file: :vertical_file_input,
+                          boolean: :vertical_boolean } do |f|
 
-  .form-group
-    = f.label :email, class: "col-sm-2 control-label"
-    .col-sm-3
-      = f.email_field :email, class: "form-control"
+      = f.error_notification
 
-  .form-group
-    = f.label :password, "Mot de passe", class: "col-sm-2 control-label"
-    .col-sm-3
-      = f.password_field :password, autocomplete: "off", class: "form-control"
-    .col-sm-6
-      %span.help-block laissez vide si vous ne voulez pas changer
+      = f.input :username, input_html: { autofocus: true }
+      = f.input :email
+      = f.association :centre, disabled: true
+      = f.input :current_password, label: 'Mot de passe actuel',
+        hint: 'Saisir votre mot de passe actuel pour confirmer les modifications'
+      = f.input :password, hint: 'Laissez vide si vous ne voulez pas le changer'
+      = f.input :password_confirmation
 
-  .form-group
-    = f.label :password_confirmation, "Confirmer", class: "col-sm-2 control-label"
-    .col-sm-3
-      = f.password_field :password_confirmation, class: "form-control"
-
-  .form-group
-    = f.label :current_password, "Mot de passe actuel", class: "col-sm-2 control-label"
-    .col-sm-3
-      = f.password_field :current_password, class: "form-control"
-    .col-sm-6
-      %span.help-block saisir votre mot de passe actuel pour confirmer les modifications
-
-  .form-group
-    .col-sm-offset-2.col-sm-10
-      = f.submit "Enregistrer", class: "btn btn-success"
+      = f.button :submit, t('.submit'),
+        data: { disable_with: t('.submit') }, class: 'btn-primary'

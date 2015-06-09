@@ -1,49 +1,41 @@
-!!! 5
-%head
-  %meta{charset: "utf-8"}/
-  %title= yield(:title) || "Terappel"
+!!!
+%html{lang: 'fr'}
+  %head
+    %title
+      Terappel
+      = yield :title
 
-  %meta{"http-equiv" => "X-UA-Compatible", content: "IE=edge,chrome1"}
-  :plain
-    <!-- if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    %meta{charset: 'utf-8'}
+    %meta{name: 'viewport', content: 'width=device-width, initial-scale=1.0'}
 
-  %meta{name: "viewport", content: "width=device-width, initial-scale=1.0"}/
+    = stylesheet_link_tag    'application', media: 'all'
+    = javascript_include_tag 'application'
+    = csrf_meta_tags
 
-  = stylesheet_link_tag    "application", media: "all"
-  = javascript_include_tag "application"
-  = csrf_meta_tags
+    %script{type: 'text/javascript'}
+      $(function() {
+      = yield :document_ready
+      });
+    = yield(:head)
 
-  = favicon_link_tag
+  %body{class: params[:controller]}
+    = render 'layouts/navigation'
 
-  %script{type: "text/javascript"}
-    $(function() {
-    = yield :document_ready
-    });
-  = yield(:head)
+    %main{role: 'main', id: 'page_wrap'}
+      = render 'messages'
 
-%body{class: params[:controller]}
-  = render 'layouts/navigation'
+      .container
+        #page_header
+          %header
+            %h1.page-header.text-center
+              = yield(:title) if show_title?
+              %small= yield(:subtitle)
 
-  %main{role: "main", id: "page_wrap"}
-    - flashes = {alert: "warning", notice: "info", error: "danger"}
-    - flash && flash.each do |name, msg|
-      .flash.alert.fade.in{class: "alert-#{flashes[:"#{name}"]}"}
-        %a.close{"data-dismiss" => "alert", href: "#"} &times;
-        %strong= msg
-    .container
-      #page_header
-        %header
-          %h1.page-header
-            = yield(:title) if show_title?
-            %small= yield(:subtitle)
+        = yield
 
-      = yield
-
-  #footer_wrap
-    .container
-      .row#page_footer
-        %footer
-          .col-sm-4.col-sm-offset-8.col-sm-4.col-sm-offset-8
-            Copyright Terappel #{Date.today.year}
+    #footer_wrap
+      .container
+        .row#page_footer
+          %footer
+            .col-sm-4.col-sm-offset-8.col-sm-4.col-sm-offset-8
+              Copyright Terappel #{Date.current.year}

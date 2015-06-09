@@ -2,7 +2,8 @@ class User < ActiveRecord::Base
   rolify
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :lockable, :recoverable, :rememberable, :trackable, :validatable, :registerable
+  devise :database_authenticatable, :lockable, :recoverable, :registerable,
+         :rememberable, :trackable, :validatable
 
   belongs_to :centre
 
@@ -21,15 +22,15 @@ class User < ActiveRecord::Base
   end
 
   def inactive_message
-    if !approved?
-      :not_approved
+    if approved?
+      super
     else
-      super # Use whatever other message
+      :not_approved
     end
   end
 
   def approve!
-    self.update_attribute(:approved, true)
+    update_attribute(:approved, true)
   end
 
   def self.send_reset_password_instructions(attributes={})

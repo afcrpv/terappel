@@ -23,7 +23,13 @@ class ApplicationController < ActionController::Base
   private
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.for(:sign_in) {|u| u.permit(:username, :password, :remember_me)}
+    devise_parameter_sanitizer.for(:sign_in) do |u|
+      u.permit(:username, :password, :remember_me)
+    end
+
+    devise_parameter_sanitizer.for(:sign_up) do |u|
+      u.permit(:username, :email, :centre_id, :password, :password_confirmation)
+    end
   end
 
   def find_dossier_for_search

@@ -33,6 +33,10 @@ fr:
       updated_not_active: "Votre mot de passe a été changé avec succès."
     registrations:
       destroyed: "Au revoir! Votre compte a été annulé avec succès. Nous espérons vous revoir bientôt."
+      edit:
+        submit: Mettre à jour le compte
+      new:
+        submit: Créer le compte
       signed_up: "Bienvenue, vous êtes connectés avec succès"
       signed_up_but_inactive: "Vous vous êtes connectés avec succès. Cependant, nous n'avons pas pu vous identifier car votre compte n'est pas encore actif."
       signed_up_but_not_approved: "Vous êtes maintenant enregistrés, mais votre compte n'a pas encore été approuvé par l'administrateur."
@@ -41,8 +45,19 @@ fr:
       update_needs_confirmation: "Vous avez mis à jour votre compte, mais vous devez vérifier votre nouvelle adresse email. Vérifier votre boite email et ouvrez le lien de confirmation pour finaliser la confirmation du nouvel adresse email"
       updated: "Vous avez mis à jour votre compte avec succès."
     sessions:
+      new:
+        submit: Se connecter
       signed_in: "Connecté."
       signed_out: "Déconnecté."
+    shared:
+      links:
+        didnt_receive_confirmation_instructions?: Vous n'avez pas reçu les
+          information pour confirmer votre compte ?
+        forgot_password: Mot de passe oublié ?
+        didnt_receive_unlock_instructions?: Vous n'avez pas reçu les information
+          pour débloquer votre compte ?
+        sign_in: Se connecter
+        sign_up: Créer un compte
     unlocks:
       send_instructions: "Vous allez recevoir contenant les instructions nécessaires au débloquage de votre compte dans quelques minutes"
       unlocked: "Votre compte a été débloqué avec succès, vous êtes maintenant connectés."
