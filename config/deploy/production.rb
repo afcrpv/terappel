@@ -11,6 +11,7 @@ set :rails_env, :production
 set :locals_rails_env, :production
 set :db_local_clean, true
 set :nginx_server_name, "#{fetch(:application)}.in2p3.fr"
+set :puma_conf, "#{shared_path}/config/puma.rb"
 
 # server-based syntax
 # ======================

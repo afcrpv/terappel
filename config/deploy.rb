@@ -43,7 +43,7 @@ set :bundle_flags, '--deployment'
 
 # Default value for :linked_files is []
 set :linked_files, fetch(:linked_files, []).push(
-  'config/database.yml', 'config/application.yml') # , 'config/puma.rb')
+  'config/database.yml', 'config/application.yml', 'config/puma.rb')
 
 # Default value for linked_dirs is []
 set :linked_dirs, fetch(:linked_dirs, []).push(
