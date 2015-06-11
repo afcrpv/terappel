@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Pathologie do
-  subject {create(:pathologie)}
+  subject {create(:pathology)}
 
   describe "#libelle_and_id" do
     it "should return a hash with id and libelle values" do

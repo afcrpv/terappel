@@ -3,56 +3,56 @@
     - %w(type nature).each do |field|
       - field_name = "expo_#{field}"
       .col-sm-6
-        = f.group do
-          = f.label :"#{field_name}_id", t(field_name, scope: [:activerecord, :attributes, :exposition])
-          = f.collection_select :"#{field_name}_id", field_name.classify.constantize.all, :id, :name, include_blank: true
+        = f.association field_name
   .row
     - %w(produit indication).each do |field|
       - article = field == "produit" ? "un" : "une"
       .col-sm-6
-        = f.group do
-          = f.label :"#{field}_id", t(field, scope: [:activerecord, :attributes, :exposition])
-          = f.hidden_field :"#{field}_id", class: "#{field}_autocomplete", data: {load: f.object.send(field).try(:name_and_id), placeholder: "Saisir #{article} #{field}"}
+        = f.input :"#{field}_id" do
+          = f.hidden_field :"#{field}_id",
+            placeholder: "Saisir #{article} #{field}",
+            class: "#{field}_autocomplete",
+            data: { load: f.object.send(field).try(:name_and_id) }
   .row
     .col-sm-4
-      = f.group do
-        = f.label :voie_id, t(:voie_id, scope: [:activerecord, :attributes, :exposition])
-        = f.collection_select :voie_id, Voie.all, :id, :name, include_blank: true
+      = f.association :voie
     .col-sm-4
-      = f.group do
-        = f.label :dose, t(:dose, scope: [:activerecord, :attributes, :exposition])
-        = f.text_field :dose
-        %span.help-block par exemple en mg/j
+      = f.input :dose, hint: 'par exemple en mg/j'
     .col-sm-4
-      = f.group do
-        = f.label :expo_terme_id, t(:expo_terme, scope: [:activerecord, :attributes, :exposition])
-        = f.collection_select :expo_terme_id, ExpoTerme.all, :id, :name, include_blank: true
+      = f.association :expo_terme
 
   .row
     - [["periode_expo", ""], ["reprise_ttt", "2"]].each do |item|
       - pexpo_class = item[0]
       - suffix = item[1]
       %div{class: "#{pexpo_class} col-sm-12"}
-        = f.label :"de#{suffix}", t("de#{suffix}", scope: [:activerecord, :attributes, :exposition])
+        = f.label :"de#{suffix}", t("de#{suffix}", scope: [:activerecord, :attributes, :exposition]),
+          class: 'control-label'
         .row
           .col-sm-2
-            = f.group do
-              = f.text_field :"de#{suffix}_date", class: "de_date"
+            = f.input :"de#{suffix}_date", as: :string,
+              label: false,
+              input_html: { class: 'de_date form-control' }
           .col-sm-2
-            = f.group do
-              = f.text_field :"de#{suffix}", class: "de", placeholder: "de (SA)"
+            = f.input :"de#{suffix}",
+              label: false,
+              placeholder: 'de (SA)',
+              input_html: { class: 'de form-control' }
           .col-sm-2
-            = f.group do
-              = f.text_field :"a#{suffix}_date", class: "a_date"
+            = f.input :"a#{suffix}_date", as: :string,
+              label: false,
+              input_html: { class: 'a_date form-control' }
           .col-sm-2
-            = f.group do
-              = f.text_field :"a#{suffix}", class: "a", placeholder: "à (SA)"
+            = f.input :"a#{suffix}", placeholder: "à (SA)",
+              label: false,
+              input_html: { class: 'a form-control' }
           .col-sm-2
-            = f.group do
-              = f.text_field :"duree#{suffix}", class: "duree", placeholder: "durée"
+            = f.input :"duree#{suffix}", placeholder: "durée",
+              label: false,
+              input_html: { class: 'duree form-control' }
 
   .field_links
-    = link_to "#", class: "btn btn-success btn-sm validate_expo" do
-      %span.glyphicon.glyphicon-chevron-up
+    = link_to '#', class: 'btn btn-default btn-sm validate_expo' do
+      = fa_icon 'chevron-up'
       Valider Exposition
-    = link_to_remove_association "remove exposition", f, class: "sr-only"
+    = link_to_remove_association 'remove exposition', f, class: 'sr-only'

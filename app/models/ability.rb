@@ -20,8 +20,8 @@ class Ability
 
     can :manage, :correspondants, centre_id: user.centre_id
 
-    can :read, [Produit, Malformation, Pathologie, Search]
-    can :tree, [Malformation, Pathologie]
+    can :read, [Produit, Malformation, Pathology, Search]
+    can :tree, [Malformation, Pathology]
     can [:create, :update], Search
     cannot :index, Search
   end

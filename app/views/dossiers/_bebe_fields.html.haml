@@ -1,63 +1,59 @@
 .nested-fields
   .row
     .col-sm-2
-      = f.group do
-        = f.label :age, t(:age, scope: [:activerecord, :attributes, :bebe])
-        = f.input_group do
-          = f.number_field :age
+      .form-group
+        = f.label :age, class: 'control-label'
+        .input-group
+          = f.number_field :age, class: 'form-control'
           %span.input-group-addon semaines
   .row
     .col-sm-2
-      = f.group do
-        = f.label :sexe, t(:sexe, scope: [:activerecord, :attributes, :bebe])
-        = f.collection_select :sexe, Bebe::SEXE, :last, :first, include_blank: true
+      = f.input :sexe, collection: Bebe::SEXE
     .col-sm-2
-      = f.group do
-        = f.label :poids, t(:poids, scope: [:activerecord, :attributes, :bebe])
-        = f.input_group do
-          = f.number_field :poids
+      .form-group
+        = f.label :poids, class: 'control-label'
+        .input-group
+          = f.number_field :poids, class: 'form-control'
           %span.input-group-addon g
     .col-sm-2
-      = f.group do
-        = f.label :taille, t(:taille, scope: [:activerecord, :attributes, :bebe])
-        = f.input_group do
-          = f.number_field :taille
+      .form-group
+        = f.label :taille, class: 'control-label'
+        .input-group
+          = f.number_field :taille, class: 'form-control'
           %span.input-group-addon cm
     .col-sm-2
-      = f.group do
-        = f.label :pc, t(:pc, scope: [:activerecord, :attributes, :bebe])
-        = f.input_group do
-          = f.number_field :pc
+      .form-group
+        = f.label :pc, class: 'control-label'
+        .input-group
+          = f.number_field :pc, class: 'form-control'
           %span.input-group-addon cm
     - %w(1 5).each do |n|
       .col-sm-2
-        = f.group do
-          = f.label :"apgar#{n}", t(:"apgar#{n}", scope: [:activerecord, :attributes, :bebe])
-          = f.number_field :"apgar#{n}"
+        = f.input :"apgar#{n}"
   .row
-    - %w(malformation pathologie).each do |field|
+    - %w(malformation pathology).each do |field|
+      - token_field = "#{field}_tokens"
       .col-sm-6
         .row
           .col-sm-4
-            = f.group do
-              = f.label field.to_sym, t(field.to_sym, scope: [:activerecord, :attributes, :bebe])
-              = f.collection_select field.to_sym, Dossier::ONI, :to_s, :to_s, include_blank: true
+            = f.input field.to_sym, collection: Dossier::ONI
           .col-sm-6
-            = f.group do
-              = f.label :"#{field}_tokens", t(:"#{field}_tokens", scope: [:activerecord, :attributes, :bebe])
-              = f.hidden_field :"#{field}_tokens", class: "#{field}_tokens",
-                value: (items = f.object.send("#{field}s")).map(&:id).join(","),
-                data: {load: (items.map(&:libelle_and_id).to_json),
-                "initial-ancestors" => field.classify.constantize.find(items.map(&:id)).map(&:ancestor_ids).flatten.uniq,
-                placeholder: "Choisir les #{field}s"}
+            = f.input token_field,
+              placeholder: "Choisir les #{field.pluralize}" do
+              = f.hidden_field token_field,
+                class: token_field,
+                value: (items = f.object.send(field.pluralize)).map(&:id).join(","),
+                data: { load: (items.map(&:libelle_and_id).to_json),
+                  "initial-ancestors": field.classify.constantize.find(items.map(&:id)).map(&:ancestor_ids).flatten.uniq }
           .col-sm-2
             .bebe-actions
-              = link_to "##{field}", class: "btn btn-default show_#{field}_tree",
-                title: "Arbre #{field.capitalize.pluralize}", data: {toggle: "modal"} do
-                %i.glyphicon.glyphicon-list
+              = link_to fa_icon('list'), "##{field}",
+                class: "btn btn-default show_#{field}_tree",
+                title: "Arbre #{field.capitalize.pluralize}",
+                'data-toggle': 'modal'
 
   .field_links
-    = link_to "#", class: "btn btn-success btn-sm validate_bebe" do
-      %span.glyphicon.glyphicon-chevron-up
+    = link_to "#", class: 'btn btn-default btn-sm validate_bebe' do
+      = fa_icon 'chevron-up'
       Valider Nouveau-né
-    = link_to_remove_association "remove bebe", f, class: "sr-only"
+    = link_to_remove_association 'remove bebe', f, class: 'sr-only'

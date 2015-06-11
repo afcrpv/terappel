@@ -1,18 +1,19 @@
 .row
   - %w(date_dernieres_regles date_debut_grossesse date_accouchement_prevu).each do |field|
     .col-sm-3
-      = f.group do
-        = f.label :"#{field}"
-        = f.input_group do
-          = f.text_field :"#{field}", class: "calc_dates_grossesse", "data-value" => eval(field)
+      .form-group
+        = f.label :"#{field}", class: 'control-label'
+        .input-group
+          = f.text_field :"#{field}", class: 'calc_dates_grossesse form-control',
+            'data-value': eval(field)
           %span.input-group-btn
-            %button.btn.btn-default.clear_date{type: "button", tabIndex: "-1"} X
+            %button.btn.btn-default.clear_date{type: 'button', tabIndex: '-1'} X
 
   .col-sm-3
-    = f.group do
-      = f.label :age_grossesse
-      = f.input_group do
-        = f.number_field :age_grossesse
+    .form-group
+      = f.label :age_grossesse, class: 'control-label'
+      .input-group
+        = f.number_field :age_grossesse, class: 'form-control'
         %span.input-group-addon SA
 
 .row
@@ -23,30 +24,20 @@
 .row
   - %w(tabac alcool).each do |field|
     .col-sm-4
-      = f.group do
-        = f.label :"#{field}"
-        = f.collection_select :"#{field}", Dossier::TABAC, :to_s, :to_s, include_blank: true
+      = f.input :"#{field}", collection: Dossier.const_get(field.upcase)
 
   .col-sm-4
-    = f.group do
-      = f.label :toxiques
-      = f.collection_select :toxiques, Dossier::ONI, :to_s, :to_s, include_blank: true
-      %span.help-block A préciser dans l'onglet Exposition
+    = f.input :toxiques, collection: Dossier::ONI,
+      hint: "A préciser dans l'onglet Exposition"
 
 .row
   .col-sm-4
-    = f.group do
-      = f.label :folique
-      = f.collection_select :folique, Dossier::ONI, :to_s, :to_s, include_blank: true
-      %span.help-block Préciser éventuellement le dosage dans le commentaire
+    = f.input :folique, collection: Dossier::ONI,
+      hint: "Préciser éventuellement le dosage dans le commentaire"
 
   .col-sm-4
-    = f.group do
-      = f.label :patho1t
-      = f.collection_select :patho1t, Dossier::ONI, :to_s, :to_s, include_blank: true
-      %span.help-block Préciser la ou les pathologies dans le commentaire
+    = f.input :patho1t, collection: Dossier::ONI,
+      hint: "Préciser la ou les pathologies dans le commentaire"
 
   .col-sm-4
-    = f.group do
-      = f.label :ass_med_proc
-      = f.collection_select :ass_med_proc, Dossier::ONI, :to_s, :to_s, include_blank: true
+    = f.input :ass_med_proc, collection: Dossier::ONI

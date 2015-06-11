@@ -1,5 +1,11 @@
-= twitter_bootstrap_form_for dossier, html: {class: "saisie"} do |f|
-  = f.error_messages
+= simple_form_for dossier,
+  html: { class: 'saisie', role: 'form' },
+    wrapper_mappings: { check_boxes: :vertical_radio_and_checkboxes,
+                        radio_buttons: :vertical_radio_and_checkboxes,
+                        file: :vertical_file_input,
+                        boolean: :vertical_boolean } do |f|
+
+  = f.error_notification
   = f.hidden_field :centre_id
   = f.hidden_field :current_tab, value: params[:current_tab] || "infos"
   = f.hidden_field :show_preview, value: params[:show_preview] || "false"
@@ -20,22 +26,29 @@
 
   %hr
 
-  = f.group do
-    = f.label :commentaire
-    = f.text_area :commentaire, rows: 2
+  = f.input :commentaire, input_html: { rows: 2 }
 
-  = button_tag type: :submit, data: {disable_with: (save_and_continue = "Enregistrer et continuer")}, name: "_continue", class: "btn btn-success" do
-    %span.glyphicon.glyphicon-arrow-right
+  = button_tag type: :submit,
+    data: { disable_with: (save_and_continue = 'Enregistrer et continuer') },
+    name: "_continue", class: 'btn btn-primary' do
+    = fa_icon 'save'
     = save_and_continue
-  = button_tag type: :submit, data: {disable_with: (save_and_add = "Enregistrer et créer un nouveau dossier")}, name: "_add_another", class: "btn btn-primary" do
-    %span.glyphicon.glyphicon-plus
+  = button_tag type: :submit,
+    data: { disable_with: (save_and_add = 'Enregistrer et créer un nouveau dossier') },
+    name: '_add_another', class: 'btn btn-link' do
+    = fa_icon 'plus'
     = save_and_add
-  = button_tag type: :submit, data: {disable_with: (save_and_close = "Enregistrer et fermer")}, class: "btn btn-info" do
-    %span.glyphicon.glyphicon-ok
+  = button_tag type: :submit,
+    data: { disable_with: (save_and_close = 'Enregistrer et fermer') },
+    class: 'btn btn-link' do
+    = fa_icon 'archive'
     = save_and_close
-  = button_tag type: :submit, data: {disable_with: (save_and_preview = "Enregistrer et voir l'aperçu")}, name: "_preview", class: "btn btn-default" do
-    %span.glyphicon.glyphicon-print
+  = button_tag type: :submit,
+    data: { disable_with: (save_and_preview = "Enregistrer et voir l'aperçu") },
+    name: '_preview', class: 'btn btn-link' do
+    = fa_icon 'print'
     = save_and_preview
 
-= render 'dossiers/dossier_modal'
+%br
 
+= render 'dossiers/dossier_modal'

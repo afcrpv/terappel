@@ -92,7 +92,7 @@ FactoryGirl.define do
     sequence(:libelle) {|n| "Malformation#{n}"}
   end
 
-  factory :pathologie do
+  factory :pathology do
     sequence(:libelle) {|n| "Pathologie#{n}"}
   end
 

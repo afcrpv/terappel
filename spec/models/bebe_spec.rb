@@ -4,7 +4,7 @@ describe Bebe do
   let(:bebe) {create(:bebe)}
   subject {bebe}
 
-  %w(malformation pathologie).each do |association|
+  %w(malformation pathology).each do |association|
     before do
       (1..2).each do |n|
         create(association, libelle: association + n.to_s)

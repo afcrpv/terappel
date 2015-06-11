@@ -4,9 +4,10 @@ class Malformation < ActiveRecord::Base
   validates_presence_of :libelle
   validates_uniqueness_of :libelle
 
-  has_and_belongs_to_many :bebes
+  has_many :bebes_malformations, dependent: :destroy
+  has_many :bebes, through: :bebes_malformations
 
   def libelle_and_id
-    {'id' => id, 'text' => libelle}
+    { id: id, text: libelle }
   end
 end

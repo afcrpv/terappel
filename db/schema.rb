@@ -11,12 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140422121023) do
+ActiveRecord::Schema.define(version: 20150611080726) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "active_admin_comments", force: true do |t|
+  create_table "active_admin_comments", force: :cascade do |t|
     t.integer  "resource_id",   null: false
     t.string   "resource_type", null: false
     t.integer  "author_id"
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 20140422121023) do
   add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
   add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_admin_notes_on_resource_type_and_resource_id", using: :btree
 
-  create_table "admin_users", force: true do |t|
+  create_table "admin_users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 20140422121023) do
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
-  create_table "admins", force: true do |t|
+  create_table "admins", force: :cascade do |t|
     t.string   "email",                              default: "", null: false
     t.string   "encrypted_password",     limit: 128, default: "", null: false
     t.string   "reset_password_token"
@@ -68,7 +68,7 @@ ActiveRecord::Schema.define(version: 20140422121023) do
   add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
 
-  create_table "argumentaires", force: true do |t|
+  create_table "argumentaires", force: :cascade do |t|
     t.integer  "main_argument_id"
     t.integer  "aux_argument_id"
     t.integer  "article_id"
@@ -76,7 +76,7 @@ ActiveRecord::Schema.define(version: 20140422121023) do
     t.datetime "updated_at"
   end
 
-  create_table "arguments", force: true do |t|
+  create_table "arguments", force: :cascade do |t|
     t.string   "name"
     t.string   "nature"
     t.datetime "created_at"
@@ -86,7 +86,7 @@ ActiveRecord::Schema.define(version: 20140422121023) do
 
   add_index "arguments", ["slug"], name: "index_arguments_on_slug", unique: true, using: :btree
 
-  create_table "articles", force: true do |t|
+  create_table "articles", force: :cascade do |t|
     t.text     "titre"
     t.integer  "revue_id"
     t.datetime "created_at"
@@ -97,12 +97,12 @@ ActiveRecord::Schema.define(version: 20140422121023) do
     t.integer  "authorships_count", default: 0
   end
 
-  create_table "articles_categories", id: false, force: true do |t|
+  create_table "articles_categories", id: false, force: :cascade do |t|
     t.integer "article_id"
     t.integer "categorie_id"
   end
 
-  create_table "atcs", force: true do |t|
+  create_table "atcs", force: :cascade do |t|
     t.string   "libelle"
     t.string   "libabr"
     t.integer  "level"
@@ -117,7 +117,7 @@ ActiveRecord::Schema.define(version: 20140422121023) do
 
   add_index "atcs", ["ancestry"], name: "index_atcs_on_ancestry", using: :btree
 
-  create_table "authors", force: true do |t|
+  create_table "authors", force: :cascade do |t|
     t.string   "nom"
     t.string   "prenom"
     t.boolean  "current"
@@ -129,17 +129,17 @@ ActiveRecord::Schema.define(version: 20140422121023) do
 
   add_index "authors", ["slug"], name: "index_authors_on_slug", unique: true, using: :btree
 
-  create_table "authorships", force: true do |t|
+  create_table "authorships", force: :cascade do |t|
     t.integer  "article_id"
     t.integer  "author_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "bebes", force: true do |t|
+  create_table "bebes", force: :cascade do |t|
     t.integer  "dossier_id"
     t.string   "malformation"
-    t.string   "pathologie"
+    t.string   "pathology"
     t.string   "sexe"
     t.integer  "poids"
     t.integer  "apgar1"
@@ -152,30 +152,40 @@ ActiveRecord::Schema.define(version: 20140422121023) do
     t.integer  "oldid"
   end
 
-  create_table "bebes_malformations", id: false, force: true do |t|
-    t.integer "bebe_id"
-    t.integer "malformation_id"
+  create_table "bebes_malformations", force: :cascade do |t|
+    t.integer  "bebe_id"
+    t.integer  "malformation_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
-  create_table "bebes_pathologies", id: false, force: true do |t|
-    t.integer "bebe_id"
-    t.integer "pathologie_id"
+  add_index "bebes_malformations", ["bebe_id"], name: "index_bebes_malformations_on_bebe_id", using: :btree
+  add_index "bebes_malformations", ["malformation_id"], name: "index_bebes_malformations_on_malformation_id", using: :btree
+
+  create_table "bebes_pathologies", force: :cascade do |t|
+    t.integer  "bebe_id"
+    t.integer  "pathology_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
-  create_table "categories", force: true do |t|
+  add_index "bebes_pathologies", ["bebe_id"], name: "index_bebes_pathologies_on_bebe_id", using: :btree
+  add_index "bebes_pathologies", ["pathology_id"], name: "index_bebes_pathologies_on_pathology_id", using: :btree
+
+  create_table "categories", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "categoriesps", force: true do |t|
+  create_table "categoriesps", force: :cascade do |t|
     t.string   "name"
     t.integer  "oldid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "centres", force: true do |t|
+  create_table "centres", force: :cascade do |t|
     t.string   "name"
     t.string   "code"
     t.datetime "created_at"
@@ -186,7 +196,7 @@ ActiveRecord::Schema.define(version: 20140422121023) do
   add_index "centres", ["name"], name: "index_centres_on_name", unique: true, using: :btree
   add_index "centres", ["slug"], name: "index_centres_on_slug", unique: true, using: :btree
 
-  create_table "classifications", force: true do |t|
+  create_table "classifications", force: :cascade do |t|
     t.integer  "produit_id"
     t.integer  "atc_id"
     t.datetime "created_at"
@@ -196,7 +206,7 @@ ActiveRecord::Schema.define(version: 20140422121023) do
   add_index "classifications", ["atc_id"], name: "index_classifications_on_atc_id", using: :btree
   add_index "classifications", ["produit_id"], name: "index_classifications_on_produit_id", using: :btree
 
-  create_table "compositions", force: true do |t|
+  create_table "compositions", force: :cascade do |t|
     t.integer  "produit_id"
     t.integer  "dci_id"
     t.datetime "created_at"
@@ -206,7 +216,7 @@ ActiveRecord::Schema.define(version: 20140422121023) do
   add_index "compositions", ["dci_id"], name: "index_compositions_on_dci_id", using: :btree
   add_index "compositions", ["produit_id"], name: "index_compositions_on_produit_id", using: :btree
 
-  create_table "correspondants", force: true do |t|
+  create_table "correspondants", force: :cascade do |t|
     t.integer  "specialite_id"
     t.integer  "qualite_id"
     t.integer  "formule_id"
@@ -230,7 +240,7 @@ ActiveRecord::Schema.define(version: 20140422121023) do
   add_index "correspondants", ["specialite_id"], name: "index_correspondants_on_specialite_id", using: :btree
   add_index "correspondants", ["ville"], name: "index_correspondants_on_ville", using: :btree
 
-  create_table "dcis", force: true do |t|
+  create_table "dcis", force: :cascade do |t|
     t.string   "libelle"
     t.integer  "oldid"
     t.datetime "created_at"
@@ -239,12 +249,12 @@ ActiveRecord::Schema.define(version: 20140422121023) do
 
   add_index "dcis", ["libelle"], name: "index_dcis_on_libelle", unique: true, using: :btree
 
-  create_table "dcis_searches", id: false, force: true do |t|
+  create_table "dcis_searches", id: false, force: :cascade do |t|
     t.integer "dci_id"
     t.integer "search_id"
   end
 
-  create_table "demandeurs", force: true do |t|
+  create_table "demandeurs", force: :cascade do |t|
     t.integer  "dossier_id"
     t.integer  "correspondant_id"
     t.datetime "created_at"
@@ -254,7 +264,7 @@ ActiveRecord::Schema.define(version: 20140422121023) do
   add_index "demandeurs", ["correspondant_id"], name: "index_demandeurs_on_correspondant_id", using: :btree
   add_index "demandeurs", ["dossier_id"], name: "index_demandeurs_on_dossier_id", unique: true, using: :btree
 
-  create_table "dossiers", force: true do |t|
+  create_table "dossiers", force: :cascade do |t|
     t.date     "date_appel"
     t.string   "name"
     t.integer  "user_id"
@@ -318,7 +328,7 @@ ActiveRecord::Schema.define(version: 20140422121023) do
   add_index "dossiers", ["motif_id"], name: "index_dossiers_on_motif_id", using: :btree
   add_index "dossiers", ["name"], name: "index_dossiers_on_name", using: :btree
 
-  create_table "editorials", force: true do |t|
+  create_table "editorials", force: :cascade do |t|
     t.text     "titre"
     t.text     "contenu"
     t.integer  "author_id"
@@ -327,28 +337,28 @@ ActiveRecord::Schema.define(version: 20140422121023) do
     t.datetime "updated_at"
   end
 
-  create_table "expo_natures", force: true do |t|
+  create_table "expo_natures", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "oldid"
   end
 
-  create_table "expo_termes", force: true do |t|
+  create_table "expo_termes", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "oldid"
   end
 
-  create_table "expo_types", force: true do |t|
+  create_table "expo_types", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "oldid"
   end
 
-  create_table "expositions", force: true do |t|
+  create_table "expositions", force: :cascade do |t|
     t.integer  "produit_id"
     t.integer  "dossier_id"
     t.string   "nappelsaisi"
@@ -375,14 +385,14 @@ ActiveRecord::Schema.define(version: 20140422121023) do
     t.integer  "oldid"
   end
 
-  create_table "formules", force: true do |t|
+  create_table "formules", force: :cascade do |t|
     t.integer  "oldid"
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "indications", force: true do |t|
+  create_table "indications", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -390,7 +400,7 @@ ActiveRecord::Schema.define(version: 20140422121023) do
     t.integer  "expositions_count", default: 0
   end
 
-  create_table "malformations", force: true do |t|
+  create_table "malformations", force: :cascade do |t|
     t.string   "libelle"
     t.string   "libabr"
     t.integer  "level"
@@ -406,14 +416,14 @@ ActiveRecord::Schema.define(version: 20140422121023) do
   add_index "malformations", ["ancestry"], name: "index_malformations_on_ancestry", using: :btree
   add_index "malformations", ["libelle"], name: "index_malformations_on_libelle", unique: true, using: :btree
 
-  create_table "motifs", force: true do |t|
+  create_table "motifs", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "oldid"
   end
 
-  create_table "pathologies", force: true do |t|
+  create_table "pathologies", force: :cascade do |t|
     t.string   "libelle"
     t.string   "libabr"
     t.integer  "level"
@@ -429,7 +439,7 @@ ActiveRecord::Schema.define(version: 20140422121023) do
   add_index "pathologies", ["ancestry"], name: "index_pathologies_on_ancestry", using: :btree
   add_index "pathologies", ["libelle"], name: "index_pathologies_on_libelle", unique: true, using: :btree
 
-  create_table "produits", force: true do |t|
+  create_table "produits", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -437,19 +447,19 @@ ActiveRecord::Schema.define(version: 20140422121023) do
     t.integer  "expositions_count", default: 0
   end
 
-  create_table "produits_searches", id: false, force: true do |t|
+  create_table "produits_searches", id: false, force: :cascade do |t|
     t.integer "produit_id"
     t.integer "search_id"
   end
 
-  create_table "qualites", force: true do |t|
+  create_table "qualites", force: :cascade do |t|
     t.integer  "oldid"
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "rails_admin_histories", force: true do |t|
+  create_table "rails_admin_histories", force: :cascade do |t|
     t.text     "message"
     t.string   "username"
     t.integer  "item"
@@ -462,12 +472,12 @@ ActiveRecord::Schema.define(version: 20140422121023) do
 
   add_index "rails_admin_histories", ["item", "table", "month", "year"], name: "index_rails_admin_histories", using: :btree
 
-  create_table "redactionships", force: true do |t|
+  create_table "redactionships", force: :cascade do |t|
     t.integer "revue_id"
     t.integer "author_id"
   end
 
-  create_table "relances", force: true do |t|
+  create_table "relances", force: :cascade do |t|
     t.integer  "dossier_id"
     t.integer  "correspondant_id"
     t.datetime "created_at"
@@ -477,7 +487,7 @@ ActiveRecord::Schema.define(version: 20140422121023) do
   add_index "relances", ["correspondant_id"], name: "index_relances_on_correspondant_id", using: :btree
   add_index "relances", ["dossier_id"], name: "index_relances_on_dossier_id", unique: true, using: :btree
 
-  create_table "revues", force: true do |t|
+  create_table "revues", force: :cascade do |t|
     t.integer  "numero"
     t.date     "date_sortie"
     t.datetime "created_at"
@@ -486,7 +496,7 @@ ActiveRecord::Schema.define(version: 20140422121023) do
     t.string   "pdf_url"
   end
 
-  create_table "roles", force: true do |t|
+  create_table "roles", force: :cascade do |t|
     t.string   "name"
     t.integer  "resource_id"
     t.string   "resource_type"
@@ -497,7 +507,7 @@ ActiveRecord::Schema.define(version: 20140422121023) do
   add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
   add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
 
-  create_table "searches", force: true do |t|
+  create_table "searches", force: :cascade do |t|
     t.date     "min_date_appel"
     t.integer  "centre_id"
     t.date     "max_date_appel"
@@ -518,14 +528,14 @@ ActiveRecord::Schema.define(version: 20140422121023) do
     t.integer  "distinct",                    default: 1
   end
 
-  create_table "specialites", force: true do |t|
+  create_table "specialites", force: :cascade do |t|
     t.integer  "oldid"
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "email",                              default: "", null: false
     t.string   "encrypted_password",     limit: 128, default: "", null: false
     t.string   "reset_password_token"
@@ -551,17 +561,21 @@ ActiveRecord::Schema.define(version: 20140422121023) do
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
-  create_table "users_roles", id: false, force: true do |t|
+  create_table "users_roles", id: false, force: :cascade do |t|
     t.integer "user_id"
     t.integer "role_id"
   end
 
   add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
 
-  create_table "voies", force: true do |t|
+  create_table "voies", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "bebes_malformations", "bebes"
+  add_foreign_key "bebes_malformations", "malformations"
+  add_foreign_key "bebes_pathologies", "bebes"
+  add_foreign_key "bebes_pathologies", "pathologies"
 end

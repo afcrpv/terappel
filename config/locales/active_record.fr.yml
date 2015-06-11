@@ -1,16 +1,17 @@
 fr:
   activerecord:
     models:
-      user: Utilisateur
-      member: Utilisateur
-      dossier: Dossier
       categoriesp: C.S.P.
-      formule: Formule (correspondant)
-      qualite: Qualité (correspondant)
-      specialite: Specialité (correspondant)
+      dossier: Dossier
       expo_nature: Nature (exposition)
       expo_terme: Terme (exposition)
       expo_type: Type (exposition)
+      formule: Formule (correspondant)
+      member: Utilisateur
+      produit: Exposition
+      qualite: Qualité (correspondant)
+      specialite: Specialité (correspondant)
+      user: Utilisateur
       voie: Voie (exposition)
     attributes:
       produit:
@@ -87,4 +88,5 @@ fr:
         apgar1: "Apgar 1'"
         apgar5: "Apgar 5'"
         malformation_tokens: "Liste malformations"
-        pathologie_tokens: "Liste pathologies"
+        pathology_tokens: "Liste pathologies"
+        pathology: Pathologie

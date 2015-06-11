@@ -96,7 +96,7 @@ class DossierDecorator < ApplicationDecorator
     end
   end
 
-  %w(malformation pathologie).each do |mp|
+  %w(malformation pathology).each do |mp|
     define_method mp do
       if object.bebes.any?
         Dossier::ONI.each do |value|

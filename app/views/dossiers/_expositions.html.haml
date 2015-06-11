@@ -12,10 +12,10 @@
       %th.to à
   %tbody
 
-= f.fields_for :expositions do |exposition|
-  = render "exposition_fields", f: exposition
+= f.simple_fields_for :expositions do |exposition|
+  = render 'exposition_fields', f: exposition
 
 .links
-  = link_to_add_association f, :expositions, class: "btn btn-primary btn-sm" do
-    %i.glyphicon.glyphicon-plus
+  = link_to_add_association f, :expositions, class: 'btn btn-default btn-sm' do
+    = fa_icon 'plus'
     Ajouter une exposition

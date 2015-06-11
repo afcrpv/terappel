@@ -15,7 +15,12 @@ group :development do
   gem 'capistrano-rbenv',        '~> 2.0', require: false
   gem 'consistency_fail'
   gem 'growl'
+  gem 'guard-brakeman'
+  gem 'guard-bundler',         '~> 2.1.0'
+  gem 'guard-livereload',      '~> 2.4.0'
+  gem 'guard-rails',           '~> 0.7.1'
   gem 'guard-rspec',           '~> 4.5.0'
+  gem 'guard-rubocop',         '~> 1.2.0'
   gem 'pry-rails'
   gem 'quiet_assets',          '~> 1.0.3'
   gem 'rb-fsevent',            require: false

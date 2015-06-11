@@ -1,5 +1,6 @@
-= render "malformations/tree", bebe: f.object
-= render "pathologies/tree", bebe: f.object
+= render 'malformations/tree', bebe: f.object
+= render 'pathologies/tree', bebe: f.object
+
 %table.fields_summary#bebes_summary
   %thead
     %tr
@@ -14,10 +15,10 @@
       %th Pathologie
   %tbody
 
-= f.fields_for :bebes do |bebe|
-  = render "bebe_fields", f: bebe
+= f.simple_fields_for :bebes do |bebe|
+  = render 'bebe_fields', f: bebe
 
 .links
-  = link_to_add_association f, :bebes, class: "btn btn-primary btn-sm" do
-    %i.glyphicon.glyphicon-plus
+  = link_to_add_association f, :bebes, class: 'btn btn-default btn-sm' do
+    = fa_icon 'plus'
     Ajouter un nouveau-né

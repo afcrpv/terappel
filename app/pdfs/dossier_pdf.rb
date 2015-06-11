@@ -122,7 +122,7 @@ class DossierPdf < Prawn::Document
   def bebes
     data = [["Age", "Sexe", "Poids", "Taille", "PC", "Apgar", "Malf", "Path"]]
     @dossier_object.bebes.each do |bebe|
-      data << [bebe.age, bebe.sexe, bebe.poids, bebe.taille, bebe.pc, bebe.apgar, bebe.malformation, bebe.pathologie]
+      data << [bebe.age, bebe.sexe, bebe.poids, bebe.taille, bebe.pc, bebe.apgar, bebe.malformation, bebe.pathology]
     end
     data
   end

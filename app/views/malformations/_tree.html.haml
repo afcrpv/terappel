@@ -1,14 +1,14 @@
-.modal.fade#malformation{tabIndex: "-1", role: "dialog", aria: {labelledby: "malformation-label", hidden: "true"}}
+.modal.fade#malformation{tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'malformation-label', 'aria-hidden': 'true'}
   .modal-dialog.modal-lg
     .modal-content
       .modal-header
-        %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+        %button.close{type: 'button', 'data-dismiss': 'modal', 'aria-hidden': 'true'} &times;
         %h4.modal-title#malformation-label Arbre des Malformations
       .modal-body
         .malformations_tree
       .modal-footer
         Malformations Sélectionnées :
         .malformations_container
-        = link_to "#", class: "btn btn-primary add_malformations" do
-          %i.glyphicon.glyphicon-plus
-          Rajouter ces malformations
+          = link_to '#', class: 'btn btn-primary add_malformations' do
+            = fa_icon 'plus'
+            Rajouter ces malformations

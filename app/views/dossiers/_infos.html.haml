@@ -1,28 +1,23 @@
 .row
   .col-sm-2
-    = f.group do
-      = f.label :code
-      = f.text_field :code
+    = f.input :code
   .col-sm-2
-    = f.group do
-      = f.label :date_appel
-      = f.text_field :date_appel, autofocus: true, "data-value" => date_appel
+    = f.input :date_appel, as: :string, autofocus: true,
+      input_html: { 'data-value': date_appel }
   .col-sm-6
-    = f.group do
-      = f.label :motif_id
-      = f.collection_select :motif_id, Motif.all, :id, :name, {include_blank: true}
+    = f.association :motif
   .col-sm-2
-    = f.group do
-      = f.label :expo_terato
-      = f.collection_select :expo_terato,  Dossier::ONI, :to_s, :to_s, include_blank: true
+    = f.input :expo_terato, collection: Dossier::ONI
 
 .row#dossier_demandeur_id_field
   .col-sm-6
-    = f.fields_for :demandeur do |demandeur|
-      = f.group do
-        = demandeur.label :correspondant_id, "Correspondant initial"
-        = demandeur.hidden_field :correspondant_id, data: {placeholder: "Choisir un correspondant",
-          load: demandeur.object.correspondant.try(:fullname_and_id).to_json, source: correspondants_url(format: :json)}
+    = f.simple_fields_for :demandeur do |demandeur|
+      = demandeur.input :correspondant_id,
+        label: 'Correspondant initial' do
+        = demandeur.hidden_field :correspondant_id,
+          data: { placeholder: 'Choisir un correspondant',
+          load: demandeur.object.correspondant.try(:fullname_and_id),
+          source: correspondants_url(format: :json) }
 
   .col-sm-4
     .correspondant-actions
@@ -33,9 +28,7 @@
         title: "Modifier correspondant", class: "btn btn-default corr_update", tabindex: "-1"
 
   .col-sm-2
-    = f.group do
-      = f.label :a_relancer, "Relance"
-      = f.collection_select :a_relancer, %w(Oui Non), :to_s, :to_s, {include_blank: true}
+    = f.input :a_relancer, collection: %w(Oui Non)
 
   #relance.modal.fade{tabindex: "-1", role: "dialog", aria: {labelledby: "relance-modal", hidden: "true"}}
     .modal-dialog
@@ -50,12 +43,12 @@
           %button.btn.btn-default{data: {dismiss: "modal"}} Non
 
 .row#dossier_relance_id_field
-  = f.fields_for :relance do |relance|
+  = f.simple_fields_for :relance do |relance|
     .col-sm-6
-      = f.group do
-        = relance.label :correspondant_id, "Correspondant à relancer"
-        = relance.hidden_field :correspondant_id, data: {placeholder: "Choisir une personne",
-          load: relance.object.correspondant.try(:fullname_and_id).to_json, source: correspondants_url(format: :json)}
+      = relance.input :correspondant_id, as: :string,
+        input_html: { data: { placeholder: "Choisir une personne",
+          load: relance.object.correspondant.try(:fullname_and_id).to_json,
+          source: correspondants_url(format: :json) } }
     .col-sm-4
       .correspondant-actions
         = link_to content_tag(:i, nil, class: "icon-plus") + "Ajout", new_correspondant_path(modal: true),
@@ -66,74 +59,60 @@
 
 .row
   .col-sm-2
-    = f.group do
-      = f.label :name
-      = f.text_field :name
+    = f.input :name
   .col-sm-2
-    = f.group do
-      = f.label :prenom
-      = f.text_field :prenom
+    = f.input :prenom
   .col-sm-2
-    = f.group do
-      = f.label :date_naissance
-      = f.text_field :date_naissance, data: {value: date_naissance}
+    = f.input :date_naissance, as: :string, data: { value: date_naissance }
   .col-sm-2
-    = f.group do
-      = f.label :age
-      = f.number_field :age
+    = f.input :age
 
 .row
   .col-sm-2
-    = f.group do
-      = f.label :poids
-      = f.input_group do
-        = f.number_field :poids
+    .form-group
+      = f.label :poids, class: 'control-label'
+      .input-group
+        = f.number_field :poids, class: 'form-control'
         %span.input-group-addon kg
   .col-sm-2
-    = f.group do
-      = f.label :taille
-      = f.input_group do
-        = f.number_field :taille
+    .form-group
+      = f.label :taille, class: 'control-label'
+      .input-group
+        = f.number_field :taille, class: 'form-control'
         %span.input-group-addon cm
   .col-sm-2
-    = f.group do
-      = f.label :imc
-      = f.input_group do
-        = f.number_field :imc
+    .form-group
+      = f.label :imc, class: 'control-label'
+      .input-group
+        = f.number_field :imc, class: 'form-control'
         %span.input-group-addon
           kg/m
           %sup> 2
   .col-sm-6
-    = f.group do
-      = f.label :categoriesp_id
-      = f.collection_select :categoriesp_id, Categoriesp.all, :id, :name, include_blank: true
+    = f.association :categoriesp
 
 .row
   - %w(perso fam).each do |field|
     .col-sm-6
       .row
         .col-sm-5.col-lg-4
-          = f.group do
-            = f.label :"antecedents_#{field}"
-            = f.collection_select :"antecedents_#{field}", Dossier::ONI, :to_s, :to_s, include_blank: true
+          = f.input :"antecedents_#{field}", collection: Dossier::ONI
         .col-sm-7.col-lg-8.comm_atcds
-          = f.group do
-            = f.label :"comm_antecedents_#{field}", "Préciser"
-            = f.text_area :"comm_antecedents_#{field}", rows: "1"
+          = f.input :"comm_antecedents_#{field}", label: "Préciser",
+            input_html: { rows: "1" }
 
 .row
   .col-sm-4.col-lg-3
-    = f.group do
-      = f.label :grsant
-      = f.text_field :grsant, class: "grsant_coherence"
+    = f.input :grsant, input_html: { class: 'grsant_coherence' }
+
   - [:fcs, :geu, :miu].each do |item|
     .col-sm-1
-      = f.group do
-        = f.label item
-        = f.text_field item, class: "grsant_coherence"
+      .form-group
+        = f.label item, class: 'control-label'
+        = f.text_field item, class: "grsant_coherence form-control"
 
   - [:ivg, :img, :nai].each do |item|
     .col-sm-1
-      = f.group do
-        = f.label item
-        = f.text_field item, class: "grsant_coherence"
+      .form-group
+        = f.label item, class: 'control-label'
+        = f.text_field item, class: 'grsant_coherence form-control'

@@ -1,6 +1,8 @@
 class PathologiesController < ApplicationController
+  load_and_authorize_resource
+
   def index
-    @pathologies = Pathologie.where("LOWER(libelle) like ?", "%#{params[:q]}%").limit(10)
+    @pathologies = Pathology.where("LOWER(libelle) like ?", "%#{params[:q]}%").limit(10)
     respond_to do |format|
       format.json { render :json => @pathologies.map(&:libelle_and_id) }
     end
@@ -9,7 +11,7 @@ class PathologiesController < ApplicationController
   def ancestors
     respond_to do |format|
       format.json do
-        ancestors_list = Pathologie.find(params[:id]).ancestor_ids.map {|id| "#{id}"}
+        ancestors_list = Pathology.find(params[:id]).ancestor_ids.map {|id| "#{id}"}
         render json: ancestors_list
       end
     end
@@ -19,8 +21,8 @@ class PathologiesController < ApplicationController
     respond_to do |format|
       format.html
       format.json do
-        root = Pathologie.find(params[:parent_id]) rescue nil
-        nodes = root ? root.children : Pathologie.roots
+        root = Pathology.find(params[:parent_id]) rescue nil
+        nodes = root ? root.children : Pathology.roots
 
         node_hashes = nodes.map do |node|
           node_hash = {

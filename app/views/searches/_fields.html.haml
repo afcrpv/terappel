@@ -70,6 +70,6 @@
       = f.collection_select :malformation, Dossier::ONI, :to_s, :to_s, {include_blank: true}, class: "form-control"
 
   .form-group
-    = f.label :pathologie, "Pathologies", class: "col-sm-2 control-label"
+    = f.label :pathology, "Pathologies", class: "col-sm-2 control-label"
     .col-sm-2
-      = f.collection_select :pathologie, Dossier::ONI, :to_s, :to_s, {include_blank: true}, class: "form-control"
+      = f.collection_select :pathology, Dossier::ONI, :to_s, :to_s, {include_blank: true}, class: "form-control"
