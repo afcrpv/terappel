@@ -12,12 +12,10 @@
 .row#dossier_demandeur_id_field
   .col-sm-6
     = f.simple_fields_for :demandeur do |demandeur|
-      = demandeur.input :correspondant_id,
-        label: 'Correspondant initial' do
-        = demandeur.hidden_field :correspondant_id,
-          data: { placeholder: 'Choisir un correspondant',
-          load: demandeur.object.correspondant.try(:fullname_and_id),
-          source: correspondants_url(format: :json) }
+      = demandeur.association :correspondant, label: 'Correspondant initial',
+        input_html: { data: { 'ajax--url': correspondants_url(format: :json),
+          'ajax--cache': true, placeholder: 'Choisir un correspondant' },
+          style: 'width: 100%;' }
 
   .col-sm-4
     .correspondant-actions
@@ -34,7 +32,7 @@
     .modal-dialog
       .modal-content
         .modal-header
-          %button.close{type: "button", data: {dismiss: "modal"}, aria: {hidden: "true"}} &times;
+          %button.close{type: "button", data: {dismiss: "modal"}, 'aria-hidden': "true"}} &times;
           %h4.modal-title#relance-modal Relance
         .modal-body
           %p Le correspondant est-il le même que la personne à relancer ?
@@ -45,10 +43,8 @@
 .row#dossier_relance_id_field
   = f.simple_fields_for :relance do |relance|
     .col-sm-6
-      = relance.input :correspondant_id, as: :string,
-        input_html: { data: { placeholder: "Choisir une personne",
-          load: relance.object.correspondant.try(:fullname_and_id).to_json,
-          source: correspondants_url(format: :json) } }
+      = relance.association :correspondant, placeholder: 'Choisir une personne',
+        input_html: { data: { source: correspondants_url(format: :json) } }
     .col-sm-4
       .correspondant-actions
         = link_to content_tag(:i, nil, class: "icon-plus") + "Ajout", new_correspondant_path(modal: true),

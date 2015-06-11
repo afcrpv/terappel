@@ -1,13 +1,8 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
-
 $ = jQuery
 
 $ ->
   $('body').on 'hidden.bs.modal', '#dossier_modal', -> $(@).removeData('modal')
 
-  $("[data-field=dossier_#{field}]").focusFieldOnError() for field in ["name", "date_appel", "expo_terato", "a_relancer", "code"]
   $("[data-field=dossier_expositions]").on "click", (e) ->
     e.preventDefault()
     $("#tabs a[href='#expositions']").tab("show")
@@ -21,10 +16,11 @@ $ ->
 
   disableSubmitWithEnter()
 
-  $(".combobox").select2()
-
   # show dossier preview if params[:dossier][:show_preview] == "true"
-  dossierPreview("#dossier_modal", (dossier_code = $("#dossier_code").val()), "/dossiers/#{dossier_code}", false) if $("input#dossier_show_preview").val() is "true"
+  dossierPreview("#dossier_modal",
+    (dossier_code = $("#dossier_code").val()),
+    "/dossiers/#{dossier_code}",
+    false) if $("input#dossier_show_preview").val() is "true"
 
   # bootstrap form tabs
   current_tab = $("input#dossier_current_tab").val()
@@ -41,8 +37,13 @@ $ ->
 
   $("#dossier_code").mask("aa9999999")
 
+  grs_field_names = [
+    "appel", "dernieres_regles", "debut_grossesse", "accouchement_prevu",
+    "reelle_accouchement", "naissance", "recueil_evol"
+  ]
   dates_grossesse_fields = []
-  dates_grossesse_fields.push($("#dossier_date_#{field_name}")) for field_name in ["appel", "dernieres_regles", "debut_grossesse", "accouchement_prevu", "reelle_accouchement", "naissance", "recueil_evol"]
+  dates_grossesse_fields
+    .push($("#dossier_date_#{field_name}")) for field_name in grs_field_names
 
   for date_field in dates_grossesse_fields
     date_field.mask("99/99/9999")
@@ -50,7 +51,8 @@ $ ->
     date_field.val(value) if value
 
   # calc imc
-  $("#dossier_#{field}").calculateBMI("#dossier_imc") for field in ["taille", "poids"]
+  $("#dossier_#{field}")
+    .calculateBMI("#dossier_imc") for field in ["taille", "poids"]
 
   #### Grossesse
   $("#dossier_grsant").zeroGrossesseFields()
@@ -94,13 +96,17 @@ $ ->
 
   #### Correspondant ####
   for name in ["demandeur", "relance"]
-    $("#dossier_#{name}_attributes_correspondant_id").attach_correspondant_select2(name)
-    $("#dossier_#{name}_id_field").remoteCorrespondantForm {typeCorrespondant: name}
+    $("#dossier_#{name}_attributes_correspondant_id")
+      .attach_correspondant_select2(name)
+    $("#dossier_#{name}_id_field")
+      .remoteCorrespondantForm({typeCorrespondant: name})
     correspondant_id = $("#dossier_#{name}_attributes_correspondant_id").val()
     activateCorrespondantEdit(correspondant_id, name)
 
   # relance
-  showNextif ($("#dossier_relance_attributes_correspondant_id").val() isnt ""), $("#dossier_relance_attributes_correspondant_id"), $("#dossier_relance_id_field")
+  showNextif ($("#dossier_relance_attributes_correspondant_id").val() isnt ""),
+    $("#dossier_relance_attributes_correspondant_id"),
+    $("#dossier_relance_id_field")
 
   $("#dossier_a_relancer").on "change", ->
     $("#relance").modal("show") if @value is "Oui"
@@ -109,16 +115,13 @@ $ ->
     $("#dossier_relance_id_field").show()
 
   $(".copy-correspondant").on "click", ->
-    demandeur = $("#dossier_demandeur_attributes_correspondant_id").select2("data")
-    if demandeur
+    if (demandeur = $("#dossier_demandeur_attributes_correspondant_id").val())
       $relance = $("#dossier_relance_attributes_correspondant_id")
-      $relance.select2("data", {id: demandeur["id"], text: demandeur["text"]})
-      activateCorrespondantEdit($relance.val(), "relance")
+      $relance.val(demandeur).trigger('change')
+      activateCorrespondantEdit(demandeur, "relance")
 
 # functions & jQuery plugins
 dossierPreview = (modal_id, code, base_url, edit = true) ->
-  console.log "fired"
-  console.log edit
   $(modal_id + " .code").html(code)
   if edit
     $(modal_id + " .edit-dossier").attr("href", "#{base_url}/edit")
@@ -150,10 +153,11 @@ $.fn.checkGrsantCoherence = ->
 
       $("#dossier_grsant").next(".help-block").remove()
       $message = $('<p class="help-block" />')
+      field_names = ["fcs", "geu", "miu", "ivg", "img", "nai"]
       if can_fire is true
         total = $("#dossier_grsant").val()
         atcds =
-          $("#dossier_#{field}").val() for field in ["fcs", "geu", "miu", "ivg", "img", "nai"]
+          $("#dossier_#{field}").val() for field in field_names
         parite = new Parite(total, atcds)
 
         if parite.coherence()
@@ -163,44 +167,50 @@ $.fn.checkGrsantCoherence = ->
           $message.html("Saisie incorrecte, vérifiez la somme !")
           message_class = "has-error"
 
-        $(element).closest(".form-group").attr("class", "form-group #{message_class}") for element in array
+        $(element).closest(".form-group")
+          .attr("class", "form-group #{message_class}") for element in array
       else
         $message.html("Saisie incomplète, veuillez saisir tous les champs !")
         message_class = "has-warning"
-        $(element).closest(".form-group").attr("class", "form-group #{message_class}") for element in empty_elements
-        $(this).closest(".form-group").attr("class", "form-group has-success") if $(this).val()
+        $(element).closest(".form-group")
+          .attr("class",
+            "form-group #{message_class}") for element in empty_elements
+        $(this).closest(".form-group")
+          .attr("class", "form-group has-success") if $(this).val()
 
       $("#dossier_grsant").closest(".form-group").append($message)
 
 $.fn.zeroGrossesseFields = ->
+  field_names = ["fcs", "geu", "miu", "ivg", "img", "nai"]
   @on 'blur', ->
-    $("#dossier_#{field}").val("0") for field in ["fcs", "geu", "miu", "ivg", "img", "nai"] if $(this).val() is "0"
+    $("#dossier_#{field}")
+      .val("0") for field in field_names if $(this).val() is "0"
     #think about skipping tabulations for all these zeroed fields
 
 $.fn.attach_correspondant_select2 = (name) ->
   @select2
     minimumInputLength: 3
-    width: "100%"
-    initSelection : (element, callback) ->
-      preload = element.data("load")
-      callback(preload)
     ajax:
-      url: @data("source")
       dataType: "json"
-      data: (term, page) ->
-        q: term
-        page_limit: 10
-      results: (data, page) ->
-        return {results: data}
-  @on "change", (e) =>
-    if e.val then activateCorrespondantEdit(e.val, name) else $("#dossier_#{name}_id_field .corr_update").hide()
-
-  $('.select2-search-field input').css('width', '100%')
+      data: (params) ->
+        q: params.term
+        page_limit: params.page
+      processResults: (data, page) ->
+        return { results: data }
+  @on "change", (e) ->
+    if e.target.value
+      activateCorrespondantEdit(e.target.value, name)
+    else
+      $("#dossier_#{name}_id_field .corr_update").hide()
 
 activateCorrespondantEdit = (correspondant_id, name) ->
   $edit_correspondant_btn = $("#dossier_#{name}_id_field .corr_update")
-  $edit_correspondant_btn.attr("href", "/correspondants/#{correspondant_id}/edit?modal=true")
-  if correspondant_id then $edit_correspondant_btn.show() else $edit_correspondant_btn.hide()
+  $edit_correspondant_btn
+    .attr("href", "/correspondants/#{correspondant_id}/edit?modal=true")
+  if correspondant_id
+    $edit_correspondant_btn.show()
+  else
+    $edit_correspondant_btn.hide()
 
 $.widget "terappel.remoteCorrespondantForm",
   options:
@@ -212,7 +222,9 @@ $.widget "terappel.remoteCorrespondantForm",
       @_bindModalOpening e, $(e.target).attr("href")
 
     @element.find(".corr_update").unbind().bind "click", (e) =>
-      if (value = $("#dossier_#{@options["typeCorrespondant"]}_attributes_correspondant_id").val())
+      value = $("#dossier_#{@options["typeCorrespondant"]}" +
+        "_attributes_correspondant_id").val()
+      if value
         @_bindModalOpening e, $(e.target).attr("href").replace('__ID__', value)
       else
         e.preventDefault()
@@ -255,21 +267,27 @@ $.widget "terappel.remoteCorrespondantForm",
         json = $.parseJSON xhr.responseText
         correspondant_label = json.label
         correspondant_id = json.id
-        $edit_correspondant_btn = $("#dossier_#{@options["typeCorrespondant"]}_id_field .corr_update")
-        $edit_correspondant_btn.attr("href", "/correspondants/#{correspondant_id}/edit")
+        $edit_correspondant_btn = $("#dossier_#{@options["typeCorrespondant"]}
+          _id_field .corr_update")
+        $edit_correspondant_btn.attr("href",
+          "/correspondants/#{correspondant_id}/edit")
         $edit_correspondant_btn.show()
-        $select = @element.find("#dossier_#{@options["typeCorrespondant"]}_attributes_correspondant_id")
-        $select.select2("data", {id: correspondant_id, text: correspondant_label})
+        $select = @element.find("#dossier_#{@options["typeCorrespondant"]}
+          _attributes_correspondant_id")
+        $select.select2("data",
+          {id: correspondant_id, text: correspondant_label})
         @_trigger("success")
         dialog.modal("hide")
 
   _getModal: ->
     unless @dialog
-      @dialog = $('<div id="correspondant_modal" class="modal fade" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+      @dialog = $('<div id="correspondant_modal" class="modal fade"
+      role="dialog" aria-labelledby="modal-label" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" class="close" data-dismiss="modal"
+                aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="modal-label">...<h3>
               </div>
               <div class="modal-body">
@@ -277,31 +295,17 @@ $.widget "terappel.remoteCorrespondantForm",
               </div>
               <div class="modal-footer">
                 <a href="#" class="btn btn-primary save-action">...</a>
-                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Fermer</button>
+                <button class="btn btn-default" data-dismiss="modal"
+                aria-hidden="true">Fermer</button>
               </div>
             </div>
           </div>
         </div>')
-        .modal(
-          keyboard: true
-          backdrop: true
-          show: true
-        ).on "hidden.bs.modal", =>
-          @dialog.remove()
-          @dialog = null
+      .modal({keyboard: true, backdrop: true, show: true})
+      .on "hidden.bs.modal", ->
+        @dialog.remove()
+        @dialog = null
     return @dialog
-
-$.fn.focusFieldOnError = ->
-  @on "click", (e) ->
-    e.preventDefault()
-    field = $(@).data("field")
-    $info_tab = $("#tabs a[href='#infos']")
-    if $info_tab.parent().hasClass("active")
-      $("##{field}").focus()
-    else
-      $info_tab.tab("show")
-      $info_tab.on "shown.bs.tab", ->
-        $("##{field}").focus()
 
 $.fn.show_or_hide_issue_elements = ->
   show_or_hide_issue @, @val()
@@ -310,16 +314,21 @@ $.fn.show_or_hide_issue_elements = ->
 
 show_or_hide_issue = (evolution_element, evolution_value) ->
   $hint = $(evolution_element).next(".help-block")
-  if evolution_value and evolution_value in ["FCS", "IVG", "IMG", "MIU", "NAI"] then $(".issue").show() else $(".issue").hide()
+  if evolution_value and evolution_value in ["FCS", "IVG", "IMG", "MIU", "NAI"]
+    $(".issue").show()
+  else
+    $(".issue").hide()
 
   if evolution_value is "NAI"
-    # hide the hint inviting to add the malformation and the #date_recueil_evol div and show the #modaccouch and #date_reelle_accouchement divs
+    # hide the hint inviting to add the malformation and the #date_recueil_evol
+    # div and show the #modaccouch and #date_reelle_accouchement divs
     $hint.hide()
     $("#date_recueil_evol").hide()
     for field in ["modaccouch", "date_reelle_accouchement"]
       $("##{field}").show()
   else if evolution_value in ["FCS", "IVG", "IMG", "MIU"]
-    # show the #date_recueil_evol div and the hint inviting to add the malformation
+    # show the #date_recueil_evol div and the hint inviting to add the
+    # malformation
     $hint.show()
     $("#date_recueil_evol").show()
     for field in ["modaccouch", "date_reelle_accouchement"]

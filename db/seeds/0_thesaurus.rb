@@ -18,6 +18,27 @@ CSV.foreach("csv/categoriesps.csv", headers: true) do |row|
   Categoriesp.find_or_create_by!(oldid: row['ncategorie'], name: row['libelle'])
 end
 
+# create Formule
+puts "importing Formule table from csv"
+CSV.foreach("csv/formules.csv", headers: true) do |row|
+  puts "processing row##{row['nformule']}"
+  Formule.find_or_create_by!(oldid: row['nformule'], name: row['libelle'])
+end
+
+# create Qualite
+puts "importing Qualite table from csv"
+CSV.foreach("csv/qualites.csv", headers: true) do |row|
+  puts "processing row##{row['nqualite']}"
+  Qualite.find_or_create_by!(oldid: row['nqualite'], name: row['libelle'])
+end
+
+# create Specialite
+puts "importing Specialite table from csv"
+CSV.foreach("csv/specialites.csv", headers: true) do |row|
+  puts "processing row##{row['nspecialite']}"
+  Specialite.find_or_create_by!(oldid: row['nspecialite'], name: row['libelle'])
+end
+
 # create ExpoType
 puts "importing ExpoType table from csv"
 CSV.foreach("csv/expo_types.csv", headers: true) do |row|
@@ -39,7 +60,7 @@ CSV.foreach("csv/expo_termes.csv", headers: true) do |row|
   ExpoTerme.find_or_create_by!(oldid: row['nterme'], name: row['libelle'])
 end
 
-%w(malformation pathologie).each do |name|
+%w(malformation pathology).each do |name|
   klass = name.classify.constantize
 
   puts "Importing #{name.pluralize} from csv"

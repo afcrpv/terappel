@@ -10,11 +10,8 @@ $ ->
 
   $(".dropdown-toggle").dropdown()
 
-  $.fn.select2.defaults.allowClear = true
-  $.fn.select2.defaults.formatNoMatches = -> "Aucun résultat"
-  $.fn.select2.defaults.formatInputTooShort = (input, min) -> "Saisir au moins #{min - input.length} caractères"
-  $.fn.select2.defaults.formatSearching = -> "Recherche en cours..."
-  $.fn.select2.defaults.width = "100%"
+  $.fn.select2.defaults.set('allowClear', true)
+  $.fn.select2.defaults.set('language', 'fr')
 
 window.show_or_hide_hint_for_toxics = ($toxic_element, toxic_value, values_to_compare) ->
   $toxic_message = $toxic_element.next(".help-block").hide()

@@ -12,6 +12,7 @@
 //= require cocoon
 //= require jquery.maskedinput
 //= require select2
+//= require select2/i18n/fr
 //= require jstree
 //= require common
 //= require grossesse

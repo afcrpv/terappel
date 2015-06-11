@@ -1,5 +1,10 @@
-source 'http://rubygems.org'
 ruby '2.2.2'
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-select2', '~> 4.0.0'
+end
+
+source 'http://rubygems.org'
 
 gem 'rails', '4.2.1'
 gem 'pg',     '~> 0.18.1'
@@ -63,7 +68,6 @@ gem 'ransack',              '~> 1.5.1'
 gem 'responders',           '~> 2.1.0'
 gem 'rolify',               github: 'EppO/rolify'
 gem 'sass-rails',           '~> 5.0.1'
-gem 'select2-rails',        github: 'argerim/select2-rails'
 gem 'shog',                 '~> 0.1.3'
 gem 'simple_form',          '~> 3.1.0'
 gem 'uglifier',             '>= 1.3.0'
