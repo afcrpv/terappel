@@ -5,7 +5,7 @@ $ ->
   $("#tabs li a[href='#expositions']").bind 'click', ->
     for association in ["produit", "indication"]
       $(".#{association}_autocomplete").attach_expositions_select2(
-        association, "/dossiers/#{association}s.json")
+        association)
 
     $("table#expositions_summary").prefillSummaryTable
       modelName: "expositions"
@@ -474,27 +474,16 @@ $.fn.attach_bebes_select2 = (association, url) ->
 
   $('.select2-search-field input').css('width', '100%')
 
-$.fn.attach_expositions_select2 = (association, url) ->
+$.fn.attach_expositions_select2 = (association) ->
   @select2
     minimumInputLength: 3
-    width: "100%"
-    initSelection : (element, callback) ->
-      preload = element.data("load")
-      callback(preload)
     ajax:
-      url: url
-      dataType: "json"
-      data: (term, page) ->
-        q: term
-        page_limit: 10
-      results: (data, page) ->
-        return {results: data}
-  @on "change", (e) ->
-    $.ajax
-      url: "/dossiers/#{association}s.json?#{association}_id=#{e.val}"
-      dataType: "json"
-      success: (data) =>
-        $(this).data("load", data[0])
+      dataType: 'json'
+      data: (params) ->
+        q: params.term
+        page_limit: params.page
+      processResults: (data, page) ->
+        return { results: data }
 
   $('.select2-search-field input').css('width', '100%')
 

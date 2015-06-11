@@ -5,7 +5,6 @@ class DossiersController < ApplicationController
   respond_to :html
   respond_to :js, only: :index
   respond_to :pdf, only: :show
-  respond_to :json, only: [:produits, :indications, :dcis]
 
   rescue_from CanCan::AccessDenied do |exception|
     Rails.logger.debug "Access denied on #{exception.action} #{exception.subject.inspect}"
@@ -17,11 +16,6 @@ class DossiersController < ApplicationController
 
   helper_method :date_appel, :date_reelle_accouchement, :date_dernieres_regles, :date_debut_grossesse, :date_accouchement_prevu, :evolutions, :date_naissance, :date_recueil_evol
   helper_method :min_date_appel, :max_date_appel
-
-  def produits
-    @produits = params[:produit_id] ? Produit.where(id: params[:produit_id]) : Produit.search_by_name(params[:q])
-    respond_with @produits.map(&:name_and_id)
-  end
 
   def indications
     @indications = params[:indication_id] ? Indication.where(id: params[:indication_id]) : Indication.search_by_name(params[:q])

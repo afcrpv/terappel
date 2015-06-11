@@ -14,13 +14,12 @@ class Ability
     can :update, User, id: user.id
 
     can :create, Dossier
-    can [:produits, :indications, :dcis], Dossier
     can [:read, :update], Dossier, centre_id: user.centre_id
     cannot :destroy, Dossier
 
     can :manage, :correspondants, centre_id: user.centre_id
 
-    can :read, [Produit, Malformation, Pathology, Search]
+    can :read, [Produit, Indication, Dci, Malformation, Pathology, Search]
     can :tree, [Malformation, Pathology]
     can [:create, :update], Search
     cannot :index, Search

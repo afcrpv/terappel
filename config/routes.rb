@@ -13,15 +13,15 @@ Terappel::Application.routes.draw do
   resources :dossiers do
     collection do
       match 'search', to: "dossiers#search", via: [:get, :post], as: :search
-      get :produits
-      get :indications
-      get :dcis
     end
   end
 
-
+  resources :produits, only: :index
+  resources :indications, only: :index
+  resources :dcis, only: :index
   resources :malformations, only: :index
   resources :pathologies, only: :index
+
   get "malformations/tree", to: 'malformations#tree'
   get "malformations/ancestors", to: 'malformations#ancestors'
   get "pathologies/tree", to: 'pathologies#tree'

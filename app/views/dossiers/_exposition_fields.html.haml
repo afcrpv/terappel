@@ -8,11 +8,10 @@
     - %w(produit indication).each do |field|
       - article = field == "produit" ? "un" : "une"
       .col-sm-6
-        = f.input :"#{field}_id" do
-          = f.hidden_field :"#{field}_id",
-            placeholder: "Saisir #{article} #{field}",
-            class: "#{field}_autocomplete",
-            data: { load: f.object.send(field).try(:name_and_id) }
+        = f.association field, input_html: { class: "#{field}_autocomplete",
+          data: { placeholder: "Saisir #{article} #{field}",
+            'ajax--url': polymorphic_path(field.pluralize, format: :json) },
+          style: 'width: 100%;' }
   .row
     .col-sm-4
       = f.association :voie
