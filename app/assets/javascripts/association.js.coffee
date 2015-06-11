@@ -4,8 +4,7 @@ $ ->
   ### EXPOSITIONS ###
   $("#tabs li a[href='#expositions']").bind 'click', ->
     for association in ["produit", "indication"]
-      $(".#{association}_autocomplete").attach_expositions_select2(
-        association)
+      $(".#{association}_autocomplete").attach_expositions_select2()
 
     $("table#expositions_summary").prefillSummaryTable
       modelName: "expositions"
@@ -31,8 +30,7 @@ $ ->
 
     $("#expositions").bind 'cocoon:after-insert', ->
       for association in ["produit", "indication"]
-        $(".#{association}_autocomplete").attach_expositions_select2(
-          association, "/dossiers/#{association}s.json")
+        $(".#{association}_autocomplete").attach_expositions_select2()
       $(".validate_expo").last().validateAssociation
         modelName: "exposition"
         selectedFields: [
@@ -47,8 +45,6 @@ $ ->
         ]
         requiredFields: ["produit_id"]
 
-      $(select).select2() for select in $(".combobox").filter(":visible")
-
       for expo_terme in ["periode_expo", "reprise_ttt"]
         $(".#{expo_terme}").expo_termes_calc(
           $(".#{expo_terme} .#{prefix}_date"),
@@ -62,8 +58,7 @@ $ ->
     for association in ["malformation", "pathology"]
       plural = "#{association}s"
       plural = 'pathologies' if association is 'pathology'
-      $(".#{association}_tokens").attach_bebes_select2(
-        association, "/#{plural}.json")
+      $(".#{plural}").attach_bebes_select2()
       $("select[id$=#{association}]").check_show_association_tokens(association)
 
     $("table#bebes_summary").prefillSummaryTable
@@ -88,8 +83,7 @@ $ ->
       for association in ["malformation", "pathology"]
         plural = "#{association}s"
         plural = 'pathologies' if association is 'pathology'
-        $(".#{association}_tokens").attach_bebes_select2(
-          association, "/#{plural}.json")
+        $(".#{plural}").attach_bebes_select2()
         $("select[id$=_#{association}]").last()
           .check_show_association_tokens(association)
         $("a.show_#{association}_tree")
@@ -447,34 +441,27 @@ $.widget "terappel.validateAssociation",
     prepare_malf_and_path_columns($related_fieldset,
     $model_row, association) for association in ["malformation", "pathology"]
 
-$.fn.attach_bebes_select2 = (association, url) ->
+$.fn.attach_bebes_select2 = ->
   @select2
     minimumInputLength: 3
-    multiple: true
-    initSelection : (element, callback) ->
-      preload = element.data("load")
-      callback(preload)
     ajax:
-      url: url
       dataType: "json"
-      data: (term, page) ->
-        q: term
-        page_limit: 10
-      results: (data, page) ->
-        return {results: data}
-  @on "change", (e) ->
-    $.ajax
-      url: "/#{association}s/ancestors.json"
-      dataType: 'json'
-      data: {id: e.val[0]}
-      success: (data) =>
-        original_data = $(this).data("initial-ancestors")
-        initial_ancestors = if original_data then original_data else []
-        $(this).data("initial-ancestors", initial_ancestors.concat data)
+      data: (params) ->
+        q: params.term
+        page_limit: params.page
+      processResults: (data, page) ->
+        return { results: data }
+  # @on "change", (e) ->
+  #   $.ajax
+  #     url: "/#{association}s/ancestors.json"
+  #     dataType: 'json'
+  #     data: {id: e.val[0]}
+  #     success: (data) =>
+  #       original_data = $(this).data("initial-ancestors")
+  #       initial_ancestors = if original_data then original_data else []
+  #       $(this).data("initial-ancestors", initial_ancestors.concat data)
 
-  $('.select2-search-field input').css('width', '100%')
-
-$.fn.attach_expositions_select2 = (association) ->
+$.fn.attach_expositions_select2 = ->
   @select2
     minimumInputLength: 3
     ajax:

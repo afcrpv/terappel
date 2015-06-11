@@ -32,19 +32,17 @@
         = f.input :"apgar#{n}"
   .row
     - %w(malformation pathology).each do |field|
-      - token_field = "#{field}_tokens"
+      - plural = field.pluralize
       .col-sm-6
         .row
           .col-sm-4
             = f.input field.to_sym, collection: Dossier::ONI
           .col-sm-6
-            = f.input token_field,
-              placeholder: "Choisir les #{field.pluralize}" do
-              = f.hidden_field token_field,
-                class: token_field,
-                value: (items = f.object.send(field.pluralize)).map(&:id).join(","),
-                data: { load: (items.map(&:libelle_and_id).to_json),
-                  "initial-ancestors": field.classify.constantize.find(items.map(&:id)).map(&:ancestor_ids).flatten.uniq }
+            = f.association plural, input_html: { class: plural,
+              data: { placeholder: "Choisir les #{plural}",
+                multiple: true,
+                'ajax--url': polymorphic_path(plural, format: :json) },
+              style: 'width: 100%;' }
           .col-sm-2
             .bebe-actions
               = link_to fa_icon('list'), "##{field}",
