@@ -1,4 +1,5 @@
 class Dossier < ActiveRecord::Base
+  include FriendlyId
   # Constants
   ONI = %w(Oui Non NSP)
   TABAC = ["Non", "0 à 5 cig/j", "5 à 10 cig/j", "Sup. à 10 cig/j", "NSP"]
@@ -6,6 +7,8 @@ class Dossier < ActiveRecord::Base
   MODACCOUCH = ["V-b spontanée", "V-b instrumentale", "Césarienne", "Inconnue"]
   EVOLUTION = ["GEU", "FCS", "IVG", "IMG", "MIU", "NAI", "INC", "GNC"]
   SEARCH_LIMIT = 300
+
+  friendly_id :code
 
   # validations
   validates_presence_of :name, :date_appel, :centre_id, :expo_terato, :a_relancer
