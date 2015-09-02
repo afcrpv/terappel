@@ -152,7 +152,7 @@ destroyLink = (model_name, $related_fieldset, $model_row, plural_name_and_id) ->
   destroy_title = "'Détruire #{model_name}'"
   $destroy_link = $("<a href='##{plural_name_and_id}_destroy'
     id='destroy_#{plural_name_and_id}' data-toggle='modal'
-    title=#{destroy_title}><span class='glyphicon glyphicon-trash'></span>
+    title=#{destroy_title}><i class='fa fa-trash'></i>
     <span style='display:none;'>#{destroy_title}</span></a>")
 
   destroyModal(model_name, plural_name_and_id)
@@ -179,7 +179,7 @@ modifyLink = (model_name, $related_fieldset, plural_name_and_id) ->
   modify_title = "'Modifier #{model_name}'"
   $modify_link = $("<a href='#' id='modify_#{plural_name_and_id}'
     class='modify_link' title=#{modify_title}>
-    <span class='glyphicon glyphicon-pencil'></span>
+    <i class='fa fa-pencil'></i>
     <span style='display:none;'>#{modify_title}</span></a>")
   $modify_link.one 'click', (e) ->
     e.preventDefault()
@@ -393,9 +393,7 @@ $.widget "terappel.validateAssociation",
     for field in $start_point.find("input[id], select[id]")
       key = $(field).attr('id').replace(/dossier_\w+?_\w+?_\d+?_(\w+)$/, '$1')
       value = switch key
-        when "produit_id", "indication_id"
-          if (label = $(field).data("load")) then label.text else ""
-        when "expo_terme_id", "malformation", "pathology"
+        when "expo_terme_id", "malformation", "pathology", "produit_id", "indication_id"
           $(field).find("option").filter(":selected").text()
         else $(field).val()
 
