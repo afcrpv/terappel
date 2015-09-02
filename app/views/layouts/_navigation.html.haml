@@ -20,6 +20,15 @@
               Administration
               %b.caret
               = render 'layouts/admin_nav'
-        %p.navbar-text.navbar-right
-          Bonjour,
-          = link_to current_user.username, edit_user_registration_path, title: "Modifier compte"
+        %ul.nav.navbar-nav.navbar-right
+          %li.dropdown
+            = link_to '#', class: 'dropdown-toggle', 'data-toggle': 'dropdown' do
+              = fa_icon 'user'
+              %b.caret
+            %ul.dropdown-menu
+              %li
+                %span.navbar-user= current_user.username
+              %li
+                = link_to 'Modifier votre compte',
+                  edit_user_registration_path, title: 'Modifier compte'
+              %li= link_to 'Se déconnecter', logout_path
