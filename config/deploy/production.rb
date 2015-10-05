@@ -74,7 +74,7 @@ set :puma_conf, "#{shared_path}/config/puma.rb"
 
 server 'localhost',
        user: 'centos',
-       roles: %w(web app),
+       roles: %w(web db app),
        ssh_options: {
          forward_agent: true,
          port: 1234,
