@@ -220,3 +220,5 @@ fr:
         <<: *errors_template
       full_messages:
         format: "%{attribute} %{message}"
+  'false': Non
+  'true': Oui

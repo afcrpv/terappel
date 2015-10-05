@@ -7,6 +7,7 @@
       %th Email
       %th CRPV
       %th Rôle(s)
+      %th Approuvé ?
       %th Actions
 
   %tbody
@@ -17,6 +18,7 @@
           %td= user.email
           %td= user.centre
           %td= user.roles.map(&:name).join(",")
+          %td= t user.approved?.to_s
           %td
             .btn-group
               = link_to 'Approuver', approve_admin_user_path(user),

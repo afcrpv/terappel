@@ -16,11 +16,22 @@ fr:
       unconfirmed: "Vous devez confirmer votre compte pour continuer."
       not_approved: "Votre compte n'a pas encore été approuvé par l'administrateur."
     mailer:
+      hello: "Bonjour %{user},"
+      someone_requested: "Quelqu'un, peut-être vous même, a demandé %{reason}."
+      please_ignore: "Si vous n'avez pas demandé %{reason} vous pouvez ignorez ce message."
       confirmation_instructions:
         subject: "Instructions de confirmation"
       reset_password_instructions:
+        intro: "Afin de procéder veuillez ouvrir le lien suivant :"
+        link: Réinitialiser votre mot de passe
+        reason: la réinitialisation du mot de passe
         subject: "Instructions pour changer le mot de passe"
+        password_wont_change: "Votre mot de passe ne sera pas changé si vous n'ouvrez pas le lien ci-dessus."
       unlock_instructions:
+        intro: "Votre compte a été bloqué suite à un nombre excessif de
+          tentatives de connexions unfructueuses. Veuillez suivre le lien ci-dessous pour débloquer votre compte :"
+        link: "Débloquer mon compte"
+        reason: "le déverrouillage du compte"
         subject: "Instructions pour déverrouiller le compte"
       confirmation_instructions:
         subject: "Confirmation instructions"
@@ -31,6 +42,8 @@ fr:
       send_paranoid_instructions: "Si votre adresse est dans notre base de données, vous allez recevoir un email contenant les instructions nécessaires à la confirmation de votre compte dans quelques minutes"
       updated: "Votre mot de passe a été changé avec succès. Vous êtes maintenant connecté."
       updated_not_active: "Votre mot de passe a été changé avec succès."
+      new:
+        submit: Envoyer
     registrations:
       destroyed: "Au revoir! Votre compte a été annulé avec succès. Nous espérons vous revoir bientôt."
       edit:
@@ -50,15 +63,19 @@ fr:
       signed_in: "Connecté."
       signed_out: "Déconnecté."
     shared:
+      forgot_password: Reinitialisation de votre mot de passe
       links:
-        didnt_receive_confirmation_instructions?: Vous n'avez pas reçu les
-          information pour confirmer votre compte ?
-        forgot_password: Mot de passe oublié ?
-        didnt_receive_unlock_instructions?: Vous n'avez pas reçu les information
-          pour débloquer votre compte ?
-        sign_in: Se connecter
-        sign_up: Créer un compte
+        sign_in_html: "Déjà enregistré ? <a href='%{url}'>Se connecter</a><br>"
+        sign_up_html: "Pas encore enregistré ? <a href='%{url}'>Créer un compte</a><br>"
+        forgot_password_html: "Mot de passe oublié ? <a href='%{url}'>Le réinitialiser</a><br>"
+        didnt_receive_confirmation_instructions?_html: "Vous n'avez pas reçu les
+          information pour confirmer votre compte ? <a href='%{url}'>Envoyer les informations</a><br>"
+        didnt_receive_unlock_instructions?_html: "Vous n'avez pas reçu les information
+          pour débloquer votre compte ? <a href='%{url}'>Envoyer les informations</a>"
     unlocks:
+      new:
+        page_title: Debloquer votre compte
+        submit: Envoyer
       send_instructions: "Vous allez recevoir contenant les instructions nécessaires au débloquage de votre compte dans quelques minutes"
       unlocked: "Votre compte a été débloqué avec succès, vous êtes maintenant connectés."
       send_paranoid_instructions: "Si votre adresse est dans notre base de données, vous allez recevoir un email contenant les instructions nécessaires à la confirmation de votre compte dans quelques minutes"

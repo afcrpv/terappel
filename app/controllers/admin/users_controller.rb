@@ -30,7 +30,7 @@ class Admin::UsersController < ApplicationController
   end
 
   def update
-    @user.update_with_password(user_params)
+    @user.update(user_params)
     respond_with @user, location: admin_users_url
   end
 
@@ -47,6 +47,6 @@ class Admin::UsersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit(:username, :email, :password, :password_confirmation, :current_password, :approved, :centre_id, :role)
+    params.require(:user).permit(role_ids: [])
   end
 end

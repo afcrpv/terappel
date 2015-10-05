@@ -4,17 +4,18 @@
   .form-group
     = f.label :username, "Nom d'utilisateur", class: "col-sm-2 control-label"
     .col-sm-3
-      = f.text_field :username, class: "form-control"
+      = f.text_field :username, class: "form-control", disabled: true
 
   .form-group
     = f.label :email, class: "col-sm-2 control-label"
     .col-sm-3
-      = f.email_field :email, class: "form-control"
+      = f.email_field :email, class: "form-control", disabled: true
 
   .form-group
     = f.label :centre_id, "CRPV", class: "col-sm-2 control-label"
     .col-sm-3
-      = f.collection_select :centre_id, Centre.all, :id, :name, {}, class: "form-control"
+      = f.collection_select :centre_id, Centre.all, :id, :name, {},
+        class: "form-control", disabled: true
 
   .form-group
     = f.label :roles, class: "col-sm-2 control-label"
