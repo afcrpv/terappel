@@ -20,19 +20,19 @@ fr:
       someone_requested: "Quelqu'un, peut-être vous même, a demandé %{reason}."
       please_ignore: "Si vous n'avez pas demandé %{reason} vous pouvez ignorez ce message."
       confirmation_instructions:
-        subject: "Instructions de confirmation"
+        subject: "[TERAPPEL] Instructions de confirmation"
       reset_password_instructions:
         intro: "Afin de procéder veuillez ouvrir le lien suivant :"
         link: Réinitialiser votre mot de passe
         reason: la réinitialisation du mot de passe
-        subject: "Instructions pour changer le mot de passe"
+        subject: "[TERAPPEL] Instructions pour changer le mot de passe"
         password_wont_change: "Votre mot de passe ne sera pas changé si vous n'ouvrez pas le lien ci-dessus."
       unlock_instructions:
         intro: "Votre compte a été bloqué suite à un nombre excessif de
           tentatives de connexions unfructueuses. Veuillez suivre le lien ci-dessous pour débloquer votre compte :"
         link: "Débloquer mon compte"
         reason: "le déverrouillage du compte"
-        subject: "Instructions pour déverrouiller le compte"
+        subject: "[TERAPPEL] Instructions pour déverrouiller le compte"
       confirmation_instructions:
         subject: "Confirmation instructions"
     passwords:
