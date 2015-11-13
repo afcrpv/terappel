@@ -267,15 +267,14 @@ $.widget "terappel.remoteCorrespondantForm",
         json = $.parseJSON xhr.responseText
         correspondant_label = json.label
         correspondant_id = json.id
-        $edit_correspondant_btn = $("#dossier_#{@options["typeCorrespondant"]}
-          _id_field .corr_update")
+        $edit_correspondant_btn = $("#dossier_#{@options["typeCorrespondant"]}_id_field .corr_update")
         $edit_correspondant_btn.attr("href",
           "/correspondants/#{correspondant_id}/edit")
         $edit_correspondant_btn.show()
-        $select = @element.find("#dossier_#{@options["typeCorrespondant"]}
-          _attributes_correspondant_id")
-        $select.select2("data",
-          {id: correspondant_id, text: correspondant_label})
+        $select = @element.find("#dossier_#{@options["typeCorrespondant"]}_attributes_correspondant_id")
+        $option = $("<option selected>#{correspondant_label}</option>").val(correspondant_id)
+        $select.append($option).trigger('change')
+        $option.removeData()
         @_trigger("success")
         dialog.modal("hide")
 
