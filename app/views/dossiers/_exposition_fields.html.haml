@@ -8,7 +8,9 @@
     - %w(produit indication).each do |field|
       - article = field == "produit" ? "un" : "une"
       .col-sm-6
-        = f.association field, input_html: { class: "#{field}_autocomplete",
+        = f.association field,
+          collection: f.object.send(field).present? ? field.classify.constantize.where(id: f.object.send(field).id) : [],
+          input_html: { class: "#{field}_autocomplete",
           data: { placeholder: "Saisir #{article} #{field}",
             'ajax--url': polymorphic_path(field.pluralize, format: :json) },
           style: 'width: 100%;' }

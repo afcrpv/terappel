@@ -8,6 +8,7 @@ $ ->
 
     $("table#expositions_summary").prefillSummaryTable
       modelName: "expositions"
+
     for expo_terme in ["periode_expo", "reprise_ttt"]
       $(".#{expo_terme}").expo_termes_calc(
         $(".#{expo_terme} .#{prefix}_date"),
@@ -208,13 +209,13 @@ collect_values_to_copy = ($start_point, model) ->
   # damn ugly... but i'm outta ideas for now, need a bit of oo to not do
   # like this
   if model == "expositions"
-    produit = $start_point.find("input[id$='produit_id']").data("load")
-    indication = $start_point.find("input[id$='indication_id']").data("load")
+    produit = $start_point.find("select[id$='produit_id'] option").filter(':selected')
+    indication = $start_point.find("select[id$='indication_id'] option").filter(':selected')
     values = [
-      if produit then produit.text else ""
+      if produit then produit.text() else ""
       $start_point.find("select[name*='expo_terme'] option")
         .filter(":selected").text()
-      if indication then indication.text else ""
+      if indication then indication.text() else ""
       $start_point.find("input[id$='_dose']").val()
       $start_point.find("input[id$='_de']").val()
       $start_point.find("input[id$='_a']").val()

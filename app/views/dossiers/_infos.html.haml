@@ -43,8 +43,10 @@
 .row#dossier_relance_id_field
   = f.simple_fields_for :relance do |relance|
     .col-sm-6
-      = relance.association :correspondant, placeholder: 'Choisir une personne',
-        input_html: { data: { source: correspondants_url(format: :json) } }
+      = relance.association :correspondant,
+        input_html: { data: { 'ajaj--url': correspondants_url(format: :json),
+          'ajax--cache': true, placeholder: 'Choisir une personne' },
+          style: 'width: 100%;' }
     .col-sm-4
       .correspondant-actions
         = link_to content_tag(:i, nil, class: "icon-plus") + "Ajout", new_correspondant_path(modal: true),
