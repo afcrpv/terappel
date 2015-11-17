@@ -17,6 +17,7 @@ class Ability
     can [:read, :update], Dossier, centre_id: user.centre_id
     cannot :destroy, Dossier
 
+    can :create, Correspondant
     can :manage, :correspondants, centre_id: user.centre_id
 
     can :read, [Produit, Indication, Dci, Malformation, Pathology, Search]
