@@ -478,12 +478,12 @@ $.fn.check_show_association_tokens = (association) ->
     $select = $(this)
     $tokens = $(".#{association}_tokens")
     $tree_button = $(".show_#{association}_tree")
-    condition = $select.val() is "Oui"
+    condition = $select.find('option').filter(':selected').text() is "Oui"
     showNextif condition, $select, $tokens
     showNextif condition, $select, $tree_button
 
     $select.on "change", ->
-      condition = $(this).val() is "Oui"
+      condition = $(this).find('option').filter(':selected').text() is "Oui"
       showNextif condition, $(this), $tokens
       showNextif condition, $(this), $tree_button
 
@@ -503,7 +503,7 @@ $.fn.attach_jstree = (association, bebe_id) ->
   plural = "#{association}s"
   plural = 'pathologies' if association is 'pathology'
   $select2_input = $(
-    "input#dossier_bebes_attributes_#{bebe_id}_#{association}_tokens")
+    "input#dossier_bebes_attributes_#{bebe_id}_#{association}_ids")
   @jstree
     json_data:
       ajax:

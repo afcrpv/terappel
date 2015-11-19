@@ -38,7 +38,8 @@
           .col-sm-4
             = f.input field.to_sym, collection: Dossier::ONI
           .col-sm-6
-            = f.association plural, input_html: { class: plural,
+            = f.association plural, wrapper_html: { class: "#{field}_tokens" },
+              input_html: { class: plural,
               data: { placeholder: "Choisir les #{plural}",
                 multiple: true,
                 'ajax--url': polymorphic_path(plural, format: :json) },
