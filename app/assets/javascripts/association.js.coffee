@@ -230,9 +230,9 @@ collect_values_to_copy = ($start_point, model) ->
       $start_point.find("input[id$='_pc']").val()
       $start_point.find("input[id$='_apgar1']").val()
       $start_point.find("input[id$='_apgar5']").val()
-      $start_point.find("select[name*='malformation'] option")
+      $start_point.find("select[name$='malformation]'] option")
         .filter(":selected").text()
-      $start_point.find("select[name*='pathology'] option")
+      $start_point.find("select[name$='pathology]'] option")
         .filter(":selected").text()
     ]
   return values
@@ -263,6 +263,7 @@ append_to_summary = (fields, $target, model_id, model, live = false) ->
       prepare_malf_and_path_columns $related_field, $model_row, association
 
 create_cells = ($node, text) ->
+  console.log $node, text
   if text is "Oui"
     cell_content = "<a href='#' class='btn btn-danger' >#{text}</a>"
   else
@@ -274,14 +275,16 @@ prepare_malf_and_path_columns = ($related_field, $model_row, association) ->
   td_position = if association is "malformation" then 2 else 1
 
   #gather paraphs using $related_field
-  paraphs = $($related_field.find("div.#{association}_tokens ul div"))
+  paraphs = $($related_field.find(".#{association}_tokens ul li"))
   # create a ul parent element
   html = "<ul>"
   # iterate the paraphs array and create html li from each text property
-  html += "<li>#{$(p).text()}</li>" for p in paraphs
+  html += "<li>#{$(p).attr('title')}</li>" for p in paraphs when $(p).attr('title')?
   html += "</ul>"
 
   link = $model_row.find("td:nth-last-child(#{td_position}) a")
+
+  console.log link
 
   $(link).attr('data-original-title', humanizePluralizeFormat(association))
   # assign collected association names to data-content link attribute
