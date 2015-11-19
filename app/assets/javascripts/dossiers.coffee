@@ -119,7 +119,6 @@ $ ->
 
   $('body').on 'hidden.bs.modal', '#relance', ->
     $('#dossier_relance_id_field').show()
-    $('#dossier_relance_attributes_correspondant_id').select2('open')
 
   $(".copy-correspondant").on "click", ->
     if (demandeur = $("#dossier_demandeur_attributes_correspondant_id").val())
