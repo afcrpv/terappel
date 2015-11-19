@@ -6,7 +6,7 @@
   .col-sm-6
     = f.association :motif
   .col-sm-2
-    = f.input :expo_terato, collection: Dossier::ONI
+    = f.input :expo_terato, collection: Dossier::ONI.keys
 
 .row#dossier_demandeur_id_field
   .col-sm-6
@@ -93,7 +93,7 @@
     .col-sm-6
       .row
         .col-sm-5.col-lg-4
-          = f.input :"antecedents_#{field}", collection: Dossier::ONI
+          = f.input :"antecedents_#{field}", collection: Dossier::ONI.keys
         .col-sm-7.col-lg-8.comm_atcds
           = f.input :"comm_antecedents_#{field}", label: "Préciser",
             input_html: { rows: "1" }

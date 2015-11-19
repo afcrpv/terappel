@@ -39,4 +39,4 @@
       hint: "Préciser la ou les pathologies dans le commentaire"
 
   .col-sm-4
-    = f.input :ass_med_proc, collection: Dossier::ONI
+    = f.input :ass_med_proc, collection: Dossier::ONI.keys

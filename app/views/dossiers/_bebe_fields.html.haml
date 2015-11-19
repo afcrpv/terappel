@@ -36,7 +36,7 @@
       .col-sm-6
         .row
           .col-sm-4
-            = f.input field.to_sym, collection: Dossier::ONI
+            = f.input field.to_sym, collection: Dossier::ONI.keys
           .col-sm-6
             = f.association plural, wrapper_html: { class: "#{field}_tokens" },
               input_html: { class: plural,
