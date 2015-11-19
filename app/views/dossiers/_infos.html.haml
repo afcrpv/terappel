@@ -32,19 +32,19 @@
     .modal-dialog
       .modal-content
         .modal-header
-          %button.close{type: "button", data: {dismiss: "modal"}, 'aria-hidden': "true"} &times;
+          %button.close{tabindex: '-1', type: "button", data: {dismiss: "modal"}, 'aria-hidden': "true"} &times;
           %h4.modal-title#relance-modal Relance
         .modal-body
           %p Le correspondant est-il le même que la personne à relancer ?
         .modal-footer
+          %button.btn.btn-link{data: {dismiss: "modal"}} Non
           %button.btn.btn-primary.copy-correspondant{data: {dismiss: "modal"}} Oui
-          %button.btn.btn-default{data: {dismiss: "modal"}} Non
 
 .row#dossier_relance_id_field
   = f.simple_fields_for :relance do |relance|
     .col-sm-6
-      = relance.association :correspondant,
-        input_html: { data: { 'ajaj--url': correspondants_url(format: :json),
+      = relance.association :correspondant, label: 'Correspondant à relancer',
+        input_html: { data: { 'ajax--url': correspondants_url(format: :json),
           'ajax--cache': true, placeholder: 'Choisir une personne' },
           style: 'width: 100%;' }
     .col-sm-4
