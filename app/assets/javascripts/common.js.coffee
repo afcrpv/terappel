@@ -13,6 +13,15 @@ $ ->
   $.fn.select2.defaults.set('allowClear', true)
   $.fn.select2.defaults.set('language', 'fr')
 
+jQuery.fn.extend
+  disable: (state) ->
+    return @each ->
+      $this = $(@)
+      if $this.is('input, button')
+        @disabled = state
+      else
+        $this.toggleClass('disabled', state)
+
 window.show_or_hide_hint_for_toxics = ($toxic_element, toxic_value, values_to_compare) ->
   $toxic_message = $toxic_element.next(".help-block").hide()
   toxic_condition = toxic_value and toxic_value in values_to_compare

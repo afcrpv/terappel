@@ -262,6 +262,7 @@ $.widget "terappel.remoteCorrespondantForm",
     form.attr("data-remote", true)
     dialog.find('#modal-label').text form.data('title')
     dialog.find(".save-action").unbind().click(->
+      $(@).disable(true)
       form.submit()
       return false
     ).html(saveButtonText)
@@ -300,9 +301,9 @@ $.widget "terappel.remoteCorrespondantForm",
                 ...
               </div>
               <div class="modal-footer">
-                <a href="#" class="btn btn-primary save-action">...</a>
-                <button class="btn btn-default" data-dismiss="modal"
+                <button class="btn btn-link" data-dismiss="modal"
                 aria-hidden="true">Fermer</button>
+                <a href="#" class="btn btn-primary save-action" data-disable-with: "Attendre...">...</a>
               </div>
             </div>
           </div>
