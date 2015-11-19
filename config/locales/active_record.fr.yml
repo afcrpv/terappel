@@ -69,7 +69,7 @@ fr:
         modaccouch: "Modalité accouchement"
         terme: "Terme (SA)"
         date_reelle_accouchement: "Date accouchement"
-        date_recueil_evol: "Date de recueil de l'évolution"
+        date_recueil_evol: "Date"
         commentaire: "Commentaire du dossier"
       exposition:
         expo_type: "Type"

@@ -1,11 +1,20 @@
 class Dossier < ActiveRecord::Base
   include FriendlyId
   # Constants
-  ONI = %w(Oui Non NSP)
+  ONI = { 'Oui': 0, 'Non': 1, 'NSP': 2 }
   TABAC = ["Non", "0 à 5 cig/j", "5 à 10 cig/j", "Sup. à 10 cig/j", "NSP"]
   ALCOOL = ["Non", "Occasionnel", "Régulier", "NSP"]
   MODACCOUCH = ["V-b spontanée", "V-b instrumentale", "Césarienne", "Inconnue"]
-  EVOLUTION = ["GEU", "FCS", "IVG", "IMG", "MIU", "NAI", "INC", "GNC"]
+  EVOLUTION = [
+    ['grossesse extra-utérine', 'GEU'],
+    ['fausse couche spontanée', 'FCS'],
+    ['interruption volontaire de grossesse', 'IVG'],
+    ['interruption médicale de grossesse', 'IMG'],
+    ['mort in utéro', 'MIU'],
+    ['naissance', 'NAI'],
+    ['inconnue', 'INC'],
+    ['grossesse non confirmée', 'GNC']
+  ]
   SEARCH_LIMIT = 300
 
   friendly_id :code
