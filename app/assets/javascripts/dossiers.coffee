@@ -65,7 +65,7 @@ $ ->
     next = element.parent().find(".help-block")
     showNextif condition, element, next
     element.on 'change', ->
-      condition = $(this).val() is "Oui"
+      condition = $(this).find('option').filter(':selected').text() is "Oui"
       next = $(this).parent().find(".help-block")
       showNextif condition, $(this), next
 
