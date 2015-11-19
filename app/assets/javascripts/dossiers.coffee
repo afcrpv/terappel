@@ -24,7 +24,7 @@ $ ->
 
   # bootstrap form tabs
   current_tab = $("input#dossier_current_tab").val()
-  $("#tabs a[href='##{current_tab}']").tab('show')
+  $("#tabs a[href='##{current_tab}']").trigger('click')
 
   $("[data-toggle=pill]").on "click", (e) ->
     href = "clicked #{@.href}"
