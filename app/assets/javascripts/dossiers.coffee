@@ -46,9 +46,10 @@ $ ->
     .push($("#dossier_date_#{field_name}")) for field_name in grs_field_names
 
   for date_field in dates_grossesse_fields
+    if (value = date_field.val())
+      parsed_value = moment value
+      date_field.val(parsed_value.format('L'))
     date_field.mask("99/99/9999")
-    value = date_field.attr("data-value")
-    date_field.val(value) if value
 
   # calc imc
   $("#dossier_#{field}")

@@ -9,6 +9,8 @@
 //= require jquery.ui.core
 //= require jquery.ui.widget
 //= require bootstrap
+//= require moment
+//= require moment/fr
 //= require cocoon
 //= require jquery.maskedinput
 //= require select2

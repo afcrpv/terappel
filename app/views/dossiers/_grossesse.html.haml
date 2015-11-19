@@ -4,8 +4,7 @@
       .form-group
         = f.label :"#{field}", class: 'control-label'
         .input-group
-          = f.text_field :"#{field}", class: 'calc_dates_grossesse form-control',
-            'data-value': eval(field)
+          = f.text_field :"#{field}", class: 'calc_dates_grossesse form-control'
           %span.input-group-btn
             %button.btn.btn-default.clear_date{type: 'button', tabIndex: '-1'} X
 

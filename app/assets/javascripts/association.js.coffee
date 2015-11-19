@@ -585,7 +585,12 @@ class @DureeExpo
 $.fn.expo_termes_calc = ($date, $sa) ->
   $base = $(this)
 
+  if (value = $date.val())
+    parsed_value = moment value
+    $date.val(parsed_value.format('L'))
+
   $date.mask("99/99/9999")
+
   $date.blur ->
     ddg = $("#dossier_date_debut_grossesse").val()
     field.parents(".form-group")

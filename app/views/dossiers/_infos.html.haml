@@ -2,8 +2,7 @@
   .col-sm-2
     = f.input :code
   .col-sm-2
-    = f.input :date_appel, as: :string, autofocus: true,
-      input_html: { 'data-value': date_appel }
+    = f.input :date_appel, as: :string, autofocus: true
   .col-sm-6
     = f.association :motif
   .col-sm-2
@@ -61,7 +60,7 @@
   .col-sm-2
     = f.input :prenom
   .col-sm-2
-    = f.input :date_naissance, as: :string, data: { value: date_naissance }
+    = f.input :date_naissance, as: :string
   .col-sm-2
     = f.input :age
 

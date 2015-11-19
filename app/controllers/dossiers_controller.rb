@@ -14,7 +14,6 @@ class DossiersController < ApplicationController
     redirect_to dossiers_url, alert: "Vous ne pouvez pas modifier un dossier n'appartenant pas à votre CRPV !"# exception.message
   end
 
-  helper_method :date_appel, :date_reelle_accouchement, :date_dernieres_regles, :date_debut_grossesse, :date_accouchement_prevu, :evolutions, :date_naissance, :date_recueil_evol
   helper_method :min_date_appel, :max_date_appel
 
   def indications
