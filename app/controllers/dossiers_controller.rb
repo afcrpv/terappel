@@ -165,4 +165,8 @@ class DossiersController < ApplicationController
   def max_date_appel
     @max_date_appel = params[:id] && @q.max_date_appel ? l(@q.max_date_appel) : l(Dossier.maximum(:date_appel))
   end
+
+  def interpolation_options
+    { resource_name: "Dossier #{@dossier.code}" }
+  end
 end
