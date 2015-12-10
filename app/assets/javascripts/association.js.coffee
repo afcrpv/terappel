@@ -10,10 +10,10 @@ $ ->
       modelName: "expositions"
 
     for expo_terme in ["periode_expo", "reprise_ttt"]
-      $(".#{expo_terme}").expo_termes_calc(
-        $(".#{expo_terme} .#{prefix}_date"),
-        $(".#{expo_terme} .#{prefix}")) for prefix in ["de", "a"]
       $(".#{expo_terme}").duree_expo()
+
+    for expo_terme_fields in ['de', 'a', 'de2', 'a2']
+      $(".#{expo_terme_fields}").expo_termes_calc()
 
     $(".validate_expo").validateAssociation
       modelName: "exposition"
@@ -46,11 +46,13 @@ $ ->
         ]
         requiredFields: ["produit_id"]
 
+      console.log 'fired cocoon:after-insert'
       for expo_terme in ["periode_expo", "reprise_ttt"]
-        $(".#{expo_terme}").expo_termes_calc(
-          $(".#{expo_terme} .#{prefix}_date"),
-          $(".#{expo_terme} .#{prefix}")) for prefix in ["de", "a"]
+        console.log $(".#{expo_terme}")
         $(".#{expo_terme}").duree_expo()
+
+      for expo_terme_fields in ['de', 'a', 'de2', 'a2']
+        $(".#{expo_terme_fields}").expo_termes_calc()
 
       disableSubmitWithEnter()
 
@@ -116,7 +118,6 @@ class @Association
     @required_attributes = required_attributes
 
 collectModelId = ($start_point) ->
-  # console.log $start_point.find("input[name]").filter(":first")
   $start_point.find("[name]").filter(":first").attr("name").match(/[0-9]+/)
     .join()
 
@@ -209,8 +210,10 @@ collect_values_to_copy = ($start_point, model) ->
   # damn ugly... but i'm outta ideas for now, need a bit of oo to not do
   # like this
   if model == "expositions"
-    produit = $start_point.find("select[id$='produit_id'] option").filter(':selected')
-    indication = $start_point.find("select[id$='indication_id'] option").filter(':selected')
+    produit = $start_point
+      .find("select[id$='produit_id'] option").filter(':selected')
+    indication = $start_point
+      .find("select[id$='indication_id'] option").filter(':selected')
     values = [
       if produit then produit.text() else ""
       $start_point.find("select[name*='expo_terme'] option")
@@ -263,7 +266,6 @@ append_to_summary = (fields, $target, model_id, model, live = false) ->
       prepare_malf_and_path_columns $related_field, $model_row, association
 
 create_cells = ($node, text) ->
-  console.log $node, text
   if text is "Oui"
     cell_content = "<a href='#' class='btn btn-danger' >#{text}</a>"
   else
@@ -283,8 +285,6 @@ prepare_malf_and_path_columns = ($related_field, $model_row, association) ->
   html += "</ul>"
 
   link = $model_row.find("td:nth-last-child(#{td_position}) a")
-
-  console.log link
 
   $(link).attr('data-original-title', humanizePluralizeFormat(association))
   # assign collected association names to data-content link attribute
@@ -349,7 +349,6 @@ $.widget "terappel.validateAssociation",
     plural_name_and_id = @pluralNameAndId()
 
     @element.on 'click', (e) =>
-      console.log "clicked validate action"
       e.preventDefault()
 
       association = new Association(model_name,
@@ -359,8 +358,6 @@ $.widget "terappel.validateAssociation",
         value
 
       $target = $("##{model_name}s_summary")
-
-      console.dir association
 
       if required_fields_values.join("").length
         $model_row = @_getModelRow($target)
@@ -493,7 +490,6 @@ $.fn.check_show_association_tokens = (association) ->
 $.fn.complete_modal_for_association = (association) ->
   @on 'click', =>
     field = @closest(".row").find("[name]").first()
-    console.log 'field', field
     bebe_id = field.attr("id").match(/[0-9]+/).join()
     association_modal_id = "#{association}_bebe_#{bebe_id}_modal"
     $modal = $(".modal##{association}")
@@ -585,44 +581,53 @@ class @DureeExpo
   oneValueMissing: ->
     isNaN(@a) or isNaN(@de)
 
-$.fn.expo_termes_calc = ($date, $sa) ->
-  $base = $(this)
+$.fn.expo_termes_calc = ->
+  @each ->
+    $base = $(@)
+    $date = $base.find('.date_expo').first()
+    $sa = $base.find('.sa_expo').first()
 
-  if (value = $date.val())
-    parsed_value = moment value
-    $date.val(parsed_value.format('L'))
+    $date.mask("99/99/9999")
+    if (value = $date.val())
+      parsed_value = moment value
+      $date.val(parsed_value.format('L'))
 
-  $date.mask("99/99/9999")
-
-  $date.blur ->
-    ddg = $("#dossier_date_debut_grossesse").val()
-    field.parents(".form-group")
-      .removeClass("has-error") for field in [$sa, $(@)]
-    $sa.next("p.help-block").remove()
-    result = new SaExpo(ddg, @value).calculate()
-    unless $sa.val().length > 0
-      if result.length? and result.length > 0
-        field.parents(".form-group")
-          .addClass("has-error") for field in [$sa, $(@)]
-        $sa.parents(".form-group").append("<p class='help-block'>#{result}</p>")
+    $date.blur ->
+      ddg = $("#dossier_date_debut_grossesse").val()
+      field.parents(".form-group")
+        .removeClass("has-error") for field in [$sa, $(@)]
+      $sa.next("p.help-block").remove()
+      result = new SaExpo(ddg, @value).calculate()
+      if $sa.val().length > 0
+        console.log "no calc because sa field is not empty"
       else
-        $sa.val(result)
+        if result.length? and result.length > 0
+          field.closest(".form-group")
+            .addClass("has-error") for field in [$sa, $(@)]
+          $sa.closest(".form-group").append("<p class='help-block'>#{result}</p>")
+        else
+          $sa.val(result)
 
 $.fn.duree_expo = ->
-  $base = $(this)
-  $de = $base.find(".de")
-  $base.find(".a").blur ->
-    $duree = $base.find(".duree")
-    field.parents(".form-group")
-      .removeClass("has-error") for field in [$de, $(this), $duree]
-    $duree.next("p.help-block").remove()
-    de = $de.val()
-    a = $(this).val()
-    result = new DureeExpo(de, a).calculate()
-    if result.length?
-      field.parents(".form-group")
-        .addClass("has-error") for field in [$de, $(this), $duree]
-      $duree.parents(".form-group")
-        .append("<p class='help-block'>#{result}</p>")
-    else
-      $duree.val(result)
+  @each ->
+    $base = $(@)
+    $de_a = $base.find(".sa_expo")
+
+    $de = $($de_a[0])
+    $a = $($de_a[1])
+
+    $a.blur ->
+      $duree = $base.find(".duree")
+      for field in [$de, $(@), $duree]
+        field.closest(".form-group").removeClass("has-error")
+      $duree.next("p.help-block").remove()
+      de = $de.val()
+      a = $(@).val()
+      result = new DureeExpo(de, a).calculate()
+      if result.length? and result.length > 0
+        field.closest(".form-group")
+          .addClass("has-error") for field in [$de, $(this), $duree]
+        $duree.closest(".form-group")
+          .append("<p class='help-block'>#{result}</p>")
+      else
+        $duree.val(result)

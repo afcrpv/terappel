@@ -22,35 +22,35 @@
     .col-sm-4
       = f.association :expo_terme
 
-  .row
-    - [["periode_expo", ""], ["reprise_ttt", "2"]].each do |item|
-      - pexpo_class = item[0]
-      - suffix = item[1]
-      %div{class: "#{pexpo_class} col-sm-12"}
-        = f.label :"de#{suffix}", t("de#{suffix}", scope: [:activerecord, :attributes, :exposition]),
-          class: 'control-label'
-        .row
+  - [["periode_expo", ""], ["reprise_ttt", "2"]].each do |item|
+    - pexpo_class = item[0]
+    - suffix = item[1]
+    %div{class: pexpo_class}
+      = f.label :"de#{suffix}", t("de#{suffix}", scope: [:activerecord, :attributes, :exposition]),
+        class: 'control-label'
+      .row
+        %div{class: "de#{suffix}"}
           .col-sm-2
             = f.input :"de#{suffix}_date", as: :string,
-              label: false,
-              input_html: { class: 'de_date form-control' }
+              label: false, input_html: { class: 'date_expo form-control' }
           .col-sm-2
             = f.input :"de#{suffix}",
               label: false,
-              placeholder: 'de (SA)',
-              input_html: { class: 'de form-control' }
+              placeholder: 'de (SA)', input_html: { class: 'sa_expo form-control' }
+
+        %div{class: "a#{suffix}"}
           .col-sm-2
             = f.input :"a#{suffix}_date", as: :string,
               label: false,
-              input_html: { class: 'a_date form-control' }
+              input_html: { class: 'date_expo form-control' }
           .col-sm-2
             = f.input :"a#{suffix}", placeholder: "à (SA)",
               label: false,
-              input_html: { class: 'a form-control' }
-          .col-sm-2
-            = f.input :"duree#{suffix}", placeholder: "durée",
-              label: false,
-              input_html: { class: 'duree form-control' }
+              input_html: { class: 'sa_expo form-control' }
+        .col-sm-2
+          = f.input :"duree#{suffix}", placeholder: "durée",
+            label: false,
+            input_html: { class: 'duree form-control' }
 
   .field_links
     = link_to '#', class: 'btn btn-default btn-sm validate_expo' do
