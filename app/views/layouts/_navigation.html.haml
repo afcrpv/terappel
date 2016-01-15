@@ -14,7 +14,7 @@
           = render 'layouts/qsearch'
           - if Dossier.any?
             %li{class: request.path =~ /dossiers$/ ? "active" : nil}= link_to "Recherche", dossiers_path
-            %li{class: request.path =~ /search/ ? "active" : nil}= link_to "Exploitation", search_dossiers_path
+            %li{class: request.path =~ /search/ ? "active" : nil}= link_to "Exploitation", new_search_path
             -#%li{class: request.path =~ /relance/ ? "active" : nil}= link_to "Relance", "#"
           - if current_user.admin?
             %li.dropdown{class: request.path =~ /admin/ ? "active" : nil}

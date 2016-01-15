@@ -10,11 +10,7 @@ Terappel::Application.routes.draw do
   get "/try_new_dossier", to: "home#try_new_dossier"
 
   resources :searches
-  resources :dossiers do
-    collection do
-      match 'search', to: "dossiers#search", via: [:get, :post], as: :search
-    end
-  end
+  resources :dossiers
 
   resources :produits, only: :index
   resources :indications, only: :index

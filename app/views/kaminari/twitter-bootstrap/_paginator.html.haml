@@ -1,6 +1,6 @@
 = paginator.render do
-  .pagination.pagination-centered
-    %ul
+  %nav.text-center
+    %ul.pagination
       = prev_page_tag
       - each_page do |page|
         - if page.left_outer? or page.right_outer? or page.inside_window?

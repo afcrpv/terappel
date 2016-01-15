@@ -1,0 +1,24 @@
+fr:
+  datagrid:
+    filters:
+      xboolean:
+        'yes': 'Oui'
+        'no': 'Non'
+    form:
+      reset: Effacer les filtres
+      search: Rechercher
+    no_results: "&mdash;&mdash;"
+    table:
+      order:
+        asc: ↑
+        desc: ↓
+    dossiers_grid:
+      filters:
+        date_appel: Date Appel
+        name: Patiente
+      columns:
+        code: N° Appel
+        date_appel: Date Appel
+        name: Patiente
+        expositions: Exposition
+        evolution: Evolution

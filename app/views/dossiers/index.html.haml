@@ -1,24 +1,8 @@
 - title "Recherche simple"
 
-= search_form_for @q, remote: true, html: { class: "form-horizontal search", role: "form" } do |f|
-  .form-group
-    = f.label "Date Appel", class: "col-sm-2 control-label"
-    .col-sm-3
-      = f.label :date_appel_gteq, class: "sr-only"
-      .input-group
-        %span.input-group-addon du
-        = f.text_field :date_appel_gteq, class: "form-control", value: min_date_appel
-    .col-sm-3
-      = f.label :date_appel_lteq, class: "sr-only"
-      .input-group
-        %span.input-group-addon au
-        = f.text_field :date_appel_lteq, class: "form-control", value: max_date_appel
+= datagrid_form_for @grid, method: :get, url: dossiers_path, html: { class: 'form-horizontal' }
 
-  .form-group
-    .col-sm-offset-2.col-sm-10
-      = f.submit "Rechercher", data: {disable_with: "Rechercher"}, class: "btn btn-primary"
-      = button_tag "Effacer le formulaire", type: :reset, class: "btn btn-danger"
-
-#dossiers
+= datagrid_table @grid, html: { class: 'table table-striped table-condensed table-bordered' }
+= paginate @grid.assets, theme: 'twitter-bootstrap'
 
 = render 'dossiers/dossier_modal'

@@ -27,19 +27,17 @@ class DossiersController < ApplicationController
   end
 
   def index
-    @q = Dossier.search(params[:q])
-    @dossiers = @q.result(distinct: true).limit(10)
-    #@dossiers = @dossiers.includes([:motif]).limit(10)
-    #@decorated_dossiers = @dossiers.decorate
-    respond_with @dossiers do |format|
-      format.html
-      format.js
-      format.xls
-      format.pdf do
-        pdf = DossiersPdf.new(@decorated_dossiers, view_context)
-        send_data pdf.render, filename: "dossiers.pdf",
-                              type: "application/pdf",
-                              disposition: "inline"
+    @grid = DossiersGrid.new(dossiers_grid_params
+      .merge(current_user: current_user))
+    respond_with @grid do |format|
+      format.html do
+        @grid.scope { |scope| scope.page(params[:page]) }
+      end
+      format.csv do
+        send_data @grid.to_csv,
+          type: 'text/csv',
+          disposition: 'inline',
+          filename: "dossiers-#{Time.now.to_s}.csv"
       end
     end
   end
@@ -168,5 +166,9 @@ class DossiersController < ApplicationController
 
   def interpolation_options
     { resource_name: "Dossier #{@dossier.code}" }
+  end
+
+  def dossiers_grid_params
+    @dossiers_grid_params = params[:dossiers_grid] || {}
   end
 end

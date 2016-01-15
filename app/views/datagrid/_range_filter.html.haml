@@ -1,0 +1,8 @@
+.col-sm-6
+  .input-group
+    %span.input-group-addon du
+    = form.text_field filter.name, from_options.merge(class: 'form-control')
+.col-sm-6
+  .input-group
+    %span.input-group-addon au
+    = form.text_field filter.name, to_options.merge(class: 'form-control')

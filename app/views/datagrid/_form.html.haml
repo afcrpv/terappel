@@ -1,0 +1,14 @@
+= form_for grid, options do |f|
+  - grid.filters.each do |filter|
+    .datagrid-filter.filter.form-group
+      = f.datagrid_label filter, class: 'control-label col-sm-2'
+      .col-sm-8
+        = f.datagrid_filter filter, partials: options[:partials], class: 'form-control'
+  .datagrid-actions.form-group
+    .col-sm-offset-2.col-sm-8
+      = f.submit I18n.t("datagrid.form.search").html_safe, class: "datagrid-submit btn btn-primary"
+      -# https://github.com/rails/rails/pull/14949
+      - empty_parameter = Rails.version >= "4.1.0" && Rails.version <= '4.1.2' ? nil : {}
+      = link_to I18n.t('datagrid.form.reset').html_safe,
+        url_for(grid.to_param => empty_parameter),
+        class: 'datagrid-reset btn btn-link'
