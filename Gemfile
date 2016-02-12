@@ -1,4 +1,4 @@
-ruby '2.2.2'
+ruby '2.3.0'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-select2', '~> 4.0.0'
@@ -6,7 +6,7 @@ end
 
 source 'http://rubygems.org'
 
-gem 'rails', '4.2.1'
+gem 'rails', '4.2.5.1'
 gem 'pg',     '~> 0.18.1'
 
 group :development do
