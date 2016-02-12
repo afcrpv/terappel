@@ -8,7 +8,7 @@
                             radio_buttons: :vertical_radio_and_checkboxes,
                             file: :vertical_file_input,
                             boolean: :vertical_boolean } do |f|
-      = f.input :username, input_html: { autofocus: true }, required: false
+      = f.input :email, input_html: { autofocus: true }, required: false
       = f.input :password, required: false
       = f.button :submit, t('.submit'),
         data: { disable_with: t('.submit') }, class: 'btn-primary'

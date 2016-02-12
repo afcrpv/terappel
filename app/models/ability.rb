@@ -4,7 +4,8 @@ class Ability
   attr_reader :user
 
   def initialize(user)
-    @user = user
+    @user = user || User.new
+    can :index, :home
     member_rules if user
     admin_rules if user && user.admin?
   end
