@@ -9,7 +9,7 @@ class Correspondant < ActiveRecord::Base
 
   validates_presence_of :nom
 
-  #callbacks
+  # callbacks
   after_create :assign_fullname
   before_update do
     self.fullname = generate_fullname
@@ -26,10 +26,10 @@ class Correspondant < ActiveRecord::Base
   private
 
   def assign_fullname
-    self.update_attribute(:fullname, generate_fullname)
+    update_attribute(:fullname, generate_fullname)
   end
 
   def generate_fullname
-    [nom, specialite.name, cp, ville].compact.join(" - ")
+    [nom, specialite.name, cp, ville].compact.join(' - ')
   end
 end

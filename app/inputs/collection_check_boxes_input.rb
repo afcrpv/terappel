@@ -1,5 +1,5 @@
 class CollectionCheckBoxesInput < SimpleForm::Inputs::CollectionCheckBoxesInput
   def item_wrapper_class
-    "checkbox-inline"
+    'checkbox-inline'
   end
 end

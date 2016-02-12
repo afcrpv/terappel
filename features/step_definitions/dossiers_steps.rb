@@ -1,54 +1,54 @@
 # encoding: utf-8
 Given /^I go to the new dossier page with code "([^\"]*)"$/ do |code|
-  visit new_dossier_path(code: "#{code}") # express the regexp above with the code you wish you had
+  visit new_dossier_path(code: code.to_s) # express the regexp above with the code you wish you had
 end
 
 When /^I add a new dossier$/ do
-  step %{I go to the new dossier page with code "LY1101001"}
-  find(:css, "#dossier_date_appel").set "31/01/2001"
-  find(:css, "#dossier_name").set "Martin"
+  step %(I go to the new dossier page with code "LY1101001")
+  find(:css, '#dossier_date_appel').set '31/01/2001'
+  find(:css, '#dossier_name').set 'Martin'
   expect do
     click_button I18n.t('helpers.submit.create')
-  end.to change{Dossier.count}.by(1)
+  end.to change { Dossier.count }.by(1)
   Dossier.last.user_id.should == @user.id
   Dossier.last.centre_id.should == @centre.id
 end
 
 Then /^I should see the newly created dossier in the list$/ do
   page.should have_content "Dossier#LY1101001 créé avec succès."
-  page.should have_content "LY1101001"
-  page.should have_content "Martin"
-  page.should have_content "31/01/2001"
+  page.should have_content 'LY1101001'
+  page.should have_content 'Martin'
+  page.should have_content '31/01/2001'
 end
 
 Then /^I should see the updated dossier in the list$/ do
   page.should have_content "Dossier mis(e) à jour avec succès."
-  page.should have_content "Dupont"
-  page.should have_content "01/01/2001"
+  page.should have_content 'Dupont'
+  page.should have_content '01/01/2001'
 end
 
 Given /^an existing dossier$/ do
   @dossier = @centre.dossiers.build(
-        :name => "dupont",
-        :code => "LY1111001",
-        :date_appel => "31/1/2011")
+    name: 'dupont',
+    code: 'LY1111001',
+    date_appel: '31/1/2011')
   @dossier.user_id = @user.id
   @dossier.save!
   visit edit_dossier_path(@dossier)
 end
 
 When /^I update the dossier with new data$/ do
-  find(:css, "#dossier_date_appel").set "01/01/2001"
-  find(:css, "#dossier_name").set "Dupont"
+  find(:css, '#dossier_date_appel').set '01/01/2001'
+  find(:css, '#dossier_name').set 'Dupont'
   click_button I18n.t('helpers.submit.update')
 end
 
 Given /^(\d+) dossiers exist$/ do |count|
   (1..count.to_i).each do |i|
     dossier = @centre.dossiers.build(
-      :name => "name#{i}",
-      :code => "LY11#{i}",
-      :date_appel => "31/1/2011"
+      name: "name#{i}",
+      code: "LY11#{i}",
+      date_appel: '31/1/2011'
     )
     dossier.user_id = @user.id
     dossier.save!
@@ -60,7 +60,7 @@ Given /^no dossiers exist with code "([^"]*)"$/ do |code|
 end
 
 Then /^I should see the page for creating a new dossier$/ do
-  page.should have_content("Nouveau Dossier")
+  page.should have_content('Nouveau Dossier')
 end
 
 Then /^the code field should be pre\-filled with "([^"]*)"$/ do |code|
@@ -68,11 +68,11 @@ Then /^the code field should be pre\-filled with "([^"]*)"$/ do |code|
 end
 
 When /^I fill in the search field with "([^"]*)"$/ do |search|
-  fill_in "codedossier", :with => search
+  fill_in 'codedossier', with: search
 end
 
 Then /^the search field should contain "([^"]*)"$/ do |value|
-  find_field("codedossier").value.should include(value)
+  find_field('codedossier').value.should include(value)
 end
 
 Given /^a correspondant from same user centre$/ do
@@ -87,19 +87,19 @@ Given /^a correspondant from centre "([^"]*)"$/ do |centre_name|
 end
 
 Then /^the correspondants list should (contain|not contain) "([^"]*)"$/ do |condition, text|
-  check = condition == "contain" ? true : false
-  page.execute_script %Q{ $('input[data-autocomplete]').trigger("focus") }
-  page.execute_script %Q{ $('input[data-autocomplete]').trigger("keydown") }
+  check = condition == 'contain' ? true : false
+  page.execute_script %{ $('input[data-autocomplete]').trigger("focus") }
+  page.execute_script %{ $('input[data-autocomplete]').trigger("keydown") }
   sleep 1
   page.has_content?(text).should == check
 end
 
 When /^I fill in the correspondant field with "([^"]*)"$/ do |value|
-  fill_in "dossier_correspondant_nom", :with => value
+  fill_in 'dossier_correspondant_nom', with: value
 end
 
 Then /^the correspondant field should contain "([^"]*)"$/ do |value|
-  find_field("dossier_correspondant_nom").value.should include(value)
+  find_field('dossier_correspondant_nom').value.should include(value)
 end
 
 Given /^(\d+) correspondants exist$/ do |count|
@@ -109,7 +109,7 @@ Given /^(\d+) correspondants exist$/ do |count|
 end
 
 When /^I submit$/ do
-  click_on "OK"
+  click_on 'OK'
 end
 
 Then /^I should see the page for the dossier with code "([^"]*)"$/ do |code|
@@ -121,12 +121,12 @@ Then /^the ([^"]*) should be destroyed$/ do |resource|
 end
 
 Then /^the modify correspondant button should be visible$/ do
-  page.find(:css, "a.edit-correspondant").visible?.should == true
+  page.find(:css, 'a.edit-correspondant').visible?.should == true
 end
 
 When /^I calculate the dates grossesse$/ do
-  click_on "Grossesse"
-  click_on "Calculer"
+  click_on 'Grossesse'
+  click_on 'Calculer'
 end
 
 Then /^I should see "([^"]*)"$/ do |message|
@@ -134,12 +134,12 @@ Then /^I should see "([^"]*)"$/ do |message|
 end
 
 When /^I fill in the date appel field with "([^"]*)"$/ do |date|
-  find(:css, "#dossier_date_appel").set date
+  find(:css, '#dossier_date_appel').set date
 end
 
 When /^I fill in the date debut grossesse field with "([^"]*)"$/ do |date|
-  click_on "Grossesse"
-  fill_in "dossier_date_debut_grossesse", with: date
+  click_on 'Grossesse'
+  fill_in 'dossier_date_debut_grossesse', with: date
 end
 
 Then /^the date accouchement prevue should be "([^"]*)"$/ do |date|
@@ -147,8 +147,8 @@ Then /^the date accouchement prevue should be "([^"]*)"$/ do |date|
 end
 
 When /^I fill in the date dernieres regles field with "([^"]*)"$/ do |date|
-  click_on "Grossesse"
-  fill_in "dossier_date_dernieres_regles", with: date
+  click_on 'Grossesse'
+  fill_in 'dossier_date_dernieres_regles', with: date
 end
 
 Then /^the age grossesse should be "([^"]*)"$/ do |sa|
@@ -160,17 +160,17 @@ Then /^the date debut grossesse should be "([^"]*)"$/ do |date|
 end
 
 When /^I choose "([^"]*)" as the evolution$/ do |evolution|
-  click_on "Evolution"
+  click_on 'Evolution'
   choose evolution
 end
 
 Then /^the mod accouch input should (be|not be) visible$/ do |condition|
-  check = condition == "be" ? true : false
+  check = condition == 'be' ? true : false
   find(:css, '#modaccouch').visible?.should == check
 end
 
 Given /^the evolutions "([^"]*)"$/ do |evolutions|
-  evolutions.split(" ").each do |evolution|
+  evolutions.split(' ').each do |evolution|
     Factory(:evolution, name: evolution)
   end
 end

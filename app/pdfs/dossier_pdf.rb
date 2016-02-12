@@ -1,5 +1,5 @@
 class DossierPdf < Prawn::Document
-  def initialize dossier, decorated_dossier, view
+  def initialize(dossier, decorated_dossier, view)
     super(top_margin: 30)
     @view = view
     @dossier_object = dossier
@@ -7,11 +7,11 @@ class DossierPdf < Prawn::Document
     header
 
     my_table info_generales, "Info générales"
-    my_table correspondant, "Correspondant"
-    my_table patiente, "Patiente"
-    my_table grossesse, "Grossesse en cours"
+    my_table correspondant, 'Correspondant'
+    my_table patiente, 'Patiente'
+    my_table grossesse, 'Grossesse en cours'
 
-    table_heading "Expositions"
+    table_heading 'Expositions'
     font_size 10 do
       table expositions, position: :center do
         cells.style do |cell|
@@ -25,7 +25,7 @@ class DossierPdf < Prawn::Document
     end
     move_down 10
 
-    my_table evolution, "Evolution"
+    my_table evolution, 'Evolution'
 
     table_heading "Nouveau(x) né(s)"
     font_size 10 do
@@ -55,7 +55,7 @@ class DossierPdf < Prawn::Document
     stroke_horizontal_rule
   end
 
-  def my_table(data, heading, options={})
+  def my_table(data, heading, options = {})
     options = options.merge position: :center, width: 580 unless options.any?
     table_heading heading
     font_size 10 do
@@ -74,45 +74,46 @@ class DossierPdf < Prawn::Document
   end
 
   def info_generales
-    [["Date Appel :", @dossier.date_appel, "Motif :", @dossier.motif_name, "Témoin :", @dossier.expo_terato]]
+    [['Date Appel :', @dossier.date_appel, 'Motif :', @dossier.motif_name, "Témoin :", @dossier.expo_terato]]
   end
 
   def correspondant
-    relance_label, relance_content = "", ""
-    if @dossier.a_relancer == "Oui"
-      relance_label = "A relancer :"
+    relance_label = ''
+    relance_content = ''
+    if @dossier.a_relancer == 'Oui'
+      relance_label = 'A relancer :'
       relance_content = @dossier.relance.to_s
     end
     data = []
-    data << ["Initial :", {content: @dossier.demandeur.to_s, colspan: 5}]
-    data << [relance_label, {content: relance_content, colspan: 5}]
+    data << ['Initial :', { content: @dossier.demandeur.to_s, colspan: 5 }]
+    data << [relance_label, { content: relance_content, colspan: 5 }]
   end
 
   def patiente
     [
-      ["Données démographiques :", {content: @dossier.patiente + ", " + @dossier.patient_data, colspan: 5}],
-      ["Antécédents personnels :", {content: @dossier.atcds_perso, colspan: 5}],
-      ["Antécédents familiaux :", {content: @dossier.atcds_fam, colspan: 5}],
-      ["Nb grossesse(s) antérieure(s) :", {content: @dossier.atcds_grs, colspan: 5}]
+      ["Données démographiques :", { content: @dossier.patiente + ', ' + @dossier.patient_data, colspan: 5 }],
+      ["Antécédents personnels :", { content: @dossier.atcds_perso, colspan: 5 }],
+      ["Antécédents familiaux :", { content: @dossier.atcds_fam, colspan: 5 }],
+      ["Nb grossesse(s) antérieure(s) :", { content: @dossier.atcds_grs, colspan: 5 }]
     ]
   end
 
   def grossesse
     [
-      ["Age grossesse lors appel :", @dossier.age_grossesse, "Début grossesse :", @dossier.date_debut_grossesse, "Accouchement prévu :", @dossier.date_accouchement_prevu],
-      ["Tabac :", @dossier.tabac, "Alcool :", @dossier.alcool, "Autres toxiques :", @dossier.toxiques],
-      ["Acide folique :", @dossier.folique, "Pathologie(s) T1 :", @dossier.patho1t, "AMP :", @dossier.ass_med_proc]
+      ['Age grossesse lors appel :', @dossier.age_grossesse, "Début grossesse :", @dossier.date_debut_grossesse, "Accouchement prévu :", @dossier.date_accouchement_prevu],
+      ['Tabac :', @dossier.tabac, 'Alcool :', @dossier.alcool, 'Autres toxiques :', @dossier.toxiques],
+      ['Acide folique :', @dossier.folique, 'Pathologie(s) T1 :', @dossier.patho1t, 'AMP :', @dossier.ass_med_proc]
     ]
   end
 
   def evolution
     [
-      ["Date recueil :", @dossier.date_recueil_evol, "Evolution :", @dossier.evolution.to_s, "Terme :", @dossier.terme, "Date accouchement :", @dossier.date_reelle_accouchement]
+      ['Date recueil :', @dossier.date_recueil_evol, 'Evolution :', @dossier.evolution.to_s, 'Terme :', @dossier.terme, 'Date accouchement :', @dossier.date_reelle_accouchement]
     ]
   end
 
   def expositions
-    data = [["Produit", "Indication", "Posologie", "Terme"]]
+    data = [%w(Produit Indication Posologie Terme)]
     @dossier_object.expositions.each do |expo|
       data << [expo.produit.to_s, expo.indication.to_s, expo.expo_terme.to_s, expo.dose]
     end
@@ -120,7 +121,7 @@ class DossierPdf < Prawn::Document
   end
 
   def bebes
-    data = [["Age", "Sexe", "Poids", "Taille", "PC", "Apgar", "Malf", "Path"]]
+    data = [%w(Age Sexe Poids Taille PC Apgar Malf Path)]
     @dossier_object.bebes.each do |bebe|
       data << [bebe.age, bebe.sexe, bebe.poids, bebe.taille, bebe.pc, bebe.apgar, bebe.malformation, bebe.pathology]
     end
@@ -130,7 +131,7 @@ class DossierPdf < Prawn::Document
   def commentaire
     font_size 10 do
       move_down 20
-      text "Commentaire", style: :bold
+      text 'Commentaire', style: :bold
       move_down 10
       text @dossier.commentaire(false)
     end

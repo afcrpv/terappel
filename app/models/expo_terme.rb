@@ -1,5 +1,5 @@
 class ExpoTerme < ActiveRecord::Base
-  default_scope {order(:name)}
+  default_scope { order(:name) }
 
   def to_s
     name

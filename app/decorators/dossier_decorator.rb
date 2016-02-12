@@ -5,7 +5,7 @@ class DossierDecorator < ApplicationDecorator
     object.bebes.size
   end
 
-  def commentaire(parse=true)
+  def commentaire(parse = true)
     parse ? h.simple_format(object.commentaire) : object.commentaire
   end
 
@@ -31,20 +31,20 @@ class DossierDecorator < ApplicationDecorator
 
   def poids
     handle_none object.poids do
-      "#{object.poids}"
+      object.poids.to_s
     end
   end
 
   def taille
     handle_none object.taille do
-      "#{object.taille}"
+      object.taille.to_s
     end
   end
 
   (1..3).each do |i|
     %w(dose de a de2 a2).each do |method|
       define_method :"#{method}_#{i}" do
-        exposition = object.expositions[i-1]
+        exposition = object.expositions[i - 1]
         handle_none exposition do
           exposition.send(:try, :"#{method}")
         end
@@ -52,7 +52,7 @@ class DossierDecorator < ApplicationDecorator
     end
 
     define_method :"produit_#{i}" do
-      exposition = object.expositions[i-1]
+      exposition = object.expositions[i - 1]
       handle_none exposition do
         exposition.send(:try, :produit)
       end
@@ -60,7 +60,7 @@ class DossierDecorator < ApplicationDecorator
 
     %w(indication expo_terme).each do |name|
       define_method :"#{name}_#{i}" do
-        exposition = object.expositions[i-1]
+        exposition = object.expositions[i - 1]
         handle_none exposition do
           handle_none exposition.send(:"#{name}") do
             exposition.send(:"#{name}_name")
@@ -100,11 +100,9 @@ class DossierDecorator < ApplicationDecorator
     define_method mp do
       if object.bebes.any?
         Dossier::ONI.each do |value|
-          if object.bebes.any? {|b| b.send(mp) == value}
-            return value
-          end
+          return value if object.bebes.any? { |b| b.send(mp) == value }
         end
-        return "non spécifié" if object.bebes.any? {|b| b.send(mp) == nil}
+        return "non spécifié" if object.bebes.any? { |b| b.send(mp).nil? }
       end
     end
   end
@@ -129,25 +127,24 @@ class DossierDecorator < ApplicationDecorator
     attribute = object.grsant
     handle_none attribute do
       if attribute == 0
-        result = "primipare-primigeste"
+        result = 'primipare-primigeste'
       else
         result = attribute.to_s
         gestes = {}
         %w(fcs geu miu ivg img nai).each do |geste|
-          if geste == "nai"
-            gestes["naissance"] = object.send(geste)
+          if geste == 'nai'
+            gestes['naissance'] = object.send(geste)
           else
             gestes[geste] = object.send(geste)
           end
         end
         autres = []
         gestes.each do |k, v|
-          if v && v > 0
-            if k == "naissance"
-              autres.push "#{h.pluralize(v, k)}"
-            else
-              autres.push v.to_s + " #{k.upcase}"
-            end
+          next unless v && v > 0
+          if k == 'naissance'
+            autres.push h.pluralize(v, k).to_s
+          else
+            autres.push v.to_s + " #{k.upcase}"
           end
         end
         if attribute == 1
@@ -164,10 +161,10 @@ class DossierDecorator < ApplicationDecorator
       attribute = object.send("antecedents_#{atcds}")
       handle_none attribute do
         case attribute
-        when "Non" then "Non"
-        when "Oui" then self.send("comm_antecedents_#{atcds}")
+        when 'Non' then 'Non'
+        when 'Oui' then send("comm_antecedents_#{atcds}")
         else
-          "NSP"
+          'NSP'
         end
       end
     end
@@ -178,19 +175,19 @@ class DossierDecorator < ApplicationDecorator
   end
 
   def patient_data
-    [age_unite, poids_taille_imc].compact.join(", ")
+    [age_unite, poids_taille_imc].compact.join(', ')
   end
 
   def age_unite
-    value_with_unit object.age, "ans"
+    value_with_unit object.age, 'ans'
   end
 
   def poids_unite
-    value_with_unit object.poids, "kg"
+    value_with_unit object.poids, 'kg'
   end
 
   def taille_unite
-    value_with_unit object.taille, "cm"
+    value_with_unit object.taille, 'cm'
   end
 
   def imc
@@ -198,7 +195,7 @@ class DossierDecorator < ApplicationDecorator
   end
 
   def poids_taille_imc
-    result = [poids_unite, taille_unite].join(" x ")
+    result = [poids_unite, taille_unite].join(' x ')
     result << " (IMC #{imc})" if imc
   end
 
@@ -212,13 +209,11 @@ class DossierDecorator < ApplicationDecorator
   end
 
   def produit_name(index)
-    if object.produits.any?
-      object.produits[index].try(:name)
-    end
+    object.produits[index].try(:name) if object.produits.any?
   end
 
-  def expositions(parse=true)
-    handle_none object.produits_names, "Aucune" do
+  def expositions(parse = true)
+    handle_none object.produits_names, 'Aucune' do
       parse ? twipsy(object.produits_names) : object.produits_names
     end
   end
@@ -226,9 +221,7 @@ class DossierDecorator < ApplicationDecorator
   private
 
   def value_with_unit(value, unit)
-    if value.present?
-      "#{value} #{unit}"
-    end
+    "#{value} #{unit}" if value.present?
   end
 
   # Define presentation-specific methods here. Helpers are accessed through
@@ -239,5 +232,4 @@ class DossierDecorator < ApplicationDecorator
   #       object.created_at.strftime("%a %m/%d/%y")
   #     end
   #   end
-
 end

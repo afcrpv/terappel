@@ -4,6 +4,7 @@ class ChangeCorrespondantKeysInDossiers < ActiveRecord::Migration
     add_column :dossiers, :relance_id, :integer
     add_index :dossiers, :relance_id
   end
+
   def down
     rename_column :dossiers, :demandeur_id, :correspondant_id
     remove_column :dossiers, :relance_id

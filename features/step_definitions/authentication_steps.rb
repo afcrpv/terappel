@@ -1,9 +1,9 @@
 Given /^a user belonging to an existing centre$/ do
-  @centre = Centre.create!(:name => "lyon", :code => "ly")
+  @centre = Centre.create!(name: 'lyon', code: 'ly')
   @user = @centre.users.create!(
-    :username => "username",
-    :password => "password",
-    :email => "myuser@example.com")
+    username: 'username',
+    password: 'password',
+    email: 'myuser@example.com')
 end
 
 When /^the user logs in with correct credentials$/ do
@@ -11,34 +11,34 @@ When /^the user logs in with correct credentials$/ do
 end
 
 When /^the user logs in with wrong credentials$/ do
-  login("wronguser", "wrongpassword")
+  login('wronguser', 'wrongpassword')
 end
 
 Given /^a centre admin is logged in$/ do
-  steps %Q{
+  steps %(
     Given a user belonging to an existing centre
     When the user logs in with correct credentials
-  }
-  @user.role ="centre_admin"
+  )
+  @user.role = 'centre_admin'
   @user.save!
 end
 
 When /should see a success message$/ do
-  steps %Q{
+  steps %(
     Then I should see a "devise.sessions.signed_in" message
-  }
+  )
 end
 
 Then /^they should be denied access$/ do
-  steps %Q{
+  steps %(
     Then I should see a "devise.failure.invalid" message
-  }
+  )
 end
 
 When /^the user goes to his profile page$/ do
-  steps %Q{
+  steps %(
     When the user logs in with correct credentials
-  }
+  )
   visit edit_user_path(@user)
 end
 
@@ -48,52 +48,52 @@ Then /^they should see their personal informations$/ do
 end
 
 When /^the user edits his profile informations$/ do
-  steps %Q{
+  steps %(
     When the user logs in with correct credentials
-  }
+  )
   visit edit_user_path(@user)
-  fill_in I18n.t("activerecord.attributes.user.username"), :with => "utilisateur"
-  fill_in I18n.t("activerecord.attributes.user.email"), :with => "utilisateur@test.com"
+  fill_in I18n.t('activerecord.attributes.user.username'), with: 'utilisateur'
+  fill_in I18n.t('activerecord.attributes.user.email'), with: 'utilisateur@test.com'
   click_on I18n.t('formtastic.actions.update_profile')
 end
 
 Then /^their profile should be update with new informations$/ do
   user = User.find(@user.id)
-  user.username.should == "utilisateur"
-  user.email.should == "utilisateur@test.com"
+  user.username.should == 'utilisateur'
+  user.email.should == 'utilisateur@test.com'
 end
 
 When /^the user changes his password without filling the current password$/ do
-  steps %Q{
+  steps %(
     When the user logs in with correct credentials
-  }
+  )
   visit edit_user_path(@user)
-  fill_in I18n.t("activerecord.attributes.user.password"), :with => "newpassword"
-  fill_in I18n.t("activerecord.attributes.user.password_confirmation"), :with => "newpassword"
+  fill_in I18n.t('activerecord.attributes.user.password'), with: 'newpassword'
+  fill_in I18n.t('activerecord.attributes.user.password_confirmation'), with: 'newpassword'
 end
 
 Then /^their password shouldn't change$/ do
   expect do
     click_on I18n.t('formtastic.actions.update_profile')
-  end.to_not change{@user.password}
+  end.to_not change { @user.password }
 end
 
 When /^the user changes his password$/ do
-  steps %Q{
+  steps %(
     When the user logs in with correct credentials
-  }
+  )
   visit edit_user_path(@user)
-  fill_in I18n.t("activerecord.attributes.user.current_password"),
-    :with => "password"
-  fill_in I18n.t("formtastic.labels.user.edit.password"),
-    :with => "newpassword"
-  fill_in I18n.t("activerecord.attributes.user.password_confirmation"),
-    :with => "newpassword"
+  fill_in I18n.t('activerecord.attributes.user.current_password'),
+          with: 'password'
+  fill_in I18n.t('formtastic.labels.user.edit.password'),
+          with: 'newpassword'
+  fill_in I18n.t('activerecord.attributes.user.password_confirmation'),
+          with: 'newpassword'
   click_on I18n.t('formtastic.actions.update_profile')
 end
 
 Then /^they should be able to reconnect with the changed password$/ do
   page.should have_content I18n.t('devise.failure.unauthenticated')
-  login(@user.username, "newpassword")
+  login(@user.username, 'newpassword')
   page.should have_content I18n.t('devise.sessions.signed_in')
 end

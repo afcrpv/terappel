@@ -17,7 +17,7 @@ class SearchesController < ApplicationController
   end
 
   def show
-    @filename = "Export_terappel_" + I18n.l(Date.today).gsub("/","_") + ".csv"
+    @filename = 'Export_terappel_' + I18n.l(Date.today).tr('/', '_') + '.csv'
     ransack = Dossier.includes(:produits, :bebes, :motif).search(@search.q)
     @dossiers = @search.distinct.zero? ? ransack.result : ransack.result(distinct: true)
     @decorated_dossiers = @dossiers.decorate
@@ -25,7 +25,7 @@ class SearchesController < ApplicationController
 
     respond_with @search do |format|
       format.html { render }
-      format.csv { send_data @decorated_dossiers.to_csv(col_sep: ";"), filename: @filename }
+      format.csv { send_data @decorated_dossiers.to_csv(col_sep: ';'), filename: @filename }
     end
   end
 
@@ -44,10 +44,10 @@ class SearchesController < ApplicationController
   private
 
   def search_params
-    params.require(:search).permit(:g)#:local, :centre_id, :min_date_appel, :max_date_appel, :motif_id, :expo_nature_id, :expo_type_id, :indication_id, :expo_terme_id, :evolution, :malformation, :pathology, :produit_tokens, :dci_tokens)
+    params.require(:search).permit(:g) #:local, :centre_id, :min_date_appel, :max_date_appel, :motif_id, :expo_nature_id, :expo_type_id, :indication_id, :expo_terme_id, :evolution, :malformation, :pathology, :produit_tokens, :dci_tokens)
   end
 
   def interpolation_options
-    {resource_name: "Recherche"}
+    { resource_name: 'Recherche' }
   end
 end

@@ -12,7 +12,7 @@ class Exposition < ActiveRecord::Base
 
   validates_presence_of :produit
 
-  ONNSP = [["Oui", "O"], ["Non", "N"], ["Ne sait pas", "NSP"]]
+  ONNSP = [%w(Oui O), %w(Non N), ['Ne sait pas', 'NSP']].freeze
 
   def produit_name=(name)
     self.produit = Produit.find_by_name(name) unless name.blank?

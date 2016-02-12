@@ -88,5 +88,5 @@ Rails.application.configure do
     # SMTP password is any valid API key
     password:             ENV['MANDRILL_PASSWORD'],
     authentication:       'login',
-    enable_starttls_auto: true  }
+    enable_starttls_auto: true }
 end

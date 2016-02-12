@@ -3,13 +3,13 @@
 # to do so you may need to add this line to your ApplicationController
 #   helper :layout
 module LayoutHelper
-  def title(page_title = nil, subtitle = nil, show_title = true, interpolations={})
-    content_for(:title) {page_title ? page_title.to_s : default_title(interpolations)}
+  def title(page_title = nil, subtitle = nil, show_title = true, interpolations = {})
+    content_for(:title) { page_title ? page_title.to_s : default_title(interpolations) }
     content_for(:subtitle) { subtitle }
     @show_title = show_title
   end
 
-  def default_title(interpolations={})
+  def default_title(interpolations = {})
     translate_controller_action(action_name, controller_name, interpolations)
   end
 
@@ -19,7 +19,7 @@ module LayoutHelper
 
   private
 
-  def translate_controller_action(action, resource, interpolations={})
-    I18n.t([resource, action, "title"].join("."), interpolations)
+  def translate_controller_action(action, resource, interpolations = {})
+    I18n.t([resource, action, 'title'].join('.'), interpolations)
   end
 end

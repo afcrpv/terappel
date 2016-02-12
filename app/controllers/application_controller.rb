@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
     redirect_to login_url, alert: exception.message
   end
 
-  before_filter :find_dossier_for_search
+  before_action :find_dossier_for_search
 
   private
 
@@ -34,7 +34,11 @@ class ApplicationController < ActionController::Base
 
   def find_dossier_for_search
     if params[:codedossier]
-      @search = Dossier.where(code: params[:codedossier]).first rescue nil
+      @search = begin
+                  Dossier.where(code: params[:codedossier]).first
+                rescue
+                  nil
+                end
       if @search
         redirect_to edit_dossier_path(@search)
       else

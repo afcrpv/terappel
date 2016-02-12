@@ -1,7 +1,7 @@
 # http://stackoverflow.com/questions/14972253/simpleform-default-input-class
 # https://github.com/plataformatec/simple_form/issues/316
 
-inputs = %w[
+inputs = %w(
   CollectionSelectInput
   DateTimeInput
   FileInput
@@ -11,7 +11,7 @@ inputs = %w[
   RangeInput
   StringInput
   TextInput
-]
+)
 
 inputs.each do |input_type|
   superclass = "SimpleForm::Inputs::#{input_type}".constantize
@@ -29,8 +29,7 @@ SimpleForm.setup do |config|
   config.boolean_style = :nested
 
   config.wrappers :bootstrap3, tag: 'div', class: 'form-group', error_class: 'has-error',
-      defaults: { input_html: { class: 'default-class '} } do |b|
-
+                               defaults: { input_html: { class: 'default-class ' } } do |b|
     b.use :html5
     b.use :min_max
     b.use :maxlength
@@ -45,8 +44,7 @@ SimpleForm.setup do |config|
   end
 
   config.wrappers :bootstrap3_horizontal, tag: 'div', class: 'form-group', error_class: 'has-error',
-      defaults: { input_html: { class: 'default-class '} } do |b|
-
+                                          defaults: { input_html: { class: 'default-class ' } } do |b|
     b.use :html5
     b.use :min_max
     b.use :maxlength
@@ -56,7 +54,7 @@ SimpleForm.setup do |config|
     b.optional :readonly
 
     b.use :label
-    b.wrapper :right_column, tag: :div, class: "" do |component|
+    b.wrapper :right_column, tag: :div, class: '' do |component|
       component.use :input
     end
     b.use :hint,  wrap_with: { tag: 'span', class: 'help-block' }
@@ -64,8 +62,7 @@ SimpleForm.setup do |config|
   end
 
   config.wrappers :check_boxes, tag: 'div', class: 'form-group', error_class: 'has-error',
-      defaults: { input_html: { class: 'default-class '} } do |b|
-
+                                defaults: { input_html: { class: 'default-class ' } } do |b|
     b.use :html5
     b.use :min_max
     b.use :maxlength
@@ -75,14 +72,13 @@ SimpleForm.setup do |config|
     b.optional :readonly
 
     b.use :label
-    b.use :input, class: "col-lg-10 col-md-10"
+    b.use :input, class: 'col-lg-10 col-md-10'
     b.use :hint,  wrap_with: { tag: 'span', class: 'help-block' }
     b.use :error, wrap_with: { tag: 'span', class: 'help-block has-error' }
   end
 
-  config.wrappers :group, tag: 'div', class: "form-group", error_class: 'has-error',
-      defaults: { input_html: { class: 'default-class '} }  do |b|
-
+  config.wrappers :group, tag: 'div', class: 'form-group', error_class: 'has-error',
+                          defaults: { input_html: { class: 'default-class ' } } do |b|
     b.use :html5
     b.use :min_max
     b.use :maxlength
@@ -92,7 +88,7 @@ SimpleForm.setup do |config|
     b.optional :readonly
 
     b.use :label
-    b.use :input, wrap_with: { class: "input-group" }
+    b.use :input, wrap_with: { class: 'input-group' }
     b.use :hint,  wrap_with: { tag: 'span', class: 'help-block' }
     b.use :error, wrap_with: { tag: 'span', class: 'help-block has-error' }
   end

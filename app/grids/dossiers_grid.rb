@@ -9,10 +9,12 @@ class DossiersGrid
 
   filter(:date_appel, :date,
          range: true,
-         default: proc { [Dossier.minimum(:date_appel),
-                          Dossier.maximum(:date_appel)] })
+         default: proc do
+           [Dossier.minimum(:date_appel),
+            Dossier.maximum(:date_appel)]
+         end)
 
-  filter(:name,:string) { |value| where('name ilike ?', "%#{value}%") }
+  filter(:name, :string) { |value| where('name ilike ?', "%#{value}%") }
 
   column(:code, order: false)
 
@@ -36,10 +38,10 @@ class DossiersGrid
   column(:actions, html: true) do |record|
     actions = [
       link_to(fa_icon('print'), '#',
-        data: { base_url: dossier_path(record), target: "#dossier_modal",
-                toggle: "modal", dossier_code: record.code },
-        title: "Imprimer le dossier #{record.code}",
-        class: 'btn btn-default btn-sm show-dossier-modal'),
+              data: { base_url: dossier_path(record), target: '#dossier_modal',
+                      toggle: 'modal', dossier_code: record.code },
+              title: "Imprimer le dossier #{record.code}",
+              class: 'btn btn-default btn-sm show-dossier-modal'),
       link_to(fa_icon('pencil'),
               edit_dossier_path(record),
               title: "Modifier le dossier #{record.code}",

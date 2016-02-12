@@ -11,7 +11,7 @@ class CreateBebesPathologies < ActiveRecord::Migration
 
   def down
     drop_table :bebes_pathologies
-    create_table :bebes_pathologies, :id => false do |t|
+    create_table :bebes_pathologies, id: false do |t|
       t.integer :bebe_id
       t.integer :pathologie_id
     end

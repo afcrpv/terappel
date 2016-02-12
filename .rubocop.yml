@@ -1,0 +1,10 @@
+inherit_from: .rubocop_todo.yml
+Style/Documentation:
+  Enabled: false
+Metrics/LineLength:
+    Max: 99
+AllCops:
+  Exclude:
+    - 'db/**/*'
+    - 'bin/*'
+    - 'spec/spec_helper.rb'

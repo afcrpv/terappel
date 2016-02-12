@@ -26,6 +26,7 @@ module Admin
     end
 
     private
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def produit_params
       params.require(:produit).permit(:name)

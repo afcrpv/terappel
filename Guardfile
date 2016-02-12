@@ -33,7 +33,7 @@ group :red_green_refactor, halt_on_fail: true do
     #                          installed the spring binstubs per the docs)
     #  * zeus: 'zeus rspec' (requires the server to be started separately)
     #  * 'just' rspec: 'rspec'
-    require "guard/rspec/dsl"
+    require 'guard/rspec/dsl'
     dsl = Guard::RSpec::Dsl.new(self)
 
     # Feel free to open issues for suggestions and improvements
@@ -53,7 +53,7 @@ group :red_green_refactor, halt_on_fail: true do
     dsl.watch_spec_files_for(rails.app_files)
     dsl.watch_spec_files_for(rails.views)
 
-    watch(rails.controllers) { |m| rspec.spec.("routing/#{m[1]}_routing") }
+    watch(rails.controllers) { |m| rspec.spec.call("routing/#{m[1]}_routing") }
 
     # Rails config changes
     watch(rails.spec_helper)     { rspec.spec_dir }
@@ -61,18 +61,18 @@ group :red_green_refactor, halt_on_fail: true do
     watch(rails.app_controller)  { "#{rspec.spec_dir}/controllers" }
 
     # Capybara features specs
-    watch(rails.controllers)   { |m| rspec.spec.("features/#{m[1]}") }
-    watch(rails.view_dirs)     { |m| rspec.spec.("features/#{m[1]}") }
-    watch(rails.layouts)       { |m| rspec.spec.("features/#{m[1]}") }
+    watch(rails.controllers)   { |m| rspec.spec.call("features/#{m[1]}") }
+    watch(rails.view_dirs)     { |m| rspec.spec.call("features/#{m[1]}") }
+    watch(rails.layouts)       { |m| rspec.spec.call("features/#{m[1]}") }
   end
 
-  guard :rubocop, all_on_start: false, cli: %w(--format clang --rails) do
-    watch(%r{.+\.rb$})
+  guard :rubocop, all_on_start: false, cli: %w(--format clang -R) do
+    watch(/.+\.rb$/)
     watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
   end
 
   guard 'brakeman', run_on_start: true,
-    cli: '-qA4 --no-assume-routes' do
+                    cli: '-qA4 --no-assume-routes' do
     watch(%r{^app/.+\.(erb|haml|rhtml|rb)$})
     watch(%r{^config/.+\.rb$})
     watch(%r{^lib/.+\.rb$})

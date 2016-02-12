@@ -1,8 +1,8 @@
 # create Expositions
 # csv processing : move lines with 2nd column empty to the top for analysis
 # :g/^\d\{7},,/m0
-puts "importing Exposition table from csv"
-CSV.foreach("csv/expositions.csv", headers: true) do |row|
+puts 'importing Exposition table from csv'
+CSV.foreach('csv/expositions.csv', headers: true) do |row|
   oldid = row['nexposition']
   puts "processing expo row##{oldid}"
   expo = Exposition.find_or_initialize_by(oldid: oldid)

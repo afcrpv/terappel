@@ -11,7 +11,7 @@ class DossiersController < ApplicationController
 
   rescue_from CanCan::AccessDenied do |exception|
     Rails.logger.debug "Access denied on #{exception.action} #{exception.subject.inspect}"
-    redirect_to dossiers_url, alert: "Vous ne pouvez pas modifier un dossier n'appartenant pas à votre CRPV !"# exception.message
+    redirect_to dossiers_url, alert: "Vous ne pouvez pas modifier un dossier n'appartenant pas à votre CRPV !" # exception.message
   end
 
   helper_method :min_date_appel, :max_date_appel
@@ -35,9 +35,9 @@ class DossiersController < ApplicationController
       end
       format.csv do
         send_data @grid.to_csv,
-          type: 'text/csv',
-          disposition: 'inline',
-          filename: "dossiers-#{Time.now.to_s}.csv"
+                  type: 'text/csv',
+                  disposition: 'inline',
+                  filename: "dossiers-#{Time.now}.csv"
       end
     end
   end
@@ -45,12 +45,12 @@ class DossiersController < ApplicationController
   def show
     @decorated_dossier = @dossier.decorate
     respond_with @dossier do |format|
-      format.html {render layout: false}
+      format.html { render layout: false }
       format.pdf do
         pdf = DossierPdf.new(@dossier, @decorated_dossier, view_context)
         send_data pdf.render, filename: "dossier_#{@dossier.code}.pdf",
-                              type: "application/pdf",
-                              disposition: "inline"
+                              type: 'application/pdf',
+                              disposition: 'inline'
       end
     end
   end
@@ -68,7 +68,7 @@ class DossiersController < ApplicationController
     if params[:_continue]
       location = edit_dossier_path(@dossier, current_tab: params[:dossier][:current_tab])
     elsif params[:_preview]
-      location = edit_dossier_path(@dossier, current_tab: params[:dossier][:current_tab], show_preview: "true")
+      location = edit_dossier_path(@dossier, current_tab: params[:dossier][:current_tab], show_preview: 'true')
     elsif params[:_add_another]
       location = new_dossier_path
     else
@@ -87,7 +87,7 @@ class DossiersController < ApplicationController
     if params[:_continue]
       location = edit_dossier_path(@dossier, current_tab: params[:dossier][:current_tab])
     elsif params[:_preview]
-      location = edit_dossier_path(@dossier, current_tab: params[:dossier][:current_tab], show_preview: "true")
+      location = edit_dossier_path(@dossier, current_tab: params[:dossier][:current_tab], show_preview: 'true')
     elsif params[:_add_another]
       location = new_dossier_path
     else
@@ -104,44 +104,44 @@ class DossiersController < ApplicationController
 
   private
 
-  #def interpolation_options
-    #{ resource_name: "Dossier #{@dossier.code}" }
-  #end
+  # def interpolation_options
+  # { resource_name: "Dossier #{@dossier.code}" }
+  # end
 
   def set_centre
     @centre = current_user.centre
   end
 
   def set_dossier
-    @dossier = Dossier.includes({expositions: [:produit, :indication]}).friendly.find(params[:id])
+    @dossier = Dossier.includes(expositions: [:produit, :indication]).friendly.find(params[:id])
   end
 
   def date_appel
-    @date_appel ||= params[:id] && @dossier.date_appel? ? l(@dossier.date_appel) : ""
+    @date_appel ||= params[:id] && @dossier.date_appel? ? l(@dossier.date_appel) : ''
   end
 
   def date_dernieres_regles
-    @date_dernieres_regles ||= params[:id] && @dossier.date_dernieres_regles? ? l(@dossier.date_dernieres_regles) : ""
+    @date_dernieres_regles ||= params[:id] && @dossier.date_dernieres_regles? ? l(@dossier.date_dernieres_regles) : ''
   end
 
   def date_debut_grossesse
-    @date_debut_grossesse ||= params[:id] && @dossier.date_debut_grossesse? ? l(@dossier.date_debut_grossesse) : ""
+    @date_debut_grossesse ||= params[:id] && @dossier.date_debut_grossesse? ? l(@dossier.date_debut_grossesse) : ''
   end
 
   def date_reelle_accouchement
-    @date_reelle_accouchement ||= params[:id] && @dossier.date_reelle_accouchement? ? l(@dossier.date_reelle_accouchement) : ""
+    @date_reelle_accouchement ||= params[:id] && @dossier.date_reelle_accouchement? ? l(@dossier.date_reelle_accouchement) : ''
   end
 
   def date_accouchement_prevu
-    @date_accouchement_prevu ||= params[:id] && @dossier.date_accouchement_prevu? ? l(@dossier.date_accouchement_prevu) : ""
+    @date_accouchement_prevu ||= params[:id] && @dossier.date_accouchement_prevu? ? l(@dossier.date_accouchement_prevu) : ''
   end
 
   def date_naissance
-    @date_naissance ||= params[:id] && @dossier.date_naissance? ? l(@dossier.date_naissance) : ""
+    @date_naissance ||= params[:id] && @dossier.date_naissance? ? l(@dossier.date_naissance) : ''
   end
 
   def date_recueil_evol
-    @date_recueil_evol ||= params[:id] && @dossier.date_recueil_evol? ? l(@dossier.date_recueil_evol) : ""
+    @date_recueil_evol ||= params[:id] && @dossier.date_recueil_evol? ? l(@dossier.date_recueil_evol) : ''
   end
 
   def evolutions
@@ -150,10 +150,10 @@ class DossiersController < ApplicationController
 
   def dossier_params
     params.require(:dossier).permit(:date_appel, :centre_id, :user_id, :current_tab, :code, :a_relancer, :relance_counter, :categoriesp_id,
-      :motif_id, :modaccouch, :date_dernieres_regles, :date_reelle_accouchement, :date_accouchement_prevu, :date_debut_grossesse, :date_recueil_evol, :name, :prenom, :age, :antecedents_perso, :antecedents_fam, :ass_med_proc, :expo_terato, :tabac, :alcool, :fcs, :geu, :miu, :ivg, :img, :nai, :grsant, :age_grossesse, :terme, :path_mat, :comm_antecedents_perso, :comm_antecedents_fam, :comm_evol, :comm_expo, :commentaire, :toxiques, :date_naissance, :poids, :taille, :folique, :patho1t, :evolution, :imc,
-      demandeur_attributes: [:correspondant_id],
-      relance_attributes: [:correspondant_id],
-      expositions_attributes: [:id, :expo_type_id, :expo_nature_id, :produit_id, :indication_id, :voie_id, :dose, :de, :de_date, :a, :a_date, :duree, :de2, :de2_date, :a2, :a2_date, :duree2, :expo_terme_id, :_destroy], bebes_attributes: [:id, :age, :sexe, :poids, :taille, :pc, :apgar1, :apgar5, :malformation, :pathology, { malformation_ids: [], pathology_ids: [] }, :_destroy])
+                                    :motif_id, :modaccouch, :date_dernieres_regles, :date_reelle_accouchement, :date_accouchement_prevu, :date_debut_grossesse, :date_recueil_evol, :name, :prenom, :age, :antecedents_perso, :antecedents_fam, :ass_med_proc, :expo_terato, :tabac, :alcool, :fcs, :geu, :miu, :ivg, :img, :nai, :grsant, :age_grossesse, :terme, :path_mat, :comm_antecedents_perso, :comm_antecedents_fam, :comm_evol, :comm_expo, :commentaire, :toxiques, :date_naissance, :poids, :taille, :folique, :patho1t, :evolution, :imc,
+                                    demandeur_attributes: [:correspondant_id],
+                                    relance_attributes: [:correspondant_id],
+                                    expositions_attributes: [:id, :expo_type_id, :expo_nature_id, :produit_id, :indication_id, :voie_id, :dose, :de, :de_date, :a, :a_date, :duree, :de2, :de2_date, :a2, :a2_date, :duree2, :expo_terme_id, :_destroy], bebes_attributes: [:id, :age, :sexe, :poids, :taille, :pc, :apgar1, :apgar5, :malformation, :pathology, { malformation_ids: [], pathology_ids: [] }, :_destroy])
   end
 
   def min_date_appel

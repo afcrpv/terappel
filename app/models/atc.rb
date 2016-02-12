@@ -3,6 +3,6 @@ class Atc < ActiveRecord::Base
   has_many :classifications, dependent: :destroy
 
   def to_s
-    [libabr, libelle].join(" - ")
+    [libabr, libelle].join(' - ')
   end
 end

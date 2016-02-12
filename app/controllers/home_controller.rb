@@ -5,7 +5,7 @@ class HomeController < ApplicationController
 
   def dossiers
     authorize! :dossiers, :home
-    @dossiers = Dossier.where("LOWER(code) like ?", "%#{params[:q]}%")
+    @dossiers = Dossier.where('LOWER(code) like ?', "%#{params[:q]}%")
     respond_to do |format|
       format.json { render json: @dossiers.map(&:code_and_id) }
     end

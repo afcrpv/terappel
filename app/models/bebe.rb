@@ -10,11 +10,11 @@ class Bebe < ActiveRecord::Base
   belongs_to :dossier, counter_cache: true
 
   SEXE = [
-    ['Masculin', 'M'],
-    ['Féminin', 'F'],
-    ['Inconnu', 'I'],
-    ['Indéterminé', 'Id']
-  ]
+    %w(Masculin M),
+    %w(Féminin F),
+    %w(Inconnu I),
+    %w(Indéterminé Id)
+  ].freeze
 
   def apgar
     contents = []
@@ -33,10 +33,8 @@ class Bebe < ActiveRecord::Base
 
   %w(malformation pathology).each do |association|
     define_method "#{association}_names" do
-      associations = self.send("#{association}s")
-      if associations.any?
-        associations.map(&:libelle).to_sentence
-      end
+      associations = send("#{association}s")
+      associations.map(&:libelle).to_sentence if associations.any?
     end
   end
 end

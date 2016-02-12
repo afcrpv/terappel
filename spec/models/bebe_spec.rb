@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe Bebe do
-  let(:bebe) {create(:bebe)}
-  subject {bebe}
+  let(:bebe) { create(:bebe) }
+  subject { bebe }
 
   %w(malformation pathology).each do |association|
     before do
@@ -12,8 +12,8 @@ describe Bebe do
     end
     describe "##{association}_tokens=" do
       it "should split the provided string of ids and assign them to #{association}_ids" do
-        subject.send("#{association}_tokens=", "1,2")
-        subject.send("#{association}_ids").should == [1,2]
+        subject.send("#{association}_tokens=", '1,2')
+        subject.send("#{association}_ids").should == [1, 2]
       end
     end
     describe "##{association}_names" do
