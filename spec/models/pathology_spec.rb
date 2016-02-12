@@ -1,11 +1,11 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe Pathologie do
+describe Pathology do
   subject { create(:pathology) }
 
   describe '#libelle_and_id' do
     it 'should return a hash with id and libelle values' do
-      subject.libelle_and_id.should == { 'id' => subject.id, 'text' => subject.libelle }
+      expect(subject.libelle_and_id).to eq(id: subject.id, text: subject.libelle)
     end
   end
 end

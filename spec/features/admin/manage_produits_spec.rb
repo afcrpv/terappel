@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 feature 'Admin manage produits' do
   given!(:produit) { create(:produit, name: 'Tartampionate') }
@@ -8,25 +8,25 @@ feature 'Admin manage produits' do
 
   scenario 'dashboard' do
     visit admin_produits_path
-    page.should have_content 'Administration Produits'
+    expect(page).to have_content 'Administration Produits'
   end
 
   scenario 'creation' do
     visit new_admin_produit_path
     click_on 'Enregistrer'
-    page.should have_content(/erreur/)
+    expect(page).to have_content(/erreur/)
     fill_in 'produit_name', with: 'fooman'
     click_on 'Enregistrer'
-    page.should have_content "succès"
+    expect(page).to have_content "succès"
   end
 
   scenario 'update' do
     visit edit_admin_produit_path(produit)
     fill_in 'produit_name', with: ''
     click_on 'Enregistrer'
-    page.should have_content(/erreur/)
+    expect(page).to have_content(/erreur/)
     fill_in 'produit_name', with: 'bal'
     click_on 'Enregistrer'
-    page.should have_content(/succès/)
+    expect(page).to have_content(/succès/)
   end
 end

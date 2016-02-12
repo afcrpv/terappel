@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe ApplicationHelper do
   describe '#errors_for' do
@@ -12,7 +12,7 @@ describe ApplicationHelper do
     end
     context 'with a custom title as a 2nd param' do
       it 'ads the custom title' do
-        helper.errors_for(dossier, 'Saperlipoetto !').should match /<h4>Saperlipoetto !<\/h4>/
+        helper.errors_for(dossier, 'Saperlipoetto !').should match(/<h4>Saperlipoetto !<\/h4>/)
       end
     end
   end

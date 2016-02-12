@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 shared_examples_for 'a slugged resource' do |model|
   let(:klass) { model.classify.constantize }

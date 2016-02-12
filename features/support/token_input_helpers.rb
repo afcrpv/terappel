@@ -1,6 +1,6 @@
 module TokenInputHelpers
   def token_input(locator, options)
-    fail "Must pass a hash containing 'with'" unless options.is_a?(Hash) && options.key?(:with)
+    raise "Must pass a hash containing 'with'" unless options.is_a?(Hash) && options.key?(:with)
 
     # find the field that will ultimately be sent to the server, the one the user intends to fill in
     field = _find_fillable_field(locator)

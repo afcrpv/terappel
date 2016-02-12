@@ -58,7 +58,7 @@ module Admin
 
     def set_klass
       @klass ||= allowed_classes.find { |klass| klass.name == @name.classify }
-      fail message = "Table '#{@name.tableize}' non trouvée" if @klass.nil?
+      raise message = "Table '#{@name.tableize}' non trouvée" if @klass.nil?
     rescue
       redirect_to admin_tables_generales_url, alert: message
     end

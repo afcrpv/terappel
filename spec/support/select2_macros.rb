@@ -1,6 +1,6 @@
 module Select2Macros
   def select2(value, options = {})
-    fail "Must pass a hash containing 'from' or 'xpath'" unless options.is_a?(Hash) && [:from, :xpath].any? { |k| options.key? k }
+    raise "Must pass a hash containing 'from' or 'xpath'" unless options.is_a?(Hash) && [:from, :xpath].any? { |k| options.key? k }
 
     if options.key? :xpath
       select2_container = first(:xpath, options[:xpath])

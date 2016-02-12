@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe LayoutHelper do
   describe '#default_title' do

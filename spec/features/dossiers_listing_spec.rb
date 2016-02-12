@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 feature 'Dossiers listing' do
   given(:user)          { create(:member) }

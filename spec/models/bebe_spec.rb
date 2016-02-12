@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Bebe do
   let(:bebe) { create(:bebe) }
