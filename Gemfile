@@ -38,7 +38,7 @@ end
 
 group :test, :development do
   gem 'capybara-webkit'
-  gem 'rspec-rails'
+  gem 'rspec-rails',        '~> 3.0'
 end
 
 gem 'ancestry',             github: 'stefankroes/ancestry'
