@@ -1,70 +1,81 @@
-group :frontend do
-  guard :bundler do
-    require 'guard/bundler'
-    require 'guard/bundler/verify'
-    helper = Guard::Bundler::Verify.new
+# A sample Guardfile
+# More info at https://github.com/guard/guard#readme
 
-    files = ['Gemfile']
-    files += Dir['*.gemspec'] if files.any? { |f| helper.uses_gemspec?(f) }
+## Uncomment and set this to only include directories you want to watch
+# directories %w(app lib config test spec features)
 
-    # Assume files are symlinked from somewhere
-    files.each { |file| watch(helper.real_path(file)) }
+## Uncomment to clear the screen before every task
+# clearing :on
+
+## Guard internally checks for changes in the Guardfile and exits.
+## If you want Guard to automatically start up again, run guard in a
+## shell loop, e.g.:
+##
+##  $ while bundle exec guard; do echo "Restarting Guard..."; done
+##
+## Note: if you are using the `directories` clause above and you are not
+## watching the project directory ('.'), then you will want to move
+## the Guardfile to a watched dir and symlink it back, e.g.
+#
+#  $ mkdir config
+#  $ mv Guardfile config/
+#  $ ln -s config/Guardfile .
+#
+# and, you'll have to watch "config/Guardfile" instead of "Guardfile"
+
+group :red_green_refactor, halt_on_fail: true do
+  guard :rspec, cmd: 'bin/rspec' do
+    # Note: The cmd option is now required due to the increasing number of ways
+    #       rspec may be run, below are examples of the most common uses.
+    #  * bundler: 'bundle exec rspec'
+    #  * bundler binstubs: 'bin/rspec'
+    #  * spring: 'bin/rspec' (This will use spring if running and you have
+    #                          installed the spring binstubs per the docs)
+    #  * zeus: 'zeus rspec' (requires the server to be started separately)
+    #  * 'just' rspec: 'rspec'
+    require "guard/rspec/dsl"
+    dsl = Guard::RSpec::Dsl.new(self)
+
+    # Feel free to open issues for suggestions and improvements
+
+    # RSpec files
+    rspec = dsl.rspec
+    watch(rspec.spec_helper) { rspec.spec_dir }
+    watch(rspec.spec_support) { rspec.spec_dir }
+    watch(rspec.spec_files)
+
+    # Ruby files
+    ruby = dsl.ruby
+    dsl.watch_spec_files_for(ruby.lib_files)
+
+    # Rails files
+    rails = dsl.rails(view_extensions: %w(erb haml slim))
+    dsl.watch_spec_files_for(rails.app_files)
+    dsl.watch_spec_files_for(rails.views)
+
+    watch(rails.controllers) { |m| rspec.spec.("routing/#{m[1]}_routing") }
+
+    # Rails config changes
+    watch(rails.spec_helper)     { rspec.spec_dir }
+    watch(rails.routes)          { "#{rspec.spec_dir}/routing" }
+    watch(rails.app_controller)  { "#{rspec.spec_dir}/controllers" }
+
+    # Capybara features specs
+    watch(rails.controllers)   { |m| rspec.spec.("features/#{m[1]}") }
+    watch(rails.view_dirs)     { |m| rspec.spec.("features/#{m[1]}") }
+    watch(rails.layouts)       { |m| rspec.spec.("features/#{m[1]}") }
   end
 
-  guard 'livereload' do
-    watch(%r{app/views/.+\.(erb|haml|slim)$})
-    watch(%r{app/helpers/.+\.rb})
-    watch(%r{public/.+\.(css|js|html)})
-    # Rails Assets Pipeline
-    watch(%r{(app|vendor)(/assets/\w+/(.+\.(css|js|html|png|jpg))).*}) do |m|
-      "/assets/#{m[3]}"
-    end
+  guard :rubocop, all_on_start: false, cli: %w(--format clang --rails) do
+    watch(%r{.+\.rb$})
+    watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
   end
 
-  guard 'rails' do
-    watch('Gemfile.lock')
-    watch(%r{^(config|lib)/.*})
+  guard 'brakeman', run_on_start: true,
+    cli: '-qA4 --no-assume-routes' do
+    watch(%r{^app/.+\.(erb|haml|rhtml|rb)$})
+    watch(%r{^config/.+\.rb$})
+    watch(%r{^lib/.+\.rb$})
+    watch('Gemfile')
   end
-end
-
-group :backend, halt_on_fail: true do
-  guard :rspec, cmd: 'bundle exec rspec',
-    all_on_start: false, all_after_pass: false,
-    failed_mode: :keep do
-      watch(%r{^spec/.+_spec\.rb$})
-      watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
-
-      # Rails example
-      watch(%r{^app/(.+)\.rb$}) { |m| "spec/#{m[1]}_spec.rb" }
-      watch(%r{^app/(.*)(\.erb|\.haml)$}) { |m| "spec/#{m[1]}#{m[2]}_spec.rb" }
-      watch(%r{^app/controllers/(.+)_(controller)\.rb$}) do |m|
-	["spec/routing/#{m[1]}_routing_spec.rb",
-  "spec/#{m[2]}s/#{m[1]}_#{m[2]}_spec.rb",
-  "spec/acceptance/#{m[1]}_spec.rb"]
-      end
-      watch(%r{^spec/support/(.+)\.rb$})                  { 'spec' }
-      watch('config/routes.rb')                           { 'spec/routing' }
-      watch('app/controllers/application_controller.rb')  { 'spec/controllers' }
-
-      # Capybara features specs
-      watch(%r{^app/views/(.+)/.*\.(erb|haml)$}) do |m|
-	"spec/features/#{m[1]}_spec.rb"
-      end
-      watch(%r{^app/controllers/(.+)_(controller)\.rb$}) do |m|
-	"spec/features/#{m[1]}_spec.rb"
-      end
-    end
-
-    guard :rubocop, all_on_start: false, cli: %w(--format clang --rails) do
-      watch(%r{.+\.rb$})
-      watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
-    end
-
-    guard 'brakeman', run_on_start: true,
-      cli: 'brakeman -qA4 --no-assume-routes' do
-      watch(%r{^app/.+\.(erb|haml|rhtml|rb)$})
-      watch(%r{^config/.+\.rb$})
-      watch(%r{^lib/.+\.rb$})
-      watch('Gemfile')
-    end
 end

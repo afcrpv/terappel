@@ -13,21 +13,18 @@ group :development do
   gem 'better_errors',         '~> 2.1.1'
   gem 'binding_of_caller'
   gem 'bullet'
-  gem 'capistrano',              '~> 3.4.0'
-  gem 'capistrano-db-tasks',     require: false
-  gem 'capistrano3-puma',        require: false
-  gem 'capistrano-rails',        '~> 1.1.0'
-  gem 'capistrano-rbenv',        '~> 2.0', require: false
+  gem 'capistrano',            '~> 3.4.0'
+  gem 'capistrano-db-tasks',               require: false
+  gem 'capistrano3-puma',                  require: false
+  gem 'capistrano-rails',      '~> 1.1.0'
+  gem 'capistrano-rbenv',      '~> 2.0',   require: false
   gem 'consistency_fail'
   gem 'growl'
-  gem 'guard-brakeman'
-  gem 'guard-bundler',         '~> 2.1.0'
-  gem 'guard-livereload',      '~> 2.4.0'
-  gem 'guard-rails',           '~> 0.7.1'
-  gem 'guard-rspec',           '~> 4.5.0'
+  gem 'guard-brakeman',        '~> 0.8.3'
+  gem 'guard-rspec',           '~> 4.6.4', require: false
   gem 'guard-rubocop',         '~> 1.2.0'
   gem 'quiet_assets',          '~> 1.0.3'
-  gem 'rb-fsevent',            require: false
+  gem 'rb-fsevent',                        require: false
   gem 'spring'
   gem 'spring-commands-rspec'
 end

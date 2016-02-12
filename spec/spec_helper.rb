@@ -7,13 +7,10 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'capybara/rspec'
 require 'capybara/rails'
-require 'capybara/poltergeist'
-Capybara.register_driver :poltergeist_debug do |app|
-  Capybara::Poltergeist::Driver.new(app, inspector: true)
-end
+require 'capybara/webkit'
 
 # Capybara.javascript_driver = :poltergeist
-Capybara.javascript_driver = :poltergeist_debug
+Capybara.javascript_driver = :capybara_webkit
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
