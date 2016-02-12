@@ -8,17 +8,20 @@ class User < ActiveRecord::Base
   belongs_to :centre
 
   validates :email, presence: true, uniqueness: true
-  validates :username, presence: true, uniqueness: true
   validates :centre_id, presence: true
 
   delegate :name, to: :centre, prefix: true, allow_nil: true
+
+  def active_for_authentication?
+    super && (approved? || admin?)
+  end
 
   def admin?
     has_role? :admin
   end
 
-  def active_for_authentication?
-    super && (approved? || admin?)
+  def approve!
+    update_attribute(:approved, true)
   end
 
   def inactive_message
@@ -29,8 +32,8 @@ class User < ActiveRecord::Base
     end
   end
 
-  def approve!
-    update_attribute(:approved, true)
+  def to_s
+    email
   end
 
   def self.send_reset_password_instructions(attributes = {})
@@ -42,4 +45,5 @@ class User < ActiveRecord::Base
     end
     recoverable
   end
+
 end

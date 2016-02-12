@@ -11,8 +11,7 @@
 
       = f.error_notification
 
-      = f.input :username, input_html: { autofocus: true }
-      = f.input :email
+      = f.input :email, input_html: { autofocus: true }
       = f.association :centre
       = f.input :password,
         hint: ("#{@minimum_password_length} caractères minimum" if @validatable)

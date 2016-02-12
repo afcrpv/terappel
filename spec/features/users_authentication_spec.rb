@@ -21,6 +21,23 @@ feature 'Users authentication' do
     end
   end
 
+  describe 'registration' do
+    given!(:crpv) { create(:centre) }
+    background do
+      visit root_path
+      click_on 'Créer un compte'
+    end
+
+    scenario 'successful' do
+      fill_in 'user_email', with: 'foobar@example.com'
+      select crpv.name, from: 'user_centre_id'
+      fill_in 'user_password', with: 'ThePassword123'
+      fill_in 'user_password_confirmation', with: 'ThePassword123'
+      click_on 'Créer le compte'
+      expect(page).to have_content(I18n.t('devise.registrations.signed_up_but_not_approved'))
+    end
+  end
+
   describe 'with good credentials' do
     background { login user }
 

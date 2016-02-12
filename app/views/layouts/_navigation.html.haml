@@ -28,7 +28,7 @@
               = fa_icon 'user'
               %b.caret
             %ul.dropdown-menu
-              %li.dropdown-header= current_user.username
+              %li.dropdown-header= current_user.to_s
               %li
                 = link_to 'Modifier votre compte',
                   edit_user_registration_path, title: 'Modifier compte'
