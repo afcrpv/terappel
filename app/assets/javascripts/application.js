@@ -23,3 +23,4 @@
 //= require dossiers
 //= require admin/produits
 //= require searches
+//= require modals

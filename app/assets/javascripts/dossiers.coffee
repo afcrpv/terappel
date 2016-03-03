@@ -99,8 +99,6 @@ $ ->
   for name in ["demandeur", "relance"]
     $("#dossier_#{name}_attributes_correspondant_id")
       .attach_correspondant_select2(name)
-    $("#dossier_#{name}_id_field")
-      .remoteCorrespondantForm({typeCorrespondant: name})
     correspondant_id = $("#dossier_#{name}_attributes_correspondant_id").val()
     activateCorrespondantEdit(correspondant_id, name)
 
@@ -212,106 +210,11 @@ $.fn.attach_correspondant_select2 = (name) ->
 activateCorrespondantEdit = (correspondant_id, name) ->
   $edit_correspondant_btn = $("#dossier_#{name}_id_field .corr_update")
   $edit_correspondant_btn
-    .attr("href", "/correspondants/#{correspondant_id}/edit?modal=true")
+    .attr("href", "/correspondants/#{correspondant_id}/edit")
   if correspondant_id
     $edit_correspondant_btn.show()
   else
     $edit_correspondant_btn.hide()
-
-$.widget "terappel.remoteCorrespondantForm",
-  options:
-    typeCorrespondant: null
-
-  _create: ->
-    dom_widget = @element
-    @element.find(".corr_create").unbind().bind "click", (e) =>
-      @_bindModalOpening e, $(e.target).attr("href")
-
-    @element.find(".corr_update").unbind().bind "click", (e) =>
-      value = $("#dossier_#{@options["typeCorrespondant"]}" +
-        "_attributes_correspondant_id").val()
-      if value
-        @_bindModalOpening e, $(e.target).attr("href").replace('__ID__', value)
-      else
-        e.preventDefault()
-
-  _bindModalOpening: (e, url) ->
-    e.preventDefault()
-    dialog = @_getModal()
-
-    setTimeout(=>
-      $.ajax
-        url: url
-        beforeSend: (xhr) ->
-          xhr.setRequestHeader "Accept", "text/javascript"
-        success: (data, status, xhr) =>
-          dialog.find(".modal-body").html(data)
-          @_bindFormEvents()
-        error: (xhr, status, error) ->
-          dialog.find(".modal-body").html(xhr.responseText)
-        dataType: "text"
-      , 200)
-
-  _bindFormEvents: ->
-    dialog = @_getModal()
-    form = dialog.find("form")
-    saveButtonText = "Enregistrer"
-    dialog.find('.form-actions').remove()
-
-    form.attr("data-remote", true)
-    dialog.find('#modal-label').text form.data('title')
-    dialog.find(".save-action").unbind().click(->
-      $(@).disable(true)
-      form.submit()
-      return false
-    ).html(saveButtonText)
-
-    form.bind "ajax:complete", (e, xhr, status) =>
-      if status is "error"
-        dialog.find(".modal-body").html xhr.responseText
-        @_bindFormEvents()
-      else
-        json = $.parseJSON xhr.responseText
-        correspondant_label = json.label
-        correspondant_id = json.id
-        $edit_correspondant_btn = $("#dossier_#{@options["typeCorrespondant"]}_id_field .corr_update")
-        $edit_correspondant_btn.attr("href",
-          "/correspondants/#{correspondant_id}/edit")
-        $edit_correspondant_btn.show()
-        $select = @element.find("#dossier_#{@options["typeCorrespondant"]}_attributes_correspondant_id")
-        $option = $("<option selected>#{correspondant_label}</option>").val(correspondant_id)
-        $select.append($option).trigger('change')
-        $option.removeData()
-        @_trigger("success")
-        dialog.modal("hide")
-
-  _getModal: ->
-    unless @dialog
-      @dialog = $('<div id="correspondant_modal" class="modal fade"
-      role="dialog" aria-labelledby="modal-label" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"
-                aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="modal-label">...<h3>
-              </div>
-              <div class="modal-body">
-                ...
-              </div>
-              <div class="modal-footer">
-                <button class="btn btn-link" data-dismiss="modal"
-                aria-hidden="true">Fermer</button>
-                <a href="#" class="btn btn-primary save-action" data-disable-with: "Attendre...">...</a>
-              </div>
-            </div>
-          </div>
-        </div>')
-      .modal({keyboard: true, backdrop: true, show: true})
-      .on "hidden.bs.modal", ->
-        @dialog.remove()
-        @dialog = null
-    return @dialog
 
 $.fn.show_or_hide_issue_elements = ->
   show_or_hide_issue @, @val()

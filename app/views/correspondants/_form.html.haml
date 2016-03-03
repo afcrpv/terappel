@@ -1,4 +1,4 @@
-= simple_form_for correspondant, html: { role: "form", data: { title: form_title}, class: 'correspondant_form' } do |f|
+= simple_form_for correspondant, remote: request.xhr?, html: { role: "form", data: { modal: true } } do |f|
   = f.error_notification if f.error_notification
   = f.input :centre_id, as: :hidden
   = f.association :formule
@@ -13,4 +13,3 @@
   = f.input :fax
   .form-actions
     = f.button :submit, class: "btn-success"
-    = button_tag "Annuler", type: :submit, class: "btn btn-danger"

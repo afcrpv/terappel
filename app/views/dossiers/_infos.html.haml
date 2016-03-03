@@ -18,10 +18,10 @@
 
   .col-sm-4
     .correspondant-actions
-      = link_to content_tag(:i, nil, class: "icon-plus") + "Ajout", new_correspondant_path(modal: true),
-        data: {target: "#correspondant_modal", toggle: "modal"}, title: "Nouveau correspondant", class: "btn btn-default corr_create", tabindex: "-1"
+      = link_to content_tag(:i, nil, class: "icon-plus") + "Ajout", new_correspondant_path,
+        data: { modal: true, 'correspondant-type': 'demandeur' }, class: 'btn btn-default corr_create', tabindex: "-1"
       = link_to content_tag(:i, nil, class: "icon-pencil") + "Voir/modifier",
-        edit_correspondant_path(id: "__ID__", modal: true), data: {target: "#correspondant_modal", toggle: "modal"},
+        edit_correspondant_path(id: "__ID__"), data: { modal: true, 'correspondant-type': 'demandeur' },
         title: "Modifier correspondant", class: "btn btn-default corr_update", tabindex: "-1"
 
   .col-sm-2
@@ -48,11 +48,11 @@
           style: 'width: 100%;' }
     .col-sm-4
       .correspondant-actions
-        = link_to content_tag(:i, nil, class: "icon-plus") + "Ajout", new_correspondant_path(modal: true),
-          data: {target: "#correspondant_modal", toggle: "modal"}, title: "Nouveau correspondant", class: "btn btn-default corr_create", tabindex: "-1"
-        = link_to content_tag(:i, nil, class: "icon-pencil") + "Voir/modifier",
-          edit_correspondant_path(id: "__ID__", modal: true), data: {target: "#correspondant_modal", toggle: "modal"},
-          title: "Modifier correspondant", class: "btn btn-default corr_update", tabindex: "-1"
+      = link_to content_tag(:i, nil, class: "icon-plus") + "Ajout", new_correspondant_path,
+        data: { modal: true, 'correspondant-type': 'relance' }, class: 'btn btn-default corr_create', tabindex: "-1"
+      = link_to content_tag(:i, nil, class: "icon-pencil") + "Voir/modifier",
+        edit_correspondant_path(id: "__ID__"), data: { modal: true, 'correspondant-type': 'relance' },
+        title: "Modifier correspondant", class: "btn btn-default corr_update", tabindex: "-1"
 
 .row
   .col-sm-2

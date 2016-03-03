@@ -1,4 +1,7 @@
 class CorrespondantsController < ApplicationController
+  respond_to :html, :json
+  respond_to :js, only: [:create, :update]
+
   before_action :find_centre
   load_and_authorize_resource
 
@@ -6,56 +9,33 @@ class CorrespondantsController < ApplicationController
 
   def index
     @correspondants = @centre.correspondants.where('LOWER(nom) like ?', "%#{params[:q]}%")
-    respond_to do |format|
+    respond_with @correspondants do |format|
+      format.html
       format.json { render json: @correspondants.map(&:fullname_and_id) }
     end
   end
 
   def show
+    respond_with @correspondant
   end
 
   def new
     @correspondant = Correspondant.new(centre_id: @centre.id)
-    respond_to do |format|
-      format.html
-      format.js { render layout: false }
-    end
+    respond_modal_with @correspondant
   end
 
   def create
-    @correspondant = Correspondant.new(correspondant_params)
-    if @correspondant.save
-      respond_to do |format|
-        format.html { redirect_with_flash @correspondant, nil, :success, "Le correspondant #{@correspondant.fullname} a été créé." }
-        format.js { render json: { id: @correspondant.id, label: @correspondant.fullname } }
-      end
-    else
-      respond_to do |format|
-        format.html { render :new }
-        format.js { render layout: false, status: :not_acceptable }
-      end
-    end
+    @correspondant = Correspondant.create(correspondant_params)
+    respond_with @correspondant
   end
 
   def edit
-    respond_to do |format|
-      format.html
-      format.js { render layout: false }
-    end
+    respond_modal_with @correspondant
   end
 
   def update
-    if @correspondant.update(correspondant_params)
-      respond_to do |format|
-        format.html { redirect_with_flash @correspondant, nil, :success, "Le correspondant #{@correspondant.fullname} a été mis à jour." }
-        format.js { render json: { id: @correspondant.id, label: @correspondant.fullname } }
-      end
-    else
-      respond_to do |format|
-        format.html { render :edit }
-        format.js { render :edit, layout: false, status: :not_acceptable }
-      end
-    end
+    @correspondant.update(correspondant_params)
+    respond_with @correspondant
   end
 
   private
