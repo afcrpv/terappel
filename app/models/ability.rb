@@ -19,7 +19,7 @@ class Ability
     cannot :destroy, Dossier
 
     can :create, Correspondant
-    can :manage, :correspondants, centre_id: user.centre_id
+    can :manage, Correspondant, centre_id: user.centre_id
 
     can :read, [Produit, Indication, Dci, Malformation, Pathology, Search]
     can :tree, [Malformation, Pathology]

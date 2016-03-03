@@ -9,19 +9,17 @@ module Select2Macros
       select2_container = first('label', text: select_name).find(:xpath, '..').find('.select2-container')
     end
 
-    select2_container.find('.select2-choice').click
+    select2_container.find('.select2-selection').click
 
     if options.key? :search
-      find(:xpath, '//body').find('input.select2-input').set(value)
-      page.execute_script(%|$("input.select2-input:visible").keyup();|)
+      find(:xpath, '//body').find('input.select2-search__field').set(value)
+      page.execute_script(%|$("input.select2-search__field:visible").keyup();|)
       drop_container = '.select2-results'
     else
       drop_container = '.select2-drop'
     end
 
     [value].flatten.each do |value|
-      choices_container = select2_container.find(:xpath, "a[contains(concat(' ',normalize-space(@class),' '),' select2-choice ')] | ul[contains(concat(' ',normalize-space(@class),' '),' select2-choices ')]")
-      choices_container.trigger('click')
       find(:xpath, '//body').find("#{drop_container} li", text: value).click
     end
   end

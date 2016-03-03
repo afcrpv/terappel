@@ -22,10 +22,10 @@ group :development do
   gem 'growl'
   gem 'guard-brakeman',        '~> 0.8.3'
   gem 'guard-rspec',           '~> 4.6.4', require: false
-  gem 'rubocop',               '~> 0.37.2'
   gem 'guard-rubocop',         '~> 1.2.0'
   gem 'quiet_assets',          '~> 1.0.3'
   gem 'rb-fsevent', require: false
+  gem 'rubocop',               '~> 0.37.2'
   gem 'spring'
   gem 'spring-commands-rspec'
 end

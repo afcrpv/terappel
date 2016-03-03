@@ -31,7 +31,7 @@ class DossiersController < ApplicationController
       .merge(current_user: current_user))
     respond_with @grid do |format|
       format.html do
-        @grid.scope { |scope| scope.page(params[:page]) }
+        @grid.scope { |scope| scope.where(centre_id: current_user.centre_id).page(params[:page]) }
       end
       format.csv do
         send_data @grid.to_csv,

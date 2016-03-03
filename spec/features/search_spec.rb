@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 feature 'Dossiers search' do
-  given(:user)          { create(:member) }
-  given!(:dossier)      { create(:dossier_a_relancer, code: 'LY2013001', centre: user.centre) }
+  given(:user) { create(:member) }
+  given!(:dossier) { create(:dossier_a_relancer, code: 'LY2013001', centre: user.centre) }
   given!(:dossier2) { create(:dossier_a_relancer, code: 'LY2013002', centre: user.centre) }
 
   background { login user; visit search_dossiers_path }
 
-  scenario 'simple condition', focus: true, js: true do
+  xscenario 'simple condition', :js do
     click_on "Ajouter Critère"
     select 'Nom produit', from: 'Champ'
     fill_in 'Valeur', with: 'produit1'
@@ -15,7 +15,7 @@ feature 'Dossiers search' do
     expect(page).to have_content('LY2013001')
   end
 
-  describe 'by produit' do
+  xdescribe 'by produit' do
     scenario 'allows filling in multiple names', js: true do
       pending
       visit new_search_path

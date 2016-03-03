@@ -8,7 +8,6 @@ feature 'Dossiers expositions management' do
   given!(:indication)    { create(:indication, name: 'indication1') }
 
   background do
-    Capybara.current_driver = :poltergeist
     login user
   end
 
@@ -18,7 +17,7 @@ feature 'Dossiers expositions management' do
       click_link 'EXPOSITION'
       within '.tab-pane#expositions' do
         click_link 'Ajouter une exposition'
-        find('.nested-fields').visible?.should be_true
+        expect(find('.nested-fields')).to be_visible
         select2 produit.name, from: 'Exposition', search: true
         select2 indication.name, from: 'Indication', search: true
         fill_in 'Posologie', with: '2 g/j'
@@ -27,23 +26,23 @@ feature 'Dossiers expositions management' do
     end
 
     scenario 'add a new exposition', js: true do
-      page.should have_content(produit.name)
-      page.should have_content(indication.name)
-      page.should have_content('2 g/j')
+      expect(page).to have_content(produit.name)
+      expect(page).to have_content(indication.name)
+      expect(page).to have_content('2 g/j')
     end
 
     scenario 'update existing exposition', js: true do
       find_link('Modifier exposition').trigger('click')
       fill_in 'Posologie', with: '50 mg/j'
       click_on 'Valider'
-      page.should have_content('50 mg/j')
+      expect(page).to have_content('50 mg/j')
     end
 
     scenario 'update existing exposition after adding a new row', js: true do
       produit2 = create(:produit, name: 'produit2')
       within '.tab-pane#expositions' do
         click_link 'Ajouter une exposition'
-        find('.nested-fields').visible?.should be_true
+        expect(find('.nested-fields')).to be_visible
         select2 produit2.name, from: 'Exposition', search: true
         select2 indication.name, from: 'Indication', search: true
         fill_in 'Posologie', with: "100 µg/j"
@@ -54,13 +53,13 @@ feature 'Dossiers expositions management' do
       end
       fill_in 'Posologie', with: '50 mg/j'
       click_on 'Valider'
-      page.should have_content('50 mg/j')
+      expect(page).to have_content('50 mg/j')
     end
 
     scenario 'destroy expo', js: true do
       find_link("Détruire exposition").trigger('click')
       find_link('Confirmer').trigger('click')
-      page.should_not have_css('#expositions_summary tbody tr')
+      expect(page).not_to have_css('#expositions_summary tbody tr')
     end
   end
 
@@ -68,9 +67,9 @@ feature 'Dossiers expositions management' do
     scenario 'prefill exposition summary table', js: true do
       visit edit_dossier_path(dossier)
       click_on 'EXPOSITION'
-      find(:css, '#expositions_summary tbody tr:first-child').should have_content('Produit')
-      find(:css, '#expositions_summary tbody tr:nth-child(2)').should have_content('Produit')
-      page.should_not have_css('.nested-fields')
+      expect(find(:css, '#expositions_summary tbody tr:first-child')).to have_content('Produit')
+      expect(find(:css, '#expositions_summary tbody tr:nth-child(2)')).to have_content('Produit')
+      expect(page).not_to have_css('.nested-fields')
     end
   end
 end
