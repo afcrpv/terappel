@@ -29,22 +29,17 @@
   = f.input :commentaire, input_html: { rows: 2 }
 
   = button_tag type: :submit,
-    data: { disable_with: (save_and_continue = 'Enregistrer et continuer') },
+    data: { disable_with: (save_and_continue = 'Enregistrer') },
     name: "_continue", class: 'btn btn-primary' do
     = fa_icon 'save'
     = save_and_continue
-  = button_tag type: :submit,
-    data: { disable_with: (save_and_add = 'Enregistrer et créer un nouveau dossier') },
-    name: '_add_another', class: 'btn btn-link' do
-    = fa_icon 'plus'
-    = save_and_add
   = button_tag type: :submit,
     data: { disable_with: (save_and_close = 'Enregistrer et fermer') },
     class: 'btn btn-link' do
     = fa_icon 'archive'
     = save_and_close
   = button_tag type: :submit,
-    data: { disable_with: (save_and_preview = "Enregistrer et voir l'aperçu") },
+    data: { disable_with: (save_and_preview = 'Aperçu') },
     name: '_preview', class: 'btn btn-link' do
     = fa_icon 'print'
     = save_and_preview

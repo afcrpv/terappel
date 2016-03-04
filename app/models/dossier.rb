@@ -4,7 +4,7 @@ class Dossier < ActiveRecord::Base
   ONI = { 'Oui': 0, 'Non': 1, 'NSP': 2 }
   TABAC = ["Non", "0 à 5 cig/j", "5 à 10 cig/j", "Sup. à 10 cig/j", "NSP"]
   ALCOOL = ["Non", "Occasionnel", "Régulier", "NSP"]
-  MODACCOUCH = ["V-b spontanée", "V-b instrumentale", "Césarienne", "Inconnue"]
+  MODACCOUCH = ["voie basse spontanée", "voie basse instrumentale", "césarienne", "inconnue"]
   EVOLUTION = [
     ['grossesse extra-utérine', 'GEU'],
     ['fausse couche spontanée', 'FCS'],

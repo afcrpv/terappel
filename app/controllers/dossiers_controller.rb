@@ -88,8 +88,6 @@ class DossiersController < ApplicationController
       location = edit_dossier_path(@dossier, current_tab: params[:dossier][:current_tab])
     elsif params[:_preview]
       location = edit_dossier_path(@dossier, current_tab: params[:dossier][:current_tab], show_preview: 'true')
-    elsif params[:_add_another]
-      location = new_dossier_path
     else
       location = dossiers_url
     end
