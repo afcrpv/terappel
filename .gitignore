@@ -19,3 +19,6 @@ csv
 csv_old
 .envrc
 
+
+# Ignore application configuration
+/config/application.yml

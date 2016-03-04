@@ -5,3 +5,5 @@ fr:
   pagination:
     previous: 'Préc.'
     next: 'Suiv.'
+  notifications:
+    signup: "[Terappel] Nouvel utilisateur"

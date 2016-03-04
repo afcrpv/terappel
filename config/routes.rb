@@ -1,6 +1,6 @@
 Terappel::Application.routes.draw do
   mount JasmineRails::Engine => '/jasmine' if defined?(JasmineRails)
-  devise_for :users
+  devise_for :users, controllers: { registrations: 'users/registrations' }
   as :user do
     get 'login', to: 'devise/sessions#new'
     get 'logout', to: 'devise/sessions#destroy'

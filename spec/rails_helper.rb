@@ -58,6 +58,8 @@ RSpec.configure do |config|
   config.include AuthMacros
   config.include AutocompleteMacros
   config.include MailerMacros
+  config.include EmailSpec::Helpers
+  config.include EmailSpec::Matchers
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :truncation

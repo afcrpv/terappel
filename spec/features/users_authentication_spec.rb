@@ -2,6 +2,8 @@ require 'rails_helper'
 
 feature 'Users authentication' do
   given(:user) { create(:member) }
+  given(:admin) { create(:admin) }
+  given(:admin_email) { ENV['ADMIN_EMAIL'] }
 
   describe 'with wrong credentials' do
     background { visit login_path }
@@ -26,16 +28,36 @@ feature 'Users authentication' do
     background do
       visit root_path
       click_on 'Créer un compte'
-    end
-
-    scenario 'successful' do
       fill_in 'user_email', with: 'foobar@example.com'
       select crpv.name, from: 'user_centre_id'
       fill_in 'user_password', with: 'ThePassword123'
       fill_in 'user_password_confirmation', with: 'ThePassword123'
       click_on 'Créer le compte'
+    end
+
+    scenario 'user is notified on screen' do
       expect(page).to have_content(I18n.t('devise.registrations.signed_up_but_not_approved'))
     end
+
+    scenario 'admin receives an email' do
+      expect(last_email.to).to include(admin_email)
+      expect(last_email.body.encoded).to match(/foobar@example.com/)
+    end
+  end
+
+  scenario 'user resets password' do
+    visit login_path
+    click_on I18n.t('devise.shared.links.forgot_password')
+    fill_in 'user_email', with: user.email
+    click_on I18n.t('devise.passwords.new.submit')
+    expect(current_path).to eq('/users/sign_in')
+    expect(last_email.to).to include(user.email)
+    open_last_email_for(user.email)
+    click_first_link_in_email
+    fill_in 'user_password', with: 'Foobar123456'
+    fill_in 'user_password_confirmation', with: 'Foobar123456'
+    click_on I18n.t('devise.passwords.change_my_password')
+    expect(page).to have_content(I18n.t('devise.passwords.updated'))
   end
 
   describe 'with good credentials' do

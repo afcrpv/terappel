@@ -33,13 +33,15 @@ end
 group :test do
   gem 'capybara',           '~> 2.4.4'
   gem 'database_cleaner',   github: 'bmabey/database_cleaner'
+  gem 'email_spec'
   gem 'factory_girl_rails', '~> 4.6.0'
   gem 'simplecov', require: false
 end
 
 group :test, :development do
+  gem 'byebug',         '~> 3.5.1'
   gem 'capybara-webkit'
-  gem 'rspec-rails', '~> 3.0'
+  gem 'rspec-rails',    '~> 3.0'
 end
 
 gem 'ancestry',             github: 'stefankroes/ancestry'
