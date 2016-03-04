@@ -1,9 +1,20 @@
 <% correspondant_label = @correspondant.fullname %>
 <% correspondant_id = @correspondant.id %>
-var typeCorrespondant = $('form[data-modal=true]').data('correspondant-type');
+
+var currentCorrespondant = $('form[data-modal=true]').data('correspondant-type');
+var otherCorrespondant = currentCorrespondant == 'demandeur' ? 'relance' : 'demandeur';
+
 $('#mainModal').modal('hide');
-$('#dossier_' + typeCorrespondant + '_id_field .corr_update').attr('href', '/correspondants/<%= correspondant_id %>/edit').show();
-var $option = $('<option selected><%= correspondant_label %></option>')
-$option.val('<%= correspondant_id %>');
-$('#dossier_' + typeCorrespondant + '_attributes_correspondant_id').append($option).trigger('change');
-$option.removeData();
+
+$('#dossier_' + currentCorrespondant + '_id_field .corr_update').attr('href', '/correspondants/<%= correspondant_id.to_s %>/edit').show();
+var $current_option = $('<option selected value="<%= correspondant_id.to_s %>"><%= correspondant_label.to_s %></option>');
+var $other_option = $('<option value="<%= correspondant_id.to_s %>"><%= correspondant_label.to_s %></option>');
+
+var $currentCorrespondantField = $('#dossier_' + currentCorrespondant + '_attributes_correspondant_id');
+var $otherCorrespondantField = $('#dossier_' + otherCorrespondant +   '_attributes_correspondant_id');
+
+$currentCorrespondantField.append($current_option).trigger('change');;
+$otherCorrespondantField.append($other_option);
+
+$current_option.removeData();
+$other_option.removeData();

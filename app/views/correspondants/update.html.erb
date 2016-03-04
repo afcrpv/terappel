@@ -1,9 +1,0 @@
-<% correspondant_label = @correspondant.fullname %>
-<% correspondant_id = @correspondant.id %>
-var typeCorrespondant = $('form[data-modal=true]').data('correspondant-type');
-$('#mainModal').modal('hide');
-$('#dossier_' + typeCorrespondant + '_id_field .corr_update').attr('href', '/correspondants/<%= correspondant_id %>/edit').show();
-var $option = $('<option selected><%= correspondant_label %></option>')
-$option.val('<%= correspondant_id %>');
-$('#dossier_' + typeCorrespondant + '_attributes_correspondant_id').append($option).trigger('change');
-$option.removeData();

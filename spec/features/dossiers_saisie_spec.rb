@@ -73,7 +73,7 @@ feature 'Dossiers saisie' do
     expect(page).to have_content "Dossier LY2013001, modification effectuée avec succès."
   end
 
-  context 'correspondants', :js do
+  context 'correspondants', :js, :focus do
     scenario 'demandeur can be created/updated from dossier form' do
       visit new_dossier_path
       within '#dossier_demandeur_id_field' do
@@ -95,7 +95,7 @@ feature 'Dossiers saisie' do
       expect(find('#dossier_demandeur_id_field')).to have_content 'test1 test - spec1 - 69005 - Lyon'
     end
 
-    context "for corr à relancer", :js do
+    context 'for relance' do
       background do
         visit new_dossier_path
         within '#dossier_demandeur_id_field' do
@@ -112,36 +112,59 @@ feature 'Dossiers saisie' do
         sleep 1
       end
 
-      scenario "can copy assigned correspondant to corr à relancer" do
-        within '#relance' do
-          click_button 'Oui'
+      context 'when relance is the same as demandeur' do
+        background do
+          within '#relance' do
+            click_button 'Oui'
+          end
         end
-        expect(find('#dossier_relance_id_field')).to be_visible
-        within '#dossier_relance_id_field' do
-          expect(page).to have_content 'test test - spec1 - 69005 - Lyon'
+
+        scenario 'copied demandeur is shown in relance field' do
+          expect(find('#dossier_relance_id_field')).to be_visible
+          within '#dossier_relance_id_field' do
+            expect(page).to have_content 'test test - spec1 - 69005 - Lyon'
+          end
+        end
+
+        scenario 'editing demandeur updates relance' do
+          find('#dossier_demandeur_id_field').find_link('Voir/modifier').click
+          fill_in 'correspondant_nom', with: 'foobar'
+          click_on 'Modifier ce(tte) Correspondant'
+          expect(find('#dossier_demandeur_id_field')).to have_content 'foobar - spec1 - 69005 - Lyon'
+          expect(find('#dossier_relance_id_field')).to have_content 'foobar - spec1 - 69005 - Lyon'
         end
       end
 
-      scenario "can create new corr à relancer" do
-        within '#relance' do
-          click_button 'Non'
+      context 'when relance is not the same as demandeur' do
+        background do
+          within '#relance' do
+            click_button 'Non'
+          end
+          within '#dossier_relance_id_field' do
+            click_on 'Ajout'
+          end
+          expect(find('#mainModal')).to have_content('Nouveau Correspondant')
+          fill_in 'correspondant_nom', with: 'test testone'
+          select 'spec1', from: 'Spécialité'
+          fill_in 'Ville', with: 'Lyon'
+          fill_in 'Code Postal', with: '69005'
+          click_on 'Créer un(e) Correspondant'
+        end
+
+        scenario 'can create new corr à relancer' do
+          expect(find('#dossier_relance_id_field')).to have_content('test testone - spec1 - 69005 - Lyon')
+          expect(find('#dossier_demandeur_id_field')).not_to have_content('test testone - spec1 - 69005 - Lyon')
+        end
+
+        scenario 'editing relance updates relance only' do
+          find('#dossier_relance_id_field').find_link('Voir/modifier').click
+          expect(find('#mainModal')).to have_content('test testone - spec1 - 69005 - Lyon')
+          fill_in 'correspondant_nom', with: 'test1 testone'
+          click_on 'Modifier ce(tte) Correspondant'
           sleep 2
+          expect(find('#dossier_relance_id_field')).to have_content('test1 testone - spec1 - 69005 - Lyon')
+          expect(find('#dossier_demandeur_id_field')).not_to have_content('test1 testone - spec1 - 69005 - Lyon')
         end
-        within '#dossier_relance_id_field' do
-          click_on 'Ajout'
-        end
-        expect(find('#mainModal')).to have_content('Nouveau Correspondant')
-        fill_in 'correspondant_nom', with: 'test testone'
-        select 'spec1', from: "Spécialité"
-        fill_in 'Ville', with: 'Lyon'
-        fill_in 'Code Postal', with: '69005'
-        click_on 'Créer un(e) Correspondant'
-        expect(find('#dossier_relance_id_field')).to have_content('test testone - spec1 - 69005 - Lyon')
-        find('#dossier_relance_id_field').find_link('Voir/modifier').click
-        expect(find('#mainModal')).to have_content('test testone - spec1 - 69005 - Lyon')
-        fill_in 'correspondant_nom', with: 'test1 testone'
-        click_on 'Modifier ce(tte) Correspondant'
-        expect(find('#dossier_relance_id_field')).to have_content('test1 testone - spec1 - 69005 - Lyon')
       end
     end
   end

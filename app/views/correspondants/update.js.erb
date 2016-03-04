@@ -1,0 +1,31 @@
+<% correspondant_label = @correspondant.fullname %>
+<% correspondant_id = @correspondant.id %>
+
+var currentCorrespondant = $('form[data-modal=true]').data('correspondant-type');
+var otherCorrespondant = currentCorrespondant == 'demandeur' ? 'relance' : 'demandeur';
+
+$('#mainModal').modal('hide');
+
+$('#dossier_' + currentCorrespondant + '_id_field .corr_update').attr('href', '/correspondants/<%= correspondant_id.to_s %>/edit').show();
+
+var $currentCorrespondantField = $('#dossier_' + currentCorrespondant + '_attributes_correspondant_id');
+var $otherCorrespondantField = $('#dossier_' + otherCorrespondant +   '_attributes_correspondant_id');
+
+// check if both correspondant has same value
+var demandeur_relance_is_equal = $currentCorrespondantField.val() == $otherCorrespondantField.val() ? true : false
+
+$('#dossier_demandeur_attributes_correspondant_id option[value=<%= correspondant_id.to_s %>]').remove();
+$('#dossier_relance_attributes_correspondant_id option[value=<%= correspondant_id.to_s %>]').remove();
+
+var $current_option = $('<option selected value="<%= correspondant_id.to_s %>"><%= correspondant_label.to_s %></option>');
+var $other_option = $('<option value="<%= correspondant_id.to_s %>"><%= correspondant_label.to_s %></option>');
+
+$currentCorrespondantField.append($current_option.clone()).trigger('change');
+if (demandeur_relance_is_equal == true) {
+  $otherCorrespondantField.append($current_option).trigger('change');
+} else {
+  $otherCorrespondantField.append($other_option).trigger('change');
+}
+
+$current_option.removeData();
+$other_option.removeData();
