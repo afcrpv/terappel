@@ -563,8 +563,7 @@ class @SaExpo
     return "" if isNaN(@expo_date)
     return "Veuillez remplir la date de debut de grossesse !" if isNaN(@dg_date)
     result = getSA(@dg_date, @expo_date)
-    return "La date d'exposition est antérieure à la date de debut de
-      grossesse !" if result < 0
+    return 0 if result < 0
     result
 
 class @DureeExpo
