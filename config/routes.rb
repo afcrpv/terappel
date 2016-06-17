@@ -19,9 +19,7 @@ Terappel::Application.routes.draw do
   resources :pathologies, only: :index
 
   get 'malformations/tree', to: 'malformations#tree'
-  get 'malformations/ancestors', to: 'malformations#ancestors'
   get 'pathologies/tree', to: 'pathologies#tree'
-  get 'pathologies/ancestors', to: 'pathologies#ancestors'
 
   resources :correspondants, except: :destroy
 

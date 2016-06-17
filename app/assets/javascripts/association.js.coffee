@@ -450,15 +450,6 @@ $.fn.attach_bebes_select2 = ->
         page_limit: params.page
       processResults: (data, page) ->
         return { results: data }
-  # @on "change", (e) ->
-  #   $.ajax
-  #     url: "/#{association}s/ancestors.json"
-  #     dataType: 'json'
-  #     data: {id: e.val[0]}
-  #     success: (data) =>
-  #       original_data = $(this).data("initial-ancestors")
-  #       initial_ancestors = if original_data then original_data else []
-  #       $(this).data("initial-ancestors", initial_ancestors.concat data)
 
 $.fn.attach_expositions_select2 = ->
   @select2
@@ -492,66 +483,52 @@ $.fn.complete_modal_for_association = (association) ->
     field = @closest(".row").find("[name]").first()
     bebe_id = field.attr("id").match(/[0-9]+/).join()
     association_modal_id = "#{association}_bebe_#{bebe_id}_modal"
+    plural = "#{association}s"
+    plural = 'pathologies' if association is 'pathology'
+    $select2_input = $(
+      "#dossier_bebes_attributes_#{bebe_id}_#{association}_ids"
+    )
+    selected_ids = $select2_input.val()
     $modal = $(".modal##{association}")
     @attr("data-controls-modal", association_modal_id)
     $modal.attr("data-bebe-id", bebe_id)
     $modal.find(".#{association}s_container").html("")
-    $(".#{association}s_tree").attach_jstree(association, bebe_id)
+    $(".#{plural}_tree").attach_jstree(association, bebe_id, selected_ids)
 
-$.fn.attach_jstree = (association, bebe_id) ->
+$.fn.attach_jstree = (association, bebe_id, selected_ids) ->
   plural = "#{association}s"
   plural = 'pathologies' if association is 'pathology'
   $select2_input = $(
-    "input#dossier_bebes_attributes_#{bebe_id}_#{association}_ids")
+    "#dossier_bebes_attributes_#{bebe_id}_#{association}_ids")
+  @jstree('destroy')
   @jstree
-    json_data:
-      ajax:
-        url: "/#{plural}/tree.json"
-        data: (node) ->
-          { parent_id: if node.attr then node.attr("id") else 0 }
-    plugins: ["themes", "json_data", "ui", "checkbox"]
+    plugins: ['checkbox', 'changed']
     core:
-      initially_open: $select2_input.data("initial-ancestors")
-    themes:
-      theme: 'apple'
+      data:
+        url: (node) ->
+          "/#{plural}/tree.json?selected=#{selected_ids}"
     checkbox:
-      override_ui: true
-      two_state: true
-    ui:
-      initially_select: $select2_input.val().split(",")
-  .bind "loaded.jstree", (event, data) ->
+      three_state: false
+  .on 'loaded.jstree', (event, data) ->
     console.log "tree##{$(this).attr('class')} is loaded"
-  .bind "check_node.jstree uncheck_node.jstree", ->
-    # assign the following to check/uncheck node events
-    nodes = $(this).jstree("get_checked")
+  .on 'changed.jstree', (event, data) ->
+    nodes = data.selected
     checked_nodes_objs = []
     checked_nodes_objs.push(
-      {id: $(node).attr("id"), text: $(node).attr("libelle")}) for node in nodes
+      { id: node, text: data.instance.get_node(node).text }) for node in nodes
     html = []
     html.push "<ul>"
     for obj in checked_nodes_objs
       html.push "<li>#{obj.text}</li>"
     html.push "</ul>"
     # create a list with associations checked nodes
-    $(this).parent().next().find(".#{association}s_container").html(html.join())
+    $(this).parent().next().find(".#{plural}_container").html(html)
     $(this).parent().next().find("a").bind "click", (event) ->
       # assign action to add checked associations to be persisted in db
       event.preventDefault()
-      $tokeninput = $(this).parents('body').find(".nested-fields:visible")
-        .find("input.#{association}_tokens")
       $modal = $(this).parents(".modal")
       $modal.modal('hide')
-      $tokeninput.select2("data", checked_nodes_objs)
-      # add parent nodes to initially open nodes
-      for node in checked_nodes_objs
-        $.ajax
-          url: "/#{association}s/ancestors.json"
-          dataType: 'json'
-          data: {id: node.id}
-          success: (data) ->
-            initial_ancestors = $select2_input.data("initial-ancestors")
-            $select2_input.data("initial-ancestors",
-              initial_ancestors.concat data)
+      $select2_input.val(nodes).trigger('change')
 
 class @SaExpo
   constructor: (dg_date, expo_date) ->

@@ -2,6 +2,7 @@ ruby '2.3.0'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-select2', '~> 4.0.0'
+  gem 'rails-assets-jstree', '~> 3.3.1'
 end
 
 source 'http://rubygems.org'
@@ -59,7 +60,6 @@ gem 'friendly_id',          '~> 5.0.4'
 gem 'haml-rails',           '~> 0.9.0'
 gem 'jquery-rails'
 gem 'jquery-ui-sass-rails'
-gem 'jstree-rails',         github: 'tristanm/jstree-rails'
 gem 'kaminari',             '~> 0.16.3'
 gem 'momentjs-rails',       '~> 2.9.0'
 gem 'newrelic_rpm'
