@@ -1,6 +1,10 @@
 def column_to_i(column, default, dictionary)
-  column.blank? ? default : dictionary[column.to_i]
+  column.blank? ? default : array_or_column(column, dictionary)
   # row['ntypaccou'].blank? ? "INC" : Dossier::EVOLUTION[row['ntypaccou'].to_i]
+end
+
+def array_or_column(col, arr)
+  (result = arr[col.to_i]).is_a?(Array) ? result[1] : result
 end
 
 # create Dossiers
@@ -10,6 +14,8 @@ EXPOTERATO = {
   'I' => 'NSP',
   '' => 'NSP'
 }.freeze
+
+ATCDS = ['Oui', 'Non', 'NSP']
 
 RELANCE = {
   'N' => 'Non',
@@ -37,8 +43,8 @@ CSV.foreach('csv/dossiers.csv', headers: true) do |row|
   dossier.age = row['age']
   dossier.poids = row['poids']
   dossier.taille = row['poids']
-  dossier.antecedents_perso = column_to_i(row['ap'], 'NSP', Dossier::ONI)
-  dossier.antecedents_fam = column_to_i(row['af'], 'NSP', Dossier::ONI)
+  dossier.antecedents_perso = column_to_i(row['ap'], 'NSP', ATCDS)
+  dossier.antecedents_fam = column_to_i(row['af'], 'NSP', ATCDS)
   dossier.a_relancer = a_relancer
   dossier.ass_med_proc = row['assmedproc']
   dossier.expo_terato = expo_terato
