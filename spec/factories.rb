@@ -1,4 +1,11 @@
 FactoryGirl.define do
+  factory :malady, class: 'Maladie' do
+    code "MyString"
+    parent_id "MyString"
+    ancestry "MyString"
+    chapter "MyString"
+    name "MyString"
+  end
   factory :user do
     sequence(:username) { |n| "user#{n}" }
     email { |user| "#{user.username}@example.com".downcase }
