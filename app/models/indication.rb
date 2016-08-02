@@ -1,7 +1,12 @@
 class Indication < ActiveRecord::Base
   include PgSearch
+  has_ancestry
 
-  default_scope { order(:name) }
+  self.table_name = 'maladies'
+
+  default_scope { order('LOWER(name)') }
+
+  scope :leaves, -> { where(leaf: true) }
 
   has_many :expositions, inverse_of: :indication
 

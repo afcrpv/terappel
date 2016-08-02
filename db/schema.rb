@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160801081318) do
+ActiveRecord::Schema.define(version: 20160802114833) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -408,10 +408,13 @@ ActiveRecord::Schema.define(version: 20160801081318) do
     t.integer  "parent_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean  "leaf"
+    t.string   "name"
   end
 
   add_index "maladies", ["ancestry"], name: "index_maladies_on_ancestry", using: :btree
   add_index "maladies", ["libelle"], name: "index_maladies_on_libelle", unique: true, using: :btree
+  add_index "maladies", ["name"], name: "index_maladies_on_name", using: :btree
 
   create_table "malformations", force: :cascade do |t|
     t.string   "libelle"

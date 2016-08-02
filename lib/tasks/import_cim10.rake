@@ -12,14 +12,17 @@ namespace :db do
       Maladie.create!(
         code: row['code'],
         pere: row['père'],
-        libelle: row['libelle']
+        libelle: row['libelle'],
+        leaf: row['chapitre'].downcase.first == 'f' ? true : false
       )
     end
 
-    puts 'Filling up parent_id using code and pere'
+    puts 'Filling up name using libelle'
+
     collection = Maladie.all
     collection.each do |c|
       puts "processing maladie #{c.libelle}"
+      c.name = (name = c.libelle.split(' - ')).many? ? name.second : name.first
       pere = Maladie.find_by_code(c.pere)
       unless pere.nil?
         c.parent_id = pere.id

@@ -8,6 +8,6 @@ class IndicationsController < ApplicationController
                    else
                      Indication.search_by_name(params[:q])
                    end
-    respond_with @indications.map(&:name_and_id)
+    respond_with @indications.leaves.map(&:name_and_id)
   end
 end
