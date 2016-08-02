@@ -1,0 +1,15 @@
+.modal.fade#indication{tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'indication-label', 'aria-hidden': 'true'}
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        %button.close{type: 'button', 'data-dismiss': 'modal', 'aria-hidden': 'true'} &times;
+        %h4.modal-title#indication-label Arbre des Indications
+      .modal-body
+        .indications_tree
+      .modal-footer
+        Indication Sélectionnée :
+        .indications_container
+
+        = link_to '#', class: 'btn btn-primary add_indication' do
+          = fa_icon 'plus'
+          Rajouter

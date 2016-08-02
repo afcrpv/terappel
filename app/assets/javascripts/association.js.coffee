@@ -32,6 +32,7 @@ $ ->
     $("#expositions").bind 'cocoon:after-insert', ->
       for association in ["produit", "indication"]
         $(".#{association}_autocomplete").attach_expositions_select2()
+
       $(".validate_expo").last().validateAssociation
         modelName: "exposition"
         selectedFields: [
@@ -45,6 +46,8 @@ $ ->
           "a2"
         ]
         requiredFields: ["produit_id"]
+
+      $("a.show_indications_tree").complete_modal_for_indications()
 
       console.log 'fired cocoon:after-insert'
       for expo_terme in ["periode_expo", "reprise_ttt"]
@@ -477,6 +480,47 @@ $.fn.check_show_association_tokens = (association) ->
       condition = $(this).find('option').filter(':selected').text() is "Oui"
       showNextif condition, $(this), $tokens
       showNextif condition, $(this), $tree_button
+
+$.fn.complete_modal_for_indications = ->
+  @on 'click', =>
+    field = @closest(".row").find("[name]").first()
+    expo_id = field.attr("id").match(/[0-9]+/).join()
+    modal_id = "indication_#{expo_id}_modal"
+    $select2_input = $(
+      "#dossier_expositions_attributes_#{expo_id}_indication_id"
+    )
+    selected_ids = $select2_input.val()
+    $modal = $('.modal#indication')
+    @attr('data-controls-modal', modal_id)
+    $modal.attr('data-expo-id', expo_id)
+    $modal.find('.indications_container').html('')
+    $('.indications_tree').attach_indication_jstree(expo_id, selected_ids)
+
+$.fn.attach_indication_jstree = (expo_id, selected_ids) ->
+  $select2_input = $(
+    "#dossier_expositions_attributes_#{expo_id}_indication_id")
+  @jstree('destroy')
+  @jstree
+    plugins: ['changed']
+    core:
+      data:
+        url: (node) -> '/indications/tree.json'
+        data: (node) -> { id: node.id } unless node.id is '#'
+  .on 'loaded.jstree', (event, data) ->
+    console.log "tree##{$(this).attr('class')} is loaded"
+  .on 'changed.jstree', (event, data) ->
+    node = data.node
+    html = "<ul><li>#{node.text}</li></ul>"
+
+    $(this).parent().next().find('.indications_container').html(html)
+    $(this).parent().next().find('a').bind 'click', (event) ->
+      # assign action to add checked associations to be persisted in db
+      event.preventDefault()
+      $modal = $(this).parents('.modal')
+      $modal.modal('hide')
+      $old_indication = $("#dossier_expositions_attributes_#{expo_id}_indication_id option").remove()
+      $new_indication = $("<option selected value='#{node.id}'>#{node.text}</option>")
+      $select2_input.append($new_indication).trigger('change')
 
 $.fn.complete_modal_for_association = (association) ->
   @on 'click', =>

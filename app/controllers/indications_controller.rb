@@ -10,4 +10,17 @@ class IndicationsController < ApplicationController
                    end
     respond_with @indications.leaves.map(&:name_and_id)
   end
+
+  def tree
+    respond_to do |format|
+      format.json do
+        nodes = []
+        root = params[:id].present? ? Maladie.find(params[:id]) : Maladie.roots.first
+        root.children.sort_by(&:code).each do |node|
+          nodes << { id: node.id, text: node.libelle, children: node.has_children? }
+        end
+        render json: nodes
+      end
+    end
+  end
 end

@@ -20,6 +20,7 @@ Terappel::Application.routes.draw do
 
   get 'malformations/tree', to: 'malformations#tree'
   get 'pathologies/tree', to: 'pathologies#tree'
+  get 'indications/tree', to: 'indications#tree'
 
   resources :correspondants, except: :destroy
 

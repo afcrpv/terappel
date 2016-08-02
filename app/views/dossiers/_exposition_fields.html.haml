@@ -5,15 +5,30 @@
       .col-sm-6
         = f.association field_name
   .row
-    - %w(produit indication).each do |field|
-      - article = field == "produit" ? "un" : "une"
-      .col-sm-6
-        = f.association field,
-          collection: f.object.send(field).present? ? field.classify.constantize.where(id: f.object.send(field).id) : [],
-          input_html: { class: "#{field}_autocomplete",
-          data: { placeholder: "Saisir #{article} #{field}",
-            'ajax--url': polymorphic_path(field.pluralize, format: :json) },
-          style: 'width: 100%;' }
+    .col-sm-6
+      = f.association :produit,
+        collection: f.object.produit.present? ? Produit.where(id: f.object.produit_id) : [],
+        input_html: { class: 'produit_autocomplete',
+        data: { placeholder: 'Saisir un produit',
+          'ajax--url': produits_path(format: :json) },
+        style: 'width: 100%;' }
+
+    .col-sm-6
+      .row
+        .col-sm-10
+          = f.association :indication,
+            collection: f.object.indication.present? ? Indication.where(id: f.object.indication_id) : [],
+            input_html: { class: 'indication_autocomplete',
+            data: { placeholder: 'Saisir une indication',
+              'ajax--url': indications_path(format: :json) },
+            style: 'width: 100%;' }
+        .col-sm-2
+          .indication-actions
+            = link_to fa_icon('list'), '#indication',
+              class: 'btn btn-default show_indications_tree',
+              title: 'Arbre Indications}',
+              'data-toggle': 'modal'
+
   .row
     .col-sm-4
       = f.association :voie
