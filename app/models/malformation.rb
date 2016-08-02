@@ -1,19 +1,29 @@
 class Malformation < ActiveRecord::Base
+  include PgSearch
   has_ancestry
 
-  validates_presence_of :libelle
-  validates_uniqueness_of :libelle
+  self.table_name = 'maladies'
+
+  default_scope { where(code: '17').first.subtree.order('LOWER(name)') }
+
+  scope :leaves, -> { where(leaf: true) }
 
   has_many :bebes_malformations, dependent: :destroy
   has_many :bebes, through: :bebes_malformations
 
-  scope :leaves, -> { joins("LEFT JOIN #{table_name} AS c ON c.#{ancestry_column} = CAST(#{table_name}.id AS text) OR c.#{ancestry_column} = #{table_name}.#{ancestry_column} || '/' || #{table_name}.id").group("#{table_name}.id").having("COUNT(c.id) = 0").order("#{table_name}.ancestry NULLS FIRST") }
+  def self.search(query)
+    search_by_name(query) if query.present?
+  end
+
+  pg_search_scope :search_by_name,
+                  against: :name,
+                  using: { tsearch: { prefix: true, dictionary: 'french' } }
 
   def to_s
-    libelle
+    name
   end
 
   def libelle_and_id
-    { id: id, text: libelle }
+    { id: id, text: name }
   end
 end

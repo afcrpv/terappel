@@ -2,9 +2,9 @@ class MalformationsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @malformations = Malformation.where('LOWER(libelle) like ?', "%#{params[:q]}%").limit(10)
+    @malformations = Malformation.search_by_name(params[:q])
     respond_to do |format|
-      format.json { render json: @malformations.map(&:libelle_and_id) }
+      format.json { render json: @malformations.leaves.map(&:libelle_and_id) }
     end
   end
 
@@ -13,14 +13,14 @@ class MalformationsController < ApplicationController
       format.html
       format.json do
         nodes = []
-        root = Malformation.roots.first
+        root = Maladie.where(code: '17').first
         nodes << { id: root.id, parent: '#', text: root.libelle,
                    state: { opened: true, selected: params[:selected].split(',').include?(root.id.to_s) } }
-        root.descendants.each do |node|
+        root.descendants.sort_by(&:code).each do |node|
           nodes << {
             id: node.id,
             parent: node.ancestry.split('/').last,
-            text: node.libabr.present? ? [node.libabr, node.libelle].join(' - ') : node.libelle,
+            text: node.libelle,
             state: { opened: !node.has_children?, selected: params[:selected].split(',').include?(node.id.to_s) }
           }
         end
