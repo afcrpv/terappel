@@ -29,6 +29,8 @@ $ ->
       ]
       requiredFields: ["produit_id"]
 
+    $("a.show_indications_tree").complete_modal_for_indications()
+
     $("#expositions").bind 'cocoon:after-insert', ->
       for association in ["produit", "indication"]
         $(".#{association}_autocomplete").attach_expositions_select2()
