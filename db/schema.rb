@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160805113907) do
+ActiveRecord::Schema.define(version: 20160805135727) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -232,6 +232,7 @@ ActiveRecord::Schema.define(version: 20160805113907) do
     t.datetime "updated_at"
     t.string   "fullname"
     t.integer  "centre_id"
+    t.string   "prenom"
   end
 
   add_index "correspondants", ["cp"], name: "index_correspondants_on_cp", using: :btree

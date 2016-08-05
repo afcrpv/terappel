@@ -261,5 +261,6 @@ $.fn.checkNotFuture = ->
       $message.html("La date d'appel est dans le futur, veuillez corriger !")
       $(@).closest('.form-group').addClass('has-error').append($message)
     else
-      $(@).closest('.form-group').removeClass('has-error').find('.help-block').remove()
+      $(@).closest('.form-group').removeClass('has-error')
+        .find('.help-block').remove()
 

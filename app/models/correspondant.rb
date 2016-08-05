@@ -7,7 +7,7 @@ class Correspondant < ActiveRecord::Base
   has_many :demandeurs
   has_many :relances
 
-  validates_presence_of :nom
+  validates :nom, :prenom, :specialite_id, :cp, :ville, presence: true
 
   # callbacks
   after_create :assign_fullname
@@ -30,6 +30,6 @@ class Correspondant < ActiveRecord::Base
   end
 
   def generate_fullname
-    [nom, specialite.name, cp, ville].compact.join(' - ')
+    [[nom.upcase, prenom].join(' '), specialite.name, cp, ville].compact.join(' - ')
   end
 end

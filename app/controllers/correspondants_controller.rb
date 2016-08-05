@@ -41,7 +41,7 @@ class CorrespondantsController < ApplicationController
   private
 
   def correspondant_params
-    params.require(:correspondant).permit(:specialite_id, :qualite_id, :formule_id, :centre_id, :nom, :adresse, :cp, :ville, :telephone, :fax, :email, :fullname, :centre_id)
+    params.require(:correspondant).permit(:specialite_id, :qualite_id, :centre_id, :nom, :prenom, :adresse, :cp, :ville, :telephone, :fax, :email, :fullname, :centre_id)
   end
 
   def find_centre

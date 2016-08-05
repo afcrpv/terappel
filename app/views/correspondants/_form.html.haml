@@ -1,15 +1,15 @@
-= simple_form_for correspondant, remote: request.xhr?, html: { role: "form", data: { modal: true } } do |f|
+= simple_form_for correspondant, remote: request.xhr?, html: { role: 'form', data: { modal: true } } do |f|
   = f.error_notification if f.error_notification
   = f.input :centre_id, as: :hidden
-  = f.association :formule
-  = f.input :nom, label: "NOM et Prénom"
-  = f.association :specialite, label: "Spécialité"
-  = f.association :qualite, label: "Qualité"
-  = f.input :adresse, input_html: {rows: "3"}
-  = f.input :cp, label: "Code Postal"
+  = f.input :nom
+  = f.input :prenom, label: 'Prénom'
+  = f.association :specialite, label: 'Spécialité'
+  = f.association :qualite, label: 'Qualité'
+  = f.input :adresse, input_html: { rows: '3' }
+  = f.input :cp, label: 'Code Postal'
   = f.input :ville
   = f.input :email
-  = f.input :telephone, label: "Téléphone"
+  = f.input :telephone, label: 'Téléphone'
   = f.input :fax
   .form-actions
-    = f.button :submit, class: "btn-success"
+    = f.button :submit, class: 'btn-success'
