@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160802114833) do
+ActiveRecord::Schema.define(version: 20160805113907) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -427,6 +427,7 @@ ActiveRecord::Schema.define(version: 20160802114833) do
     t.integer  "codetermepere"
     t.integer  "codeterme"
     t.integer  "oldid"
+    t.boolean  "leaf",          default: false
   end
 
   add_index "malformations", ["ancestry"], name: "index_malformations_on_ancestry", using: :btree
@@ -450,6 +451,7 @@ ActiveRecord::Schema.define(version: 20160802114833) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "oldid"
+    t.boolean  "leaf",          default: false
   end
 
   add_index "pathologies", ["ancestry"], name: "index_pathologies_on_ancestry", using: :btree

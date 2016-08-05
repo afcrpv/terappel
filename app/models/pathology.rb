@@ -2,26 +2,24 @@ class Pathology < ActiveRecord::Base
   include PgSearch
   has_ancestry
 
-  self.table_name = 'maladies'
-
-  default_scope { where(code: '16').first.subtree.order('LOWER(name)') }
+  scope :leaves, -> { where(leaf: true) }
 
   def self.search(query)
     search_by_name(query) if query.present?
   end
 
   pg_search_scope :search_by_name,
-                  against: :name,
+                  against: :libelle,
                   using: { tsearch: { prefix: true, dictionary: 'french' } }
 
   has_many :bebes_pathologies, dependent: :destroy
   has_many :bebes, through: :bebes_pathologies
 
   def to_s
-    name
+    libelle
   end
 
   def libelle_and_id
-    { id: id, text: name }
+    { id: id, text: libelle }
   end
 end

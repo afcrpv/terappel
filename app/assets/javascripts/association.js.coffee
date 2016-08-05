@@ -68,6 +68,8 @@ $ ->
       plural = 'pathologies' if association is 'pathology'
       $(".#{plural}").attach_bebes_select2()
       $("select[id$=#{association}]").check_show_association_tokens(association)
+      $("a.show_#{association}_tree")
+        .complete_modal_for_association(association)
 
     $("table#bebes_summary").prefillSummaryTable
       modelName: "bebes"
