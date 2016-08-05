@@ -12,7 +12,7 @@ set :repo_url, 'git@github.com:afcrpv/terappel.git'
 
 # rbenv config
 set :rbenv_type, :user # or :system, depends on your rbenv setup
-set :rbenv_ruby, '2.2.2'
+set :rbenv_ruby, '2.3.0'
 set :rbenv_prefix,
     "RBENV_ROOT=#{fetch(:rbenv_path)}
      RBENV_VERSION=#{fetch(:rbenv_ruby)}
@@ -48,7 +48,7 @@ set :linked_files, fetch(:linked_files, []).push(
 # Default value for linked_dirs is []
 set :linked_dirs, fetch(:linked_dirs, []).push(
   'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle',
-  'public/system')
+  'public/system', 'csv')
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
