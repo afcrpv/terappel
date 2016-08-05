@@ -493,14 +493,14 @@ $.fn.complete_modal_for_indications = ->
     $select2_input = $(
       "#dossier_expositions_attributes_#{expo_id}_indication_id"
     )
-    selected_ids = $select2_input.val()
+    selected_id = $select2_input.val()
     $modal = $('.modal#indication')
     @attr('data-controls-modal', modal_id)
     $modal.attr('data-expo-id', expo_id)
     $modal.find('.indications_container').html('')
-    $('.indications_tree').attach_indication_jstree(expo_id, selected_ids)
+    $('.indications_tree').attach_indication_jstree(expo_id)
 
-$.fn.attach_indication_jstree = (expo_id, selected_ids) ->
+$.fn.attach_indication_jstree = (expo_id) ->
   $select2_input = $(
     "#dossier_expositions_attributes_#{expo_id}_indication_id")
   @jstree('destroy')
@@ -508,7 +508,7 @@ $.fn.attach_indication_jstree = (expo_id, selected_ids) ->
     plugins: ['changed']
     core:
       data:
-        url: (node) -> '/indications/tree.json'
+        url: (node) -> "/indications/tree.json"
         data: (node) -> { id: node.id } unless node.id is '#'
   .on 'loaded.jstree', (event, data) ->
     console.log "tree##{$(this).attr('class')} is loaded"

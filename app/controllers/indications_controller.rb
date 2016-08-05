@@ -16,8 +16,8 @@ class IndicationsController < ApplicationController
       format.json do
         nodes = []
         root = params[:id].present? ? Maladie.find(params[:id]) : Maladie.roots.first
-        root.children.sort_by(&:code).each do |node|
-          nodes << { id: node.id, text: node.libelle, children: node.has_children? }
+        root.children.sort_by { |c| c.code.to_i }.each do |node|
+          nodes << { id: node.id, text: node.libelle, children: node.has_children?, state: { disabled: node.has_children? } }
         end
         render json: nodes
       end
