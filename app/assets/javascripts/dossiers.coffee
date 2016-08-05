@@ -51,6 +51,9 @@ $ ->
       date_field.val(parsed_value.format('L'))
     date_field.mask("99/99/9999")
 
+  # date appel not in the future
+  $('#dossier_date_appel').checkNotFuture()
+
   # calc imc
   $("#dossier_#{field}")
     .calculateBMI("#dossier_imc") for field in ["taille", "poids"]
@@ -244,3 +247,19 @@ show_or_hide_issue = (evolution_element, evolution_value) ->
       $("##{field}").hide()
   else
     $hint.hide()
+
+$.fn.checkNotFuture = ->
+  $(this).blur ->
+    date_appel = $(@).val()
+    return unless date_appel?
+    parsed_date_appel = moment date_appel
+    $('#dossier_date_appel').next('.help-block').remove()
+
+    $message = $('<p class="help-block" />')
+
+    if parsed_date_appel.diff(moment()) > 0
+      $message.html("La date d'appel est dans le futur, veuillez corriger !")
+      $(@).closest('.form-group').addClass('has-error').append($message)
+    else
+      $(@).closest('.form-group').removeClass('has-error').find('.help-block').remove()
+
